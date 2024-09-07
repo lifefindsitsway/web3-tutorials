@@ -1,2 +1,2 @@
-# blockchain-tutorials
-区块链自学指南
+# web3-tutorials
+Web3 自学指南
