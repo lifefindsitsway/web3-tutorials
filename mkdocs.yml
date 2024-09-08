@@ -1,0 +1,92 @@
+site_name: Web3 自学指南
+site_url: https://lifefindsitsway.github.io/web3-tutorials
+repo_name: web3-tutorials
+repo_url: https://github.com/lifefindsitsway/web3-tutorials
+copyright: Copyright &copy; 2024 ~ present by <a href="https://github.com/lifefindsitsway" target="_blank" rel="noopener noreferrer">Lifefindsitsway</a>
+
+theme:
+  name: material
+  language: zh
+  static_templates:
+    - 404.html
+
+  features:
+    - header.autohide
+    - navigation.tracking
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.code.copy
+    - content.code.annotate
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: light blue
+      accent: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  
+  font:
+    text: Roboto Slab
+    code: Roboto Mono
+  icon:
+    repo: fontawesome/brands/github
+
+  plugin: 
+    - search
+    - git-revision-date-localized:
+        type: datetime
+        timezone: Asia/Shanghai
+        locale: zh
+        enable_creation_date: true
+        exclude:
+          - index.md
+    - changelog
+    - statistics:
+        page_check_metadata: comment
+    - toc
+    - heti
+    - tikzautomata
+
+  extra: 
+    social: 
+      - icon: fontawesome/brands/github
+        link: https://github.com/lifefindsitsway/web3-tutorials/
+    analytics: 
+      provider: google
+      property: G-KJB4RXSKZG
+  
+  markdown_extensions:
+    - toc:
+      permalink: true
+      toc_depth: 4
+
+nav:
+  - Home: 
+    - 主页: index.md
+    - 更新历史: changelog.md
+  - Computer Science: 
+    - 编程入门: 
+      - Golang 语言: cs/pl/golang.md
+      - Rust 语言: cs/pl/rust.md
+  - Blockchain: 
+    - Bitcoin: blockchain/bitcoin.md
+    - Ethereum: blockchain/ethereum.md
+  - Web3: 
+    - DAPP 开发: web3/dapp/index.md
+    - DeFi: 
+      - 稳定币: web3/defi/stablecoin.md
+      - 去中心化交易所: web3/defi/dex.md
+    - Web3 安全: 
+      - 智能合约安全审计: web3/sec/audit.md
+  - AI: ai/index.md
