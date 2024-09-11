@@ -63,8 +63,8 @@ theme:
       - icon: fontawesome/brands/github
         link: https://github.com/lifefindsitsway/web3-tutorials/
     analytics:
-      provider: custom
-      property: G-DYETCPM289
+      provider: google
+      property: G-KJB4RXSKZG
   
   markdown_extensions:
     - toc:
