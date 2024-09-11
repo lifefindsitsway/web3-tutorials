@@ -9,7 +9,8 @@ theme:
   language: zh
   static_templates:
     - 404.html
-
+  custom_dir: overrides
+  
   features:
     - header.autohide
     - navigation.tracking
@@ -49,14 +50,13 @@ theme:
         timezone: Asia/Shanghai
         locale: zh
         enable_creation_date: true
-        exclude:
-          - index.md
     - changelog
     - statistics:
         page_check_metadata: comment
     - toc
     - heti
     - tikzautomata
+    - comments
 
   extra: 
     social: 
@@ -70,6 +70,32 @@ theme:
     - toc:
       permalink: true
       toc_depth: 4
+    - meta
+    - def_list
+    - attr_list
+    - md_in_html
+    - sane_lists
+    - admonition
+    - pymdownx.keys
+    - pymdownx.mark
+    - pymdownx.tilde
+    - pymdownx.critic
+    - pymdownx.details
+    - pymdownx.snippets
+    - pymdownx.magiclink
+    - pymdownx.superfences
+    - pymdownx.inlinehilite
+    - pymdownx.emoji:
+        emoji_index: !!python/name:materialx.emoji.twemoji
+        emoji_generator: !!python/name:materialx.emoji.to_svg
+    - pymdownx.tabbed:
+        alternate_style: true 
+    - pymdownx.tasklist:
+        custom_checkbox: true
+    - pymdownx.highlight:
+        anchor_linenums: true
+    - pymdownx.arithmatex:
+        generic: true
 
 nav:
   - Home: 
