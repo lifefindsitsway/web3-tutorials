@@ -99,7 +99,6 @@ theme:
 
 nav:
   - Home: 
-    - 主页: index.md
     - 更新日志: changelog.md
   - Computer Science: 
     - 编程基础: 
