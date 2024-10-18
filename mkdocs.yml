@@ -98,8 +98,8 @@ theme:
         generic: true
 
 nav:
-  - Home: 
-    - 更新日志: changelog.md
+  - Welcome to My Blog: index.md
+  - 更新日志: changelog.md
   - Computer Science: 
     - 编程基础: 
       - Golang 语言: cs/pl/golang.md
