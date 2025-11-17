@@ -100,18 +100,10 @@ theme:
 nav:
   - Welcome to My Blog: index.md
   - 更新日志: changelog.md
-  - Computer Science: 
-    - 编程基础: 
-      - Golang 语言: cs/pl/golang.md
-      - Rust 语言: cs/pl/rust.md
   - Blockchain: 
     - Bitcoin: blockchain/bitcoin.md
     - Ethereum: blockchain/ethereum.md
   - Web3: 
     - DAPP 开发: web3/dapp/index.md
     - DeFi: 
-      - 稳定币: web3/defi/stablecoin.md
       - 去中心化交易所: web3/defi/dex.md
-    - Web3 安全: 
-      - 智能合约安全审计: web3/sec/audit.md
-  - AI: ai/index.md
