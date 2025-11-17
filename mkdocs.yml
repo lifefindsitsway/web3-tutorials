@@ -100,7 +100,7 @@ theme:
 nav:
   - Welcome to My Blog: index.md
   - 更新日志: changelog.md
-  - Blockchain: 
+  - 区块链基础: 
     - Bitcoin: blockchain/bitcoin.md
     - Ethereum: blockchain/ethereum.md
   - Web3: 
