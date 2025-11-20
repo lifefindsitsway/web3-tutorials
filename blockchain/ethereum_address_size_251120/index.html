@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#20" class="md-skip">
+        <a href="#1" class="md-skip">
           跳转至
         </a>
       
@@ -416,16 +416,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#20" class="md-nav__link">
-    <span class="md-ellipsis">
-      《为什么以太坊地址是 20 字节？从私钥到地址的全解析》
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="《为什么以太坊地址是 20 字节？从私钥到地址的全解析》">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
       1. 以太坊地址多大？
@@ -433,8 +423,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#2-20" class="md-nav__link">
     <span class="md-ellipsis">
       2. 从密钥到地址：为什么是 20 字节？
@@ -442,8 +432,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#3-solidity-address" class="md-nav__link">
     <span class="md-ellipsis">
       3. Solidity 里的 address 实际占多少字节？
@@ -451,18 +441,13 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#4-abi-calldata-memory" class="md-nav__link">
     <span class="md-ellipsis">
       4. 在 ABI / calldata / memory 里的地址大小
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -642,16 +627,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#20" class="md-nav__link">
-    <span class="md-ellipsis">
-      《为什么以太坊地址是 20 字节？从私钥到地址的全解析》
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="《为什么以太坊地址是 20 字节？从私钥到地址的全解析》">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
       1. 以太坊地址多大？
@@ -659,8 +634,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#2-20" class="md-nav__link">
     <span class="md-ellipsis">
       2. 从密钥到地址：为什么是 20 字节？
@@ -668,8 +643,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#3-solidity-address" class="md-nav__link">
     <span class="md-ellipsis">
       3. Solidity 里的 address 实际占多少字节？
@@ -677,18 +652,13 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#4-abi-calldata-memory" class="md-nav__link">
     <span class="md-ellipsis">
       4. 在 ABI / calldata / memory 里的地址大小
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -712,15 +682,14 @@
 
   <h1>为什么以太坊地址是 20 字节？从私钥到地址的全解析</h1>
 
-<h2 id="20">《为什么以太坊地址是 20 字节？从私钥到地址的全解析》</h2>
-<h3 id="1">1. 以太坊地址多大？</h3>
+<h2 id="1">1. 以太坊地址多大？</h2>
 <p>以太坊地址大小：20 字节（bytes） = 160 位（bits），对外通常写成：<code>0x</code> + 40 个十六进制字符</p>
 <ul>
 <li>每个十六进制字符是 4 bit</li>
 <li>40 × 4 = 160 bit = 20 byte</li>
 </ul>
 <p>例如：0x28816c4c4792467390c90e5b426f198570e29307（CZ公开地址），去掉 <code>0x</code>，剩下的 40 个 Hex 字符，就是 20 字节的二进制地址。</p>
-<h3 id="2-20">2. 从密钥到地址：为什么是 20 字节？</h3>
+<h2 id="2-20">2. 从密钥到地址：为什么是 20 字节？</h2>
 <p>以太坊账户的生成流程（外部账户 EOA）大致是这样：</p>
 <ol>
 <li>生成一个 <strong>私钥</strong>（256 bit 随机数）；</li>
@@ -779,7 +748,7 @@
 <p>真正的安全性瓶颈是：私钥是否真的随机 &amp; 是否被泄露，而不是「地址够不够长」。</p>
 <p>（3）存储空间更小</p>
 <p>状态树（state trie）、交易编码里地址要存很多次，20 字节 × N 次，比 32 字节 × N 次省空间、省带宽、省存储。</p>
-<h3 id="3-solidity-address">3. Solidity 里的 address 实际占多少字节？</h3>
+<h2 id="3-solidity-address">3. Solidity 里的 address 实际占多少字节？</h2>
 <p>这里要分 <strong>“概念上的大小”</strong> 和 <strong>“EVM 实际存储的大小”</strong> 两层看。</p>
 <p>概念上：address = 20 字节</p>
 <p>在 Solidity 类型系统里：</p>
@@ -814,7 +783,7 @@ address payable // 也是 20 字节，只是多了转账函数
 <li>单独看类型：address = 20 bytes；</li>
 <li>存在 storage：一般占 1 个 32-byte slot（除非 packing）；</li>
 </ul>
-<h3 id="4-abi-calldata-memory">4. 在 ABI / calldata / memory 里的地址大小</h3>
+<h2 id="4-abi-calldata-memory">4. 在 ABI / calldata / memory 里的地址大小</h2>
 <p>Solidity 对外编码（ABI）时候，有一个规则：<strong>所有值类型按 32 字节对齐</strong>。</p>
 <p>所以在以下场景中：</p>
 <ul>
