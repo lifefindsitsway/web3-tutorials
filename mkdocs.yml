@@ -1,4 +1,4 @@
-site_name: Web3 自学指南
+site_name: Web3 开发指南
 site_url: https://lifefindsitsway.wiki/
 repo_name: web3-tutorials
 repo_url: https://github.com/lifefindsitsway/web3-tutorials
@@ -101,8 +101,8 @@ nav:
   - Welcome to My Blog: index.md
   - 更新日志: changelog.md
   - 区块链基础: 
-    - Bitcoin: blockchain/bitcoin.md
-    - Ethereum: blockchain/ethereum.md
+    - Solidity: 
+      - 为什么以太坊地址是 20 字节？从私钥到地址的全解析: blockchain/ethereum_address_size_251120.md
   - Web3: 
     - DAPP 开发: web3/dapp/index.md
     - DeFi: 
