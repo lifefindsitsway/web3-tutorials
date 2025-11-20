@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/blockchain/bitcoin/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/blockchain/ethereum_address_size_251120/">
       
       
         <link rel="prev" href="../../changelog/">
       
       
-        <link rel="next" href="../ethereum/">
+        <link rel="next" href="../../web3/dapp/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Bitcoin - Web3 自学指南</title>
+        <title>为什么以太坊地址是 20 字节？从私钥到地址的全解析 - Web3 开发指南</title>
       
     
     
@@ -73,6 +73,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#1" class="md-skip">
+          跳转至
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -85,7 +90,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../.." title="Web3 自学指南" class="md-header__button md-logo" aria-label="Web3 自学指南" data-md-component="logo">
+    <a href="../.." title="Web3 开发指南" class="md-header__button md-logo" aria-label="Web3 开发指南" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -99,13 +104,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Web3 自学指南
+            Web3 开发指南
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Bitcoin
+              为什么以太坊地址是 20 字节？从私钥到地址的全解析
             
           </span>
         </div>
@@ -225,13 +230,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Web3 自学指南" class="md-nav__button md-logo" aria-label="Web3 自学指南" data-md-component="logo">
+    <a href="../.." title="Web3 开发指南" class="md-nav__button md-logo" aria-label="Web3 开发指南" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    Web3 自学指南
+    Web3 开发指南
   </label>
   
     <div class="md-nav__source">
@@ -333,43 +338,131 @@
   
   
   
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Solidity
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Solidity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    为什么以太坊地址是 20 字节？从私钥到地址的全解析
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    Bitcoin
+    为什么以太坊地址是 20 字节？从私钥到地址的全解析
   </span>
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. 以太坊地址多大？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. 从密钥到地址：为什么是 20 字节？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-solidity-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Solidity 里的 address 实际占多少字节？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-abi-calldata-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 在 ABI / calldata / memory 里的地址大小
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ethereum/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Ethereum
-  </span>
-  
-
-      </a>
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -527,6 +620,50 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. 以太坊地址多大？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. 从密钥到地址：为什么是 20 字节？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-solidity-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Solidity 里的 address 实际占多少字节？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-abi-calldata-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 在 ABI / calldata / memory 里的地址大小
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -543,9 +680,124 @@
   
 
 
-  <h1>Bitcoin</h1>
+  <h1>为什么以太坊地址是 20 字节？从私钥到地址的全解析</h1>
 
-<p>有待完善……</p>
+<h3 id="1">1. 以太坊地址多大？</h3>
+<p>以太坊地址大小：20 字节（bytes） = 160 位（bits），对外通常写成：<code>0x</code> + 40 个十六进制字符</p>
+<ul>
+<li>每个十六进制字符是 4 bit</li>
+<li>40 × 4 = 160 bit = 20 byte</li>
+</ul>
+<p>例如：0x28816c4c4792467390c90e5b426f198570e29307（CZ公开地址），去掉 <code>0x</code>，剩下的 40 个 Hex 字符，就是 20 字节的二进制地址。</p>
+<h3 id="2-20">2. 从密钥到地址：为什么是 20 字节？</h3>
+<p>以太坊账户的生成流程（外部账户 EOA）大致是这样：</p>
+<ol>
+<li>生成一个 <strong>私钥</strong>（256 bit 随机数）；</li>
+<li>用 secp256k1 椭圆曲线算出 <strong>公钥</strong>（64 字节：x、y 各 32 字节）；</li>
+<li>对公钥做一次 Keccak-256 哈希：得到 32 字节；</li>
+<li><strong>取哈希结果的后 20 字节（右边 20 字节）</strong>，作为地址；</li>
+</ol>
+<pre><code class="language-vbscript">┌──────────────────────────────────────────┐
+│          私钥 Private Key             │
+│     256-bit 随机数（32 字节）           │
+└──────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────┐
+│         公钥 Public Key               │
+│ secp256k1 椭圆曲线推导出 64 字节坐标     │
+│  公钥 = (x: 32 bytes, y: 32 bytes)    │
+└──────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────┐
+│      Keccak-256 哈希（32 字节）        │
+│ hash = keccak256(uncompressed_pubkey)│
+└──────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────┐
+│       取哈希结果的最后 20 字节           │
+│     （右 20 字节 = 160 bit）           │
+└──────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────┐
+│         以太坊地址 Ethereum Address    │
+│   0x + 40 位十六进制字符（= 20字节）     │
+└──────────────────────────────────────────┘
+
+</code></pre>
+<blockquote>
+<p>所以地址本质上是： address = last_20_bytes( keccak256( public_key ) )</p>
+</blockquote>
+<p>问题：为什么不用 32 字节，非要截断成 20 字节？</p>
+<p>简单理解：截断一点 hash，当地址用，<strong>够用 + 好用 + 节省资源</strong>。</p>
+<p>（1）短一点，方便展示与输入</p>
+<ul>
+<li>
+<p>32 字节地址 → 64 个 Hex 字符</p>
+</li>
+<li>
+<p>20 字节地址 → 40 个 Hex 字符</p>
+</li>
+</ul>
+<p>从前端 UI、钱包显示、用户复制粘贴的体验来看，40 个字符已经很长了，64 个更难用。</p>
+<p>（2）安全性仍然足够</p>
+<p>地址空间有 2¹⁶⁰ ≈ 1.46 × 10⁴⁸ 种可能，即使全地球算力爆炸式提高，要「碰撞」一个指定地址也几乎不可能。</p>
+<p>真正的安全性瓶颈是：私钥是否真的随机 &amp; 是否被泄露，而不是「地址够不够长」。</p>
+<p>（3）存储空间更小</p>
+<p>状态树（state trie）、交易编码里地址要存很多次，20 字节 × N 次，比 32 字节 × N 次省空间、省带宽、省存储。</p>
+<h3 id="3-solidity-address">3. Solidity 里的 address 实际占多少字节？</h3>
+<p>这里要分 <strong>“概念上的大小”</strong> 和 <strong>“EVM 实际存储的大小”</strong> 两层看。</p>
+<p>概念上：address = 20 字节</p>
+<p>在 Solidity 类型系统里：</p>
+<pre><code class="language-solidity">address         // 20 字节
+address payable // 也是 20 字节，只是多了转账函数
+</code></pre>
+<p>存储在 EVM storage 里：占用 32 字节槽位</p>
+<p>EVM 的最小存储单位是 <strong>一个 storage slot = 32 字节（256 bit）</strong>，即使只存一个 bool / uint8 / address，它默认也占用一个完整 32 字节槽（除非编译器做变量打包）。</p>
+<pre><code class="language-solidity">contract Store {
+    address public owner;    // slot 0，占 32 字节
+    uint256 public value;    // slot 1，占 32 字节
+}
+</code></pre>
+<p>虽然 address 实际只用掉 20 字节，其余 12 字节是填充的（通常为 0），但：</p>
+<ul>
+<li>在 <strong>storage 层面：1 个 address = 1 个 slot = 32 字节</strong></li>
+<li>在 <strong>语义层面：address 还是代表 20 字节的地址</strong></li>
+</ul>
+<p>这也就是为什么有时候讲「存一个地址，gas 很贵」，因为它会触发一次 <code>SSTORE</code> 到新槽位。</p>
+<p>如果变量打包，例如：</p>
+<pre><code class="language-solidity">contract Packed {
+    address public owner;   // 20 bytes
+    uint96  public count;   // 12 bytes
+}
+</code></pre>
+<ul>
+<li>20 + 12 = 32 字节</li>
+<li>编译器会把 <code>owner</code> 和 <code>count</code> <strong>塞进同一个 slot</strong> → 依然是 32 字节一个槽，但容纳了两个字段</li>
+</ul>
+<p>结论：</p>
+<ul>
+<li>单独看类型：address = 20 bytes；</li>
+<li>存在 storage：一般占 1 个 32-byte slot（除非 packing）；</li>
+</ul>
+<h3 id="4-abi-calldata-memory">4. 在 ABI / calldata / memory 里的地址大小</h3>
+<p>Solidity 对外编码（ABI）时候，有一个规则：<strong>所有值类型按 32 字节对齐</strong>。</p>
+<p>所以在以下场景中：</p>
+<ul>
+<li>函数参数的 ABI 编码（calldata）；</li>
+<li>函数返回值的 ABI 编码；</li>
+<li>event topics（日志里）；</li>
+</ul>
+<p>一个 address 通常是这么表示的：<strong>前面 12 字节补 0 + 后面 20 字节地址</strong></p>
+<p>例如 CZ 地址：0x28816c4c4792467390c90e5b426f198570e29307，在 ABI 编码中，会被放进 32 字节：</p>
+<pre><code>0x00000000000000000000000028816c4c4792467390c90e5b426f198570e29307
+  ↑                       ↑
+12 bytes 0              20 bytes address
+</code></pre>
+<p>编码时，占 32 字节（对齐到 256 bit），语义上，有效载荷仍然是 20 字节。</p>
 
 
 
