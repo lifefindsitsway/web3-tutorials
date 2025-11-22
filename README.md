@@ -1,2 +1,2 @@
 # web3-tutorials
-Web3 开发指南
+Life's Web3 开发指南
