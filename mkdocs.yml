@@ -86,8 +86,8 @@ theme:
     - pymdownx.superfences
     - pymdownx.inlinehilite
     - pymdownx.emoji:
-        emoji_index: !!python/name:materialx.emoji.twemoji
-        emoji_generator: !!python/name:materialx.emoji.to_svg
+        emoji_index: !!python/name:material.extensions.emoji.twemoji
+        emoji_generator: !!python/name:material.extensions.emoji.to_svg
     - pymdownx.tabbed:
         alternate_style: true 
     - pymdownx.tasklist:
@@ -104,7 +104,3 @@ nav:
     - Solidity: 
       - 为什么以太坊地址是 20 字节？从私钥到地址的全解析: blockchain/ethereum_address_size_251120.md
       - Solidity 地址类型 & 常见用法全攻略: blockchain/address_251125.md
-  - Web3: 
-    - DAPP 开发: web3/dapp/index.md
-    - DeFi: 
-      - 去中心化交易所: web3/defi/dex.md
