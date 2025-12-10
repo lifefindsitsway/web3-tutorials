@@ -1,3 +1,4 @@
 - 2025-11-25：发表《[Solidity 地址类型 & 常见用法全攻略](./blockchain/address_251125.md)》
 - 2025-11-20：发表《[为什么以太坊地址是 20 字节？从私钥到地址的全解析](./blockchain/ethereum_address_size_251120.md)》
 - 2024-07-10：发表《[Uniswap V2 价格精度解析](./web3/defi/uniswap_v2_price_precision_240710.md)》
+- 2024-02-13：发表《[比特币的诞生历程](./blockchain/the_evolution_of_bitcoin_240213.md)》
