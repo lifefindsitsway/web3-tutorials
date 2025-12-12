@@ -101,12 +101,11 @@ nav:
   - Welcome to My Blog: index.md
   - 更新日志: changelog.md
   - 区块链基础: 
+    - 比特币的诞生历程: blockchain/the_evolution_of_bitcoin_240213.md
+  - DAPP开发: 
+    - Hardhat 入门指南（25年更新版）: web3/dapp/hardhat_tutorial_240415.md
     - Solidity: 
       - 为什么以太坊地址是 20 字节？从私钥到地址的全解析: blockchain/ethereum_address_size_251120.md
       - Solidity 地址类型 & 常见用法全攻略: blockchain/address_251125.md
-    - 比特币的诞生历程: blockchain/the_evolution_of_bitcoin_240213.md
-  - Web3: 
-    - DeFi: 
-      - Uniswap V2 价格精度解析: web3/defi/uniswap_v2_price_precision_240710.md
-    - DAPP开发: 
-      - Hardhat 入门指南（25年更新版）: web3/dapp/hardhat_tutorial_240415.md
+  - DeFi: 
+    - Uniswap V2 价格精度解析: web3/defi/uniswap_v2_price_precision_240710.md
