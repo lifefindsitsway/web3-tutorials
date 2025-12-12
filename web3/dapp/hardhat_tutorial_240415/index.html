@@ -8,13 +8,11 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/defi/uniswap_v2_price_precision_240710/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/hardhat_tutorial_240415/">
       
       
-        <link rel="prev" href="../../../blockchain/the_evolution_of_bitcoin_240213/">
+        <link rel="prev" href="../../defi/uniswap_v2_price_precision_240710/">
       
-      
-        <link rel="next" href="../../dapp/hardhat_tutorial_240415/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +20,7 @@
     
     
       
-        <title>Uniswap V2 价格精度解析 - Life's Web3 开发指南</title>
+        <title>Hardhat 入门指南（25年更新版） - Life's Web3 开发指南</title>
       
     
     
@@ -74,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#uq112112" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -110,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Uniswap V2 价格精度解析
+              Hardhat 入门指南（25年更新版）
             
           </span>
         </div>
@@ -482,19 +480,17 @@
                 
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
         
           
           <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
@@ -508,10 +504,76 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_1">
             <span class="md-nav__icon md-icon"></span>
             DeFi
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../defi/uniswap_v2_price_precision_240710/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Uniswap V2 价格精度解析
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    DAPP开发
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            DAPP开发
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -533,7 +595,7 @@
           
   
   <span class="md-ellipsis">
-    Uniswap V2 价格精度解析
+    Hardhat 入门指南（25年更新版）
   </span>
   
 
@@ -544,7 +606,7 @@
         
   
   <span class="md-ellipsis">
-    Uniswap V2 价格精度解析
+    Hardhat 入门指南（25年更新版）
   </span>
   
 
@@ -564,37 +626,64 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#uq112112" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      一、UQ112.112 是什么？
+      一、配置环境
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="一、UQ112.112 是什么？">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hardhat" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、创建 Hardhat 项目
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、创建 &amp; 编译智能合约
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hardhat-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、编写测试并运行（基于 Hardhat Network）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hardhat-network_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、使用 Hardhat Network 调试
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、使用 Hardhat Network 调试">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#11-q" class="md-nav__link">
+  <a href="#51-solidity-consolelog" class="md-nav__link">
     <span class="md-ellipsis">
-      1.1 Q格式的通用定义
+      5.1 在 Solidity 里直接 console.log
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#12" class="md-nav__link">
+  <a href="#52" class="md-nav__link">
     <span class="md-ellipsis">
-      1.2 为什么需要定点数格式？
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#13-0-2112-1" class="md-nav__link">
-    <span class="md-ellipsis">
-      1.3 范围为什么是 [0, 2¹¹² − 1]？
+      5.2 额外调试抓手
     </span>
   </a>
   
@@ -606,61 +695,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#112112" class="md-nav__link">
+  <a href="#sepolia" class="md-nav__link">
     <span class="md-ellipsis">
-      二、 为什么是 112+112？存储槽的精妙设计
+      六、部署到 Sepolia 测试网
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="二、 为什么是 112+112？存储槽的精妙设计">
+    <nav class="md-nav" aria-label="六、部署到 Sepolia 测试网">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-uniswap-v2" class="md-nav__link">
+  <a href="#61-ignition-module" class="md-nav__link">
     <span class="md-ellipsis">
-      2.1 Uniswap V2的存储布局
+      6.1 用 Ignition Module 描述部署
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#22-32" class="md-nav__link">
+  <a href="#62-sepolia-rpc" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2 累积价格布局：为什么需要额外的32位？
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#32" class="md-nav__link">
-    <span class="md-ellipsis">
-      三、时间戳的32位限制与溢出安全
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="三、时间戳的32位限制与溢出安全">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31-mod-232" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1 为什么时间戳要 mod 2³²？
+      6.2 配置 Sepolia RPC 与私钥
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#32_1" class="md-nav__link">
+  <a href="#63" class="md-nav__link">
     <span class="md-ellipsis">
-      3.2 为什么说“溢出安全”？
+      6.3 部署合约
     </span>
   </a>
   
@@ -675,70 +740,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    DAPP开发
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            DAPP开发
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../dapp/hardhat_tutorial_240415/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Hardhat 入门指南（25年更新版）
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -784,37 +785,64 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#uq112112" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      一、UQ112.112 是什么？
+      一、配置环境
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="一、UQ112.112 是什么？">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hardhat" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、创建 Hardhat 项目
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、创建 &amp; 编译智能合约
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hardhat-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、编写测试并运行（基于 Hardhat Network）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hardhat-network_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、使用 Hardhat Network 调试
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、使用 Hardhat Network 调试">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#11-q" class="md-nav__link">
+  <a href="#51-solidity-consolelog" class="md-nav__link">
     <span class="md-ellipsis">
-      1.1 Q格式的通用定义
+      5.1 在 Solidity 里直接 console.log
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#12" class="md-nav__link">
+  <a href="#52" class="md-nav__link">
     <span class="md-ellipsis">
-      1.2 为什么需要定点数格式？
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#13-0-2112-1" class="md-nav__link">
-    <span class="md-ellipsis">
-      1.3 范围为什么是 [0, 2¹¹² − 1]？
+      5.2 额外调试抓手
     </span>
   </a>
   
@@ -826,61 +854,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#112112" class="md-nav__link">
+  <a href="#sepolia" class="md-nav__link">
     <span class="md-ellipsis">
-      二、 为什么是 112+112？存储槽的精妙设计
+      六、部署到 Sepolia 测试网
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="二、 为什么是 112+112？存储槽的精妙设计">
+    <nav class="md-nav" aria-label="六、部署到 Sepolia 测试网">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-uniswap-v2" class="md-nav__link">
+  <a href="#61-ignition-module" class="md-nav__link">
     <span class="md-ellipsis">
-      2.1 Uniswap V2的存储布局
+      6.1 用 Ignition Module 描述部署
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#22-32" class="md-nav__link">
+  <a href="#62-sepolia-rpc" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2 累积价格布局：为什么需要额外的32位？
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#32" class="md-nav__link">
-    <span class="md-ellipsis">
-      三、时间戳的32位限制与溢出安全
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="三、时间戳的32位限制与溢出安全">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31-mod-232" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1 为什么时间戳要 mod 2³²？
+      6.2 配置 Sepolia RPC 与私钥
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#32_1" class="md-nav__link">
+  <a href="#63" class="md-nav__link">
     <span class="md-ellipsis">
-      3.2 为什么说“溢出安全”？
+      6.3 部署合约
     </span>
   </a>
   
@@ -909,204 +913,275 @@
   
 
 
-  <h1>Uniswap V2 价格精度解析</h1>
+  <h1>Hardhat 入门指南（25年更新版）</h1>
 
-<p>从 DeFi 开发者的角度，深入解析 Uniswap V2 白皮书中关于价格精度的内容。这是 Uniswap V2 工程设计的精华之一，体现了在 EVM 约束下的极致优化思维。</p>
-<p>Uniswap V2 白皮书 2.2.1 这章节主要在回答三个问题：</p>
-<ol>
-<li>链上怎么表示“价格”这种小数？</li>
-<li>为什么是 112+112，跟 224 / 256 位、gas、存储布局有什么关系？</li>
-<li>为什么要把时间戳压成 32 位、溢出之后怎么还能正确算 TWAP？</li>
-</ol>
-<h2 id="uq112112">一、UQ112.112 是什么？</h2>
-<h3 id="11-q">1.1 Q格式的通用定义</h3>
-<p><code>Qm.n</code> 是一种表示定点数的格式，<strong>“Q” 代表“二进制小数点位置”（binary point position）</strong>。它是一种<strong>命名惯例</strong>，用于明确指示在一个整数中，哪里是整数部分和小数部分的分界线。其中：</p>
-<ul>
-<li>m：代表整数部分（在小数点左边）占用的位数；</li>
-<li>n：代表小数部分（在小数点右边）占用的位数；</li>
-<li>总数：<code>m + n</code> 位，通常对应一个标准整数类型（如 int32, uint16 等）。</li>
-</ul>
-<h3 id="12">1.2 为什么需要定点数格式？</h3>
-<p>Solidity（以及EVM）原生只支持整数运算，没有浮点数类型，但价格天然是小数，例如：1 ETH = 3049.5 USDC。</p>
-<p><strong>传统方案的问题：</strong>如果直接用 <code>reserve_a / reserve_b</code> 计算价格，Solidity 会做整数除法，丢失所有小数部分，比如 <code>1 / 2000 = 0</code>（整数除法）。</p>
-<p><strong>Uniswap V2 的解决方案：</strong>使用定点数（Fixed Point）格式 <code>UQ112.112</code>。 <code>UQ112.112</code> 是<code>Qm.n</code> 格式的一个变体：</p>
-<ul>
-<li>U：代表 Unsigned（无符号），这个数永远是正的，因为价格不可能为负；</li>
-<li>
-<p>Q112.112：表示这是一个定点数，其中：</p>
-</li>
-<li>
-<ul>
-<li>小数点左边有 112 位（用于表示整数部分）；</li>
-</ul>
-</li>
-<li>小数点右边有 112 位（用于表示小数部分）；</li>
-<li>总计 224 位 (<code>112 + 112</code>)。</li>
-</ul>
-<p>Uniswap V2 白皮书原文：</p>
 <blockquote>
-<p>prices at a given moment are stored as UQ112.112 numbers, meaning that 112 fractional bits of precision are specified on either side of the decimal point, with no sign. These numbers have a range of [0, 2¹¹² − 1] and a precision of 1 / 2¹¹². </p>
+<p>说明：原版发布于 2024-04-15，基于 Node 20.x，Ubuntu 20.04 系统开发，最新版更新于2025-12-12，基于 Node 22.x，Ubuntu 24.04 系统开发。</p>
 </blockquote>
-<p>翻译一下，就是：“我们没有浮点数，只好自己造一个二进制定点小数格式：把一个数拆成两部分：</p>
+<p>Hardhat 是一个以 Node.js/JavaScript 生态为核心的以太坊智能合约开发环境，帮助开发者把「写合约 → 编译 → 测试 → 本地调试 → 部署到测试网/主网」这一系列重复工作自动化与工程化；它内置 Hardhat Network（本地以太坊网络），用于部署、跑测试、调试合约逻辑。  </p>
+<p>在 Hardhat 的设计里：</p>
 <ul>
-<li>前 112 位：整数部分（0 ~ 2¹¹² − 1）</li>
-<li>后 112 位：小数部分（精度 2⁻¹¹²）</li>
-<li>不带符号（unsigned），只表示非负。”</li>
+<li>在命令行每跑一次 <code>npx hardhat xxx</code>，本质上是在执行一个 task；</li>
+<li>大部分能力由 plugins 提供（例如 ethers 集成、chai-matchers、Ignition 部署等），官方推荐初学者使用 <code>@nomicfoundation/hardhat-toolbox</code> 一揽子插件。</li>
 </ul>
-<h3 id="13-0-2112-1">1.3 范围为什么是 [0, 2¹¹² − 1]？</h3>
-<p>这里指的是价格的整数部分的范围，不是整个 224 位数值整体的范围。</p>
-<p>白皮书脚注解释得很清楚：Uniswap 里这个 UQ112.112 的价格<strong>永远来自两个 uint112 储备的比值</strong>：</p>
-<blockquote>
-<p>UQ112.112 numbers in Uniswap are always generated from the ratio of two uint112s. The largest such ratio is (2¹¹²−1) / 1 = 2¹¹² − 1.</p>
-</blockquote>
-<p>在 UniswapV2Pair.sol 合约中，<code>reserve0</code>、<code>reserve1</code> 被定义为 <code>uint112</code> 类型，最大价格情况是：一边储备接近 <code>2¹¹²−1</code>，另一边接近 1，所以价格最大 ≈ <code>(2¹¹²−1) / 1 ≈ 2¹¹²−1</code>。</p>
-<p>补充：储备金 <code>reserve0</code>、<code>reserve1</code> 是整数计数（<code>uint112</code>），没有小数位，表示池子里真实存在的 Token 数量，是不可再细分的最小单位（wei、最小 ERC20 单位），理论上储备最小能到 1，最大为 <code>2¹¹²−1</code>。</p>
-<p>这保证了整数部分最多需要 112 位就够了（0 ~ 2¹¹²−1），小数部分再给 112 位，整体 224 位，刚好放进 <code>uint224</code>。</p>
-<table>
-<thead>
-<tr>
-<th>概念</th>
-<th>值范围</th>
-<th>数据类型</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>reserve0, reserve1</td>
-<td>0 ~ 2¹¹²−1</td>
-<td>uint112</td>
-<td>储备数量（整数）</td>
-</tr>
-<tr>
-<td>price = reserve1/reserve0</td>
-<td>0 ~ 2¹¹²−1.xxx</td>
-<td>UQ112.112</td>
-<td>价格（小数 + 高精度）</td>
-</tr>
-<tr>
-<td>UQ112.112 小数位</td>
-<td>2⁻¹¹²</td>
-<td>底层位移</td>
-<td>表示价格的小数部分</td>
-</tr>
-</tbody>
-</table>
-<p>精度上，一个 UQ112.112 的最小单位是 <code>1 / 2¹¹²</code>，大约 10⁻³⁴ 量级，远远比 1e-18 还细，对于现实中 token 18 decimals、价格几位小数的应用，这个精度完全够用且浪费一点没关系，重点是方便数学和存储布局。</p>
-<h2 id="112112">二、 为什么是 112+112？存储槽的精妙设计</h2>
-<p>这是整个设计最巧妙的地方，涉及到<strong>Gas优化</strong>和<strong>存储布局</strong>。</p>
-<p><strong>EVM 存储槽基础：</strong>EVM 的一个存储槽（storage slot）= 256位，每次 <code>SSTORE</code> 操作（写入存储）消耗大量 Gas（~20,000 gas），打包存储（packing）可以在一个槽内存多个变量，节省 Gas。</p>
-<p>白皮书关键句：</p>
-<blockquote>
-<p>The UQ112.112 format was chosen for a pragmatic reason — because these numbers can be stored in a uint224, this leaves 32 bits of a 256 bit storage slot free.
-It also happens that the reserves, each stored in a uint112, also leave 32 bits free in a (packed) 256 bit storage slot.</p>
-</blockquote>
-<p>从以太坊合约存储视角来看就是：</p>
-<ul>
-<li>储备金存储：每个储备金（<code>uint112</code>）用了 112 位，两个 <code>uint112</code> 可以紧密打包在一个 256 位的存储槽里，留下 <code>256 - 2*112 = 32</code> 位空闲。</li>
-<li>价格存储：价格作为两个 <code>uint112</code> 储备金的比率，自然可以表示为一个 <code>UQ112.112</code> 数，它刚好能装进一个 <code>uint224</code>（224位）。</li>
-<li>
-<p>空闲位的利用：核心来了！那个空闲的 32 位（来自储备金存储槽）和价格存储槽末尾的 32 位，被巧妙地用来：</p>
-</li>
-<li>
-<ul>
-<li>存储<strong>时间戳</strong>（模 <code>2^32</code>，刚好 32 位）；</li>
-</ul>
-</li>
-<li>存储价格累加过程中的<strong>溢出位</strong>（因为连续累加可能超过 224 位）。</li>
-</ul>
-<p>在<strong>不支持浮点数</strong>的 EVM 中，<strong>用整数运算来模拟高精度的小数运算</strong>，同时完美契合存储布局，将预言机更新的 Gas 成本降至最低（仅首次交易增加约 15,000 gas）。</p>
-<h3 id="21-uniswap-v2">2.1 Uniswap V2的存储布局</h3>
-<p>实际代码结构（简化版）：</p>
-<pre><code class="language-solidity">contract UniswapV2Pair {
-    uint112 private reserve0;           // 112位
-    uint112 private reserve1;           // 112位  
-    uint32  private blockTimestampLast; // 32位
-    // 总共: 112 + 112 + 32 = 256位 = 1个存储槽！
+<h2 id="_1">一、配置环境</h2>
+<p>在 Windows 系统使用 VS Code 配置 Ubuntu 24.04 上的开发环境。</p>
+<p>安装 22.x 版 Node.js：</p>
+<pre><code class="language-bash">curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
-    uint224 public price0CumulativeLast; // 224位
-    uint32  private overflowBits0;       // 32位（溢出部分）
-    // 总共: 224 + 32 = 256位 = 1个存储槽！
+# 查看安装的版本
+node -v
+npm -v
+</code></pre>
+<h2 id="hardhat">二、创建 Hardhat 项目</h2>
+<p>使用 Node.js 的包管理器 <code>npm</code> 来安装 hardhat：</p>
+<p>初始化项目目录与 npm 工程：</p>
+<pre><code class="language-bash">mkdir hardhat-tutorial
+cd hardhat-tutorial
+npm init
+</code></pre>
+<p>安装 Hardhat v2（官方教程使用 <code>hardhat@hh2</code> 这个标签来锁定 v2）：</p>
+<pre><code class="language-bash">npm install --save-dev hardhat@hh2 # 该过程可能比较花时间
+</code></pre>
+<p>初始化 Hardhat 配置文件：</p>
+<pre><code class="language-bash">npx hardhat init    # 选择：Create an empty hardhat.config.js
+</code></pre>
+<p>安装官方推荐插件集合 hardhat-toolbox：</p>
+<pre><code class="language-bash">npm install --save-dev @nomicfoundation/hardhat-toolbox@hh2
+</code></pre>
+<p>在 hardhat.config.js 文件中添加 <code>require("@nomicfoundation/hardhat-toolbox");</code>，这一步完成后，hardhat.config.js 如下：</p>
+<pre><code class="language-javascript">require(&quot;@nomicfoundation/hardhat-toolbox&quot;);
 
-    uint224 public price1CumulativeLast; // 224位
-    uint32  private overflowBits1;       // 32位（溢出部分）
-    // 总共: 224 + 32 = 256位 = 1个存储槽！
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+  solidity: &quot;0.8.28&quot;,
+};
+</code></pre>
+<p>补充：如果使用 npm install --save-dev hardhat 安装 hardhat 太慢，可以使用 yarn add --dev hardhat 来安装。</p>
+<p>安装 yarn 指令如下：<code>yarn</code> 官方提供了一个 APT 仓库，可以通过它来安装 <code>yarn</code>，配置仓库并导入 Yarn 的 GPG 公钥：</p>
+<pre><code class="language-bash">curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo &quot;deb https://dl.yarnpkg.com/debian/ stable main&quot; | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt-get update
+sudo apt-get install yarn
+yarn --version
+</code></pre>
+<h2 id="_2">三、创建 &amp; 编译智能合约</h2>
+<p>在项目根目录中新建一个 <code>contracts</code> 目录，接下来就可以在 <code>contracts</code> 目录中编写我们的合约代码，以下 MiniToken.sol 参考自 Hardhat 官方教程：</p>
+<pre><code class="language-solidity">// SPDX-License-Identifier:MIT
+pragma solidity ^0.8.28;
+import &quot;hardhat/console.sol&quot;;
+
+contract MiniToken {
+    string public name = &quot;Mini Hardhat Token&quot;;
+    string public symbol = &quot;MHT&quot;;
+    uint256 public totalSupply = 1000000;
+
+    address public owner;
+    mapping(address =&gt; uint256) private balances;
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+
+    constructor() {
+        owner = msg.sender;
+        balances[msg.sender] = totalSupply;
+    }
+
+    function balanceOf(address account) external view returns (uint256) {
+        return balances[account];
+    }
+
+    function transfer(address to, uint256 amount) external {
+        require(balances[msg.sender] &gt;= amount, &quot;Not enough tokens&quot;);
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+
+        emit Transfer(msg.sender, to, amount);
+    }
 }
 </code></pre>
-<p>Solidity 的 storage packing 规则：在同一个 <code>slot(256bit)</code> 里尽量塞满紧挨着的小类型：</p>
-<ul>
-<li>112 + 112 + 32 = 256</li>
-<li>刚好塞满一个 256 位槽，不浪费、不多用 gas。</li>
-</ul>
-<p>这就是“packed 256 bit storage slot”的含义：<strong>两个储备 + 1 个 32bit 时间戳</strong>，整整齐齐放在一个槽里。</p>
-<h3 id="22-32">2.2 累积价格布局：为什么需要额外的32位？</h3>
-<p>白皮书接着说：</p>
-<blockquote>
-<p>although the price at any given moment (stored as a UQ112.112 number) is guaranteed to fit in 224 bits, the accumulation of this price over an interval is not. The extra 32 bits on the end of the storage slots for the accumulated price of A/B and B/A are used to store overflow bits resulting from repeated summations of prices.</p>
-</blockquote>
-<p>白皮书说："虽然任何给定时刻的价格保证适合224位，但该价格在一个区间内的累积则不然。"</p>
-<ul>
-<li>瞬时价格：UQ112.112，用 <code>uint224</code> 就够存；</li>
-<li>累积价格：<code>priceCumulativeLast += price * timeElapsed</code>，<code>price</code> 是 UQ112.112（224 位），<code>timeElapsed</code> 是 <code>uint32</code> 秒数，每次乘法结果可能需要 224 + 32 = 256 位，再不断累加，肯定会“理论上溢出 224 位”。</li>
-</ul>
-<pre><code class="language-solidity">if (timeElapsed &gt; 0 &amp;&amp; _reserve0 != 0 &amp;&amp; _reserve1 != 0) {
-    price0CumulativeLast += uint(
-        UQ112x112.encode(_reserve1).uqdiv(_reserve0)
-    ) * timeElapsed;
-    price1CumulativeLast += uint(
-        UQ112x112.encode(_reserve0).uqdiv(_reserve1)
-    ) * timeElapsed;
+<p>注：可以在 VS Code 中安装 hardhat 的扩展程序 Solidity by Nomic Foundation。</p>
+<p>合约代码编写完后，使用 <code>npx hardhat compile</code> 指令编译。</p>
+<h2 id="hardhat-network">四、编写测试并运行（基于 Hardhat Network）</h2>
+<p>Hardhat 默认网络就是 Hardhat Network，跑测试无需额外启动节点或配置。官方教程用 ethers.js + Mocha + Chai 来写测试。</p>
+<p>在根目录中新建一个目录 <code>test</code>，添加如下 MiniToken.js 文件：</p>
+<pre><code class="language-javascript">const { expect } = require(&quot;chai&quot;);
+
+describe(&quot;MiniToken&quot;, function () {
+  it(&quot;部署后：部署者应拿到全部 totalSupply&quot;, async function () {
+    const [owner] = await ethers.getSigners();
+    const token = await ethers.deployContract(&quot;MiniToken&quot;);
+
+    const ownerBalance = await token.balanceOf(owner.address);
+    expect(await token.totalSupply()).to.equal(ownerBalance);
+  });
+
+  it(&quot;转账：应能在不同账户间转移余额&quot;, async function () {
+    const [owner, addr1, addr2] = await ethers.getSigners();
+    const token = await ethers.deployContract(&quot;MiniToken&quot;);
+
+    await token.transfer(addr1.address, 50);
+    expect(await token.balanceOf(addr1.address)).to.equal(50);
+
+    await token.connect(addr1).transfer(addr2.address, 50);
+    expect(await token.balanceOf(addr2.address)).to.equal(50);
+  });
+
+  it(&quot;失败用例：余额不足应 revert&quot;, async function () {
+    const [, addr1, addr2] = await ethers.getSigners();
+    const token = await ethers.deployContract(&quot;MiniToken&quot;);
+
+    await expect(token.connect(addr1).transfer(addr2.address, 1))
+      .to.be.revertedWith(&quot;Not enough tokens&quot;);
+  });
+});
+</code></pre>
+<p>执行<code>npx hardhat test</code>指令，测试结果如下：</p>
+<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat test
+
+
+  MiniToken
+    ✔ 部署后：部署者应拿到全部 totalSupply (486ms)
+    ✔ 转账：应能在不同账户间转移余额
+    ✔ 失败用例：余额不足应 revert
+
+
+  3 passing (537ms)
+
+</code></pre>
+<p>官方教程还推荐用 <code>loadFixture</code> 做测试夹具与快照回滚，提高测试速度并减少重复部署代码。</p>
+<h2 id="hardhat-network_1">五、使用 Hardhat Network 调试</h2>
+<h3 id="51-solidity-consolelog">5.1 在 Solidity 里直接 console.log</h3>
+<p>Hardhat Network 支持在 Solidity 代码中调用 <code>console.log()</code> 输出日志信息、合约变量，用法是在合约代码中导入 <code>import "hardhat/console.sol";</code> 并在函数里打印。</p>
+<p>示例：编辑 <code>contracts/MiniToken.sol</code>，在 <code>transfer()</code> 中加入日志：</p>
+<pre><code class="language-solidity">import &quot;hardhat/console.sol&quot;;
+
+function transfer(address to, uint256 amount) external {
+    require(balances[msg.sender] &gt;= amount, &quot;Not enough tokens&quot;);
+
+    console.log(
+        &quot;Transferring from %s to %s %s tokens&quot;,
+        msg.sender,
+        to,
+        amount
+    );
+
+    balances[msg.sender] -= amount;
+    balances[to] += amount;
+    emit Transfer(msg.sender, to, amount);
 }
 </code></pre>
-<p>注意几点：</p>
-<ul>
-<li><code>UQ112x112.encode(...).uqdiv(...)</code> 返回的是一个 <code>uint224</code> 的 UQ112.112 数。</li>
-<li><code>uint(...)</code> 转成 <code>uint256</code>，再乘 <code>timeElapsed (uint32)</code>，整体用 256 位做算术。</li>
-<li>溢出行为是按 <code>mod 2²⁵⁶</code> 来的（Solidity 0.5/0.6 下，默认 wrap around）。</li>
-</ul>
-<p>直觉理解：“我用 224 位存价格小数，额外开了 32 位当缓冲区，给长期累加留空间。真正拿来算 TWAP 是用差值除以时间间隔，所以只要下游用同样的 ‘取模 + 溢出安全算术’，就能正确恢复平均值。”</p>
-<h2 id="32">三、时间戳的32位限制与溢出安全</h2>
-<p>白皮书这段话是容易疑惑的地方：</p>
-<blockquote>
-<p>The primary downside is that 32 bits isn't quite enough to store timestamp values that will reasonably never overflow. In fact, the date when the Unix timestamp overflows a uint32 is 02/07/2106. To ensure that this system continues to function properly after this date, and every multiple of 2³² - 1 seconds thereafter, oracles are simply required to check prices at least once per interval (approximately 136 years). This is because the core method of accumulation (and modding of timestamp), is actually overflow-safe, meaning that trades across overflow intervals can be appropriately accounted for given that oracles are using the proper (simple) overflow arithmetic to compute deltas.</p>
-</blockquote>
-<p>翻译成中文来理解：</p>
-<p>32 位的主要缺点在于：它不足以存储“永远不会溢出”的时间戳值。事实上，Unix 时间戳在 <code>uint32</code> 中溢出的日期是 2106 年 2 月 7 日。为了确保这个系统在该日期之后仍能正常运行，并在之后每经过 <code>2³² - 1</code> 秒（大约 136 年）再次溢出时继续正常工作，预言机（oracles）只需要做到一件事：在每个周期里至少检查一次价格（也就是大约每 136 年检查一次）。</p>
-<p>这是因为累积（accumulation）以及对时间戳进行取模（modding of timestamp）的核心方法本身是溢出安全的。只要预言机在计算时间差（delta）时使用正确的（简单的）溢出算术，即使交易跨越了时间戳溢出的间隔，也仍然能够被正确记账。</p>
-<h3 id="31-mod-232">3.1 为什么时间戳要 mod 2³²？</h3>
-<p>这跟前面说的“两个 <code>uint112</code> + 一个 <code>uint32</code> 拼在同一槽”是同一个设计：</p>
-<p><code>block.timestamp</code> 是一个不断增大的 Unix 时间戳（秒），为了塞进 32 位，要做：<code>uint32 blockTimestamp = uint32(block.timestamp % 2**32)</code>，存的时候只保留低 32 位（对 2³² 取模）。</p>
-<p>更新时 <code>_update()</code> 的流程（简化）：</p>
-<pre><code class="language-solidity">uint32 blockTimestamp = uint32(block.timestamp % 2**32);
-uint32 timeElapsed = blockTimestamp - blockTimestampLast; // 注意：这是 uint32 减法
-// timeElapsed 就是“自上次更新以来经过的秒数”，但有溢出语义
+<p>再跑一次测试指令<code>npx hardhat test</code>，会在测试输出中看到转账日志：</p>
+<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat test
+Compiled 2 Solidity files successfully (evm target: paris).
+
+
+  MiniToken
+    ✔ 部署后：部署者应拿到全部 totalSupply (471ms)
+Transferring from 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 to 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 50 tokens
+Transferring from 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 to 0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc 50 tokens
+    ✔ 转账：应能在不同账户间转移余额
+    ✔ 失败用例：余额不足应 revert
+
+
+  3 passing (520ms)
 </code></pre>
-<p>这一步的关键：<code>uint32</code> 的减法在溢出时自动按 2³² 取模。</p>
-<p>在没溢出的一般情况下：<code>timeElapsed = current - last</code></p>
-<p>在经历过一次 2³² 溢出（时间戳绕了一圈）：假设 <code>last = 2³² - 10</code>，<code>current = 5</code>（绕了一圈 +5 秒），<code>timeElapsed = 5 - (2³² - 10)</code>，在 <code>uint32</code> 下等价于：<code>timeElapsed = 5 + 10 = 15</code>，也就是：实际经过的时间（10 秒到圈尾 + 5 秒到当前）。</p>
-<p>这就是白皮书所说的“overflow-safe accumulation”：只要<strong>始终用同样的 32 位取模 + 溢出语义</strong>，不需要关心时间戳“绕了几圈”，每次 delta 都是正确的。</p>
-<h3 id="32_1">3.2 为什么说“溢出安全”？</h3>
-<p>2³² 秒 ≈ 4,294,967,296 秒 ≈ 136 年。</p>
-<p>核心问题在于：<strong>TWAP 的调用方也要用同样的溢出算术</strong>。</p>
-<p>调用方通常这样算价格（来自白皮书 2.2）：</p>
+<p>注意点（来自 Hardhat Network 参考文档）：</p>
 <ul>
-<li>在 t1 时刻读取一次 priceCumulativeLast，记作 a1</li>
-<li>在 t2 时刻再读一次 a2</li>
-<li>TWAP ≈ (a2 - a1) / (t2 - t1)</li>
+<li><code>console.log</code> 可在 call/transaction 中使用，<code>view</code> 可用，但 <code>pure</code> 不行；</li>
+<li>需要<code>import "hardhat/console.sol"</code>；</li>
+<li><code>console.log</code> 最多支持 4 个参数，且有明确的类型范围与若干单参 API。</li>
 </ul>
-<p>如果：</p>
-<ul>
-<li>t1 和 t2 之间<strong>跨越了多次 2³² 溢出周期</strong>（比如隔了 300 年，绕了两圈多），那么单纯用 32 位时间戳差值就不够区分了。</li>
-<li>但只要<strong>每个 2³² 秒（约 136 年）内至少读一次</strong>，你不会跨越超过一圈的模数，t2 - t1 的 32 位溢出语义仍能正确代表真实经过的秒数。</li>
-</ul>
-<p>举个例子：假设</p>
-<ul>
-<li>t1 =2^32-100（溢出前100秒）</li>
-<li>t2 =50（溢出后50秒，实际时间戳）</li>
-</ul>
-<p>直接相减会出错：<code>50 - (2^32 - 100) = 负数</code>，但使用 <code>uint32</code> 的模运算：</p>
-<p>时间差 = <code>uint32(t2 - t1) = uint32(50-(2^32-100)) = uint32(-2^32+150)</code> = 150 秒</p>
-<p>只要两次采样间隔 &lt; 2^32秒（136年），计算就是正确的。</p>
+<h3 id="52">5.2 额外调试抓手</h3>
+<p><strong>失败堆栈</strong>：Hardhat Network 默认会在交易失败时抛出“JavaScript + Solidity”的组合堆栈信息（便于定位 revert 触发点）。</p>
+<p><strong>in-process vs JSON-RPC node</strong>：测试时用的是 in-process Hardhat Network；如果用 <code>node</code> 任务启动 JSON-RPC server（便于前端/钱包连接），日志与行为会略有不同（例如 loggingEnabled 默认值对 in-process 与 node 有差异）。</p>
+<h2 id="sepolia">六、部署到 Sepolia 测试网</h2>
+<h3 id="61-ignition-module">6.1 用 Ignition Module 描述部署</h3>
+<p>Ignition 的部署入口是 Module，放在 <code>ignition/modules</code> 目录下。</p>
+<p>创建 <code>ignition/modules/MiniToken.js</code> 文件如下：</p>
+<pre><code class="language-javascript">const { buildModule } = require(&quot;@nomicfoundation/hardhat-ignition/modules&quot;);
+
+const TokenModule = buildModule(&quot;TokenModule&quot;, (m) =&gt; {
+  const token = m.contract(&quot;Token&quot;);
+
+  return { token };
+});
+
+module.exports = TokenModule;
+</code></pre>
+<h3 id="62-sepolia-rpc">6.2 配置 Sepolia RPC 与私钥</h3>
+<p>部署到远程测试网络需要在 <code>hardhat.config.js</code> 中配置 RPC 信息，然后在部署指令中使用 <code>--network</code>参数告知 Hardhat 连接到哪个网络。</p>
+<p>注册一个 <a href="https://www.alchemy.com/">Alchemy</a> 账户， 然后创建一个 Ethereum Sepolia 的 App，获取该 App 的 API key。</p>
+<p>从虚拟钱包发出的每一笔交易都需要使用<code>private key</code>来签名，该步骤通过把钱包地址的 private key、alchemy API key 存储在一个 environment file 中，来为程序提供必要的访问权限。</p>
+<p>通过<code>npm install dotenv</code>指令安装 dotenv 模块，以便读取<code>.env</code>文件：</p>
+<pre><code class="language-plain">ALCHEMY_API_KEY = &quot;xxx&quot;
+SEPOLIA_PRIVATE_KEY = &quot;xxx&quot;
+</code></pre>
+<p>注：测试用的钱包地址中不要放置任何真实资产。</p>
+<p>在<code>hardhat.config.js</code>文件中添加配置，以便部署到 Sepolia 测试网：</p>
+<pre><code class="language-javascript">require(&quot;@nomicfoundation/hardhat-toolbox&quot;);
+require(&quot;dotenv&quot;).config();
+
+const { ALCHEMY_API_KEY, SEPOLIA_PRIVATE_KEY } = process.env;
+
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+  solidity: &quot;0.8.28&quot;,
+  networks: {
+    sepolia: {
+      url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      accounts: [SEPOLIA_PRIVATE_KEY],
+    },
+  },
+};
+</code></pre>
+<h3 id="63">6.3 部署合约</h3>
+<p>到目前为止，已经可以完成最后的部署了，在终端中执行如下指令：</p>
+<pre><code class="language-shell">$ npx hardhat ignition deploy ./ignition/modules/MiniToken.js --network sepolia
+[dotenv@17.2.3] injecting env (2) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+✔ Confirm deploy to network sepolia (11155111)? … yes
+[ MiniTokenModule ] Nothing new to deploy based on previous execution stored in ./ignition/deployments/chain-11155111
+
+Deployed Addresses
+
+MiniTokenModule#MiniToken - 0x07831829b9F8182eE65B446adc7cD6Dc0Ba61b6D
+</code></pre>
+<p>Hardhat 也支持通过脚本来部署合约。在项目根目录下新建<code>scripts/</code> 目录，将 JS 编写的部署脚本 <code>deploy.js</code> 放在该<code>scripts/</code> 目录中，最后执行 <code>npx hardhat run scripts/deploy.js --network sepolia</code>就可以了。</p>
+<pre><code class="language-javascript">const hre = require(&quot;hardhat&quot;);
+
+async function main() {
+  const [deployer] = await hre.ethers.getSigners();
+
+  const balance = await hre.ethers.provider.getBalance(deployer.address);
+  console.log(&quot;Deployer:&quot;, deployer.address);
+  console.log(&quot;Deployer balance:&quot;, hre.ethers.formatEther(balance), &quot;ETH&quot;);
+
+  // 推荐写法：hardhat-ethers 提供 ethers.deployContract
+  const token = await hre.ethers.deployContract(&quot;MiniToken&quot;);
+  await token.waitForDeployment();
+
+  // ethers v6 合约地址常用 token.target（或 await token.getAddress()）
+  console.log(&quot;MiniToken deployed to:&quot;, token.target);
+
+  const tx = token.deploymentTransaction();
+  console.log(&quot;Deployment tx hash:&quot;, tx.hash);
+}
+
+main().catch((err) =&gt; {
+  console.error(err);
+  process.exitCode = 1;
+});
+</code></pre>
+<p>执行结果大致如下：</p>
+<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat run scripts/deploy.js --network sepolia
+[dotenv@17.2.3] injecting env (2) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+Deployer: 0x84B62e4c0766414a867A5aCc7BCa14901B3c713C
+Deployer balance: 0.508237594610744345 ETH
+MiniToken deployed to: 0xEc2E9d1ddEb8d6b1F695c23512afaa70d716458e
+Deployment tx hash: 0x421c29757589388e092d52d48bf65d89060bb725cfc96a9b02497557b64bd8fa
+</code></pre>
+<p>参考资料：<a href="https://v2.hardhat.org/tutorial">Hardhat's tutorial for beginners</a></p>
 
 
 
