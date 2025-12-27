@@ -8,28 +8,28 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/blockchain/ethereum_address_size_251120/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/address_251125/">
       
       
-        <link rel="prev" href="../../web3/dapp/hardhat_tutorial_240415/">
+        <link rel="prev" href="../ethereum_address_size_251120/">
       
       
-        <link rel="next" href="../address_251125/">
+        <link rel="next" href="../../defi/uniswap_v2_price_precision_240710/">
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
     
     
       
-        <title>为什么以太坊地址是 20 字节？从私钥到地址的全解析 - Life's Web3 开发指南</title>
+        <title>Solidity 地址类型 & 常见用法全攻略 - Life's Web3 开发指南</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.35f28582.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,7 +48,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1" class="md-skip">
+        <a href="#1-solidity" class="md-skip">
           跳转至
         </a>
       
@@ -90,7 +90,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../.." title="Life&#39;s Web3 开发指南" class="md-header__button md-logo" aria-label="Life's Web3 开发指南" data-md-component="logo">
+    <a href="../../.." title="Life&#39;s Web3 开发指南" class="md-header__button md-logo" aria-label="Life's Web3 开发指南" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              为什么以太坊地址是 20 字节？从私钥到地址的全解析
+              Solidity 地址类型 & 常见用法全攻略
             
           </span>
         </div>
@@ -230,7 +230,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Life&#39;s Web3 开发指南" class="md-nav__button md-logo" aria-label="Life's Web3 开发指南" data-md-component="logo">
+    <a href="../../.." title="Life&#39;s Web3 开发指南" class="md-nav__button md-logo" aria-label="Life's Web3 开发指南" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -260,7 +260,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -280,7 +280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../changelog/" class="md-nav__link">
+      <a href="../../../changelog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -335,7 +335,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../the_evolution_of_bitcoin_240213/" class="md-nav__link">
+      <a href="../../../blockchain/the_evolution_of_bitcoin_240213/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -400,7 +400,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web3/dapp/hardhat_tutorial_240415/" class="md-nav__link">
+      <a href="../hardhat_tutorial_240415/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -455,6 +455,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../ethereum_address_size_251120/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    为什么以太坊地址是 20 字节？从私钥到地址的全解析
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -469,7 +490,7 @@
           
   
   <span class="md-ellipsis">
-    为什么以太坊地址是 20 字节？从私钥到地址的全解析
+    Solidity 地址类型 & 常见用法全攻略
   </span>
   
 
@@ -480,7 +501,7 @@
         
   
   <span class="md-ellipsis">
-    为什么以太坊地址是 20 字节？从私钥到地址的全解析
+    Solidity 地址类型 & 常见用法全攻略
   </span>
   
 
@@ -500,36 +521,102 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#1-solidity" class="md-nav__link">
     <span class="md-ellipsis">
-      1. 以太坊地址多大？
+      1. Solidity 地址类型
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-20" class="md-nav__link">
+  <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
-      2. 从密钥到地址：为什么是 20 字节？
+      2. 地址与外部合约交互（接口类型转换）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 地址与外部合约交互（接口类型转换）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 为什么转换成接口类型？
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#3-solidity-address" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Solidity 里的 address 实际占多少字节？
+      2.2 地址转接口并调用函数（核心语法）
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#23-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 最常用场景：把 address 储存起来，然后交互
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 安全注意事项
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#4-abi-calldata-memory" class="md-nav__link">
+  <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
-      4. 在 ABI / calldata / memory 里的地址大小
+      3. 地址 + 映射 / 数组：记账 &amp; 关系
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 地址 + 映射 / 数组：记账 & 关系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 地址 + 映射
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 地址 + 数组
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 特殊地址
     </span>
   </a>
   
@@ -539,27 +626,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../address_251125/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Solidity 地址类型 & 常见用法全攻略
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -622,7 +688,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../web3/defi/uniswap_v2_price_precision_240710/" class="md-nav__link">
+      <a href="../../defi/uniswap_v2_price_precision_240710/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -668,36 +734,102 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#1-solidity" class="md-nav__link">
     <span class="md-ellipsis">
-      1. 以太坊地址多大？
+      1. Solidity 地址类型
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-20" class="md-nav__link">
+  <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
-      2. 从密钥到地址：为什么是 20 字节？
+      2. 地址与外部合约交互（接口类型转换）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 地址与外部合约交互（接口类型转换）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 为什么转换成接口类型？
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#3-solidity-address" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Solidity 里的 address 实际占多少字节？
+      2.2 地址转接口并调用函数（核心语法）
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#23-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 最常用场景：把 address 储存起来，然后交互
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 安全注意事项
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#4-abi-calldata-memory" class="md-nav__link">
+  <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
-      4. 在 ABI / calldata / memory 里的地址大小
+      3. 地址 + 映射 / 数组：记账 &amp; 关系
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 地址 + 映射 / 数组：记账 & 关系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 地址 + 映射
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 地址 + 数组
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 特殊地址
     </span>
   </a>
   
@@ -721,124 +853,195 @@
   
 
 
-  <h1>为什么以太坊地址是 20 字节？从私钥到地址的全解析</h1>
+  <h1>Solidity 地址类型 & 常见用法全攻略</h1>
 
-<h2 id="1">1. 以太坊地址多大？</h2>
-<p>以太坊地址大小：20 字节（bytes） = 160 位（bits），对外通常写成：<code>0x</code> + 40 个十六进制字符</p>
-<ul>
-<li>每个十六进制字符是 4 bit</li>
-<li>40 × 4 = 160 bit = 20 byte</li>
-</ul>
-<p>例如：0x28816c4c4792467390c90e5b426f198570e29307，去掉 <code>0x</code>，剩下的 40 个 Hex 字符，就是 20 字节的二进制地址。</p>
-<h2 id="2-20">2. 从密钥到地址：为什么是 20 字节？</h2>
-<p>以太坊账户的生成流程（外部账户 EOA）大致是这样：</p>
-<ol>
-<li>生成一个 <strong>私钥</strong>（256 bit 随机数）；</li>
-<li>用 secp256k1 椭圆曲线算出 <strong>公钥</strong>（64 字节：x、y 各 32 字节）；</li>
-<li>对公钥做一次 Keccak-256 哈希：得到 32 字节；</li>
-<li><strong>取哈希结果的后 20 字节（右边 20 字节）</strong>，作为地址；</li>
-</ol>
-<pre><code class="language-vbscript">┌──────────────────────────────────────────┐
-│          私钥 Private Key             │
-│     256-bit 随机数（32 字节）           │
-└──────────────────────────────────────────┘
-                      │
-                      ▼
-┌──────────────────────────────────────────┐
-│         公钥 Public Key               │
-│ secp256k1 椭圆曲线推导出 64 字节坐标     │
-│  公钥 = (x: 32 bytes, y: 32 bytes)    │
-└──────────────────────────────────────────┘
-                      │
-                      ▼
-┌──────────────────────────────────────────┐
-│      Keccak-256 哈希（32 字节）        │
-│ hash = keccak256(uncompressed_pubkey)│
-└──────────────────────────────────────────┘
-                      │
-                      ▼
-┌──────────────────────────────────────────┐
-│       取哈希结果的最后 20 字节           │
-│     （右 20 字节 = 160 bit）           │
-└──────────────────────────────────────────┘
-                      │
-                      ▼
-┌──────────────────────────────────────────┐
-│         以太坊地址 Ethereum Address    │
-│   0x + 40 位十六进制字符（= 20字节）     │
-└──────────────────────────────────────────┘
-
-</code></pre>
+<h2 id="1-solidity">1. Solidity 地址类型</h2>
+<p>地址类型（<code>address</code>）用于存储一个 20 字节的值（以太坊地址的大小）。它不仅仅是一个存储单位，还提供了与以太坊账户交互的多种方式，对于编写智能合约至关重要。</p>
 <blockquote>
-<p>所以地址本质上是： address = last_20_bytes( keccak256( public_key ) )</p>
+<p>注：这些账户可以是外部账户（由用户控制的账户，拥有私钥）或合约账户（由合约代码控制的账户）。</p>
 </blockquote>
-<p>问题：为什么不用 32 字节，非要截断成 20 字节？</p>
-<p>简单理解：截断一点 hash，当地址用，<strong>够用 + 好用 + 节省资源</strong>。</p>
-<p>（1）短一点，方便展示与输入</p>
+<p>Solidity 中有两种地址类型：</p>
 <ul>
-<li>
-<p>32 字节地址 → 64 个 Hex 字符</p>
-</li>
-<li>
-<p>20 字节地址 → 40 个 Hex 字符</p>
-</li>
+<li><strong>address</strong>：普通地址，不能接收 ETH，即不能调用 <code>transfer</code> / <code>send</code> / <code>call{value: ...}</code> 等方法；</li>
+<li><strong>address payable</strong>：能接收 ETH，支持调用 <code>transfer</code> / <code>send</code> / <code>call{value: ...}</code> 等方法；</li>
 </ul>
-<p>从前端 UI、钱包显示、用户复制粘贴的体验来看，40 个字符已经很长了，64 个更难用。</p>
-<p>（2）安全性仍然足够</p>
-<p>地址空间有 2¹⁶⁰ ≈ 1.46 × 10⁴⁸ 种可能，即使全地球算力爆炸式提高，要「碰撞」一个指定地址也几乎不可能。</p>
-<p>真正的安全性瓶颈是：私钥是否真的随机 &amp; 是否被泄露，而不是「地址够不够长」。</p>
-<p>（3）存储空间更小</p>
-<p>状态树（state trie）、交易编码里地址要存很多次，20 字节 × N 次，比 32 字节 × N 次省空间、省带宽、省存储。</p>
-<h2 id="3-solidity-address">3. Solidity 里的 address 实际占多少字节？</h2>
-<p>这里要分 <strong>“概念上的大小”</strong> 和 <strong>“EVM 实际存储的大小”</strong> 两层看。</p>
-<p>概念上：address = 20 字节</p>
-<p>在 Solidity 类型系统里：</p>
-<pre><code class="language-solidity">address         // 20 字节
-address payable // 也是 20 字节，只是多了转账函数
+<blockquote>
+<p>注：与 ETH 相关的操作（转账、收款），都必须使用 address payable。</p>
+</blockquote>
+<p>对于 <code>address</code> 类型，常用的属性包括：</p>
+<ul>
+<li><code>balance</code>：获取地址中的 ETH 余额；</li>
+<li><code>code</code>（Solidity ^0.8.0）：获取地址中存储的合约代码（如果有的话），此属性在 Solidity 0.8.0 以后版本中新增；</li>
+<li><code>codehash</code>（Solidity ^0.8.0）：获取地址的合约代码的哈希值（如果地址为合约地址），如果地址是外部账户或合约中没有代码，则返回零哈希；</li>
+</ul>
+<p>对于 <code>address payable</code> 类型，除 <code>address</code> 类型的属性外，还包括三种与 ETH 转账相关的方法：</p>
+<ul>
+<li><code>transfer(uint256 amount)</code>：固定 2300 gas 供对方 fallback/receive 使用，失败会直接 <code>revert</code>，新版本里因为 gas 政策不稳定，<strong>官方已经不推荐用 <code>transfer</code> 和 <code>send</code> 了</strong>；</li>
+<li><code>send(uint256 amount) returns (bool)</code>：2300 gas 限制，返回一个布尔值表示成功与否，不会在失败时 <code>revert</code>，自己决定要不要 <code>require</code>；</li>
+<li><code>call(bytes memory data) returns (bool, bytes memory)</code>：向地址发送 ETH，可同时调用其合约函数，返回一个布尔值表示成功与否和返回数据。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>是否推荐</th>
+<th>失败是否 revert</th>
+<th>Gas 限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>transfer</code></td>
+<td>❌ 不推荐</td>
+<td>✔️ 自动 revert</td>
+<td>2300 gas</td>
+</tr>
+<tr>
+<td><code>send</code></td>
+<td>❌ 不推荐</td>
+<td>❌ 返回 false</td>
+<td>2300 gas</td>
+</tr>
+<tr>
+<td><code>call{value:...}</code></td>
+<td>✔️ 推荐标准</td>
+<td>❌ 需手动 require</td>
+<td>无限制</td>
+</tr>
+</tbody>
+</table>
+<p>需要转账时，建议使用 <code>call</code> 方法，因为 <code>transfer</code> 与 <code>send</code> 方法存在 Gas 限制（只提供2300 Gas，这足以记录事件，但不足以进行更复杂的操作），而 <code>call</code> 比较灵活。</p>
+<h2 id="2">2. 地址与外部合约交互（接口类型转换）</h2>
+<h3 id="21">2.1 为什么转换成接口类型？</h3>
+<p>以太坊世界里：</p>
+<ul>
+<li>每个合约 = 一段部署在链上的代码</li>
+<li>每个合约 = 一个独立的地址（address）</li>
+</ul>
+<p>但 <code>address</code> 本质只是 <strong>20 字节数字</strong>，并没有“函数信息”，因此：</p>
+<p>❌ address 不知道这个地址对应哪种合约</p>
+<p>❌ address 不知道里面有哪些函数</p>
+<p>❌ address 不能直接调用 transfer、approve、swap 等函数</p>
+<p>例如：</p>
+<pre><code class="language-solidity">address token = 0x...;
+token.transfer(to, amount); // ❌ 编译错误
 </code></pre>
-<p>存储在 EVM storage 里：占用 32 字节槽位</p>
-<p>EVM 的最小存储单位是 <strong>一个 storage slot = 32 字节（256 bit）</strong>，即使只存一个 bool / uint8 / address，它默认也占用一个完整 32 字节槽（除非编译器做变量打包）。</p>
-<pre><code class="language-solidity">contract Store {
-    address public owner;    // slot 0，占 32 字节
-    uint256 public value;    // slot 1，占 32 字节
+<p>因为 <code>address</code> 类型没有 <code>transfer</code> 方法。</p>
+<p>Solidity 是强类型语言，必须明确告诉它：这个 address 是什么类型的合约！</p>
+<p>所以我们才需要：</p>
+<p>✅ 先定义接口（Interface）——描述合约函数</p>
+<p>✅ 再把 <code>address</code> 强制转换成接口类型</p>
+<p>✅ 最后用接口来调用函数</p>
+<h3 id="22">2.2 地址转接口并调用函数（核心语法）</h3>
+<p>典型写法：<code>IERC20(tokenAddress).transfer(to, amount)</code></p>
+<p>代码含义：</p>
+<ol>
+<li><code>tokenAddress</code> —— 这是 ERC20 合约部署在链上的地址；</li>
+<li><code>IERC20(tokenAddress)</code> —— 告诉 Solidity：按 ERC20 接口的规范访问这个 <code>address</code>；</li>
+<li><code>.transfer(...)</code> —— 编译器检查参数类型、返回值；</li>
+<li>编译后执行低级 call（ABI 编码，EVM 执行）；</li>
+</ol>
+<h3 id="23-address">2.3 最常用场景：把 address 储存起来，然后交互</h3>
+<p>例如 DEX、Vault、Staking 合约都这么写：</p>
+<pre><code class="language-solidity">contract Test {
+  address public token; // 保存代币合约地址
+
+  function setToken(address _token) external {
+    token = _token;
+  }
+
+  function transferOut(address to, uint256 amount) external {
+    // address → IERC20
+    bool ok = IERC20(token).transfer(to, amount);
+    require(ok, &quot;transfer failed&quot;);
+  }
 }
 </code></pre>
-<p>虽然 address 实际只用掉 20 字节，其余 12 字节是填充的（通常为 0），但：</p>
+<p>为什么不能直接用 <code>address</code>？因为 <code>address</code> 没有 <code>transfer</code> 函数。</p>
+<h3 id="24">2.4 安全注意事项</h3>
+<p><strong>1）确保转换的 <code>address</code> 是期望的合约地址</strong></p>
+<p>如果用户传入恶意地址：<code>IERC20(fakeAddress).transfer(...)</code>，会调到错误逻辑 或 fallback，触发恶意代码。</p>
+<p>所以常见做法：</p>
 <ul>
-<li>在 <strong>storage 层面：1 个 address = 1 个 slot = 32 字节</strong></li>
-<li>在 <strong>语义层面：address 还是代表 20 字节的地址</strong></li>
+<li>✔ 白名单；</li>
+<li>✔ constructor 里写死地址；</li>
+<li>✔ 使用 immutable 常量；</li>
+<li>✔ 仅 owner 可修改 token 地址；</li>
 </ul>
-<p>这也就是为什么有时候讲「存一个地址，gas 很贵」，因为它会触发一次 <code>SSTORE</code> 到新槽位。</p>
-<p>如果变量打包，例如：</p>
-<pre><code class="language-solidity">contract Packed {
-    address public owner;   // 20 bytes
-    uint96  public count;   // 12 bytes
+<p><strong>2）使用 <code>try/catch</code>（适合外部合约不稳定时）</strong></p>
+<pre><code class="language-solidity">try IERC20(token).transfer(to, amount) returns (bool ok) {
+  require(ok, &quot;failed&quot;);
+} catch {
+  revert(&quot;token call failed&quot;);
 }
 </code></pre>
-<ul>
-<li>20 + 12 = 32 字节</li>
-<li>编译器会把 <code>owner</code> 和 <code>count</code> <strong>塞进同一个 slot</strong> → 依然是 32 字节一个槽，但容纳了两个字段</li>
-</ul>
-<p>结论：</p>
-<ul>
-<li>单独看类型：address = 20 bytes；</li>
-<li>存在 storage：一般占 1 个 32-byte slot（除非 packing）；</li>
-</ul>
-<h2 id="4-abi-calldata-memory">4. 在 ABI / calldata / memory 里的地址大小</h2>
-<p>Solidity 对外编码（ABI）时候，有一个规则：<strong>所有值类型按 32 字节对齐</strong>。</p>
-<p>所以在以下场景中：</p>
-<ul>
-<li>函数参数的 ABI 编码（calldata）；</li>
-<li>函数返回值的 ABI 编码；</li>
-<li>event topics（日志里）；</li>
-</ul>
-<p>一个 address 通常是这么表示的：<strong>前面 12 字节补 0 + 后面 20 字节地址</strong></p>
-<p>例如地址：0x28816c4c4792467390c90e5b426f198570e29307，在 ABI 编码中，会被放进 32 字节：</p>
-<pre><code>0x00000000000000000000000028816c4c4792467390c90e5b426f198570e29307
-  ↑                       ↑
-12 bytes 0              20 bytes address
+<p><strong>3）永远不要用 <code>address</code> 再去调用未知合约的 send/transfer（旧写法）</strong></p>
+<p>旧写法有风险：<code>payable(addr).transfer(amount);</code> // 可能失败</p>
+<p>改用：</p>
+<pre><code class="language-solidity">(bool ok,) = payable(addr).call{value: amount}(&quot;&quot;);
+require(ok);
 </code></pre>
-<p>编码时，占 32 字节（对齐到 256 bit），语义上，有效载荷仍然是 20 字节。</p>
+<p>总结：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔹 写接口 Interface</td>
+<td>告诉 Solidity 这个合约有哪些函数</td>
+</tr>
+<tr>
+<td>🔹 用 <code>IERC20(tokenAddress)</code></td>
+<td>把 address 转成接口类型</td>
+</tr>
+<tr>
+<td>🔹 用接口访问函数</td>
+<td>安全、类型检查、自动 ABI 编码</td>
+</tr>
+<tr>
+<td>🔹 用地址保存合约地址</td>
+<td>合约间交互</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3">3. 地址 + 映射 / 数组：记账 &amp; 关系</h2>
+<h3 id="31">3.1 地址 + 映射</h3>
+<p><code>mapping(address =&gt; uint256)</code> 是最常见的用法之一，例如 ERC20 的余额表：</p>
+<pre><code class="language-solidity">mapping(address =&gt; uint256) public balanceOf;
+
+function mint(uint256 amount) external {
+    balanceOf[msg.sender] += amount;
+}
+</code></pre>
+<p>多层 mapping（比如 allowance）：</p>
+<pre><code class="language-solidity">mapping(address =&gt; mapping(address =&gt; uint256)) public allowance;
+
+function approve(address spender, uint256 amount) external {
+    allowance[msg.sender][spender] = amount;
+}
+</code></pre>
+<p><code>mapping</code> 里的 key 用 <code>address</code> 非常自然，而且会自动初始化为 0，不存在则返回默认值。</p>
+<h3 id="32">3.2 地址 + 数组</h3>
+<p><code>address[]</code>，数组里的元素可以是 <code>address</code> 或 <code>address payable</code>，看你要不要给他们转账。</p>
+<p>比如记录所有存款过的用户：</p>
+<pre><code class="language-solidity">address[] public users;
+mapping(address =&gt; bool) public hasDeposited;
+
+function deposit() external payable {
+    if (!hasDeposited[msg.sender]) {
+        hasDeposited[msg.sender] = true;
+        users.push(msg.sender);
+    }
+}
+</code></pre>
+<h2 id="4">4. 特殊地址</h2>
+<p><code>msg.sender</code> – 当前合约的调用者，可能是外部账户，也可能是另一个合约。</p>
+<p><code>tx.origin</code> – 交易最原始发起人，容易被「中间合约」骗调用，导致钓鱼攻击，权限控制用 <code>msg.sender</code> 就够了。</p>
+<p><code>address(this)</code> - 合约自己的地址。</p>
 
 
 
@@ -947,10 +1150,10 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.tracking", "navigation.top", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["header.autohide", "navigation.tracking", "navigation.top", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.56dfad97.min.js"></script>
       
     
   </body>
