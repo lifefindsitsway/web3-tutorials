@@ -88,7 +88,7 @@ bytes memory data = abi.encodeCall(
 
 **关键区别**：编译器会检查参数类型是否匹配函数定义。如果你传错类型，编译时就会报错。
 
-## 三种方式对比
+### 三种方式对比
 
 | 方式 | 类型检查 | 重构友好 | 推荐场景 |
 |------|---------|---------|---------|
@@ -242,11 +242,11 @@ contract TransferViaCall {
 
 1. `call` 的完整语法和各参数含义
 2. calldata 的结构：选择器 + ABI 编码参数
-3. 三种构造 calldata 的方式，**推荐 `abi.encodeCall`**
+3. 三种构造 calldata 的方式，推荐 `abi.encodeCall`
 4. 如何正确处理返回值和调用失败
 5. 通过 `TransferViaCall` 实验验证所学
 
-下一篇，我们学习如何**创建**合约：`create` 和 `create2` 的区别，以及如何预测合约地址。
+下一篇，我们学习如何创建合约：`create` 和 `create2` 的区别，以及如何预测合约地址。
 
 
 

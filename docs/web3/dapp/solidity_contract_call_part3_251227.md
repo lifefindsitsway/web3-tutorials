@@ -81,7 +81,7 @@ CREATE2 的地址由四个因素决定：
 
 只要这四个因素相同，地址就相同——**可以在部署前预测地址**。
 
-### 语法
+语法
 
 ```solidity
 Contract x = new Contract{salt: salt}(params);
@@ -159,7 +159,7 @@ address(uint160(...))   // 第三步：把 160 位整数解释为 address
 
 这是 Solidity 中"截断取低位"的标准写法，在处理哈希结果时经常用到。
 
-## 理解 initcode
+### 理解 initcode
 
 两个容易混淆的概念：
 
@@ -182,23 +182,23 @@ bytes memory initcode = abi.encodePacked(
 bytes32 initCodeHash = keccak256(initcode);
 ```
 
-## CREATE2 的应用场景
+### CREATE2 的应用场景
 
-### 1. 反事实部署
+1. 反事实部署
 
 先计算地址 → 用户向该地址转账 → 之后再部署合约。
 
 账户抽象钱包常用这种模式：用户先拿到钱包地址收款，真正需要时才部署钱包合约。
 
-### 2. 跨链确定性部署
+2. 跨链确定性部署
 
 在多条链上用相同参数部署，得到相同地址。跨链协议需要这个特性。
 
-### 3. 合约重建
+3. 合约重建
 
 销毁合约后，用相同参数可以在同一地址重新部署（需要 `selfdestruct`）。
 
-## 注意事项
+### 注意事项
 
 **1. 同地址只能部署一次**
 
@@ -256,7 +256,6 @@ function rawCreate2(bytes memory bytecode, bytes32 salt) external returns (addre
 1. `CREATE` 和 `CREATE2` 的区别
 2. CREATE2 地址的计算公式
 3. 如何预测合约地址（以及为什么地址转换要写成 `address(uint160(uint256(...)))`）
-4. 三个应用场景：反事实部署、跨链部署、合约重建
 
 至此，合约间调用系列完结。你已经掌握了：
 
