@@ -548,9 +548,10 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="调用已部署合约需要什么？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       方式一：通过接口调用（推荐）
@@ -558,8 +559,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       方式二：通过合约类型调用
@@ -567,8 +568,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       方式三：存储合约引用
@@ -576,8 +577,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#call" class="md-nav__link">
     <span class="md-ellipsis">
       方式四：使用 call 调用
@@ -585,13 +586,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       四种方式对比
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -848,9 +854,10 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="调用已部署合约需要什么？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       方式一：通过接口调用（推荐）
@@ -858,8 +865,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       方式二：通过合约类型调用
@@ -867,8 +874,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       方式三：存储合约引用
@@ -876,8 +883,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#call" class="md-nav__link">
     <span class="md-ellipsis">
       方式四：使用 call 调用
@@ -885,13 +892,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       四种方式对比
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -972,7 +984,7 @@ fallback(bytes calldata input) external payable returns (bytes memory) {
 }
 </code></pre>
 <p>有了接口，就可以开始调用了。</p>
-<h2 id="_3">方式一：通过接口调用（推荐）</h2>
+<h3 id="_3">方式一：通过接口调用（推荐）</h3>
 <p>这是最常用、最推荐的方式，类型安全，代码清晰。</p>
 <pre><code class="language-solidity">import &quot;./IERC20.sol&quot;;
 
@@ -983,7 +995,7 @@ contract MyContract {
 }
 </code></pre>
 <p>核心语法：<code>IERC20(token)</code> 把地址"包装"成接口类型，然后就能像调用本地函数一样调用它。</p>
-<h2 id="_4">方式二：通过合约类型调用</h2>
+<h3 id="_4">方式二：通过合约类型调用</h3>
 <p>如果你有目标合约的完整代码，可以直接用合约类型。</p>
 <pre><code class="language-solidity">import &quot;./ERC20.sol&quot;;
 
@@ -995,7 +1007,7 @@ contract MyContract {
 </code></pre>
 <p>本质上和接口调用一样——都是告诉编译器"这个地址有哪些函数"。</p>
 <p><strong>区别</strong>：接口只声明函数签名，合约类型包含完整实现。如果只需要调用，用接口更轻量。</p>
-<h2 id="_5">方式三：存储合约引用</h2>
+<h3 id="_5">方式三：存储合约引用</h3>
 <p>当你需要多次调用同一个合约时，可以把引用存为状态变量。</p>
 <pre><code class="language-solidity">import &quot;./IERC20.sol&quot;;
 
@@ -1016,7 +1028,7 @@ contract MyContract {
 }
 </code></pre>
 <p>好处：代码更简洁，不用每次都传地址。</p>
-<h2 id="call">方式四：使用 call 调用</h2>
+<h3 id="call">方式四：使用 call 调用</h3>
 <p>当你<strong>不知道目标合约的接口</strong>时，可以用底层的 <code>call</code>。</p>
 <pre><code class="language-solidity">contract MyContract {
     function getBalance(address token, address account) public returns (uint256) {
@@ -1040,7 +1052,7 @@ contract MyContract {
 <li>需要更灵活的控制（如指定 gas、附带 ETH）</li>
 </ul>
 <p>一般情况下，<strong>优先用接口调用</strong>，更安全更清晰。</p>
-<h2 id="_6">四种方式对比</h2>
+<h3 id="_6">四种方式对比</h3>
 <table>
 <thead>
 <tr>
