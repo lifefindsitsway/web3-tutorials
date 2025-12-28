@@ -1,3 +1,6 @@
+- 2025-12-27：发表《[Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2](./web3/dapp/solidity_contract_call_part3_251227.md)》
+- 2025-12-23：发表《[Solidity 合约间调用（二）：底层调用与 calldata 详解](./web3/dapp/solidity_contract_call_part2_251223.md)》
+- 2025-12-21：发表《[Solidity 合约间调用（一）：四种方式调用已部署合约](./web3/dapp/solidity_contract_call_part1_251221.md)》
 - 2025-11-25：发表《[Solidity 地址类型 & 常见用法全攻略](./web3/dapp/address_251125.md)》
 - 2025-11-20：发表《[为什么以太坊地址是 20 字节？从私钥到地址的全解析](./web3/dapp/ethereum_address_size_251120.md)》
 - 2024-07-10：发表《[Uniswap V2 价格精度解析](./web3/defi/uniswap_v2_price_precision_240710.md)》
