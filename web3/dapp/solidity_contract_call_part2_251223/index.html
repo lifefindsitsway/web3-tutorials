@@ -575,17 +575,17 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
+          <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       三种方式对比
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -887,17 +887,17 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
+          <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       三种方式对比
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1079,7 +1079,7 @@ abi.encodeWithSelector(bytes4(keccak256(bytes(sig))), args...)
 );
 </code></pre>
 <p><strong>关键区别</strong>：编译器会检查参数类型是否匹配函数定义。如果你传错类型，编译时就会报错。</p>
-<h2 id="_1">三种方式对比</h2>
+<h3 id="_1">三种方式对比</h3>
 <table>
 <thead>
 <tr>
@@ -1229,11 +1229,11 @@ contract TransferViaCall {
 <ol>
 <li><code>call</code> 的完整语法和各参数含义</li>
 <li>calldata 的结构：选择器 + ABI 编码参数</li>
-<li>三种构造 calldata 的方式，<strong>推荐 <code>abi.encodeCall</code></strong></li>
+<li>三种构造 calldata 的方式，推荐 <code>abi.encodeCall</code></li>
 <li>如何正确处理返回值和调用失败</li>
 <li>通过 <code>TransferViaCall</code> 实验验证所学</li>
 </ol>
-<p>下一篇，我们学习如何<strong>创建</strong>合约：<code>create</code> 和 <code>create2</code> 的区别，以及如何预测合约地址。</p>
+<p>下一篇，我们学习如何创建合约：<code>create</code> 和 <code>create2</code> 的区别，以及如何预测合约地址。</p>
 <p><strong>系列导航</strong></p>
 <ul>
 <li>第一篇：<a href="../solidity_contract_call_part1_251221/">四种方式调用已部署合约</a></li>
