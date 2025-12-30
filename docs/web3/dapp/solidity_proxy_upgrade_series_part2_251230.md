@@ -44,15 +44,15 @@ contract Implementation {
 
 ```
 ┌──────────────────────────────────────────────────┐
-│              透明代理的路由规则                     │
+│              透明代理的路由规则                 │
 ├──────────────────────────────────────────────────┤
-│  调用者 = 管理员?                                  │
-│     │                                            │
-│     ├── 是 → 执行代理合约自身的管理函数               │
-│     │        (upgrade、changeAdmin 等)            │
-│     │                                            │
-│     └── 否 → 全部 delegatecall 到实现合约           │
-│              (即使调用的是 upgrade)                │
+│  调用者 = 管理员?                              │
+│     │                                        │
+│     ├── 是 → 执行代理合约自身的管理函数           │
+│     │        (upgrade、changeAdmin 等)        │
+│     │                                        │
+│     └── 否 → 全部 delegatecall 到实现合约       │
+│              (即使调用的是 upgrade)            │
 └──────────────────────────────────────────────────┘
 ```
 
@@ -92,7 +92,7 @@ OpenZeppelin 的解决方案是引入 **ProxyAdmin** 合约：
 
 ```
 ┌───────────────┐       ┌─────────────────┐       ┌──────────────────┐
-│  Owner (EOA)  │──────►│   ProxyAdmin    │──────►│ TransparentProxy │
+│ Owner (EOA)  │──────►│   ProxyAdmin   │──────►│ TransparentProxy│
 └───────────────┘       └─────────────────┘       └──────────────────┘
 ```
 
@@ -149,10 +149,10 @@ UUPS（ERC-1822）采用了不同的策略：**把升级逻辑放在逻辑合约
 
 ```
 ┌─────────────────────┐            ┌─────────────────────┐
-│     UUPSProxy       │            │    Implementation   │
-│                     │            │                     │
-│  - 只有 fallback     │◄─────────► │  - 业务逻辑          │
-│  - 无升级逻辑         │delegatecall│  - upgrade() 函数    │
+│    UUPSProxy      │            │    Implementation │
+│                   │            │                   │
+│ - 只有 fallback    │◄──────────► │  - 业务逻辑        │
+│ - 无升级逻辑        │delegatecall│  - upgrade() 函数  │
 └─────────────────────┘            └─────────────────────┘
 ```
 
@@ -282,17 +282,17 @@ OpenZeppelin 当前**推荐使用 UUPS**，因为它更轻量且灵活。
   用户                    Owner
    │                        │
    ▼                        ▼
-┌──────────────────┐   ┌─────────────┐
-│ TransparentProxy │◄──│ ProxyAdmin  │
-│                  │   └─────────────┘
-│  检查 msg.sender  │
-│  ├─ admin → 升级  │
-│  └─ 其他 → 转发    │
+┌──────────────────┐    ┌─────────────┐
+│ TransparentProxy│◄── │ ProxyAdmin │
+│                 │    └─────────────┘
+│  检查 msg.sender │
+│  ├─ admin → 升级 │
+│  └─ 其他 → 转发   │
 └────────┬─────────┘
          │ delegatecall
          ▼
 ┌──────────────────┐
-│  Implementation  │  ← 纯业务逻辑
+│ Implementation  │  ← 纯业务逻辑
 └──────────────────┘
 
 
@@ -302,14 +302,14 @@ OpenZeppelin 当前**推荐使用 UUPS**，因为它更轻量且灵活。
        │
        ▼
 ┌──────────────────┐
-│    UUPSProxy     │  ← 极简，只有 fallback
+│   UUPSProxy     │  ← 极简，只有 fallback
 └────────┬─────────┘
-         │ delegatecall
-         ▼
+        │ delegatecall
+        ▼
 ┌──────────────────┐
-│  Implementation  │  ← 业务逻辑 + 升级逻辑
-│                  │
-│  upgradeTo()     │
+│  Implementation │  ← 业务逻辑 + 升级逻辑
+│                 │
+│  upgradeTo()    │
 │  _authorizeUpgrade()
 └──────────────────┘
 ```

@@ -19,23 +19,25 @@
 
 ```
 ┌──────────────────────┐                    ┌──────────────────────┐
-│        Proxy         │                    │    Implementation    │
-│      (代理合约)       │                     │      (逻辑合约)       │
-│                      │   delegatecall     │                      │
-│  - 存储状态变量        │ ────────────────►  │  - 存储业务逻辑         │
-│  - 地址不变           │                    │  - 可被替换            │
+│        Proxy        │                   │    Implementation   │
+│      (代理合约)      │                    │      (逻辑合约)      │
+│                     │   delegatecall    │                     │
+│  - 存储状态变量       │ ────────────────►  │  - 存储业务逻辑        │
+│  - 地址不变          │                   │  - 可被替换           │
 └──────────────────────┘                    └──────────────────────┘
 ```
 
 用户始终与代理合约交互，代理合约负责：
-1. 保存所有状态数据
-2. 将函数调用转发给逻辑合约执行
+
+1.保存所有状态数据
+
+2.将函数调用转发给逻辑合约执行
 
 当需要升级时，只需部署新的逻辑合约，然后更新代理合约中保存的逻辑合约地址即可。用户无需迁移，地址不变，数据保留。
 
 ## delegatecall：代理模式的基石
 
-要理解代理合约，必须先理解 `delegatecall`。
+要理解代理合约，必须先理解 delegatecall。
 
 delegatecall 与 call 类似，是 Solidity 中地址类型的低级成员函数，delegate 是委托/代表的意思。
 
@@ -56,7 +58,7 @@ delegatecall 与 call 类似，是 Solidity 中地址类型的低级成员函数
 3. **在当前合约的上下文中执行那段代码**
 4. 返回执行是否成功 `success` 与返回数据 `returnData`
 
-**「当前合约的上下文」具体指什么？**
+「当前合约的上下文」具体指什么？
 
 - 写入/读取的 `storage` 是当前合约的 `storage`
 - `address(this)` 是当前合约地址
@@ -65,22 +67,23 @@ delegatecall 与 call 类似，是 Solidity 中地址类型的低级成员函数
 
 ### call vs delegatecall 对比
 
-|                   | call                                           | delegatecall                                                 |
-| ----------------- | ---------------------------------------------- | ------------------------------------------------------------ |
-| 代码执行位置      | 被调用合约                                     | 调用方（即当前合约）                                         |
-| 存储修改位置      | 被调用合约的 storage                           | 调用方（即当前合约）的 storage                               |
-| msg.sender        | 调用方（即当前合约）地址                       | 原始外部调用者                                               |
-| msg.value         | 会把 value 转给目标（如果设置 `{value: ...}`） | 不会把 ETH 转到实现合约；value 仍在当前合约，但实现代码能"看到"这笔 msg.value |
-| address(this)     | 被调用合约地址                                 | 调用方（即当前合约）地址                                     |
-| 事件 emitter 地址 | 被调用合约地址                                 | 调用方（即当前合约）地址                                     |
+|                   | call                                         | delegatecall                                                 |
+| ----------------- | -------------------------------------------- | ------------------------------------------------------------ |
+| 代码执行位置      | 被调用合约                                   | 调用方（即当前合约）                                         |
+| 存储修改位置      | 被调用合约的 storage                         | 调用方（即当前合约）的 storage                               |
+| msg.sender        | 调用方（即当前合约）地址                     | 原始外部调用者                                               |
+| msg.value         | 会把 value 转给目标（如果设置 {value: ...}） | 不会把 ETH 转到实现合约；value 仍在当前合约，但实现代码能"看到"这笔 msg.value |
+| address(this)     | 被调用合约地址                               | 调用方（即当前合约）地址                                     |
+| 事件 emitter 地址 | 被调用合约地址                               | 调用方（即当前合约）地址                                     |
 
 ### 动手实验：验证 call 与 delegatecall 的区别
 
 下面的实验将验证：
+
 - **call**：修改的是被调用合约（Logic）的存储，事件从 Logic 发出
 - **delegatecall**：修改的是调用方（Caller）的存储，事件从 Caller 发出
 
-**Logic.sol** - 被调用的逻辑合约：
+Logic.sol - 被调用的逻辑合约：
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -99,7 +102,7 @@ contract Logic {
 }
 ```
 
-**Caller.sol** - 发起调用的合约：
+Caller.sol - 发起调用的合约：
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -150,10 +153,10 @@ contract Caller {
 
 **实验步骤**：
 
-1. 部署 Logic 合约，调用 `setValue(123)`，此时 `Logic.value = 123`
+1. 部署 Logic 合约，调用 setValue(123)，此时 Logic.value = 123
 2. 部署 Caller 合约
-3. 调用 `Caller.callSetValue(Logic地址, 456)`
-4. 调用 `Caller.delegateSetValue(Logic地址, 789)`
+3. 调用 Caller.callSetValue(Logic地址, 456)
+4. 调用 Caller.delegateSetValue(Logic地址, 789)
 
 **预期结果**：
 
@@ -169,13 +172,13 @@ contract Caller {
 - Logic 合约地址：0x6e84C52c6fE239AB2288C07cA2E5b4bF09fBD894
 - Caller 合约地址：0xcCe7de7ae33b8C5721e5777f0237D273111F7F2a
 
-调用 `callSetValue` 后，Logic.value 变成 456，事件从 Logic 合约发出：
+调用 callSetValue 后，Logic.value 变成 456，事件从 Logic 合约发出：
 
 ![call 调用结果](./../../assets/images/solidity_proxy_upgrade_series_part1_251229_1.png)
 
 来源：https://sepolia.etherscan.io/address/0x6e84c52c6fe239ab2288c07ca2e5b4bf09fbd894#events
 
-调用 `delegateSetValue` 后，Logic.value 不变，但 Caller.value 变成 789，事件从 Caller 合约发出：
+调用 delegateSetValue 后，Logic.value 不变，但 Caller.value 变成 789，事件从 Caller 合约发出：
 
 ![delegatecall 调用结果](./../../assets/images/solidity_proxy_upgrade_series_part1_251229_2.png)
 
@@ -183,7 +186,7 @@ contract Caller {
 
 ## 存储槽冲突：一个灾难性的 bug
 
-`delegatecall` 有一个关键细节：**它按存储槽位置操作，而非变量名称**。
+delegatecall 有一个关键细节：**它按存储槽位置操作，而非变量名称**。
 
 看这个有问题的例子：
 
@@ -208,9 +211,9 @@ contract Caller {
 }
 ```
 
-问题在于：`Called.number` 和 `Caller.implementation` 都在 slot 0。
+问题在于：Called.number 和 Caller.implementation 都在 slot 0。
 
-当执行 `increment()` 时，它会递增 slot 0 的值——但在 `Caller` 中，slot 0 存储的是 `implementation` 地址，而不是 `myNumber`！
+当执行 increment() 时，它会递增 slot 0 的值——但在 Caller 中，slot 0 存储的是 implementation 地址，而不是 `myNumber`！
 
 **结果**：逻辑合约地址被意外修改，代理合约可能彻底损坏。
 
