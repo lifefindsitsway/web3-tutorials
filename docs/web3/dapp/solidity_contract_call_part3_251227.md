@@ -184,17 +184,17 @@ bytes32 initCodeHash = keccak256(initcode);
 
 ### CREATE2 的应用场景
 
-1. 反事实部署
+1.反事实部署
 
 先计算地址 → 用户向该地址转账 → 之后再部署合约。
 
 账户抽象钱包常用这种模式：用户先拿到钱包地址收款，真正需要时才部署钱包合约。
 
-2. 跨链确定性部署
+2.跨链确定性部署
 
 在多条链上用相同参数部署，得到相同地址。跨链协议需要这个特性。
 
-3. 合约重建
+3.合约重建
 
 销毁合约后，用相同参数可以在同一地址重新部署（需要 `selfdestruct`）。
 
@@ -267,6 +267,6 @@ function rawCreate2(bytes memory bytecode, bytes32 salt) external returns (addre
 
 **系列导航**
 
-- 第一篇：[四种方式调用已部署合约](./solidity_contract_call_part1_251221.md)
-- 第二篇：[底层调用与 calldata 详解](./solidity_contract_call_part2_251223.md)
-- 第三篇：创建合约的两种方式：create 与 create2（本篇）
+- 第一篇：[Solidity 合约间调用（一）：四种方式调用已部署合约](./solidity_contract_call_part1_251221.md)
+- 第二篇：[Solidity 合约间调用（二）：底层调用与 calldata 详解](./solidity_contract_call_part2_251223.md)
+- 第三篇：Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2（本篇）

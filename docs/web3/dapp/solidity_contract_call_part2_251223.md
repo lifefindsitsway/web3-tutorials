@@ -81,7 +81,7 @@ Solidity 0.8.11 引入，**类型安全**：
 
 ```solidity
 bytes memory data = abi.encodeCall(
-    IERC20.transfer,    // 函数指针，通常来自接口/合约名的函数成员
+    IERC20.transfer,    // 函数指针，通常来自接口、合约名的函数成员
     (to, amount)        // 参数元组
 );
 ```
@@ -252,6 +252,6 @@ contract TransferViaCall {
 
 **系列导航**
 
-- 第一篇：[四种方式调用已部署合约](./solidity_contract_call_part1_251221.md)
-- 第二篇：底层调用与 calldata 详解（本篇）
-- 第三篇：[创建合约的两种方式：create 与 create2](./solidity_contract_call_part3_251227.md)
+- 第一篇：[Solidity 合约间调用（一）：四种方式调用已部署合约](./solidity_contract_call_part1_251221.md)
+- 第二篇：Solidity 合约间调用（二）：底层调用与 calldata 详解（本篇）
+- 第三篇：[Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2](./solidity_contract_call_part3_251227.md)
