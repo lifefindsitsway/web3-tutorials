@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/hardhat_tutorial_240415/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/solidity_proxy_upgrade_series_part2_251230/">
       
       
-        <link rel="prev" href="../../../blockchain/the_evolution_of_bitcoin_240213/">
+        <link rel="prev" href="../solidity_proxy_upgrade_series_part1_251229/">
       
       
-        <link rel="next" href="../solidity_proxy_upgrade_series_part1_251229/">
+        <link rel="next" href="../solidity_contract_call_part1_251221/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Hardhat 入门指南（25年更新版） - Life's Web3 开发指南</title>
+        <title>Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS - Life's Web3 开发指南</title>
       
     
     
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Hardhat 入门指南（25年更新版）
+              Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS
             
           </span>
         </div>
@@ -397,28 +397,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Hardhat 入门指南（25年更新版）
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../hardhat_tutorial_240415/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -427,135 +409,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      一、配置环境
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat" class="md-nav__link">
-    <span class="md-ellipsis">
-      二、创建 Hardhat 项目
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      三、创建 &amp; 编译智能合约
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat-network" class="md-nav__link">
-    <span class="md-ellipsis">
-      四、编写测试并运行（基于 Hardhat Network）
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat-network_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      五、使用 Hardhat Network 调试
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="五、使用 Hardhat Network 调试">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#51-solidity-consolelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      5.1 在 Solidity 里直接 console.log
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#52" class="md-nav__link">
-    <span class="md-ellipsis">
-      5.2 额外调试抓手
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sepolia" class="md-nav__link">
-    <span class="md-ellipsis">
-      六、部署到 Sepolia 测试网
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="六、部署到 Sepolia 测试网">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#61-ignition-module" class="md-nav__link">
-    <span class="md-ellipsis">
-      6.1 用 Ignition Module 描述部署
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#62-sepolia-rpc" class="md-nav__link">
-    <span class="md-ellipsis">
-      6.2 配置 Sepolia RPC 与私钥
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#63" class="md-nav__link">
-    <span class="md-ellipsis">
-      6.3 部署合约
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -586,10 +439,28 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../solidity_proxy_upgrade_series_part2_251230/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -598,6 +469,183 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      函数选择器冲突
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transparent-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      解决方案一：透明代理（Transparent Proxy）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解决方案一：透明代理（Transparent Proxy）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#openzeppelin" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenZeppelin 的实现结构
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uups" class="md-nav__link">
+    <span class="md-ellipsis">
+      解决方案二：UUPS（通用可升级代理标准）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解决方案二：UUPS（通用可升级代理标准）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      升级是如何工作的？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      代码结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proxiableuuid" class="md-nav__link">
+    <span class="md-ellipsis">
+      proxiableUUID：安全检查
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uups_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      UUPS 的风险
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vs-uups" class="md-nav__link">
+    <span class="md-ellipsis">
+      透明代理 vs UUPS：如何选择？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="透明代理 vs UUPS：如何选择？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      架构对比图
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      其他代理模式简介
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="其他代理模式简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beacon-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Beacon Proxy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diamond-proxyeip-2535" class="md-nav__link">
+    <span class="md-ellipsis">
+      Diamond Proxy（EIP-2535）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimal-proxyeip-1167" class="md-nav__link">
+    <span class="md-ellipsis">
+      Minimal Proxy（EIP-1167）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -805,62 +853,77 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      一、配置环境
+      函数选择器冲突
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#hardhat" class="md-nav__link">
+  <a href="#transparent-proxy" class="md-nav__link">
     <span class="md-ellipsis">
-      二、创建 Hardhat 项目
+      解决方案一：透明代理（Transparent Proxy）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解决方案一：透明代理（Transparent Proxy）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#openzeppelin" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenZeppelin 的实现结构
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
+  <a href="#uups" class="md-nav__link">
+    <span class="md-ellipsis">
+      解决方案二：UUPS（通用可升级代理标准）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解决方案二：UUPS（通用可升级代理标准）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      三、创建 &amp; 编译智能合约
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat-network" class="md-nav__link">
-    <span class="md-ellipsis">
-      四、编写测试并运行（基于 Hardhat Network）
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat-network_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      五、使用 Hardhat Network 调试
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="五、使用 Hardhat Network 调试">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#51-solidity-consolelog" class="md-nav__link">
-    <span class="md-ellipsis">
-      5.1 在 Solidity 里直接 console.log
+      升级是如何工作的？
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#52" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      5.2 额外调试抓手
+      代码结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proxiableuuid" class="md-nav__link">
+    <span class="md-ellipsis">
+      proxiableUUID：安全检查
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uups_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      UUPS 的风险
     </span>
   </a>
   
@@ -872,37 +935,19 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sepolia" class="md-nav__link">
+  <a href="#vs-uups" class="md-nav__link">
     <span class="md-ellipsis">
-      六、部署到 Sepolia 测试网
+      透明代理 vs UUPS：如何选择？
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="六、部署到 Sepolia 测试网">
+    <nav class="md-nav" aria-label="透明代理 vs UUPS：如何选择？">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#61-ignition-module" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      6.1 用 Ignition Module 描述部署
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#62-sepolia-rpc" class="md-nav__link">
-    <span class="md-ellipsis">
-      6.2 配置 Sepolia RPC 与私钥
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#63" class="md-nav__link">
-    <span class="md-ellipsis">
-      6.3 部署合约
+      架构对比图
     </span>
   </a>
   
@@ -910,6 +955,57 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      其他代理模式简介
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="其他代理模式简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beacon-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Beacon Proxy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diamond-proxyeip-2535" class="md-nav__link">
+    <span class="md-ellipsis">
+      Diamond Proxy（EIP-2535）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimal-proxyeip-1167" class="md-nav__link">
+    <span class="md-ellipsis">
+      Minimal Proxy（EIP-1167）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
   
 </li>
       
@@ -931,275 +1027,332 @@
   
 
 
-  <h1>Hardhat 入门指南（25年更新版）</h1>
+  <h1>Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS</h1>
 
 <blockquote>
-<p>说明：原版发布于 2024-04-15，基于 Node 20.x，Ubuntu 20.04 系统开发，最新版更新于2025-12-12，基于 Node 22.x，Ubuntu 24.04 系统开发。</p>
+<p>上一篇我们理解了 delegatecall 和存储槽冲突问题。本篇将深入两大主流代理模式。</p>
 </blockquote>
-<p>Hardhat 是一个以 Node.js/JavaScript 生态为核心的以太坊智能合约开发环境，帮助开发者把「写合约 → 编译 → 测试 → 本地调试 → 部署到测试网/主网」这一系列重复工作自动化与工程化；它内置 Hardhat Network（本地以太坊网络），用于部署、跑测试、调试合约逻辑。  </p>
-<p>在 Hardhat 的设计里：</p>
+<h2 id="_1">函数选择器冲突</h2>
+<p>在实现可升级代理时，我们遇到了新问题。</p>
+<p>假设代理合约需要一个 <code>upgrade()</code> 函数来更新逻辑合约地址：</p>
+<pre><code class="language-solidity">contract Proxy {
+    address public implementation;
+
+    function upgrade(address newImpl) public {
+        implementation = newImpl;
+    }
+
+    fallback() external payable {
+        // delegatecall to implementation
+    }
+}
+</code></pre>
+<p>问题来了：如果逻辑合约也有一个 <code>upgrade()</code> 函数呢？</p>
+<pre><code class="language-solidity">contract Implementation {
+    function upgrade(address) public {
+        // 业务逻辑...
+    }
+}
+</code></pre>
+<p>当用户调用 <code>upgrade()</code> 时，EVM 会先检查代理合约是否有匹配的函数。如果有，就直接执行代理合约的函数，<strong>永远不会触发 fallback</strong>。</p>
+<p>结果：逻辑合约的 <code>upgrade()</code> 函数无法被调用。</p>
+<p>更危险的是：不同函数可能有<strong>相同的函数选择器</strong>。函数选择器只有 4 字节，存在约 1/43 亿的碰撞概率。比如 <code>clash550254402()</code> 和 <code>proxyAdmin()</code> 的选择器完全相同。</p>
+<h2 id="transparent-proxy">解决方案一：透明代理（Transparent Proxy）</h2>
+<p>透明代理的核心思路很简单：<strong>代理合约除了 fallback，不暴露任何公开函数</strong>。</p>
+<p>但没有公开函数，怎么升级？答案是：<strong>通过 msg.sender 来区分调用者</strong>。</p>
+<pre><code>┌──────────────────────────────────────────────────┐
+│              透明代理的路由规则                     │
+├──────────────────────────────────────────────────┤
+│  调用者 = 管理员?                                  │
+│     │                                            │
+│     ├── 是 → 执行代理合约自身的管理函数               │
+│     │        (upgrade、changeAdmin 等)            │
+│     │                                            │
+│     └── 否 → 全部 delegatecall 到实现合约           │
+│              (即使调用的是 upgrade)                │
+└──────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>为什么叫「透明」？</strong></p>
+<p>对于普通用户来说，代理合约是「透明」的——他们看不到任何代理相关的函数，所有调用都会被转发。代理合约的管理功能只对管理员「可见」。</p>
+<pre><code class="language-solidity">contract TransparentProxy {
+    address immutable admin;
+
+    constructor(address _admin) {
+        admin = _admin;
+    }
+
+    fallback() external payable {
+        if (msg.sender == admin) {
+            // 执行升级逻辑
+        } else {
+            // delegatecall 到逻辑合约
+        }
+    }
+}
+</code></pre>
+<p>规则：
+- <strong>admin 调用</strong>：路由到升级逻辑
+- <strong>普通用户调用</strong>：路由到逻辑合约</p>
+<p>这完全消除了函数选择器冲突——因为代理合约根本没有公开函数。</p>
+<h3 id="openzeppelin">OpenZeppelin 的实现结构</h3>
+<p>但上述设计有个问题：admin 无法直接使用合约功能，因为它的调用会被路由到升级逻辑。</p>
+<p>OpenZeppelin 的解决方案是引入 <strong>ProxyAdmin</strong> 合约：</p>
+<pre><code>┌───────────────┐       ┌─────────────────┐       ┌──────────────────┐
+│  Owner (EOA)  │──────►│   ProxyAdmin    │──────►│ TransparentProxy │
+└───────────────┘       └─────────────────┘       └──────────────────┘
+</code></pre>
 <ul>
-<li>在命令行每跑一次 <code>npx hardhat xxx</code>，本质上是在执行一个 task；</li>
-<li>大部分能力由 plugins 提供（例如 ethers 集成、chai-matchers、Ignition 部署等），官方推荐初学者使用 <code>@nomicfoundation/hardhat-toolbox</code> 一揽子插件。</li>
+<li>代理合约的 admin 是 ProxyAdmin 合约（地址固定）</li>
+<li>ProxyAdmin 的 owner 是真正的管理员</li>
+<li>owner 通过 ProxyAdmin 间接升级代理</li>
+<li>owner 也可以直接调用代理使用合约功能（因为 msg.sender 是 owner，不是 admin）</li>
 </ul>
-<h2 id="_1">一、配置环境</h2>
-<p>在 Windows 系统使用 VS Code 配置 Ubuntu 24.04 上的开发环境。</p>
-<p>安装 22.x 版 Node.js：</p>
-<pre><code class="language-bash">curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# 查看安装的版本
-node -v
-npm -v
+<p><strong>OpenZeppelin 合约继承结构</strong>：</p>
+<pre><code>Proxy.sol (抽象基类)
+    │
+    └── ERC1967Proxy.sol (实现 EIP-1967 槽位)
+            │
+            └── TransparentUpgradeableProxy.sol
+                    │
+                    └── 配合 ProxyAdmin.sol 使用
 </code></pre>
-<h2 id="hardhat">二、创建 Hardhat 项目</h2>
-<p>使用 Node.js 的包管理器 <code>npm</code> 来安装 hardhat：</p>
-<p>初始化项目目录与 npm 工程：</p>
-<pre><code class="language-bash">mkdir hardhat-tutorial
-cd hardhat-tutorial
-npm init
-</code></pre>
-<p>安装 Hardhat v2（官方教程使用 <code>hardhat@hh2</code> 这个标签来锁定 v2）：</p>
-<pre><code class="language-bash">npm install --save-dev hardhat@hh2 # 该过程可能比较花时间
-</code></pre>
-<p>初始化 Hardhat 配置文件：</p>
-<pre><code class="language-bash">npx hardhat init    # 选择：Create an empty hardhat.config.js
-</code></pre>
-<p>安装官方推荐插件集合 hardhat-toolbox：</p>
-<pre><code class="language-bash">npm install --save-dev @nomicfoundation/hardhat-toolbox@hh2
-</code></pre>
-<p>在 hardhat.config.js 文件中添加 <code>require("@nomicfoundation/hardhat-toolbox");</code>，这一步完成后，hardhat.config.js 如下：</p>
-<pre><code class="language-javascript">require(&quot;@nomicfoundation/hardhat-toolbox&quot;);
-
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
-  solidity: &quot;0.8.28&quot;,
-};
-</code></pre>
-<p>补充：如果使用 npm install --save-dev hardhat 安装 hardhat 太慢，可以使用 yarn add --dev hardhat 来安装。</p>
-<p>安装 yarn 指令如下：<code>yarn</code> 官方提供了一个 APT 仓库，可以通过它来安装 <code>yarn</code>，配置仓库并导入 Yarn 的 GPG 公钥：</p>
-<pre><code class="language-bash">curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo &quot;deb https://dl.yarnpkg.com/debian/ stable main&quot; | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt-get update
-sudo apt-get install yarn
-yarn --version
-</code></pre>
-<h2 id="_2">三、创建 &amp; 编译智能合约</h2>
-<p>在项目根目录中新建一个 <code>contracts</code> 目录，接下来就可以在 <code>contracts</code> 目录中编写我们的合约代码，以下 MiniToken.sol 参考自 Hardhat 官方教程：</p>
-<pre><code class="language-solidity">// SPDX-License-Identifier:MIT
-pragma solidity ^0.8.28;
-import &quot;hardhat/console.sol&quot;;
-
-contract MiniToken {
-    string public name = &quot;Mini Hardhat Token&quot;;
-    string public symbol = &quot;MHT&quot;;
-    uint256 public totalSupply = 1000000;
-
+<pre><code class="language-solidity">contract ProxyAdmin {
     address public owner;
-    mapping(address =&gt; uint256) private balances;
 
-    event Transfer(address indexed from, address indexed to, uint256 value);
-
-    constructor() {
-        owner = msg.sender;
-        balances[msg.sender] = totalSupply;
-    }
-
-    function balanceOf(address account) external view returns (uint256) {
-        return balances[account];
-    }
-
-    function transfer(address to, uint256 amount) external {
-        require(balances[msg.sender] &gt;= amount, &quot;Not enough tokens&quot;);
-        balances[msg.sender] -= amount;
-        balances[to] += amount;
-
-        emit Transfer(msg.sender, to, amount);
+    function upgradeAndCall(
+        ITransparentUpgradeableProxy proxy,
+        address implementation,
+        bytes memory data
+    ) public onlyOwner {
+        proxy.upgradeToAndCall(implementation, data);
     }
 }
 </code></pre>
-<p>注：可以在 VS Code 中安装 hardhat 的扩展程序 Solidity by Nomic Foundation。</p>
-<p>合约代码编写完后，使用 <code>npx hardhat compile</code> 指令编译。</p>
-<h2 id="hardhat-network">四、编写测试并运行（基于 Hardhat Network）</h2>
-<p>Hardhat 默认网络就是 Hardhat Network，跑测试无需额外启动节点或配置。官方教程用 ethers.js + Mocha + Chai 来写测试。</p>
-<p>在根目录中新建一个目录 <code>test</code>，添加如下 MiniToken.js 文件：</p>
-<pre><code class="language-javascript">const { expect } = require(&quot;chai&quot;);
-
-describe(&quot;MiniToken&quot;, function () {
-  it(&quot;部署后：部署者应拿到全部 totalSupply&quot;, async function () {
-    const [owner] = await ethers.getSigners();
-    const token = await ethers.deployContract(&quot;MiniToken&quot;);
-
-    const ownerBalance = await token.balanceOf(owner.address);
-    expect(await token.totalSupply()).to.equal(ownerBalance);
-  });
-
-  it(&quot;转账：应能在不同账户间转移余额&quot;, async function () {
-    const [owner, addr1, addr2] = await ethers.getSigners();
-    const token = await ethers.deployContract(&quot;MiniToken&quot;);
-
-    await token.transfer(addr1.address, 50);
-    expect(await token.balanceOf(addr1.address)).to.equal(50);
-
-    await token.connect(addr1).transfer(addr2.address, 50);
-    expect(await token.balanceOf(addr2.address)).to.equal(50);
-  });
-
-  it(&quot;失败用例：余额不足应 revert&quot;, async function () {
-    const [, addr1, addr2] = await ethers.getSigners();
-    const token = await ethers.deployContract(&quot;MiniToken&quot;);
-
-    await expect(token.connect(addr1).transfer(addr2.address, 1))
-      .to.be.revertedWith(&quot;Not enough tokens&quot;);
-  });
-});
-</code></pre>
-<p>执行<code>npx hardhat test</code>指令，测试结果如下：</p>
-<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat test
-
-
-  MiniToken
-    ✔ 部署后：部署者应拿到全部 totalSupply (486ms)
-    ✔ 转账：应能在不同账户间转移余额
-    ✔ 失败用例：余额不足应 revert
-
-
-  3 passing (537ms)
-
-</code></pre>
-<p>官方教程还推荐用 <code>loadFixture</code> 做测试夹具与快照回滚，提高测试速度并减少重复部署代码。</p>
-<h2 id="hardhat-network_1">五、使用 Hardhat Network 调试</h2>
-<h3 id="51-solidity-consolelog">5.1 在 Solidity 里直接 console.log</h3>
-<p>Hardhat Network 支持在 Solidity 代码中调用 <code>console.log()</code> 输出日志信息、合约变量，用法是在合约代码中导入 <code>import "hardhat/console.sol";</code> 并在函数里打印。</p>
-<p>示例：编辑 <code>contracts/MiniToken.sol</code>，在 <code>transfer()</code> 中加入日志：</p>
-<pre><code class="language-solidity">import &quot;hardhat/console.sol&quot;;
-
-function transfer(address to, uint256 amount) external {
-    require(balances[msg.sender] &gt;= amount, &quot;Not enough tokens&quot;);
-
-    console.log(
-        &quot;Transferring from %s to %s %s tokens&quot;,
-        msg.sender,
-        to,
-        amount
-    );
-
-    balances[msg.sender] -= amount;
-    balances[to] += amount;
-    emit Transfer(msg.sender, to, amount);
-}
-</code></pre>
-<p>再跑一次测试指令<code>npx hardhat test</code>，会在测试输出中看到转账日志：</p>
-<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat test
-Compiled 2 Solidity files successfully (evm target: paris).
-
-
-  MiniToken
-    ✔ 部署后：部署者应拿到全部 totalSupply (471ms)
-Transferring from 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 to 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 50 tokens
-Transferring from 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 to 0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc 50 tokens
-    ✔ 转账：应能在不同账户间转移余额
-    ✔ 失败用例：余额不足应 revert
-
-
-  3 passing (520ms)
-</code></pre>
-<p>注意点（来自 Hardhat Network 参考文档）：</p>
+<p>关键设计：</p>
 <ul>
-<li><code>console.log</code> 可在 call/transaction 中使用，<code>view</code> 可用，但 <code>pure</code> 不行；</li>
-<li>需要<code>import "hardhat/console.sol"</code>；</li>
-<li><code>console.log</code> 最多支持 4 个参数，且有明确的类型范围与若干单参 API。</li>
+<li>代理合约只有 <code>fallback()</code> 函数</li>
+<li>所有管理功能通过 ProxyAdmin 调用</li>
+<li>管理员地址存储在 EIP-1967 槽位</li>
 </ul>
-<h3 id="52">5.2 额外调试抓手</h3>
-<p><strong>失败堆栈</strong>：Hardhat Network 默认会在交易失败时抛出“JavaScript + Solidity”的组合堆栈信息（便于定位 revert 触发点）。</p>
-<p><strong>in-process vs JSON-RPC node</strong>：测试时用的是 in-process Hardhat Network；如果用 <code>node</code> 任务启动 JSON-RPC server（便于前端/钱包连接），日志与行为会略有不同（例如 loggingEnabled 默认值对 in-process 与 node 有差异）。</p>
-<h2 id="sepolia">六、部署到 Sepolia 测试网</h2>
-<h3 id="61-ignition-module">6.1 用 Ignition Module 描述部署</h3>
-<p>Ignition 的部署入口是 Module，放在 <code>ignition/modules</code> 目录下。</p>
-<p>创建 <code>ignition/modules/MiniToken.js</code> 文件如下：</p>
-<pre><code class="language-javascript">const { buildModule } = require(&quot;@nomicfoundation/hardhat-ignition/modules&quot;);
-
-const TokenModule = buildModule(&quot;TokenModule&quot;, (m) =&gt; {
-  const token = m.contract(&quot;Token&quot;);
-
-  return { token };
-});
-
-module.exports = TokenModule;
+<p><strong>优点</strong>：</p>
+<ul>
+<li>彻底消除函数选择器冲突</li>
+<li>升级逻辑在代理合约中，逻辑合约不需要包含升级代码</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>需要额外部署 ProxyAdmin 合约</li>
+<li>每次调用都要检查 <code>msg.sender == admin</code>，增加 gas 消耗</li>
+</ul>
+<h2 id="uups">解决方案二：UUPS（通用可升级代理标准）</h2>
+<p>UUPS（ERC-1822）采用了不同的策略：<strong>把升级逻辑放在逻辑合约中</strong>。</p>
+<pre><code>┌─────────────────────┐            ┌─────────────────────┐
+│     UUPSProxy       │            │    Implementation   │
+│                     │            │                     │
+│  - 只有 fallback     │◄─────────► │  - 业务逻辑          │
+│  - 无升级逻辑         │delegatecall│  - upgrade() 函数    │
+└─────────────────────┘            └─────────────────────┘
 </code></pre>
-<h3 id="62-sepolia-rpc">6.2 配置 Sepolia RPC 与私钥</h3>
-<p>部署到远程测试网络需要在 <code>hardhat.config.js</code> 中配置 RPC 信息，然后在部署指令中使用 <code>--network</code>参数告知 Hardhat 连接到哪个网络。</p>
-<p>注册一个 <a href="https://www.alchemy.com/">Alchemy</a> 账户， 然后创建一个 Ethereum Sepolia 的 App，获取该 App 的 API key。</p>
-<p>从虚拟钱包发出的每一笔交易都需要使用<code>private key</code>来签名，该步骤通过把钱包地址的 private key、alchemy API key 存储在一个 environment file 中，来为程序提供必要的访问权限。</p>
-<p>通过<code>npm install dotenv</code>指令安装 dotenv 模块，以便读取<code>.env</code>文件：</p>
-<pre><code class="language-plain">ALCHEMY_API_KEY = &quot;xxx&quot;
-SEPOLIA_PRIVATE_KEY = &quot;xxx&quot;
+<h3 id="_2">升级是如何工作的？</h3>
+<p>UUPS 的升级过程：</p>
+<ol>
+<li>管理员调用 Proxy 的 <code>upgradeTo(newImpl)</code></li>
+<li>Proxy 通过 <code>fallback()</code> 将调用 delegatecall 给当前实现合约</li>
+<li>实现合约的 <code>upgradeTo()</code> 被执行</li>
+<li>由于是 delegatecall，修改的是 Proxy 的存储</li>
+<li>Proxy 的实现地址被更新为 <code>newImpl</code></li>
+</ol>
+<pre><code>Admin ──upgradeTo(V2)──► Proxy ─delegatecall─► Impl V1
+                           │                      │
+                           │    upgradeTo() 修改   │
+                           │    Proxy 的存储       │
+                           ▼                      │
+                    implementation = V2  ◄────────┘
 </code></pre>
-<p>注：测试用的钱包地址中不要放置任何真实资产。</p>
-<p>在<code>hardhat.config.js</code>文件中添加配置，以便部署到 Sepolia 测试网：</p>
-<pre><code class="language-javascript">require(&quot;@nomicfoundation/hardhat-toolbox&quot;);
-require(&quot;dotenv&quot;).config();
+<h3 id="_3">代码结构</h3>
+<p>代理合约极其简单：</p>
+<pre><code class="language-solidity">contract UUPSProxy {
+    constructor(address _implementation) {
+        assembly {
+            sstore(
+                0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc,
+                _implementation
+            )
+        }
+    }
 
-const { ALCHEMY_API_KEY, SEPOLIA_PRIVATE_KEY } = process.env;
-
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
-  solidity: &quot;0.8.28&quot;,
-  networks: {
-    sepolia: {
-      url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      accounts: [SEPOLIA_PRIVATE_KEY],
-    },
-  },
-};
-</code></pre>
-<h3 id="63">6.3 部署合约</h3>
-<p>到目前为止，已经可以完成最后的部署了，在终端中执行如下指令：</p>
-<pre><code class="language-shell">$ npx hardhat ignition deploy ./ignition/modules/MiniToken.js --network sepolia
-[dotenv@17.2.3] injecting env (2) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
-✔ Confirm deploy to network sepolia (11155111)? … yes
-[ MiniTokenModule ] Nothing new to deploy based on previous execution stored in ./ignition/deployments/chain-11155111
-
-Deployed Addresses
-
-MiniTokenModule#MiniToken - 0x07831829b9F8182eE65B446adc7cD6Dc0Ba61b6D
-</code></pre>
-<p>Hardhat 也支持通过脚本来部署合约。在项目根目录下新建<code>scripts/</code> 目录，将 JS 编写的部署脚本 <code>deploy.js</code> 放在该<code>scripts/</code> 目录中，最后执行 <code>npx hardhat run scripts/deploy.js --network sepolia</code>就可以了。</p>
-<pre><code class="language-javascript">const hre = require(&quot;hardhat&quot;);
-
-async function main() {
-  const [deployer] = await hre.ethers.getSigners();
-
-  const balance = await hre.ethers.provider.getBalance(deployer.address);
-  console.log(&quot;Deployer:&quot;, deployer.address);
-  console.log(&quot;Deployer balance:&quot;, hre.ethers.formatEther(balance), &quot;ETH&quot;);
-
-  // 推荐写法：hardhat-ethers 提供 ethers.deployContract
-  const token = await hre.ethers.deployContract(&quot;MiniToken&quot;);
-  await token.waitForDeployment();
-
-  // ethers v6 合约地址常用 token.target（或 await token.getAddress()）
-  console.log(&quot;MiniToken deployed to:&quot;, token.target);
-
-  const tx = token.deploymentTransaction();
-  console.log(&quot;Deployment tx hash:&quot;, tx.hash);
+    fallback() external payable {
+        // 读取实现地址并 delegatecall
+    }
 }
+</code></pre>
+<p>逻辑合约需要继承 OpenZeppelin 的 <code>UUPSUpgradeable</code>：</p>
+<pre><code class="language-solidity">import &quot;@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol&quot;;
 
-main().catch((err) =&gt; {
-  console.error(err);
-  process.exitCode = 1;
-});
+contract MyContract is UUPSUpgradeable {
+    // 业务逻辑...
+
+    function _authorizeUpgrade(address newImplementation) 
+        internal 
+        override 
+        onlyOwner 
+    {}
+}
 </code></pre>
-<p>执行结果大致如下：</p>
-<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat run scripts/deploy.js --network sepolia
-[dotenv@17.2.3] injecting env (2) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
-[dotenv@17.2.3] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
-Deployer: 0x84B62e4c0766414a867A5aCc7BCa14901B3c713C
-Deployer balance: 0.508237594610744345 ETH
-MiniToken deployed to: 0xEc2E9d1ddEb8d6b1F695c23512afaa70d716458e
-Deployment tx hash: 0x421c29757589388e092d52d48bf65d89060bb725cfc96a9b02497557b64bd8fa
+<h3 id="proxiableuuid">proxiableUUID：安全检查</h3>
+<p>UUPS 有个巧妙的安全机制：升级前会检查新合约是否兼容。</p>
+<pre><code class="language-solidity">function proxiableUUID() external view returns (bytes32) {
+    return IMPLEMENTATION_SLOT;
+}
 </code></pre>
-<p>参考资料：<a href="https://v2.hardhat.org/tutorial">Hardhat's tutorial for beginners</a></p>
+<p>升级时，会调用新合约的 <code>proxiableUUID()</code>：
+- 如果返回正确的存储槽地址，说明新合约是 UUPS 兼容的
+- 如果调用失败或返回值错误，升级被拒绝</p>
+<p>这防止了意外升级到一个没有升级能力的合约——那将导致合约永远无法再升级。</p>
+<h3 id="uups_1">UUPS 的风险</h3>
+<p><strong>风险一：忘记实现升级函数</strong></p>
+<p>如果新版本的实现合约没有 <code>upgradeTo()</code> 函数，合约将<strong>永久失去升级能力</strong>：</p>
+<pre><code class="language-solidity">// ❌ 灾难：忘了继承 UUPSUpgradeable
+contract ImplV2 {
+    // 没有 upgradeTo() 函数 → 永远无法再升级！
+}
+</code></pre>
+<p>防护措施：OpenZeppelin 要求实现合约继承 <code>UUPSUpgradeable</code>，并实现 <code>_authorizeUpgrade()</code> 钩子。</p>
+<p><strong>风险二：未初始化的实现合约</strong></p>
+<p>如果有人直接调用实现合约的 <code>initialize()</code>，他可以成为实现合约的 owner，然后调用 <code>upgradeTo()</code> 指向一个包含 <code>selfdestruct</code> 的合约。<strong>这曾经是真实的攻击向量</strong>（Wormhole 事件）。</p>
+<p>防护：在构造函数中调用 <code>_disableInitializers()</code>：</p>
+<pre><code class="language-solidity">constructor() {
+    _disableInitializers();
+}
+</code></pre>
+<h2 id="vs-uups">透明代理 vs UUPS：如何选择？</h2>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>透明代理</th>
+<th>UUPS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>升级逻辑位置</td>
+<td>代理合约</td>
+<td>逻辑合约</td>
+</tr>
+<tr>
+<td>Gas 成本</td>
+<td>较高（每次检查 admin）</td>
+<td>较低</td>
+</tr>
+<tr>
+<td>代理合约大小</td>
+<td>较大</td>
+<td>最小</td>
+</tr>
+<tr>
+<td>逻辑合约大小</td>
+<td>较小</td>
+<td>较大（含升级代码）</td>
+</tr>
+<tr>
+<td>风险</td>
+<td>较低</td>
+<td>较高（可能丢失升级能力）</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>通用场景、安全优先</td>
+<td>高频调用、gas 敏感</td>
+</tr>
+</tbody>
+</table>
+<p><strong>选择建议</strong>：</p>
+<ul>
+<li>逻辑合约接近 24KB 限制 → 透明代理</li>
+<li>需要极致 gas 优化 → UUPS</li>
+<li>追求简单安全 → 透明代理</li>
+</ul>
+<p>OpenZeppelin 当前<strong>推荐使用 UUPS</strong>，因为它更轻量且灵活。</p>
+<h3 id="_4">架构对比图</h3>
+<pre><code>【透明代理架构】
+
+  用户                    Owner
+   │                        │
+   ▼                        ▼
+┌──────────────────┐   ┌─────────────┐
+│ TransparentProxy │◄──│ ProxyAdmin  │
+│                  │   └─────────────┘
+│  检查 msg.sender  │
+│  ├─ admin → 升级  │
+│  └─ 其他 → 转发    │
+└────────┬─────────┘
+         │ delegatecall
+         ▼
+┌──────────────────┐
+│  Implementation  │  ← 纯业务逻辑
+└──────────────────┘
+
+
+【UUPS 架构】
+
+  用户 / Admin
+       │
+       ▼
+┌──────────────────┐
+│    UUPSProxy     │  ← 极简，只有 fallback
+└────────┬─────────┘
+         │ delegatecall
+         ▼
+┌──────────────────┐
+│  Implementation  │  ← 业务逻辑 + 升级逻辑
+│                  │
+│  upgradeTo()     │
+│  _authorizeUpgrade()
+└──────────────────┘
+</code></pre>
+<h2 id="_5">其他代理模式简介</h2>
+<p>除了透明代理和 UUPS，还有几种常见模式，这里简单了解即可：</p>
+<h3 id="beacon-proxy">Beacon Proxy</h3>
+<p>多个代理共享同一个逻辑合约地址，通过 Beacon 合约统一管理。更新 Beacon 一次，所有代理同时升级。</p>
+<p><strong>适用场景</strong>：需要批量部署和批量升级，如 NFT 工厂。</p>
+<h3 id="diamond-proxyeip-2535">Diamond Proxy（EIP-2535）</h3>
+<p>一个代理可以指向<strong>多个</strong>逻辑合约，通过函数选择器路由到不同的 Facet。</p>
+<p><strong>适用场景</strong>：超大型合约，需要突破 24KB 限制。</p>
+<h3 id="minimal-proxyeip-1167">Minimal Proxy（EIP-1167）</h3>
+<p>极简克隆模式，所有克隆共享同一份逻辑代码，部署成本极低（约 45 字节），但<strong>不可升级</strong>。</p>
+<p><strong>适用场景</strong>：需要大量部署相同逻辑的合约，如用户钱包。</p>
+<h2 id="_6">小结</h2>
+<p>本篇我们学习了：</p>
+<ol>
+<li><strong>函数选择器冲突问题</strong>：代理合约的公开函数会遮蔽逻辑合约的同名函数</li>
+<li><strong>透明代理</strong>：通过检查 msg.sender 区分调用者，消除冲突</li>
+<li><strong>UUPS</strong>：将升级逻辑放入逻辑合约，代理合约极简化</li>
+<li><strong>如何选择</strong>：根据 gas 优化需求、合约大小限制、安全性需求决定</li>
+<li><strong>其他代理模式</strong>：Beacon、Diamond、Minimal Proxy</li>
+</ol>
+<p><strong>最后的建议</strong>：</p>
+<p>可升级合约是一把双刃剑。它解决了不可变性的困境，但也引入了新的信任假设和安全风险。</p>
+<p>在使用可升级模式前，请认真思考：</p>
+<ul>
+<li>你的合约真的需要升级能力吗？</li>
+<li>用户是否信任你（或 DAO）不会恶意升级？</li>
+<li>你是否有完善的升级治理流程？</li>
+</ul>
+<p>如果答案都是肯定的，那么请选择适合的模式，遵循最佳实践，让可升级性成为你的优势而非负担。</p>
+<p><strong>参考资料</strong></p>
+<ul>
+<li><a href="https://rareskills.io/proxy-patterns">RareSkills: Book of Proxy Patterns</a></li>
+<li><a href="https://ethereum.org/zh/developers/docs/smart-contracts/upgrading">Ethereum.org: 升级智能合约</a></li>
+<li><a href="https://docs.openzeppelin.com/upgrades-plugins">OpenZeppelin Upgrades Plugins</a></li>
+<li><a href="https://eips.ethereum.org/EIPS/eip-1967">EIP-1967: Standard Proxy Storage Slots</a></li>
+<li><a href="https://eips.ethereum.org/EIPS/eip-1822">EIP-1822: Universal Upgradeable Proxy Standard</a></li>
+</ul>
+<p><strong>系列导航</strong></p>
+<ul>
+<li>第一篇：<a href="../solidity_proxy_upgrade_series_part1_251229/">Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？</a></li>
+<li>第二篇：Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS（本篇）</li>
+</ul>
 
 
 

@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/hardhat_tutorial_240415/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/solidity_proxy_upgrade_series_part1_251229/">
       
       
-        <link rel="prev" href="../../../blockchain/the_evolution_of_bitcoin_240213/">
+        <link rel="prev" href="../hardhat_tutorial_240415/">
       
       
-        <link rel="next" href="../solidity_proxy_upgrade_series_part1_251229/">
+        <link rel="next" href="../solidity_proxy_upgrade_series_part2_251230/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Hardhat 入门指南（25年更新版） - Life's Web3 开发指南</title>
+        <title>Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？ - Life's Web3 开发指南</title>
       
     
     
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Hardhat 入门指南（25年更新版）
+              Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？
             
           </span>
         </div>
@@ -397,6 +397,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardhat_tutorial_240415/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hardhat 入门指南（25年更新版）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -411,7 +432,7 @@
           
   
   <span class="md-ellipsis">
-    Hardhat 入门指南（25年更新版）
+    Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？
   </span>
   
 
@@ -422,7 +443,7 @@
         
   
   <span class="md-ellipsis">
-    Hardhat 入门指南（25年更新版）
+    Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？
   </span>
   
 
@@ -444,16 +465,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      一、配置环境
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat" class="md-nav__link">
-    <span class="md-ellipsis">
-      二、创建 Hardhat 项目
+      引言：不可变性的两难
     </span>
   </a>
   
@@ -462,44 +474,35 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      三、创建 &amp; 编译智能合约
+      核心思路：数据与逻辑分离
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#hardhat-network" class="md-nav__link">
+  <a href="#delegatecall" class="md-nav__link">
     <span class="md-ellipsis">
-      四、编写测试并运行（基于 Hardhat Network）
+      delegatecall：代理模式的基石
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat-network_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      五、使用 Hardhat Network 调试
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="五、使用 Hardhat Network 调试">
+    <nav class="md-nav" aria-label="delegatecall：代理模式的基石">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#51-solidity-consolelog" class="md-nav__link">
+  <a href="#call-vs-delegatecall" class="md-nav__link">
     <span class="md-ellipsis">
-      5.1 在 Solidity 里直接 console.log
+      call vs delegatecall 对比
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#52" class="md-nav__link">
+  <a href="#call-delegatecall" class="md-nav__link">
     <span class="md-ellipsis">
-      5.2 额外调试抓手
+      动手实验：验证 call 与 delegatecall 的区别
     </span>
   </a>
   
@@ -511,37 +514,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sepolia" class="md-nav__link">
+  <a href="#bug" class="md-nav__link">
     <span class="md-ellipsis">
-      六、部署到 Sepolia 测试网
+      存储槽冲突：一个灾难性的 bug
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="六、部署到 Sepolia 测试网">
+    <nav class="md-nav" aria-label="存储槽冲突：一个灾难性的 bug">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#61-ignition-module" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      6.1 用 Ignition Module 描述部署
+      存储槽的本质
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#62-sepolia-rpc" class="md-nav__link">
+  <a href="#eip-1967" class="md-nav__link">
     <span class="md-ellipsis">
-      6.2 配置 Sepolia RPC 与私钥
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#63" class="md-nav__link">
-    <span class="md-ellipsis">
-      6.3 部署合约
+      解决方案：EIP-1967
     </span>
   </a>
   
@@ -549,6 +543,24 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      一个最简代理合约
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
   
 </li>
       
@@ -556,27 +568,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_proxy_upgrade_series_part1_251229/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -805,16 +796,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      一、配置环境
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat" class="md-nav__link">
-    <span class="md-ellipsis">
-      二、创建 Hardhat 项目
+      引言：不可变性的两难
     </span>
   </a>
   
@@ -823,44 +805,35 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      三、创建 &amp; 编译智能合约
+      核心思路：数据与逻辑分离
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#hardhat-network" class="md-nav__link">
+  <a href="#delegatecall" class="md-nav__link">
     <span class="md-ellipsis">
-      四、编写测试并运行（基于 Hardhat Network）
+      delegatecall：代理模式的基石
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat-network_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      五、使用 Hardhat Network 调试
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="五、使用 Hardhat Network 调试">
+    <nav class="md-nav" aria-label="delegatecall：代理模式的基石">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#51-solidity-consolelog" class="md-nav__link">
+  <a href="#call-vs-delegatecall" class="md-nav__link">
     <span class="md-ellipsis">
-      5.1 在 Solidity 里直接 console.log
+      call vs delegatecall 对比
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#52" class="md-nav__link">
+  <a href="#call-delegatecall" class="md-nav__link">
     <span class="md-ellipsis">
-      5.2 额外调试抓手
+      动手实验：验证 call 与 delegatecall 的区别
     </span>
   </a>
   
@@ -872,37 +845,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sepolia" class="md-nav__link">
+  <a href="#bug" class="md-nav__link">
     <span class="md-ellipsis">
-      六、部署到 Sepolia 测试网
+      存储槽冲突：一个灾难性的 bug
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="六、部署到 Sepolia 测试网">
+    <nav class="md-nav" aria-label="存储槽冲突：一个灾难性的 bug">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#61-ignition-module" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      6.1 用 Ignition Module 描述部署
+      存储槽的本质
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#62-sepolia-rpc" class="md-nav__link">
+  <a href="#eip-1967" class="md-nav__link">
     <span class="md-ellipsis">
-      6.2 配置 Sepolia RPC 与私钥
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#63" class="md-nav__link">
-    <span class="md-ellipsis">
-      6.3 部署合约
+      解决方案：EIP-1967
     </span>
   </a>
   
@@ -910,6 +874,24 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      一个最简代理合约
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
   
 </li>
       
@@ -931,275 +913,363 @@
   
 
 
-  <h1>Hardhat 入门指南（25年更新版）</h1>
+  <h1>Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？</h1>
 
 <blockquote>
-<p>说明：原版发布于 2024-04-15，基于 Node 20.x，Ubuntu 20.04 系统开发，最新版更新于2025-12-12，基于 Node 22.x，Ubuntu 24.04 系统开发。</p>
+<p>本系列共两篇文章，将带你从零到一理解 Solidity 代理合约与可升级合约的核心原理。</p>
 </blockquote>
-<p>Hardhat 是一个以 Node.js/JavaScript 生态为核心的以太坊智能合约开发环境，帮助开发者把「写合约 → 编译 → 测试 → 本地调试 → 部署到测试网/主网」这一系列重复工作自动化与工程化；它内置 Hardhat Network（本地以太坊网络），用于部署、跑测试、调试合约逻辑。  </p>
-<p>在 Hardhat 的设计里：</p>
+<h2 id="_1">引言：不可变性的两难</h2>
+<p>以太坊智能合约有一个核心特性：<strong>不可变性</strong>（Immutability）。一旦部署，合约的字节码就无法修改。</p>
+<p>这是一把双刃剑：</p>
 <ul>
-<li>在命令行每跑一次 <code>npx hardhat xxx</code>，本质上是在执行一个 task；</li>
-<li>大部分能力由 plugins 提供（例如 ethers 集成、chai-matchers、Ignition 部署等），官方推荐初学者使用 <code>@nomicfoundation/hardhat-toolbox</code> 一揽子插件。</li>
+<li><strong>优点</strong>：用户可以信任合约逻辑不会被篡改，这是去中心化和安全性的基石</li>
+<li><strong>缺点</strong>：如果合约存在 bug 或需要新功能，开发者束手无策</li>
 </ul>
-<h2 id="_1">一、配置环境</h2>
-<p>在 Windows 系统使用 VS Code 配置 Ubuntu 24.04 上的开发环境。</p>
-<p>安装 22.x 版 Node.js：</p>
-<pre><code class="language-bash">curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# 查看安装的版本
-node -v
-npm -v
+<p>想象一下：你的 DeFi 协议上线后发现了一个严重漏洞，但你无法修复它——用户资金面临风险，而你只能眼睁睁看着。</p>
+<p>这就是为什么社区发明了<strong>代理合约</strong>（Proxy Contract）和<strong>可升级合约</strong>（Upgradeable Contract）模式。</p>
+<h2 id="_2">核心思路：数据与逻辑分离</h2>
+<p>既然字节码不可变，那我们换个思路：<strong>把数据和逻辑分开存储</strong>。</p>
+<pre><code>┌──────────────────────┐                    ┌──────────────────────┐
+│        Proxy         │                    │    Implementation    │
+│      (代理合约)       │                     │      (逻辑合约)       │
+│                      │   delegatecall     │                      │
+│  - 存储状态变量        │ ────────────────►  │  - 存储业务逻辑         │
+│  - 地址不变           │                    │  - 可被替换            │
+└──────────────────────┘                    └──────────────────────┘
 </code></pre>
-<h2 id="hardhat">二、创建 Hardhat 项目</h2>
-<p>使用 Node.js 的包管理器 <code>npm</code> 来安装 hardhat：</p>
-<p>初始化项目目录与 npm 工程：</p>
-<pre><code class="language-bash">mkdir hardhat-tutorial
-cd hardhat-tutorial
-npm init
+<p>用户始终与代理合约交互，代理合约负责：
+1. 保存所有状态数据
+2. 将函数调用转发给逻辑合约执行</p>
+<p>当需要升级时，只需部署新的逻辑合约，然后更新代理合约中保存的逻辑合约地址即可。用户无需迁移，地址不变，数据保留。</p>
+<h2 id="delegatecall">delegatecall：代理模式的基石</h2>
+<p>要理解代理合约，必须先理解 <code>delegatecall</code>。</p>
+<p>delegatecall 与 call 类似，是 Solidity 中地址类型的低级成员函数，delegate 是委托/代表的意思。</p>
+<p><strong>delegatecall 的本质：借用目标合约的代码，在自己的环境中执行。</strong></p>
+<p>想象一下：你请了一位厨师（逻辑合约）来你家（代理合约）做饭。厨师用的是你家的厨房、你家的食材、你家的餐具。做完饭后，食物留在你家，厨师离开。</p>
+<p>基本形式：</p>
+<pre><code class="language-solidity">(bool success, bytes memory returnData) = implementation.delegatecall(calldata)
 </code></pre>
-<p>安装 Hardhat v2（官方教程使用 <code>hardhat@hh2</code> 这个标签来锁定 v2）：</p>
-<pre><code class="language-bash">npm install --save-dev hardhat@hh2 # 该过程可能比较花时间
-</code></pre>
-<p>初始化 Hardhat 配置文件：</p>
-<pre><code class="language-bash">npx hardhat init    # 选择：Create an empty hardhat.config.js
-</code></pre>
-<p>安装官方推荐插件集合 hardhat-toolbox：</p>
-<pre><code class="language-bash">npm install --save-dev @nomicfoundation/hardhat-toolbox@hh2
-</code></pre>
-<p>在 hardhat.config.js 文件中添加 <code>require("@nomicfoundation/hardhat-toolbox");</code>，这一步完成后，hardhat.config.js 如下：</p>
-<pre><code class="language-javascript">require(&quot;@nomicfoundation/hardhat-toolbox&quot;);
-
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
-  solidity: &quot;0.8.28&quot;,
-};
-</code></pre>
-<p>补充：如果使用 npm install --save-dev hardhat 安装 hardhat 太慢，可以使用 yarn add --dev hardhat 来安装。</p>
-<p>安装 yarn 指令如下：<code>yarn</code> 官方提供了一个 APT 仓库，可以通过它来安装 <code>yarn</code>，配置仓库并导入 Yarn 的 GPG 公钥：</p>
-<pre><code class="language-bash">curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo &quot;deb https://dl.yarnpkg.com/debian/ stable main&quot; | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt-get update
-sudo apt-get install yarn
-yarn --version
-</code></pre>
-<h2 id="_2">三、创建 &amp; 编译智能合约</h2>
-<p>在项目根目录中新建一个 <code>contracts</code> 目录，接下来就可以在 <code>contracts</code> 目录中编写我们的合约代码，以下 MiniToken.sol 参考自 Hardhat 官方教程：</p>
-<pre><code class="language-solidity">// SPDX-License-Identifier:MIT
+<p>这行代码做了什么？</p>
+<ol>
+<li>取 <code>implementation</code> 地址上的代码（runtime bytecode）</li>
+<li>用你提供的 <code>calldata</code> 作为输入</li>
+<li><strong>在当前合约的上下文中执行那段代码</strong></li>
+<li>返回执行是否成功 <code>success</code> 与返回数据 <code>returnData</code></li>
+</ol>
+<p><strong>「当前合约的上下文」具体指什么？</strong></p>
+<ul>
+<li>写入/读取的 <code>storage</code> 是当前合约的 <code>storage</code></li>
+<li><code>address(this)</code> 是当前合约地址</li>
+<li><code>balance</code> 也是当前合约的余额</li>
+<li>事件 <code>emit</code> 的发出者地址（log 的 address）也是当前合约</li>
+</ul>
+<h3 id="call-vs-delegatecall">call vs delegatecall 对比</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>call</th>
+<th>delegatecall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>代码执行位置</td>
+<td>被调用合约</td>
+<td>调用方（即当前合约）</td>
+</tr>
+<tr>
+<td>存储修改位置</td>
+<td>被调用合约的 storage</td>
+<td>调用方（即当前合约）的 storage</td>
+</tr>
+<tr>
+<td>msg.sender</td>
+<td>调用方（即当前合约）地址</td>
+<td>原始外部调用者</td>
+</tr>
+<tr>
+<td>msg.value</td>
+<td>会把 value 转给目标（如果设置 <code>{value: ...}</code>）</td>
+<td>不会把 ETH 转到实现合约；value 仍在当前合约，但实现代码能"看到"这笔 msg.value</td>
+</tr>
+<tr>
+<td>address(this)</td>
+<td>被调用合约地址</td>
+<td>调用方（即当前合约）地址</td>
+</tr>
+<tr>
+<td>事件 emitter 地址</td>
+<td>被调用合约地址</td>
+<td>调用方（即当前合约）地址</td>
+</tr>
+</tbody>
+</table>
+<h3 id="call-delegatecall">动手实验：验证 call 与 delegatecall 的区别</h3>
+<p>下面的实验将验证：
+- <strong>call</strong>：修改的是被调用合约（Logic）的存储，事件从 Logic 发出
+- <strong>delegatecall</strong>：修改的是调用方（Caller）的存储，事件从 Caller 发出</p>
+<p><strong>Logic.sol</strong> - 被调用的逻辑合约：</p>
+<pre><code class="language-solidity">// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
-import &quot;hardhat/console.sol&quot;;
 
-contract MiniToken {
-    string public name = &quot;Mini Hardhat Token&quot;;
-    string public symbol = &quot;MHT&quot;;
-    uint256 public totalSupply = 1000000;
+contract Logic {
+    uint256 public value;
 
-    address public owner;
-    mapping(address =&gt; uint256) private balances;
+    event ValueChanged(address indexed caller, uint256 indexed newValue);
 
-    event Transfer(address indexed from, address indexed to, uint256 value);
-
-    constructor() {
-        owner = msg.sender;
-        balances[msg.sender] = totalSupply;
-    }
-
-    function balanceOf(address account) external view returns (uint256) {
-        return balances[account];
-    }
-
-    function transfer(address to, uint256 amount) external {
-        require(balances[msg.sender] &gt;= amount, &quot;Not enough tokens&quot;);
-        balances[msg.sender] -= amount;
-        balances[to] += amount;
-
-        emit Transfer(msg.sender, to, amount);
+    function setValue(uint256 newValue) external returns (bool) {
+        value = newValue;
+        emit ValueChanged(msg.sender, value);
+        return true;
     }
 }
 </code></pre>
-<p>注：可以在 VS Code 中安装 hardhat 的扩展程序 Solidity by Nomic Foundation。</p>
-<p>合约代码编写完后，使用 <code>npx hardhat compile</code> 指令编译。</p>
-<h2 id="hardhat-network">四、编写测试并运行（基于 Hardhat Network）</h2>
-<p>Hardhat 默认网络就是 Hardhat Network，跑测试无需额外启动节点或配置。官方教程用 ethers.js + Mocha + Chai 来写测试。</p>
-<p>在根目录中新建一个目录 <code>test</code>，添加如下 MiniToken.js 文件：</p>
-<pre><code class="language-javascript">const { expect } = require(&quot;chai&quot;);
+<p><strong>Caller.sol</strong> - 发起调用的合约：</p>
+<pre><code class="language-solidity">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.28;
 
-describe(&quot;MiniToken&quot;, function () {
-  it(&quot;部署后：部署者应拿到全部 totalSupply&quot;, async function () {
-    const [owner] = await ethers.getSigners();
-    const token = await ethers.deployContract(&quot;MiniToken&quot;);
+import &quot;./Logic.sol&quot;;
 
-    const ownerBalance = await token.balanceOf(owner.address);
-    expect(await token.totalSupply()).to.equal(ownerBalance);
-  });
+contract Caller {
+    uint256 public value;
 
-  it(&quot;转账：应能在不同账户间转移余额&quot;, async function () {
-    const [owner, addr1, addr2] = await ethers.getSigners();
-    const token = await ethers.deployContract(&quot;MiniToken&quot;);
+    event LowLevelCall(bool success, bytes returnData, bool parsedOk);
 
-    await token.transfer(addr1.address, 50);
-    expect(await token.balanceOf(addr1.address)).to.equal(50);
+    function callSetValue(address logic, uint256 _value) external {
+        (bool success, bytes memory returnData) = logic.call(
+            abi.encodeCall(Logic.setValue, (_value))
+        );
+        bool parsedOk = _parseBoolReturn(success, returnData);
+        emit LowLevelCall(success, returnData, parsedOk);
+        require(parsedOk, &quot;Call failed&quot;);
+    }
 
-    await token.connect(addr1).transfer(addr2.address, 50);
-    expect(await token.balanceOf(addr2.address)).to.equal(50);
-  });
+    function delegateSetValue(address logic, uint256 _value) external {
+        (bool success, bytes memory returnData) = logic.delegatecall(
+            abi.encodeCall(Logic.setValue, (_value))
+        );
+        bool parsedOk = _parseBoolReturn(success, returnData);
+        emit LowLevelCall(success, returnData, parsedOk);
+        require(parsedOk, &quot;Delegatecall failed&quot;);
+    }
 
-  it(&quot;失败用例：余额不足应 revert&quot;, async function () {
-    const [, addr1, addr2] = await ethers.getSigners();
-    const token = await ethers.deployContract(&quot;MiniToken&quot;);
-
-    await expect(token.connect(addr1).transfer(addr2.address, 1))
-      .to.be.revertedWith(&quot;Not enough tokens&quot;);
-  });
-});
-</code></pre>
-<p>执行<code>npx hardhat test</code>指令，测试结果如下：</p>
-<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat test
-
-
-  MiniToken
-    ✔ 部署后：部署者应拿到全部 totalSupply (486ms)
-    ✔ 转账：应能在不同账户间转移余额
-    ✔ 失败用例：余额不足应 revert
-
-
-  3 passing (537ms)
-
-</code></pre>
-<p>官方教程还推荐用 <code>loadFixture</code> 做测试夹具与快照回滚，提高测试速度并减少重复部署代码。</p>
-<h2 id="hardhat-network_1">五、使用 Hardhat Network 调试</h2>
-<h3 id="51-solidity-consolelog">5.1 在 Solidity 里直接 console.log</h3>
-<p>Hardhat Network 支持在 Solidity 代码中调用 <code>console.log()</code> 输出日志信息、合约变量，用法是在合约代码中导入 <code>import "hardhat/console.sol";</code> 并在函数里打印。</p>
-<p>示例：编辑 <code>contracts/MiniToken.sol</code>，在 <code>transfer()</code> 中加入日志：</p>
-<pre><code class="language-solidity">import &quot;hardhat/console.sol&quot;;
-
-function transfer(address to, uint256 amount) external {
-    require(balances[msg.sender] &gt;= amount, &quot;Not enough tokens&quot;);
-
-    console.log(
-        &quot;Transferring from %s to %s %s tokens&quot;,
-        msg.sender,
-        to,
-        amount
-    );
-
-    balances[msg.sender] -= amount;
-    balances[to] += amount;
-    emit Transfer(msg.sender, to, amount);
+    /// @dev 兼容两类返回：
+    /// - 无返回值：returnData.length == 0，但 success == true
+    /// - 返回 bool：returnData 编码了 bool（32 bytes）
+    /// 注意：如果目标函数返回的是其他类型（例如 uint256），这里不适用。
+    function _parseBoolReturn(bool success, bytes memory returnData) internal pure returns (bool) {
+        if (!success) return false;
+        // 目标函数没有返回值的常见情况：成功时 returnData 为空
+        if (returnData.length == 0) return true;
+        // 如果确实返回了数据，且长度符合 bool ABI 编码（32 bytes），尝试 decode
+        if (returnData.length == 32) {
+            return abi.decode(returnData, (bool));
+        }
+        // 其他长度：无法按 bool 解析，保守处理为失败（也可以选择直接 return true）
+        return false;
+    }
 }
 </code></pre>
-<p>再跑一次测试指令<code>npx hardhat test</code>，会在测试输出中看到转账日志：</p>
-<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat test
-Compiled 2 Solidity files successfully (evm target: paris).
-
-
-  MiniToken
-    ✔ 部署后：部署者应拿到全部 totalSupply (471ms)
-Transferring from 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 to 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 50 tokens
-Transferring from 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 to 0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc 50 tokens
-    ✔ 转账：应能在不同账户间转移余额
-    ✔ 失败用例：余额不足应 revert
-
-
-  3 passing (520ms)
-</code></pre>
-<p>注意点（来自 Hardhat Network 参考文档）：</p>
+<p><strong>实验步骤</strong>：</p>
+<ol>
+<li>部署 Logic 合约，调用 <code>setValue(123)</code>，此时 <code>Logic.value = 123</code></li>
+<li>部署 Caller 合约</li>
+<li>调用 <code>Caller.callSetValue(Logic地址, 456)</code></li>
+<li>调用 <code>Caller.delegateSetValue(Logic地址, 789)</code></li>
+</ol>
+<p><strong>预期结果</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>Logic.value</th>
+<th>Caller.value</th>
+<th>ValueChanged 事件来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初始</td>
+<td>123</td>
+<td>0</td>
+<td>-</td>
+</tr>
+<tr>
+<td>callSetValue(456)</td>
+<td><strong>456</strong></td>
+<td>0</td>
+<td>Logic 合约</td>
+</tr>
+<tr>
+<td>delegateSetValue(789)</td>
+<td>456（不变）</td>
+<td><strong>789</strong></td>
+<td>Caller 合约</td>
+</tr>
+</tbody>
+</table>
+<p>以下是某次实验的部署信息：</p>
 <ul>
-<li><code>console.log</code> 可在 call/transaction 中使用，<code>view</code> 可用，但 <code>pure</code> 不行；</li>
-<li>需要<code>import "hardhat/console.sol"</code>；</li>
-<li><code>console.log</code> 最多支持 4 个参数，且有明确的类型范围与若干单参 API。</li>
+<li>部署者地址：0x1d477b7733Fe1347eE91e8D15f8c7f203E147AA0</li>
+<li>Logic 合约地址：0x6e84C52c6fE239AB2288C07cA2E5b4bF09fBD894</li>
+<li>Caller 合约地址：0xcCe7de7ae33b8C5721e5777f0237D273111F7F2a</li>
 </ul>
-<h3 id="52">5.2 额外调试抓手</h3>
-<p><strong>失败堆栈</strong>：Hardhat Network 默认会在交易失败时抛出“JavaScript + Solidity”的组合堆栈信息（便于定位 revert 触发点）。</p>
-<p><strong>in-process vs JSON-RPC node</strong>：测试时用的是 in-process Hardhat Network；如果用 <code>node</code> 任务启动 JSON-RPC server（便于前端/钱包连接），日志与行为会略有不同（例如 loggingEnabled 默认值对 in-process 与 node 有差异）。</p>
-<h2 id="sepolia">六、部署到 Sepolia 测试网</h2>
-<h3 id="61-ignition-module">6.1 用 Ignition Module 描述部署</h3>
-<p>Ignition 的部署入口是 Module，放在 <code>ignition/modules</code> 目录下。</p>
-<p>创建 <code>ignition/modules/MiniToken.js</code> 文件如下：</p>
-<pre><code class="language-javascript">const { buildModule } = require(&quot;@nomicfoundation/hardhat-ignition/modules&quot;);
+<p>调用 <code>callSetValue</code> 后，Logic.value 变成 456，事件从 Logic 合约发出：</p>
+<p><img alt="call 调用结果" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_1.png" /></p>
+<p>来源：https://sepolia.etherscan.io/address/0x6e84c52c6fe239ab2288c07ca2e5b4bf09fbd894#events</p>
+<p>调用 <code>delegateSetValue</code> 后，Logic.value 不变，但 Caller.value 变成 789，事件从 Caller 合约发出：</p>
+<p><img alt="delegatecall 调用结果" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_2.png" /></p>
+<p>来源：https://sepolia.etherscan.io/address/0xcce7de7ae33b8c5721e5777f0237d273111f7f2a#events</p>
+<h2 id="bug">存储槽冲突：一个灾难性的 bug</h2>
+<p><code>delegatecall</code> 有一个关键细节：<strong>它按存储槽位置操作，而非变量名称</strong>。</p>
+<p>看这个有问题的例子：</p>
+<pre><code class="language-solidity">contract Called {
+    uint256 public number;  // slot 0
 
-const TokenModule = buildModule(&quot;TokenModule&quot;, (m) =&gt; {
-  const token = m.contract(&quot;Token&quot;);
-
-  return { token };
-});
-
-module.exports = TokenModule;
-</code></pre>
-<h3 id="62-sepolia-rpc">6.2 配置 Sepolia RPC 与私钥</h3>
-<p>部署到远程测试网络需要在 <code>hardhat.config.js</code> 中配置 RPC 信息，然后在部署指令中使用 <code>--network</code>参数告知 Hardhat 连接到哪个网络。</p>
-<p>注册一个 <a href="https://www.alchemy.com/">Alchemy</a> 账户， 然后创建一个 Ethereum Sepolia 的 App，获取该 App 的 API key。</p>
-<p>从虚拟钱包发出的每一笔交易都需要使用<code>private key</code>来签名，该步骤通过把钱包地址的 private key、alchemy API key 存储在一个 environment file 中，来为程序提供必要的访问权限。</p>
-<p>通过<code>npm install dotenv</code>指令安装 dotenv 模块，以便读取<code>.env</code>文件：</p>
-<pre><code class="language-plain">ALCHEMY_API_KEY = &quot;xxx&quot;
-SEPOLIA_PRIVATE_KEY = &quot;xxx&quot;
-</code></pre>
-<p>注：测试用的钱包地址中不要放置任何真实资产。</p>
-<p>在<code>hardhat.config.js</code>文件中添加配置，以便部署到 Sepolia 测试网：</p>
-<pre><code class="language-javascript">require(&quot;@nomicfoundation/hardhat-toolbox&quot;);
-require(&quot;dotenv&quot;).config();
-
-const { ALCHEMY_API_KEY, SEPOLIA_PRIVATE_KEY } = process.env;
-
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
-  solidity: &quot;0.8.28&quot;,
-  networks: {
-    sepolia: {
-      url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      accounts: [SEPOLIA_PRIVATE_KEY],
-    },
-  },
-};
-</code></pre>
-<h3 id="63">6.3 部署合约</h3>
-<p>到目前为止，已经可以完成最后的部署了，在终端中执行如下指令：</p>
-<pre><code class="language-shell">$ npx hardhat ignition deploy ./ignition/modules/MiniToken.js --network sepolia
-[dotenv@17.2.3] injecting env (2) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
-✔ Confirm deploy to network sepolia (11155111)? … yes
-[ MiniTokenModule ] Nothing new to deploy based on previous execution stored in ./ignition/deployments/chain-11155111
-
-Deployed Addresses
-
-MiniTokenModule#MiniToken - 0x07831829b9F8182eE65B446adc7cD6Dc0Ba61b6D
-</code></pre>
-<p>Hardhat 也支持通过脚本来部署合约。在项目根目录下新建<code>scripts/</code> 目录，将 JS 编写的部署脚本 <code>deploy.js</code> 放在该<code>scripts/</code> 目录中，最后执行 <code>npx hardhat run scripts/deploy.js --network sepolia</code>就可以了。</p>
-<pre><code class="language-javascript">const hre = require(&quot;hardhat&quot;);
-
-async function main() {
-  const [deployer] = await hre.ethers.getSigners();
-
-  const balance = await hre.ethers.provider.getBalance(deployer.address);
-  console.log(&quot;Deployer:&quot;, deployer.address);
-  console.log(&quot;Deployer balance:&quot;, hre.ethers.formatEther(balance), &quot;ETH&quot;);
-
-  // 推荐写法：hardhat-ethers 提供 ethers.deployContract
-  const token = await hre.ethers.deployContract(&quot;MiniToken&quot;);
-  await token.waitForDeployment();
-
-  // ethers v6 合约地址常用 token.target（或 await token.getAddress()）
-  console.log(&quot;MiniToken deployed to:&quot;, token.target);
-
-  const tx = token.deploymentTransaction();
-  console.log(&quot;Deployment tx hash:&quot;, tx.hash);
+    function increment() public {
+        number++;
+    }
 }
 
-main().catch((err) =&gt; {
-  console.error(err);
-  process.exitCode = 1;
-});
+contract Caller {
+    address public implementation;  // slot 0  ← 危险！
+    uint256 public myNumber;        // slot 1
+
+    function callIncrement() public {
+        implementation.delegatecall(
+            abi.encodeWithSignature(&quot;increment()&quot;)
+        );
+    }
+}
 </code></pre>
-<p>执行结果大致如下：</p>
-<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat run scripts/deploy.js --network sepolia
-[dotenv@17.2.3] injecting env (2) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
-[dotenv@17.2.3] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
-Deployer: 0x84B62e4c0766414a867A5aCc7BCa14901B3c713C
-Deployer balance: 0.508237594610744345 ETH
-MiniToken deployed to: 0xEc2E9d1ddEb8d6b1F695c23512afaa70d716458e
-Deployment tx hash: 0x421c29757589388e092d52d48bf65d89060bb725cfc96a9b02497557b64bd8fa
+<p>问题在于：<code>Called.number</code> 和 <code>Caller.implementation</code> 都在 slot 0。</p>
+<p>当执行 <code>increment()</code> 时，它会递增 slot 0 的值——但在 <code>Caller</code> 中，slot 0 存储的是 <code>implementation</code> 地址，而不是 <code>myNumber</code>！</p>
+<p><strong>结果</strong>：逻辑合约地址被意外修改，代理合约可能彻底损坏。</p>
+<h3 id="_3">存储槽的本质</h3>
+<p>EVM 的存储是一个巨大的 key-value 映射：</p>
+<ul>
+<li>key：0 到 2²⁵⁶-1 的整数（存储槽编号）</li>
+<li>value：32 字节的数据</li>
+</ul>
+<p><img alt="EVM 存储槽结构" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_3.png" /></p>
+<p>Solidity 编译器默认从 slot 0 开始分配变量，这就是冲突的根源。</p>
+<h3 id="eip-1967">解决方案：EIP-1967</h3>
+<p>核心思想：把代理合约的关键变量放到「不可能冲突」的位置。</p>
+<p>2²⁵⁶ 是一个天文数字，如果我们随机选一个槽位，实现合约几乎不可能碰巧用到同一个槽。</p>
+<p>EIP-1967 定义了两个特殊槽位：</p>
+<pre><code class="language-solidity">// 逻辑合约地址存储槽
+bytes32 constant IMPLEMENTATION_SLOT = 
+    bytes32(uint256(keccak256(&quot;eip1967.proxy.implementation&quot;)) - 1);
+// = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
+
+// 管理员地址存储槽  
+bytes32 constant ADMIN_SLOT = 
+    bytes32(uint256(keccak256(&quot;eip1967.proxy.admin&quot;)) - 1);
+// = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103
 </code></pre>
-<p>参考资料：<a href="https://v2.hardhat.org/tutorial">Hardhat's tutorial for beginners</a></p>
+<p><strong>为什么要减 1？</strong></p>
+<p><code>keccak256("...") - 1</code> 的设计很巧妙：</p>
+<ul>
+<li><code>keccak256</code> 生成伪随机数</li>
+<li>减 1 使得结果没有已知的哈希原像</li>
+</ul>
+<p>这意味着没有任何合约能通过 Solidity 的正常语法「算出」这个槽位——除非故意硬编码。</p>
+<p><strong>EIP-1967 只规定了两件事</strong>：</p>
+<ol>
+<li>关键变量存在哪里</li>
+<li>变量变化时发出什么事件</li>
+</ol>
+<p><strong>它不规定</strong>：谁能修改这些变量、如何升级合约、如何处理函数选择器冲突。这些问题由其他标准解决（透明代理、UUPS 等）。</p>
+<p><strong>Etherscan 如何识别代理？</strong></p>
+<p>当 Etherscan 检测到合约在 EIP-1967 槽位存有非零值时，它会：</p>
+<ol>
+<li>标记该合约为代理合约</li>
+<li>显示实现合约地址</li>
+<li>提供「Read as Proxy」和「Write as Proxy」选项</li>
+</ol>
+<p>这就是 EIP-1967 带来的标准化好处——工具链可以自动识别代理模式。</p>
+<h2 id="_4">一个最简代理合约</h2>
+<p>理解了原理，我们来看一个基础实现：</p>
+<p><strong>SimpleProxy.sol</strong>：</p>
+<pre><code class="language-solidity">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract SimpleProxy {
+    bytes32 private constant IMPLEMENTATION_SLOT = 
+        0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
+
+    constructor(address _implementation) {
+        assembly {
+            sstore(IMPLEMENTATION_SLOT, _implementation)
+        }
+    }
+
+    fallback(bytes calldata data) external payable returns (bytes memory) {
+        address impl;
+        assembly {
+            impl := sload(IMPLEMENTATION_SLOT)
+        }
+
+        (bool success, bytes memory result) = impl.delegatecall(data);
+        require(success, &quot;Delegatecall failed&quot;);
+        return result;
+    }
+}
+</code></pre>
+<p><strong>User.sol</strong> - 模拟用户调用流程核心代码：</p>
+<pre><code class="language-solidity">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.28;
+
+/// @notice 用 Logic 的 ABI 去调用 Proxy
+interface ILogic {
+    function setValue(uint256 newValue) external returns (bool);
+    function value() external view returns (uint256);
+}
+
+/// @notice 模拟完整的代理调用流程
+contract User {
+    /// @notice 演示：用户 -&gt; Proxy -&gt; delegatecall -&gt; Logic 代码 -&gt; 写 Proxy 存储
+    function demo(address proxy, address logic, uint256 newValue) 
+        public
+        returns (uint256 proxyValue, uint256 logicValue, bool success)
+    {
+        // 通过 Proxy 调用 setValue（会触发 fallback -&gt; delegatecall）
+        success = ILogic(proxy).setValue(newValue);
+
+        // 读取 Proxy 的 value（delegatecall 写入的是 Proxy 的存储）
+        proxyValue = ILogic(proxy).value();
+
+        // 对比 Logic 自身的 value（应该不变）
+        logicValue = ILogic(logic).value();
+    }
+}
+</code></pre>
+<p>完整代码地址：<a href="../../../assets/codes/mini_proxy_case/User.sol">最简代理合约演示程序</a></p>
+<p><strong>工作流程</strong>：</p>
+<ol>
+<li>用户调用代理合约的某个函数（如 <code>setValue()</code>）</li>
+<li>代理合约没有这个函数，触发 <code>fallback</code></li>
+<li><code>fallback</code> 从 EIP-1967 存储槽读取逻辑合约地址</li>
+<li>使用 <code>delegatecall</code> 将调用转发给逻辑合约</li>
+<li>逻辑合约的代码在代理合约的存储上执行</li>
+</ol>
+<h2 id="_5">小结</h2>
+<p>本篇我们介绍了：</p>
+<ol>
+<li><strong>为什么需要可升级合约</strong>：平衡不可变性与可维护性</li>
+<li><strong>delegatecall 的工作原理</strong>：借用代码，本地执行</li>
+<li><strong>存储槽冲突问题</strong>：以及 EIP-1967 的解决方案</li>
+<li><strong>最简代理合约</strong>：基础实现框架</li>
+</ol>
+<p>但这个简单实现还有一个严重问题：<strong>函数选择器冲突</strong>（Function Selector Clash）。</p>
+<p>举个例子：如果代理合约有一个 <code>upgrade()</code> 函数用于升级，而逻辑合约恰好也有业务函数叫 <code>upgrade()</code>，会发生什么？用户调用时，EVM 会优先匹配代理合约的函数，逻辑合约的同名函数将永远无法被调用！</p>
+<p>下一篇，我们将深入探讨两大主流代理模式：<strong>透明代理</strong>（Transparent Proxy）和 <strong>UUPS</strong>，看它们如何优雅地解决这个问题。</p>
+<p><strong>系列导航</strong></p>
+<ul>
+<li>第一篇：Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？（本篇）</li>
+<li>第二篇：<a href="../solidity_proxy_upgrade_series_part2_251230/">Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS</a></li>
+</ul>
 
 
 
