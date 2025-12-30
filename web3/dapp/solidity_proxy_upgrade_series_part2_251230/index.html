@@ -1061,15 +1061,15 @@
 <p>透明代理的核心思路很简单：<strong>代理合约除了 fallback，不暴露任何公开函数</strong>。</p>
 <p>但没有公开函数，怎么升级？答案是：<strong>通过 msg.sender 来区分调用者</strong>。</p>
 <pre><code>┌──────────────────────────────────────────────────┐
-│              透明代理的路由规则                     │
+│              透明代理的路由规则                 │
 ├──────────────────────────────────────────────────┤
-│  调用者 = 管理员?                                  │
-│     │                                            │
-│     ├── 是 → 执行代理合约自身的管理函数               │
-│     │        (upgrade、changeAdmin 等)            │
-│     │                                            │
-│     └── 否 → 全部 delegatecall 到实现合约           │
-│              (即使调用的是 upgrade)                │
+│  调用者 = 管理员?                              │
+│     │                                        │
+│     ├── 是 → 执行代理合约自身的管理函数           │
+│     │        (upgrade、changeAdmin 等)        │
+│     │                                        │
+│     └── 否 → 全部 delegatecall 到实现合约       │
+│              (即使调用的是 upgrade)            │
 └──────────────────────────────────────────────────┘
 </code></pre>
 <p><strong>为什么叫「透明」？</strong></p>
@@ -1098,7 +1098,7 @@
 <p>但上述设计有个问题：admin 无法直接使用合约功能，因为它的调用会被路由到升级逻辑。</p>
 <p>OpenZeppelin 的解决方案是引入 <strong>ProxyAdmin</strong> 合约：</p>
 <pre><code>┌───────────────┐       ┌─────────────────┐       ┌──────────────────┐
-│  Owner (EOA)  │──────►│   ProxyAdmin    │──────►│ TransparentProxy │
+│ Owner (EOA)  │──────►│   ProxyAdmin   │──────►│ TransparentProxy│
 └───────────────┘       └─────────────────┘       └──────────────────┘
 </code></pre>
 <ul>
@@ -1147,10 +1147,10 @@
 <h2 id="uups">解决方案二：UUPS（通用可升级代理标准）</h2>
 <p>UUPS（ERC-1822）采用了不同的策略：<strong>把升级逻辑放在逻辑合约中</strong>。</p>
 <pre><code>┌─────────────────────┐            ┌─────────────────────┐
-│     UUPSProxy       │            │    Implementation   │
-│                     │            │                     │
-│  - 只有 fallback     │◄─────────► │  - 业务逻辑          │
-│  - 无升级逻辑         │delegatecall│  - upgrade() 函数    │
+│    UUPSProxy      │            │    Implementation │
+│                   │            │                   │
+│ - 只有 fallback    │◄──────────► │  - 业务逻辑        │
+│ - 无升级逻辑        │delegatecall│  - upgrade() 函数  │
 └─────────────────────┘            └─────────────────────┘
 </code></pre>
 <h3 id="_2">升级是如何工作的？</h3>
@@ -1280,17 +1280,17 @@ contract ImplV2 {
   用户                    Owner
    │                        │
    ▼                        ▼
-┌──────────────────┐   ┌─────────────┐
-│ TransparentProxy │◄──│ ProxyAdmin  │
-│                  │   └─────────────┘
-│  检查 msg.sender  │
-│  ├─ admin → 升级  │
-│  └─ 其他 → 转发    │
+┌──────────────────┐    ┌─────────────┐
+│ TransparentProxy│◄── │ ProxyAdmin │
+│                 │    └─────────────┘
+│  检查 msg.sender │
+│  ├─ admin → 升级 │
+│  └─ 其他 → 转发   │
 └────────┬─────────┘
          │ delegatecall
          ▼
 ┌──────────────────┐
-│  Implementation  │  ← 纯业务逻辑
+│ Implementation  │  ← 纯业务逻辑
 └──────────────────┘
 
 
@@ -1300,14 +1300,14 @@ contract ImplV2 {
        │
        ▼
 ┌──────────────────┐
-│    UUPSProxy     │  ← 极简，只有 fallback
+│   UUPSProxy     │  ← 极简，只有 fallback
 └────────┬─────────┘
-         │ delegatecall
-         ▼
+        │ delegatecall
+        ▼
 ┌──────────────────┐
-│  Implementation  │  ← 业务逻辑 + 升级逻辑
-│                  │
-│  upgradeTo()     │
+│  Implementation │  ← 业务逻辑 + 升级逻辑
+│                 │
+│  upgradeTo()    │
 │  _authorizeUpgrade()
 └──────────────────┘
 </code></pre>

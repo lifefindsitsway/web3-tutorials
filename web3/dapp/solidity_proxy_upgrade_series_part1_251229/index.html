@@ -930,19 +930,19 @@
 <h2 id="_2">核心思路：数据与逻辑分离</h2>
 <p>既然字节码不可变，那我们换个思路：<strong>把数据和逻辑分开存储</strong>。</p>
 <pre><code>┌──────────────────────┐                    ┌──────────────────────┐
-│        Proxy         │                    │    Implementation    │
-│      (代理合约)       │                     │      (逻辑合约)       │
-│                      │   delegatecall     │                      │
-│  - 存储状态变量        │ ────────────────►  │  - 存储业务逻辑         │
-│  - 地址不变           │                    │  - 可被替换            │
+│        Proxy        │                   │    Implementation   │
+│      (代理合约)      │                    │      (逻辑合约)      │
+│                     │   delegatecall    │                     │
+│  - 存储状态变量       │ ────────────────►  │  - 存储业务逻辑        │
+│  - 地址不变          │                   │  - 可被替换           │
 └──────────────────────┘                    └──────────────────────┘
 </code></pre>
-<p>用户始终与代理合约交互，代理合约负责：
-1. 保存所有状态数据
-2. 将函数调用转发给逻辑合约执行</p>
+<p>用户始终与代理合约交互，代理合约负责：</p>
+<p>1.保存所有状态数据</p>
+<p>2.将函数调用转发给逻辑合约执行</p>
 <p>当需要升级时，只需部署新的逻辑合约，然后更新代理合约中保存的逻辑合约地址即可。用户无需迁移，地址不变，数据保留。</p>
 <h2 id="delegatecall">delegatecall：代理模式的基石</h2>
-<p>要理解代理合约，必须先理解 <code>delegatecall</code>。</p>
+<p>要理解代理合约，必须先理解 delegatecall。</p>
 <p>delegatecall 与 call 类似，是 Solidity 中地址类型的低级成员函数，delegate 是委托/代表的意思。</p>
 <p><strong>delegatecall 的本质：借用目标合约的代码，在自己的环境中执行。</strong></p>
 <p>想象一下：你请了一位厨师（逻辑合约）来你家（代理合约）做饭。厨师用的是你家的厨房、你家的食材、你家的餐具。做完饭后，食物留在你家，厨师离开。</p>
@@ -956,7 +956,7 @@
 <li><strong>在当前合约的上下文中执行那段代码</strong></li>
 <li>返回执行是否成功 <code>success</code> 与返回数据 <code>returnData</code></li>
 </ol>
-<p><strong>「当前合约的上下文」具体指什么？</strong></p>
+<p>「当前合约的上下文」具体指什么？</p>
 <ul>
 <li>写入/读取的 <code>storage</code> 是当前合约的 <code>storage</code></li>
 <li><code>address(this)</code> 是当前合约地址</li>
@@ -990,7 +990,7 @@
 </tr>
 <tr>
 <td>msg.value</td>
-<td>会把 value 转给目标（如果设置 <code>{value: ...}</code>）</td>
+<td>会把 value 转给目标（如果设置 {value: ...}）</td>
 <td>不会把 ETH 转到实现合约；value 仍在当前合约，但实现代码能"看到"这笔 msg.value</td>
 </tr>
 <tr>
@@ -1006,10 +1006,12 @@
 </tbody>
 </table>
 <h3 id="call-delegatecall">动手实验：验证 call 与 delegatecall 的区别</h3>
-<p>下面的实验将验证：
-- <strong>call</strong>：修改的是被调用合约（Logic）的存储，事件从 Logic 发出
-- <strong>delegatecall</strong>：修改的是调用方（Caller）的存储，事件从 Caller 发出</p>
-<p><strong>Logic.sol</strong> - 被调用的逻辑合约：</p>
+<p>下面的实验将验证：</p>
+<ul>
+<li><strong>call</strong>：修改的是被调用合约（Logic）的存储，事件从 Logic 发出</li>
+<li><strong>delegatecall</strong>：修改的是调用方（Caller）的存储，事件从 Caller 发出</li>
+</ul>
+<p>Logic.sol - 被调用的逻辑合约：</p>
 <pre><code class="language-solidity">// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
@@ -1025,7 +1027,7 @@ contract Logic {
     }
 }
 </code></pre>
-<p><strong>Caller.sol</strong> - 发起调用的合约：</p>
+<p>Caller.sol - 发起调用的合约：</p>
 <pre><code class="language-solidity">// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
@@ -1073,10 +1075,10 @@ contract Caller {
 </code></pre>
 <p><strong>实验步骤</strong>：</p>
 <ol>
-<li>部署 Logic 合约，调用 <code>setValue(123)</code>，此时 <code>Logic.value = 123</code></li>
+<li>部署 Logic 合约，调用 setValue(123)，此时 Logic.value = 123</li>
 <li>部署 Caller 合约</li>
-<li>调用 <code>Caller.callSetValue(Logic地址, 456)</code></li>
-<li>调用 <code>Caller.delegateSetValue(Logic地址, 789)</code></li>
+<li>调用 Caller.callSetValue(Logic地址, 456)</li>
+<li>调用 Caller.delegateSetValue(Logic地址, 789)</li>
 </ol>
 <p><strong>预期结果</strong>：</p>
 <table>
@@ -1115,14 +1117,14 @@ contract Caller {
 <li>Logic 合约地址：0x6e84C52c6fE239AB2288C07cA2E5b4bF09fBD894</li>
 <li>Caller 合约地址：0xcCe7de7ae33b8C5721e5777f0237D273111F7F2a</li>
 </ul>
-<p>调用 <code>callSetValue</code> 后，Logic.value 变成 456，事件从 Logic 合约发出：</p>
+<p>调用 callSetValue 后，Logic.value 变成 456，事件从 Logic 合约发出：</p>
 <p><img alt="call 调用结果" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_1.png" /></p>
 <p>来源：https://sepolia.etherscan.io/address/0x6e84c52c6fe239ab2288c07ca2e5b4bf09fbd894#events</p>
-<p>调用 <code>delegateSetValue</code> 后，Logic.value 不变，但 Caller.value 变成 789，事件从 Caller 合约发出：</p>
+<p>调用 delegateSetValue 后，Logic.value 不变，但 Caller.value 变成 789，事件从 Caller 合约发出：</p>
 <p><img alt="delegatecall 调用结果" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_2.png" /></p>
 <p>来源：https://sepolia.etherscan.io/address/0xcce7de7ae33b8c5721e5777f0237d273111f7f2a#events</p>
 <h2 id="bug">存储槽冲突：一个灾难性的 bug</h2>
-<p><code>delegatecall</code> 有一个关键细节：<strong>它按存储槽位置操作，而非变量名称</strong>。</p>
+<p>delegatecall 有一个关键细节：<strong>它按存储槽位置操作，而非变量名称</strong>。</p>
 <p>看这个有问题的例子：</p>
 <pre><code class="language-solidity">contract Called {
     uint256 public number;  // slot 0
@@ -1143,8 +1145,8 @@ contract Caller {
     }
 }
 </code></pre>
-<p>问题在于：<code>Called.number</code> 和 <code>Caller.implementation</code> 都在 slot 0。</p>
-<p>当执行 <code>increment()</code> 时，它会递增 slot 0 的值——但在 <code>Caller</code> 中，slot 0 存储的是 <code>implementation</code> 地址，而不是 <code>myNumber</code>！</p>
+<p>问题在于：Called.number 和 Caller.implementation 都在 slot 0。</p>
+<p>当执行 increment() 时，它会递增 slot 0 的值——但在 Caller 中，slot 0 存储的是 implementation 地址，而不是 <code>myNumber</code>！</p>
 <p><strong>结果</strong>：逻辑合约地址被意外修改，代理合约可能彻底损坏。</p>
 <h3 id="_3">存储槽的本质</h3>
 <p>EVM 的存储是一个巨大的 key-value 映射：</p>
