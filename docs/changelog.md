@@ -1,3 +1,5 @@
+- 2025-12-30：[Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS](./web3/dapp/solidity_proxy_upgrade_series_part2_251230.md)
+- 2025-12-29：[Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？](./web3/dapp/solidity_proxy_upgrade_series_part1_251229.md)
 - 2025-12-27：[Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2](./web3/dapp/solidity_contract_call_part3_251227.md)
 - 2025-12-23：[Solidity 合约间调用（二）：底层调用与 calldata 详解](./web3/dapp/solidity_contract_call_part2_251223.md)
 - 2025-12-21：[Solidity 合约间调用（一）：四种方式调用已部署合约](./web3/dapp/solidity_contract_call_part1_251221.md)
