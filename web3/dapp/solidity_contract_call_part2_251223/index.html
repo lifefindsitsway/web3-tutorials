@@ -1029,7 +1029,7 @@ abi.encodeWithSelector(bytes4(keccak256(bytes(sig))), args...)
 <h3 id="3-abiencodecall">3. abi.encodeCall（推荐）</h3>
 <p>Solidity 0.8.11 引入，<strong>类型安全</strong>：</p>
 <pre><code class="language-solidity">bytes memory data = abi.encodeCall(
-    IERC20.transfer,    // 函数指针，通常来自接口/合约名的函数成员
+    IERC20.transfer,    // 函数指针，通常来自接口、合约名的函数成员
     (to, amount)        // 参数元组
 );
 </code></pre>
@@ -1191,9 +1191,9 @@ contract TransferViaCall {
 <p>下一篇，我们学习如何创建合约：<code>create</code> 和 <code>create2</code> 的区别，以及如何预测合约地址。</p>
 <p><strong>系列导航</strong></p>
 <ul>
-<li>第一篇：<a href="../solidity_contract_call_part1_251221/">四种方式调用已部署合约</a></li>
-<li>第二篇：底层调用与 calldata 详解（本篇）</li>
-<li>第三篇：<a href="../solidity_contract_call_part3_251227/">创建合约的两种方式：create 与 create2</a></li>
+<li>第一篇：<a href="../solidity_contract_call_part1_251221/">Solidity 合约间调用（一）：四种方式调用已部署合约</a></li>
+<li>第二篇：Solidity 合约间调用（二）：底层调用与 calldata 详解（本篇）</li>
+<li>第三篇：<a href="../solidity_contract_call_part3_251227/">Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2</a></li>
 </ul>
 
 

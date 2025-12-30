@@ -1106,18 +1106,12 @@ address(uint160(...))   // 第三步：把 160 位整数解释为 address
 bytes32 initCodeHash = keccak256(initcode);
 </code></pre>
 <h3 id="create2_1">CREATE2 的应用场景</h3>
-<ol>
-<li>反事实部署</li>
-</ol>
+<p>1.反事实部署</p>
 <p>先计算地址 → 用户向该地址转账 → 之后再部署合约。</p>
 <p>账户抽象钱包常用这种模式：用户先拿到钱包地址收款，真正需要时才部署钱包合约。</p>
-<ol>
-<li>跨链确定性部署</li>
-</ol>
+<p>2.跨链确定性部署</p>
 <p>在多条链上用相同参数部署，得到相同地址。跨链协议需要这个特性。</p>
-<ol>
-<li>合约重建</li>
-</ol>
+<p>3.合约重建</p>
 <p>销毁合约后，用相同参数可以在同一地址重新部署（需要 <code>selfdestruct</code>）。</p>
 <h3 id="_3">注意事项</h3>
 <p><strong>1. 同地址只能部署一次</strong></p>
@@ -1169,9 +1163,9 @@ function rawCreate2(bytes memory bytecode, bytes32 salt) external returns (addre
 </ul>
 <p><strong>系列导航</strong></p>
 <ul>
-<li>第一篇：<a href="../solidity_contract_call_part1_251221/">四种方式调用已部署合约</a></li>
-<li>第二篇：<a href="../solidity_contract_call_part2_251223/">底层调用与 calldata 详解</a></li>
-<li>第三篇：创建合约的两种方式：create 与 create2（本篇）</li>
+<li>第一篇：<a href="../solidity_contract_call_part1_251221/">Solidity 合约间调用（一）：四种方式调用已部署合约</a></li>
+<li>第二篇：<a href="../solidity_contract_call_part2_251223/">Solidity 合约间调用（二）：底层调用与 calldata 详解</a></li>
+<li>第三篇：Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2（本篇）</li>
 </ul>
 
 
