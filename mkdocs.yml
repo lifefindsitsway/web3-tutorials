@@ -113,3 +113,4 @@ nav:
     - Hardhat 入门指南（25年更新版）: web3/dapp/hardhat_tutorial_240415.md
   - DeFi: 
     - Uniswap V2 价格精度解析: web3/defi/uniswap_v2_price_precision_240710.md
+    - 闪电贷：从原理到攻击演示: web3/defi/flash_loan_attack_260101.md
