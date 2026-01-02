@@ -42,19 +42,7 @@ contract Implementation {
 
 但没有公开函数，怎么升级？答案是：**通过 msg.sender 来区分调用者**。
 
-```
-┌──────────────────────────────────────────────────┐
-│              透明代理的路由规则                 │
-├──────────────────────────────────────────────────┤
-│  调用者 = 管理员?                              │
-│     │                                        │
-│     ├── 是 → 执行代理合约自身的管理函数           │
-│     │        (upgrade、changeAdmin 等)        │
-│     │                                        │
-│     └── 否 → 全部 delegatecall 到实现合约       │
-│              (即使调用的是 upgrade)            │
-└──────────────────────────────────────────────────┘
-```
+![透明代理的路由规则](./../../assets/images/solidity_proxy_upgrade_series_part2_251230_1.png)
 
 **为什么叫「透明」？**
 
@@ -90,11 +78,7 @@ contract TransparentProxy {
 
 OpenZeppelin 的解决方案是引入 **ProxyAdmin** 合约：
 
-```
-┌───────────────┐       ┌─────────────────┐       ┌──────────────────┐
-│ Owner (EOA)  │──────►│   ProxyAdmin   │──────►│ TransparentProxy│
-└───────────────┘       └─────────────────┘       └──────────────────┘
-```
+![ProxyAdmin](./../../assets/images/solidity_proxy_upgrade_series_part2_251230_2.png)
 
 - 代理合约的 admin 是 ProxyAdmin 合约（地址固定）
 - ProxyAdmin 的 owner 是真正的管理员
@@ -147,14 +131,7 @@ contract ProxyAdmin {
 
 UUPS（ERC-1822）采用了不同的策略：**把升级逻辑放在逻辑合约中**。
 
-```
-┌─────────────────────┐            ┌─────────────────────┐
-│    UUPSProxy      │            │    Implementation │
-│                   │            │                   │
-│ - 只有 fallback    │◄──────────► │  - 业务逻辑        │
-│ - 无升级逻辑        │delegatecall│  - upgrade() 函数  │
-└─────────────────────┘            └─────────────────────┘
-```
+![UUPS](./../../assets/images/solidity_proxy_upgrade_series_part2_251230_3.png)
 
 ### 升级是如何工作的？
 
@@ -276,43 +253,7 @@ OpenZeppelin 当前**推荐使用 UUPS**，因为它更轻量且灵活。
 
 ### 架构对比图
 
-```
-【透明代理架构】
-
-  用户                    Owner
-   │                        │
-   ▼                        ▼
-┌──────────────────┐    ┌─────────────┐
-│ TransparentProxy│◄── │ ProxyAdmin │
-│                 │    └─────────────┘
-│  检查 msg.sender │
-│  ├─ admin → 升级 │
-│  └─ 其他 → 转发   │
-└────────┬─────────┘
-         │ delegatecall
-         ▼
-┌──────────────────┐
-│ Implementation  │  ← 纯业务逻辑
-└──────────────────┘
-
-
-【UUPS 架构】
-
-  用户 / Admin
-       │
-       ▼
-┌──────────────────┐
-│   UUPSProxy     │  ← 极简，只有 fallback
-└────────┬─────────┘
-        │ delegatecall
-        ▼
-┌──────────────────┐
-│  Implementation │  ← 业务逻辑 + 升级逻辑
-│                 │
-│  upgradeTo()    │
-│  _authorizeUpgrade()
-└──────────────────┘
-```
+![架构对比图](./../../assets/images/solidity_proxy_upgrade_series_part2_251230_4.png)
 
 ## 其他代理模式简介
 
