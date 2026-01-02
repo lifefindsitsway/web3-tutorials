@@ -950,14 +950,7 @@
 <p>这就是为什么社区发明了<strong>代理合约</strong>（Proxy Contract）和<strong>可升级合约</strong>（Upgradeable Contract）模式。</p>
 <h2 id="_2">核心思路：数据与逻辑分离</h2>
 <p>既然字节码不可变，那我们换个思路：<strong>把数据和逻辑分开存储</strong>。</p>
-<pre><code>┌───────────────────────┐                    ┌──────────────────────┐
-│        Proxy        │                    │    Implementation  │
-│      (代理合约)      │                    │      (逻辑合约)      │
-│                     │   delegatecall     │                     │
-│  - 存储状态变量       │ ────────────────►   │  - 存储业务逻辑       │
-│  - 地址不变          │                    │  - 可被替换          │
-└───────────────────────┘                    └──────────────────────┘
-</code></pre>
+<p><img alt="数据与逻辑分离" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_1.png" /></p>
 <p>用户始终与代理合约交互，代理合约负责：</p>
 <p>1.保存所有状态数据</p>
 <p>2.将函数调用转发给逻辑合约执行</p>
@@ -1139,10 +1132,10 @@ contract Caller {
 <li>Caller 合约地址：0xcCe7de7ae33b8C5721e5777f0237D273111F7F2a</li>
 </ul>
 <p>调用 callSetValue 后，Logic.value 变成 456，事件从 Logic 合约发出：</p>
-<p><img alt="call 调用结果" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_1.png" /></p>
+<p><img alt="call 调用结果" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_2.png" /></p>
 <p>来源：https://sepolia.etherscan.io/address/0x6e84c52c6fe239ab2288c07ca2e5b4bf09fbd894#events</p>
 <p>调用 delegateSetValue 后，Logic.value 不变，但 Caller.value 变成 789，事件从 Caller 合约发出：</p>
-<p><img alt="delegatecall 调用结果" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_2.png" /></p>
+<p><img alt="delegatecall 调用结果" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_3.png" /></p>
 <p>来源：https://sepolia.etherscan.io/address/0xcce7de7ae33b8c5721e5777f0237d273111f7f2a#events</p>
 <h2 id="bug">存储槽冲突：一个灾难性的 bug</h2>
 <p>delegatecall 有一个关键细节：<strong>它按存储槽位置操作，而非变量名称</strong>。</p>
@@ -1175,7 +1168,7 @@ contract Caller {
 <li>key：0 到 2²⁵⁶-1 的整数（存储槽编号）</li>
 <li>value：32 字节的数据</li>
 </ul>
-<p><img alt="EVM 存储槽结构" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_3.png" /></p>
+<p><img alt="EVM 存储槽结构" src="../../../assets/images/solidity_proxy_upgrade_series_part1_251229_4.png" /></p>
 <p>Solidity 编译器默认从 slot 0 开始分配变量，这就是冲突的根源。</p>
 <h3 id="eip-1967">解决方案：EIP-1967</h3>
 <p>核心思想：把代理合约的关键变量放到「不可能冲突」的位置。</p>
