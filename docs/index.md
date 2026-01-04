@@ -1,6 +1,5 @@
 Hi! Nice to see you! I'm a Web3 developer.
 
-- X (Twitter)：[@lifefind_itsway](https://x.com/lifefind_itsway)
 - Github：[Lifefindsitsway](https://github.com/lifefindsitsway)
 - Notion Page：[Web3 Tutorials](https://lifefindsitsway.notion.site/Web3-Tutorials-7dac26cb80484f66929c1276cbbf413c)
 
