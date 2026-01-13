@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/address_251125/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/evm_fundamentals_part2_data_regions_and_contract_execution_240411/">
       
       
-        <link rel="prev" href="../ethereum_address_size_251120/">
+        <link rel="prev" href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/">
       
       
-        <link rel="next" href="../hardhat_tutorial_240415/">
+        <link rel="next" href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Solidity 地址类型 & 常见用法全攻略 - Life's Web3 开发指南</title>
+        <title>EVM 基础原理（二）：数据区域与合约执行 - Life's Web3 开发指南</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1-solidity" class="md-skip">
+        <a href="#evm" class="md-skip">
           跳转至
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Solidity 地址类型 & 常见用法全攻略
+              EVM 基础原理（二）：数据区域与合约执行
             
           </span>
         </div>
@@ -523,28 +523,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Solidity 地址类型 & 常见用法全攻略
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../address_251125/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -553,126 +535,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-solidity" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. Solidity 地址类型
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. 地址与外部合约交互（接口类型转换）
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. 地址与外部合约交互（接口类型转换）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#21" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.1 为什么转换成接口类型？
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2 地址转接口并调用函数（核心语法）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#23-address" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.3 最常用场景：把 address 储存起来，然后交互
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#24" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.4 安全注意事项
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. 地址 + 映射 / 数组：记账 &amp; 关系
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. 地址 + 映射 / 数组：记账 & 关系">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1 地址 + 映射
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.2 地址 + 数组
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
-    <span class="md-ellipsis">
-      4. 特殊地址
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -724,10 +586,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    EVM 基础原理（二）：数据区域与合约执行
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -736,6 +618,314 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、三个数据区域概览
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、栈（Stack）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、内存（Memory）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、内存（Memory）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#solidity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solidity 的内存布局
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      扩展成本：越大越贵
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、存储（Storage）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、存储（Storage）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      存储模型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      状态变量的槽位分配
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      动态类型的槽位计算
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      存储成本详解
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、合约部署机制
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、合约部署机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      两种交易类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creation-code-init-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      术语说明：Creation Code 与 Init Code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      部署执行流程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      合约地址计算
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、函数调用机制
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、函数调用机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calldata" class="md-nav__link">
+    <span class="md-ellipsis">
+      calldata 结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#call" class="md-nav__link">
+    <span class="md-ellipsis">
+      Call 的上下文传递
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      三种调用方式
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、返回与异常
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="七、返回与异常">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      正常返回
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常回滚
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returndata" class="md-nav__link">
+    <span class="md-ellipsis">
+      returndata 机制
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event" class="md-nav__link">
+    <span class="md-ellipsis">
+      八、Event 底层机制
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、Event 底层机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#log" class="md-nav__link">
+    <span class="md-ellipsis">
+      LOG 操作码
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexed" class="md-nav__link">
+    <span class="md-ellipsis">
+      indexed 参数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么 Event 比存储便宜？
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -870,6 +1060,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -878,55 +1070,46 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-solidity" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Solidity 地址类型
+      一、三个数据区域概览
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
+  <a href="#stack" class="md-nav__link">
     <span class="md-ellipsis">
-      2. 地址与外部合约交互（接口类型转换）
+      二、栈（Stack）
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. 地址与外部合约交互（接口类型转换）">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、内存（Memory）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、内存（Memory）">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21" class="md-nav__link">
+  <a href="#solidity" class="md-nav__link">
     <span class="md-ellipsis">
-      2.1 为什么转换成接口类型？
+      Solidity 的内存布局
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#22" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2 地址转接口并调用函数（核心语法）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#23-address" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.3 最常用场景：把 address 储存起来，然后交互
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#24" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.4 安全注意事项
+      扩展成本：越大越贵
     </span>
   </a>
   
@@ -938,28 +1121,46 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
+  <a href="#storage" class="md-nav__link">
     <span class="md-ellipsis">
-      3. 地址 + 映射 / 数组：记账 &amp; 关系
+      四、存储（Storage）
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. 地址 + 映射 / 数组：记账 & 关系">
+    <nav class="md-nav" aria-label="四、存储（Storage）">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1 地址 + 映射
+      存储模型
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#32" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      3.2 地址 + 数组
+      状态变量的槽位分配
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      动态类型的槽位计算
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      存储成本详解
     </span>
   </a>
   
@@ -971,9 +1172,186 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      4. 特殊地址
+      五、合约部署机制
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、合约部署机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      两种交易类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creation-code-init-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      术语说明：Creation Code 与 Init Code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      部署执行流程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      合约地址计算
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、函数调用机制
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、函数调用机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calldata" class="md-nav__link">
+    <span class="md-ellipsis">
+      calldata 结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#call" class="md-nav__link">
+    <span class="md-ellipsis">
+      Call 的上下文传递
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      三种调用方式
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、返回与异常
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="七、返回与异常">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      正常返回
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常回滚
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returndata" class="md-nav__link">
+    <span class="md-ellipsis">
+      returndata 机制
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#event" class="md-nav__link">
+    <span class="md-ellipsis">
+      八、Event 底层机制
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、Event 底层机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#log" class="md-nav__link">
+    <span class="md-ellipsis">
+      LOG 操作码
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexed" class="md-nav__link">
+    <span class="md-ellipsis">
+      indexed 参数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么 Event 比存储便宜？
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
     </span>
   </a>
   
@@ -997,195 +1375,440 @@
   
 
 
-  <h1>Solidity 地址类型 & 常见用法全攻略</h1>
-
-<h2 id="1-solidity">1. Solidity 地址类型</h2>
-<p>地址类型（<code>address</code>）用于存储一个 20 字节的值（以太坊地址的大小）。它不仅仅是一个存储单位，还提供了与以太坊账户交互的多种方式，对于编写智能合约至关重要。</p>
+<h1 id="evm">EVM 基础原理（二）：数据区域与合约执行</h1>
 <blockquote>
-<p>注：这些账户可以是外部账户（由用户控制的账户，拥有私钥）或合约账户（由合约代码控制的账户）。</p>
+<p>本文是 EVM 基础原理系列的第二篇，深入理解栈、内存、存储的设计原理，以及合约的部署与调用机制。</p>
 </blockquote>
-<p>Solidity 中有两种地址类型：</p>
+<p>上一篇我们提到 MLOAD 只要 3 Gas，而 SLOAD 要 2100 Gas（冷访问）。为什么差距这么大？</p>
+<p>因为它们操作的数据区域有本质区别：</p>
 <ul>
-<li><strong>address</strong>：普通地址，不能接收 ETH，即不能调用 <code>transfer</code> / <code>send</code> / <code>call{value: ...}</code> 等方法；</li>
-<li><strong>address payable</strong>：能接收 ETH，支持调用 <code>transfer</code> / <code>send</code> / <code>call{value: ...}</code> 等方法；</li>
+<li><strong>内存</strong>：临时的、本地的、便宜的</li>
+<li><strong>存储</strong>：永久的、全网共识的、昂贵的</li>
 </ul>
-<blockquote>
-<p>注：与 ETH 相关的操作（转账、收款），都必须使用 address payable。</p>
-</blockquote>
-<p>对于 <code>address</code> 类型，常用的属性包括：</p>
-<ul>
-<li><code>balance</code>：获取地址中的 ETH 余额；</li>
-<li><code>code</code>（Solidity ^0.8.0）：获取地址中存储的合约代码（如果有的话），此属性在 Solidity 0.8.0 以后版本中新增；</li>
-<li><code>codehash</code>（Solidity ^0.8.0）：获取地址的合约代码的哈希值（如果地址为合约地址），如果地址是外部账户或合约中没有代码，则返回零哈希；</li>
-</ul>
-<p>对于 <code>address payable</code> 类型，除 <code>address</code> 类型的属性外，还包括三种与 ETH 转账相关的方法：</p>
-<ul>
-<li><code>transfer(uint256 amount)</code>：固定 2300 gas 供对方 fallback/receive 使用，失败会直接 <code>revert</code>，新版本里因为 gas 政策不稳定，<strong>官方已经不推荐用 <code>transfer</code> 和 <code>send</code> 了</strong>；</li>
-<li><code>send(uint256 amount) returns (bool)</code>：2300 gas 限制，返回一个布尔值表示成功与否，不会在失败时 <code>revert</code>，自己决定要不要 <code>require</code>；</li>
-<li><code>call(bytes memory data) returns (bool, bytes memory)</code>：向地址发送 ETH，可同时调用其合约函数，返回一个布尔值表示成功与否和返回数据。</li>
-</ul>
+<h2 id="_1">一、三个数据区域概览</h2>
 <table>
 <thead>
 <tr>
-<th>函数</th>
-<th>是否推荐</th>
-<th>失败是否 revert</th>
-<th>Gas 限制</th>
+<th>区域</th>
+<th>生命周期</th>
+<th>访问成本</th>
+<th>典型用途</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>transfer</code></td>
-<td>❌ 不推荐</td>
-<td>✔️ 自动 revert</td>
-<td>2300 gas</td>
+<td>栈</td>
+<td>函数执行期间</td>
+<td>最便宜</td>
+<td>局部变量、计算中间值</td>
 </tr>
 <tr>
-<td><code>send</code></td>
-<td>❌ 不推荐</td>
-<td>❌ 返回 false</td>
-<td>2300 gas</td>
+<td>内存</td>
+<td>函数执行期间</td>
+<td>中等</td>
+<td>函数参数、临时数据</td>
 </tr>
 <tr>
-<td><code>call{value:...}</code></td>
-<td>✔️ 推荐标准</td>
-<td>❌ 需手动 require</td>
-<td>无限制</td>
+<td>存储</td>
+<td>永久</td>
+<td>最贵</td>
+<td>状态变量</td>
 </tr>
 </tbody>
 </table>
-<p>需要转账时，建议使用 <code>call</code> 方法，因为 <code>transfer</code> 与 <code>send</code> 方法存在 Gas 限制（只提供2300 Gas，这足以记录事件，但不足以进行更复杂的操作），而 <code>call</code> 比较灵活。</p>
-<h2 id="2">2. 地址与外部合约交互（接口类型转换）</h2>
-<h3 id="21">2.1 为什么转换成接口类型？</h3>
-<p>以太坊世界里：</p>
-<ul>
-<li>每个合约 = 一段部署在链上的代码</li>
-<li>每个合约 = 一个独立的地址（address）</li>
-</ul>
-<p>但 <code>address</code> 本质只是 <strong>20 字节数字</strong>，并没有“函数信息”，因此：</p>
-<p>❌ address 不知道这个地址对应哪种合约</p>
-<p>❌ address 不知道里面有哪些函数</p>
-<p>❌ address 不能直接调用 transfer、approve、swap 等函数</p>
-<p>例如：</p>
-<pre><code class="language-solidity">address token = 0x...;
-token.transfer(to, amount); // ❌ 编译错误
+<p><strong>核心原则</strong>：能用栈就不用内存，能用内存就不用存储。</p>
+<h2 id="stack">二、栈（Stack）</h2>
+<p>上一篇已经介绍了栈的基础，这里聚焦它的局限性。</p>
+<p><strong>局限性 1：只能访问顶部 16 个元素</strong></p>
+<p>EVM 的 DUP 和 SWAP 指令最多操作第 16 个元素：</p>
+<pre><code>DUP1 - DUP16     // 复制第 1-16 个元素到栈顶
+SWAP1 - SWAP16   // 交换栈顶与第 2-17 个元素
 </code></pre>
-<p>因为 <code>address</code> 类型没有 <code>transfer</code> 方法。</p>
-<p>Solidity 是强类型语言，必须明确告诉它：这个 address 是什么类型的合约！</p>
-<p>所以我们才需要：</p>
-<p>✅ 先定义接口（Interface）——描述合约函数</p>
-<p>✅ 再把 <code>address</code> 强制转换成接口类型</p>
-<p>✅ 最后用接口来调用函数</p>
-<h3 id="22">2.2 地址转接口并调用函数（核心语法）</h3>
-<p>典型写法：<code>IERC20(tokenAddress).transfer(to, amount)</code></p>
-<p>代码含义：</p>
+<p>如果你的函数有超过 16 个局部变量，编译器会被迫使用内存，Gas 成本上升。</p>
+<p>实践建议：减少函数内的局部变量数量，尤其是同时存活的变量。</p>
+<p><strong>局限性 2：最大深度 1024</strong></p>
+<p>栈深度超过 1024 会导致交易失败。这在深度递归或复杂的合约调用链中可能触发。</p>
+<p><strong>栈的优势</strong></p>
+<ul>
+<li>操作成本极低（PUSH/POP/DUP/SWAP 都是 3 Gas 左右）</li>
+<li>无需地址寻址，直接操作栈顶</li>
+</ul>
+<p><strong>Stack too deep 错误</strong></p>
+<p>Solidity 编译器会尝试优化栈使用。当你遇到 <code>Stack too deep</code> 错误时，意味着编译器无法在 16 个槽位内安排所有变量。</p>
+<p>解决方案：</p>
+<ul>
+<li>减少同时存活的局部变量</li>
+<li>将部分逻辑提取到内部函数</li>
+<li>使用结构体打包相关变量</li>
+</ul>
+<h2 id="memory">三、内存（Memory）</h2>
+<p>内存是<strong>线性字节数组</strong>，按需扩展，函数执行结束后清空。</p>
+<h3 id="solidity">Solidity 的内存布局</h3>
+<p>Solidity 保留了前 4 个 32 字节槽位：</p>
+<table>
+<thead>
+<tr>
+<th>偏移量</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00 - 0x3f</td>
+<td>Scratch space（临时计算空间）</td>
+</tr>
+<tr>
+<td>0x40 - 0x5f</td>
+<td>Free memory pointer</td>
+</tr>
+<tr>
+<td>0x60 - 0x7f</td>
+<td>Zero slot（用于动态数组初始化）</td>
+</tr>
+<tr>
+<td>0x80+</td>
+<td>可分配区域</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Free Memory Pointer（0x40）</strong> 是 Solidity 内存管理的核心：</p>
+<ul>
+<li>存储下一个可分配地址</li>
+<li>每次分配内存后自动递增</li>
+<li>Solidity 不会主动释放内存（函数结束后整体清空）</li>
+</ul>
+<h3 id="_2">扩展成本：越大越贵</h3>
+<p>内存不是固定大小，而是按需扩展。扩展是有成本的，而且是<strong>非线性增长</strong>：</p>
+<pre><code>memory_cost = 3 * words + words² / 512
+</code></pre>
+<p>其中 <code>words = ceil(size / 32)</code>。</p>
+<table>
+<thead>
+<tr>
+<th>内存大小</th>
+<th>扩展成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 KB (32 words)</td>
+<td>98 Gas</td>
+</tr>
+<tr>
+<td>10 KB (320 words)</td>
+<td>1,160 Gas</td>
+</tr>
+<tr>
+<td>1 MB (32,768 words)</td>
+<td>2,195,456 Gas</td>
+</tr>
+</tbody>
+</table>
+<p><strong>二次方增长的设计意图</strong>：防止合约滥用内存。小内存操作便宜（鼓励正常使用），大内存操作极其昂贵（惩罚滥用）。</p>
+<p><strong>内存 vs 栈</strong></p>
+<p>内存的优势是可以存储任意大小的数据（如动态数组、字符串），而栈每个元素固定 32 字节。</p>
+<h2 id="storage">四、存储（Storage）</h2>
+<p>存储是合约的<strong>永久状态</strong>，数据写入后一直保留在区块链上。</p>
+<h3 id="_3">存储模型</h3>
+<p>存储是一个 <strong>2²⁵⁶ 槽位的稀疏数组</strong>，每个槽位 32 字节：</p>
+<pre><code>slot[0] → 32 bytes
+slot[1] → 32 bytes
+...
+slot[2²⁵⁶ - 1] → 32 bytes
+</code></pre>
+<p>实际实现是键值数据库（如 LevelDB），只有非零槽位才占用空间。</p>
+<h3 id="_4">状态变量的槽位分配</h3>
+<p><strong>定长类型</strong>：Solidity 按声明顺序分配，小变量会打包到同一槽位。</p>
+<pre><code class="language-solidity">contract SlotPacking {
+    uint256 a;     // slot 0（完整占用）
+    uint128 b;     // slot 1（前 16 字节）
+    uint128 c;     // slot 1（后 16 字节）
+    uint256 d;     // slot 2
+}
+</code></pre>
+<p><strong>结构体</strong>：从新槽位开始，内部按顺序排列。</p>
+<pre><code class="language-solidity">struct Data {
+    uint256 id;    // slot n
+    address owner; // slot n+1
+}
+</code></pre>
+<h3 id="_5">动态类型的槽位计算</h3>
+<p>Solidity 用 keccak256 计算动态类型的位置。</p>
+<p><strong>动态数组</strong>：</p>
+<pre><code class="language-solidity">uint256[] arr;  // 假设在 slot p
+</code></pre>
+<ul>
+<li><code>slot p</code> 存储数组长度</li>
+<li><code>arr[i]</code> 的位置：<code>keccak256(p) + i</code></li>
+</ul>
+<p><strong>Mapping</strong>：</p>
+<p>映射不能按顺序存储，因为键是动态的。</p>
+<pre><code class="language-solidity">mapping(address =&gt; uint256) balances;  // 假设在 slot p
+</code></pre>
+<ul>
+<li><code>slot p</code> 不存储任何数据</li>
+<li><code>balances[key]</code> 的位置：<code>keccak256(abi.encode(key, p))</code></li>
+</ul>
+<p>把 key（32 字节）和 slot（32 字节）拼成 64 字节，再哈希。</p>
+<p><strong>嵌套 Mapping</strong>：</p>
+<pre><code class="language-solidity">mapping(address =&gt; mapping(uint256 =&gt; bool)) approvals;  // slot p
+</code></pre>
+<p><code>approvals[addr][id]</code> 的位置：</p>
+<pre><code>keccak256(abi.encode(id, keccak256(abi.encode(addr, p))))
+</code></pre>
+<h3 id="_6">存储成本详解</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>条件</th>
+<th>Gas 成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SLOAD</td>
+<td>冷访问</td>
+<td>2,100</td>
+</tr>
+<tr>
+<td>SLOAD</td>
+<td>热访问</td>
+<td>100</td>
+</tr>
+<tr>
+<td>SSTORE</td>
+<td>0 → 非零</td>
+<td>22,100</td>
+</tr>
+<tr>
+<td>SSTORE</td>
+<td>非零 → 非零</td>
+<td>5,000</td>
+</tr>
+<tr>
+<td>SSTORE</td>
+<td>非零 → 0</td>
+<td>5,000，有退款</td>
+</tr>
+</tbody>
+</table>
+<p><strong>冷/热访问（EIP-2929）</strong>：同一交易中首次访问某槽位为"冷"，后续为"热"。</p>
+<h2 id="_7">五、合约部署机制</h2>
+<h3 id="_8">两种交易类型</h3>
+<p>以太坊的交易分两种，由 <code>to</code> 字段决定：</p>
+<table>
+<thead>
+<tr>
+<th>to 字段</th>
+<th>交易类型</th>
+<th>执行内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>空</td>
+<td>创建合约</td>
+<td>执行 data 中的 Init Code</td>
+</tr>
+<tr>
+<td>合约地址</td>
+<td>调用合约</td>
+<td>执行 data 作为 calldata</td>
+</tr>
+</tbody>
+</table>
+<h3 id="creation-code-init-code">术语说明：Creation Code 与 Init Code</h3>
+<p>在不同的文档和工具中，你可能会看到 <strong>Creation Code</strong> 和 <strong>Init Code</strong> 这两个术语：</p>
+<ul>
+<li><strong>Creation Code</strong>：Solidity 编译器和开发工具（如 Hardhat、Foundry）常用的术语，指编译产出的部署字节码</li>
+<li><strong>Init Code</strong>：以太坊黄皮书和 EVM 规范中使用的术语，指实际发送到链上执行的完整部署数据</li>
+</ul>
+<p>两者的关系：<strong>Init Code = Creation Code + ABI 编码的构造函数参数</strong></p>
+<p>如果合约没有构造函数参数，两者完全相同；如果有参数，Init Code 会在 Creation Code 末尾附加参数数据。本系列遵循 EVM 规范，使用 Init Code 术语。</p>
+<h3 id="_9">部署执行流程</h3>
+<p><img alt="" src="../../../assets/images/evm_fundamentals_part2_240411_1.png" /></p>
+<p>关键点：</p>
+<ul>
+<li>Init Code 是一段"安装程序"，执行后被丢弃</li>
+<li>Runtime Code 是 Init Code 的执行结果，由 RETURN 返回</li>
+<li>构造函数的参数被 ABI 编码后附加在 Creation Code 末尾，共同构成 Init Code</li>
+</ul>
+<h3 id="_10">合约地址计算</h3>
+<p><strong>CREATE（普通部署）</strong>：</p>
+<pre><code>address = keccak256(rlp([sender, nonce]))[12:]
+</code></pre>
+<p>地址由部署者地址和 nonce 决定，因此<strong>不可预测</strong>（nonce 会变化）。</p>
+<p><strong>CREATE2（确定性部署）</strong>：</p>
+<pre><code>address = keccak256(0xff ++ sender ++ salt ++ keccak256(initCode))[12:]
+</code></pre>
+<p>通过自定义 salt，可以在部署前预测地址。这在工厂合约、跨链部署中很有用。</p>
+<h2 id="_11">六、函数调用机制</h2>
+<h3 id="calldata">calldata 结构</h3>
+<p>调用 <code>transfer(address to, uint256 amount)</code> 时，calldata 的结构：</p>
+<pre><code>函数选择器（4 字节）+ ABI 编码的参数（32 字节 × N）
+</code></pre>
+<p>EVM 通过选择器路由到对应函数（上一篇已讲）。</p>
+<h3 id="call">Call 的上下文传递</h3>
+<p>当合约 A 调用合约 B 时，EVM 会传递一个执行上下文：</p>
+<table>
+<thead>
+<tr>
+<th>上下文变量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>msg.sender</td>
+<td>调用者（A 的地址）</td>
+</tr>
+<tr>
+<td>msg.value</td>
+<td>发送的 ETH</td>
+</tr>
+<tr>
+<td>msg.data</td>
+<td>calldata</td>
+</tr>
+<tr>
+<td>gas</td>
+<td>可用 Gas</td>
+</tr>
+</tbody>
+</table>
+<p><strong>63/64 规则（EIP-150）</strong>：调用时最多转发当前剩余 Gas 的 63/64，保留 1/64 用于调用后的操作。</p>
+<h3 id="_12">三种调用方式</h3>
+<table>
+<thead>
+<tr>
+<th>操作码</th>
+<th>msg.sender</th>
+<th>存储上下文</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>call</td>
+<td>变为调用者</td>
+<td>被调用合约</td>
+<td>普通调用</td>
+</tr>
+<tr>
+<td>delegatecall</td>
+<td>保持不变</td>
+<td>调用方合约</td>
+<td>代理模式</td>
+</tr>
+<tr>
+<td>staticcall</td>
+<td>变为调用者</td>
+<td>只读</td>
+<td>view 函数</td>
+</tr>
+</tbody>
+</table>
+<p><strong>delegatecall 的本质</strong>："借壳执行"——代码是 B 的，但存储和 msg.sender 都是 A 的。这是代理合约的基础。</p>
+<h2 id="_13">七、返回与异常</h2>
+<h3 id="_14">正常返回</h3>
+<p><strong>RETURN</strong>：返回数据并结束执行。</p>
+<pre><code>RETURN(offset, size)  // 返回 memory[offset:offset+size]
+</code></pre>
+<p>返回的数据存入调用者的 returndata 缓冲区，可通过 RETURNDATASIZE 和 RETURNDATACOPY 访问。</p>
+<h3 id="_15">异常回滚</h3>
+<table>
+<thead>
+<tr>
+<th>操作码</th>
+<th>行为</th>
+<th>Gas 处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REVERT</td>
+<td>回滚状态，返回错误数据</td>
+<td>退还剩余 Gas</td>
+</tr>
+<tr>
+<td>INVALID</td>
+<td>回滚状态，无返回数据</td>
+<td>消耗所有 Gas</td>
+</tr>
+</tbody>
+</table>
+<p>Solidity 的 <code>require</code> 和 <code>revert</code> 编译为 REVERT，<code>assert</code> 在 0.8.0 后也用 REVERT（早期版本用 INVALID）。</p>
+<h3 id="returndata">returndata 机制</h3>
+<p>EIP-211 引入了 returndata 缓冲区：</p>
+<pre><code class="language-solidity">(bool success, bytes memory data) = target.call(payload);
+</code></pre>
+<p>底层操作：</p>
 <ol>
-<li><code>tokenAddress</code> —— 这是 ERC20 合约部署在链上的地址；</li>
-<li><code>IERC20(tokenAddress)</code> —— 告诉 Solidity：按 ERC20 接口的规范访问这个 <code>address</code>；</li>
-<li><code>.transfer(...)</code> —— 编译器检查参数类型、返回值；</li>
-<li>编译后执行低级 call（ABI 编码，EVM 执行）；</li>
+<li>call 执行后，返回值写入 returndata</li>
+<li>RETURNDATASIZE 获取返回数据长度</li>
+<li>RETURNDATACOPY 将数据复制到内存</li>
 </ol>
-<h3 id="23-address">2.3 最常用场景：把 address 储存起来，然后交互</h3>
-<p>例如 DEX、Vault、Staking 合约都这么写：</p>
-<pre><code class="language-solidity">contract Test {
-  address public token; // 保存代币合约地址
-
-  function setToken(address _token) external {
-    token = _token;
-  }
-
-  function transferOut(address to, uint256 amount) external {
-    // address → IERC20
-    bool ok = IERC20(token).transfer(to, amount);
-    require(ok, &quot;transfer failed&quot;);
-  }
-}
+<h2 id="event">八、Event 底层机制</h2>
+<h3 id="log">LOG 操作码</h3>
+<p>Event 通过 LOG0 - LOG4 操作码实现：</p>
+<pre><code>LOG{n}(offset, size, topic0, topic1, ..., topic{n-1})
 </code></pre>
-<p>为什么不能直接用 <code>address</code>？因为 <code>address</code> 没有 <code>transfer</code> 函数。</p>
-<h3 id="24">2.4 安全注意事项</h3>
-<p><strong>1）确保转换的 <code>address</code> 是期望的合约地址</strong></p>
-<p>如果用户传入恶意地址：<code>IERC20(fakeAddress).transfer(...)</code>，会调到错误逻辑 或 fallback，触发恶意代码。</p>
-<p>所以常见做法：</p>
 <ul>
-<li>✔ 白名单；</li>
-<li>✔ constructor 里写死地址；</li>
-<li>✔ 使用 immutable 常量；</li>
-<li>✔ 仅 owner 可修改 token 地址；</li>
+<li><code>n</code> 是 topic 数量（0-4）</li>
+<li><code>offset/size</code> 指定非 indexed 数据在内存中的位置</li>
+<li>topic0 通常是事件签名的 keccak256</li>
 </ul>
-<p><strong>2）使用 <code>try/catch</code>（适合外部合约不稳定时）</strong></p>
-<pre><code class="language-solidity">try IERC20(token).transfer(to, amount) returns (bool ok) {
-  require(ok, &quot;failed&quot;);
-} catch {
-  revert(&quot;token call failed&quot;);
-}
+<h3 id="indexed">indexed 参数</h3>
+<pre><code class="language-solidity">event Transfer(address indexed from, address indexed to, uint256 value);
 </code></pre>
-<p><strong>3）永远不要用 <code>address</code> 再去调用未知合约的 send/transfer（旧写法）</strong></p>
-<p>旧写法有风险：<code>payable(addr).transfer(amount);</code> // 可能失败</p>
-<p>改用：</p>
-<pre><code class="language-solidity">(bool ok,) = payable(addr).call{value: amount}(&quot;&quot;);
-require(ok);
-</code></pre>
-<p>总结：</p>
 <table>
 <thead>
 <tr>
-<th>步骤</th>
-<th>目的</th>
+<th>参数</th>
+<th>存储位置</th>
+<th>作用</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>🔹 写接口 Interface</td>
-<td>告诉 Solidity 这个合约有哪些函数</td>
+<td>indexed</td>
+<td>topic</td>
+<td>可被链下高效过滤</td>
 </tr>
 <tr>
-<td>🔹 用 <code>IERC20(tokenAddress)</code></td>
-<td>把 address 转成接口类型</td>
-</tr>
-<tr>
-<td>🔹 用接口访问函数</td>
-<td>安全、类型检查、自动 ABI 编码</td>
-</tr>
-<tr>
-<td>🔹 用地址保存合约地址</td>
-<td>合约间交互</td>
+<td>非 indexed</td>
+<td>data</td>
+<td>只能全量读取</td>
 </tr>
 </tbody>
 </table>
-<h2 id="3">3. 地址 + 映射 / 数组：记账 &amp; 关系</h2>
-<h3 id="31">3.1 地址 + 映射</h3>
-<p><code>mapping(address =&gt; uint256)</code> 是最常见的用法之一，例如 ERC20 的余额表：</p>
-<pre><code class="language-solidity">mapping(address =&gt; uint256) public balanceOf;
-
-function mint(uint256 amount) external {
-    balanceOf[msg.sender] += amount;
-}
-</code></pre>
-<p>多层 mapping（比如 allowance）：</p>
-<pre><code class="language-solidity">mapping(address =&gt; mapping(address =&gt; uint256)) public allowance;
-
-function approve(address spender, uint256 amount) external {
-    allowance[msg.sender][spender] = amount;
-}
-</code></pre>
-<p><code>mapping</code> 里的 key 用 <code>address</code> 非常自然，而且会自动初始化为 0，不存在则返回默认值。</p>
-<h3 id="32">3.2 地址 + 数组</h3>
-<p><code>address[]</code>，数组里的元素可以是 <code>address</code> 或 <code>address payable</code>，看你要不要给他们转账。</p>
-<p>比如记录所有存款过的用户：</p>
-<pre><code class="language-solidity">address[] public users;
-mapping(address =&gt; bool) public hasDeposited;
-
-function deposit() external payable {
-    if (!hasDeposited[msg.sender]) {
-        hasDeposited[msg.sender] = true;
-        users.push(msg.sender);
-    }
-}
-</code></pre>
-<h2 id="4">4. 特殊地址</h2>
-<p><code>msg.sender</code> – 当前合约的调用者，可能是外部账户，也可能是另一个合约。</p>
-<p><code>tx.origin</code> – 交易最原始发起人，容易被「中间合约」骗调用，导致钓鱼攻击，权限控制用 <code>msg.sender</code> 就够了。</p>
-<p><code>address(this)</code> - 合约自己的地址。</p>
+<p>一个事件最多 4 个 topic（包括事件签名），所以最多 3 个 indexed 参数。</p>
+<h3 id="event_1">为什么 Event 比存储便宜？</h3>
+<p>Event 数据：</p>
+<ul>
+<li>不存储在世界状态中</li>
+<li>不参与共识验证</li>
+<li>只能被链下读取</li>
+</ul>
+<p>因此 LOG 操作的 Gas 远低于 SSTORE。</p>
+<h2 id="_16">小结</h2>
+<p>本文介绍了 EVM 的数据管理和执行机制：</p>
+<ol>
+<li>栈：最快最便宜，但有 16 元素和 1024 深度限制</li>
+<li>内存：临时存储，扩展成本非线性增长</li>
+<li>存储：永久状态，成本最高，冷热访问有区别</li>
+<li>部署：Init Code 执行后返回 Runtime Code</li>
+<li>调用：call/delegatecall/staticcall 各有不同的上下文</li>
+<li>Event：通过 LOG 操作码实现，比存储便宜</li>
+</ol>
+<p>下一篇，我们将深入 ABI 编码规则和底层调用的实战技巧。</p>
+<p><strong>系列导航：</strong></p>
+<ul>
+<li>第一篇：<a href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/">EVM 基础原理（一）：从交易到字节码</a></li>
+<li>第二篇：EVM 基础原理（二）：EVM 数据区域与合约执行（本篇）</li>
+<li>第三篇：<a href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">EVM 基础原理（三）：ABI 编码与底层调用</a></li>
+</ul>
 
 
 

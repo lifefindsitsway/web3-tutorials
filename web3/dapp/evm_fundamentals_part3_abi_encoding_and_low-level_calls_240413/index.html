@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/solidity_contract_call_part1_251221/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">
       
       
-        <link rel="prev" href="../solidity_proxy_upgrade_series_part2_251230/">
+        <link rel="prev" href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/">
       
       
-        <link rel="next" href="../solidity_contract_call_part2_251223/">
+        <link rel="next" href="../../defi/uniswap_v2_price_precision_240710/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Solidity 合约间调用（一）：四种方式调用已部署合约 - Life's Web3 开发指南</title>
+        <title>EVM 基础原理（三）：ABI 编码与底层调用 - Life's Web3 开发指南</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#receive-fallback" class="md-skip">
+        <a href="#evm-abi" class="md-skip">
           跳转至
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Solidity 合约间调用（一）：四种方式调用已部署合约
+              EVM 基础原理（三）：ABI 编码与底层调用
             
           </span>
         </div>
@@ -439,28 +439,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Solidity 合约间调用（一）：四种方式调用已部署合约
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../solidity_contract_call_part1_251221/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -469,135 +451,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#receive-fallback" class="md-nav__link">
-    <span class="md-ellipsis">
-      前置知识：receive 和 fallback
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="前置知识：receive 和 fallback">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#receive-eth" class="md-nav__link">
-    <span class="md-ellipsis">
-      receive：专门接收 ETH
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fallback" class="md-nav__link">
-    <span class="md-ellipsis">
-      fallback：兜底函数
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      触发逻辑
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      调用已部署合约需要什么？
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="调用已部署合约需要什么？">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式一：通过接口调用（推荐）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式二：通过合约类型调用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式三：存储合约引用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#call" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式四：使用 call 调用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      四种方式对比
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      小结
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -754,10 +607,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    EVM 基础原理（三）：ABI 编码与底层调用
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -766,6 +639,254 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、函数选择器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、函数选择器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      计算规则
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      选择器碰撞
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、静态类型编码
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、静态类型编码">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      多参数打包
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、动态类型编码
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、动态类型编码">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      通用结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      实例 1：单个 string 参数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实例 2：混合参数
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#abi" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、ABI 解码
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、三种底层调用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、三种底层调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      上下文对比
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      返回值处理
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、底层调用的错误处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、底层调用的错误处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      高级调用 vs 底层调用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returndata" class="md-nav__link">
+    <span class="md-ellipsis">
+      returndata 的结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      方式 1：直接冒泡原始错误
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      方式 2：解码错误信息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      两种方式的对比
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      代理合约的典型写法
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      系列总结
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -879,6 +1000,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -887,97 +1010,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#receive-fallback" class="md-nav__link">
-    <span class="md-ellipsis">
-      前置知识：receive 和 fallback
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="前置知识：receive 和 fallback">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#receive-eth" class="md-nav__link">
-    <span class="md-ellipsis">
-      receive：专门接收 ETH
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fallback" class="md-nav__link">
-    <span class="md-ellipsis">
-      fallback：兜底函数
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      触发逻辑
+      一、函数选择器
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="一、函数选择器">
+      <ul class="md-nav__list">
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
+          <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      调用已部署合约需要什么？
+      计算规则
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="调用已部署合约需要什么？">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      方式一：通过接口调用（推荐）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式二：通过合约类型调用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式三：存储合约引用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#call" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式四：使用 call 调用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      四种方式对比
+      选择器碰撞
     </span>
   </a>
   
@@ -989,9 +1043,195 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、静态类型编码
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、静态类型编码">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      多参数打包
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、动态类型编码
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、动态类型编码">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
+      通用结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      实例 1：单个 string 参数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实例 2：混合参数
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#abi" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、ABI 解码
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、三种底层调用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、三种底层调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      上下文对比
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      返回值处理
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、底层调用的错误处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、底层调用的错误处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      高级调用 vs 底层调用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returndata" class="md-nav__link">
+    <span class="md-ellipsis">
+      returndata 的结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      方式 1：直接冒泡原始错误
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      方式 2：解码错误信息
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      两种方式的对比
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      代理合约的典型写法
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
       小结
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      系列总结
     </span>
   </a>
   
@@ -1015,174 +1255,462 @@
   
 
 
-  <h1>Solidity 合约间调用（一）：四种方式调用已部署合约</h1>
-
+<h1 id="evm-abi">EVM 基础原理（三）：ABI 编码与底层调用</h1>
 <blockquote>
-<p>当你的合约需要和链上其他合约交互时，该怎么做？本篇介绍最常用的四种方式。</p>
+<p>本文是 EVM 基础原理系列的第三篇，掌握 ABI 编码规则和底层调用的实战技巧。</p>
 </blockquote>
-<h2 id="receive-fallback">前置知识：receive 和 fallback</h2>
-<p>在讲调用之前，先认识两个特殊函数。它们是合约的"后门入口"，在接收 ETH 和处理合约中不存在的函数调用时非常重要。</p>
-<h3 id="receive-eth">receive：专门接收 ETH</h3>
-<p>当合约收到<strong>纯 ETH 转账</strong>（没有附带任何数据）时，<code>receive</code> 会被触发。</p>
-<pre><code class="language-solidity">receive() external payable {
-    // 处理收到的 ETH
-}
-</code></pre>
-<p>语法特点：没有 <code>function</code> 关键字，没有参数，没有返回值，必须是 <code>external payable</code>。</p>
-<h3 id="fallback">fallback：兜底函数</h3>
-<p>当调用合约时，如果找不到匹配的函数，就会触发 <code>fallback</code>。</p>
-<pre><code class="language-solidity">// 基础形式
-fallback() external payable {}
-
-// 带参数形式（可以访问 calldata 并返回数据）
-fallback(bytes calldata input) external payable returns (bytes memory) {
-    return abi.encode(input.length);
-}
-</code></pre>
-<h3 id="_1">触发逻辑</h3>
-<pre><code>                     调用合约
-                        │
-                        ▼
-                 msg.data 是否为空？
-                   /         \
-                 是            否
-                /               \
-              ▼                  ▼
-        receive 存在？      函数签名匹配？
-          /     \            /       \
-        是       否        是         否
-        /         \        /           \
-    receive    fallback  执行函数    fallback
-</code></pre>
-<p>简单记忆：<strong>纯转账走 receive，其他兜底走 fallback</strong>。</p>
-<h2 id="_2">调用已部署合约需要什么？</h2>
-<p>两样东西：<strong>合约地址</strong> + <strong>调用接口</strong>。</p>
-<p>接口告诉编译器：这个地址上的合约有哪些函数可以调用。</p>
-<pre><code class="language-solidity">interface IERC20 {
-    function balanceOf(address account) external view returns (uint256);
-    function transfer(address to, uint256 amount) external returns (bool);
-    // ...其他函数
-}
-</code></pre>
-<p>有了接口，就可以开始调用了。</p>
-<h3 id="_3">方式一：通过接口调用（推荐）</h3>
-<p>这是最常用、最推荐的方式，类型安全，代码清晰。</p>
-<pre><code class="language-solidity">import &quot;./IERC20.sol&quot;;
-
-contract MyContract {
-    function getBalance(address token, address account) public view returns (uint256) {
-        return IERC20(token).balanceOf(account);
-    }
-}
-</code></pre>
-<p>核心语法：<code>IERC20(token)</code> 把地址"包装"成接口类型，然后就能像调用本地函数一样调用它。</p>
-<h3 id="_4">方式二：通过合约类型调用</h3>
-<p>如果你有目标合约的完整代码，可以直接用合约类型。</p>
-<pre><code class="language-solidity">import &quot;./ERC20.sol&quot;;
-
-contract MyContract {
-    function getBalance(address token, address account) public view returns (uint256) {
-        return ERC20(token).balanceOf(account);
-    }
-}
-</code></pre>
-<p>本质上和接口调用一样——都是告诉编译器"这个地址有哪些函数"。</p>
-<p><strong>区别</strong>：接口只声明函数签名，合约类型包含完整实现。如果只需要调用，用接口更轻量。</p>
-<h3 id="_5">方式三：存储合约引用</h3>
-<p>当你需要多次调用同一个合约时，可以把引用存为状态变量。</p>
-<pre><code class="language-solidity">import &quot;./IERC20.sol&quot;;
-
-contract MyContract {
-    IERC20 public token;  // 存储合约引用
-
-    constructor(address _token) {
-        token = IERC20(_token);
-    }
-
-    function getBalance(address account) public view returns (uint256) {
-        return token.balanceOf(account);
-    }
-
-    function doTransfer(address to, uint256 amount) public {
-        token.transfer(to, amount);
-    }
-}
-</code></pre>
-<p>好处：代码更简洁，不用每次都传地址。</p>
-<h3 id="call">方式四：使用 call 调用</h3>
-<p>当你<strong>不知道目标合约的接口</strong>时，可以用底层的 <code>call</code>。</p>
-<pre><code class="language-solidity">contract MyContract {
-    function getBalance(address token, address account) public returns (uint256) {
-        (bool success, bytes memory data) = token.call(
-            abi.encodeWithSignature(&quot;balanceOf(address)&quot;, account)
-        );
-        require(success, &quot;Call failed&quot;);
-        return abi.decode(data, (uint256));
-    }
-}
-</code></pre>
-<p><code>call</code> 是 <code>address</code> 类型的底层方法，特点是：</p>
+<p>ABI（Application Binary Interface）是合约与外部世界交互的协议。理解它有助于：</p>
 <ul>
-<li>需要自己构造 calldata</li>
-<li>需要自己检查 success</li>
-<li>需要自己解析返回值</li>
+<li>构造原始交易</li>
+<li>解析链上数据</li>
+<li>排查调用失败问题</li>
 </ul>
-<p><strong>什么时候用 call？</strong></p>
+<h2 id="_1">一、函数选择器</h2>
+<h3 id="_2">计算规则</h3>
+<p>选择器 = 函数签名的 keccak256 哈希的<strong>前 4 字节</strong>。</p>
+<p><strong>函数签名的规范格式</strong>：</p>
 <ul>
-<li>目标合约的 ABI 未知</li>
-<li>需要更灵活的控制（如指定 gas、附带 ETH）</li>
+<li>函数名 + 参数类型列表</li>
+<li>不含空格、参数名、返回值</li>
+<li>使用基础类型（uint256 而非 uint）</li>
 </ul>
-<p>一般情况下，<strong>优先用接口调用</strong>，更安全更清晰。</p>
-<h3 id="_6">四种方式对比</h3>
+<pre><code>transfer(address,uint256)     ✓ 正确
+transfer(address to, uint256) ✗ 不能有参数名
+transfer(address, uint)       ✗ uint 应写成 uint256
+</code></pre>
+<h3 id="_3">选择器碰撞</h3>
+<p>选择器只有 4 字节（32 位），理论上 2³² ≈ 43 亿种可能。</p>
+<p><strong>碰撞</strong>：两个不同的函数签名产生相同的选择器。</p>
+<p>经典案例：</p>
+<pre><code>collate_propagate_storage(bytes16) → 0x42966c68
+burn(uint256)                      → 0x42966c68
+</code></pre>
+<p>碰撞的影响：</p>
+<ul>
+<li><strong>同一合约内</strong>：编译器会报错，不允许存在</li>
+<li><strong>跨合约调用</strong>：如果选择器碰撞且参数类型兼容，可能调用到错误的函数</li>
+</ul>
+<p><strong>安全提示</strong>：使用知名函数名（如 ERC20 标准）可降低碰撞风险。</p>
+<h2 id="_4">二、静态类型编码</h2>
+<p>ABI 编码的核心规则：<strong>所有值填充到 32 字节</strong>。</p>
 <table>
 <thead>
 <tr>
-<th>方式</th>
-<th>需要接口/合约代码</th>
-<th>类型安全</th>
-<th>使用场景</th>
+<th>类型</th>
+<th>编码方式</th>
+<th>示例</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>接口调用</td>
-<td>需要接口</td>
-<td>✅</td>
-<td>日常开发首选</td>
+<td>uint256</td>
+<td>直接使用</td>
+<td>100 → 0x0000...0064</td>
 </tr>
 <tr>
-<td>合约类型调用</td>
-<td>需要完整代码</td>
-<td>✅</td>
-<td>有源码时可用</td>
+<td>uint8/uint128 等</td>
+<td>左填充零到 32 字节</td>
+<td>uint8(1) → 0x0000...0001</td>
 </tr>
 <tr>
-<td>存储引用</td>
-<td>需要接口</td>
-<td>✅</td>
-<td>频繁调用同一合约</td>
+<td>int256</td>
+<td>负数用补码</td>
+<td>-1 → 0xffff...ffff</td>
 </tr>
 <tr>
-<td>call 调用</td>
-<td>不需要</td>
-<td>❌</td>
-<td>ABI 未知或需要底层控制</td>
+<td>address</td>
+<td>左填充零到 32 字节</td>
+<td>0xABC... → 0x000...ABC...</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>0 或 1</td>
+<td>true → 0x0000...0001</td>
+</tr>
+<tr>
+<td>bytes1-bytes32</td>
+<td>右填充零到 32 字节</td>
+<td>bytes4(0x12345678) → 0x12345678000...000</td>
 </tr>
 </tbody>
 </table>
-<h2 id="_7">小结</h2>
-<p>本篇我们学习了：</p>
-<ol>
-<li><code>receive</code> 和 <code>fallback</code> 的触发逻辑</li>
-<li>四种调用已部署合约的方式</li>
-<li>日常开发推荐使用接口调用</li>
-</ol>
-<p>下一篇，我们深入 <code>call</code> 的底层细节：如何构造 calldata、三种 ABI 编码方式的区别，以及如何正确处理返回值。</p>
-<p><strong>系列导航</strong></p>
+<h3 id="_5">多参数打包</h3>
+<p>多个参数按<strong>声明顺序</strong>依次拼接，每个 32 字节。</p>
+<pre><code class="language-solidity">function example(uint256 a, address b, bool c)
+</code></pre>
+<p>calldata 结构：</p>
+<p><img alt="" src="../../../assets/images/evm_fundamentals_part3_240413_1.png" /></p>
+<h2 id="_6">三、动态类型编码</h2>
+<p>静态类型编码很简单：每个值固定 32 字节，按顺序拼接。但动态类型（string、bytes、数组）长度不固定，怎么办？</p>
+<p><strong>解决方案</strong>：头部放 offset（偏移量），尾部放实际数据。</p>
+<h3 id="_7">通用结构</h3>
+<p><img alt="" src="../../../assets/images/evm_fundamentals_part3_240413_2.png" /></p>
 <ul>
-<li>第一篇：Solidity 合约间调用（一）：四种方式调用已部署合约（本篇）</li>
-<li>第二篇：<a href="../solidity_contract_call_part2_251223/">Solidity 合约间调用（二）：底层调用与 calldata 详解</a></li>
-<li>第三篇：<a href="../solidity_contract_call_part3_251227/">Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2</a></li>
+<li><strong>Head（头部）</strong>：每个参数占 32 字节，动态参数存 offset，指向 Tail 起始位置</li>
+<li><strong>Tail（尾部）</strong>：真正的数据内容，只为动态参数存在，按顺序追加，格式：<code>length (32 bytes)</code> + <code>data (按 32 字节对齐)</code></li>
+<li><strong>offset</strong>：从头部起始位置到尾部起始位置的字节偏移量</li>
+</ul>
+<p>演示程序：</p>
+<pre><code class="language-solidity">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+contract ABI {
+    string public strVar;
+    bytes public bytesVar;
+    uint256[] public arr;
+
+    struct Students {
+        uint256 age;
+        string name;
+        uint256 grades;
+    }
+
+    event StringABI(string _string);
+    event BytesABI(bytes _bytes);
+    event ArrayABI(uint256[] _array);
+    event StudentInfo(uint256 indexed _age, string indexed _name, uint256 indexed _grades);
+
+    function abi_String(string memory _string) public {
+        strVar = _string;
+        emit StringABI(_string);
+    }
+
+    function abi_Bytes(bytes memory _bytes) public {
+        bytesVar = _bytes;
+        emit BytesABI(_bytes);
+    }
+
+    function abi_Array(uint256[] memory _array) public {
+        arr = _array;
+        emit ArrayABI(_array);
+    }
+
+    function Student(uint256 _age, string memory _name, uint256 _grades) public {
+        Students memory student;
+        student.age = _age;
+        student.name = _name;
+        student.grades = _grades;
+        emit StudentInfo(_age, _name, _grades);
+    }
+}
+</code></pre>
+<h3 id="1-string">实例 1：单个 string 参数</h3>
+<p>调用 <code>abi_String("HelloWorld")</code>，calldata 如下：</p>
+<pre><code>选择器:    0x5c235583
+[0] offset: 0x0000...0020  (32，指向下一行)
+[1] length: 0x0000...000a  (10，字符串长度)
+[2] data:   0x48656c6c6f576f726c6400...00  (&quot;HelloWorld&quot; + padding)
+</code></pre>
+<p>解读：</p>
+<ul>
+<li>offset = 0x20（十进制 32），意思是从参数区起点数第 32 字节处开始是 string 的实际内容</li>
+<li>length = 0x0a（十进制 10），<code>HelloWorld</code> 共 10 个 ASCII 字符</li>
+<li>data 是 ASCII 编码，后面补零对齐到 32 字节</li>
+</ul>
+<h3 id="2">实例 2：混合参数</h3>
+<p>调用 <code>Student(18, "Alice", 95)</code>，参数类型：</p>
+<ol>
+<li><code>_age</code> → uint256（静态）</li>
+<li><code>_name</code> → string（动态）</li>
+<li><code>_grades</code> → uint256（静态）</li>
+</ol>
+<p>calldata 结构：</p>
+<pre><code>选择器:     0x4c585d74
+[0] age:    0x0000...0012  (18)
+[1] offset: 0x0000...0060  (96，指向 name 的 tail)
+[2] grades: 0x0000...005f  (95)
+[3] length: 0x0000...0005  (5，&quot;Alice&quot; 的长度)
+[4] data:   0x416c69636500...00  (&quot;Alice&quot; + padding)
+</code></pre>
+<p>为什么 offset = 0x60？</p>
+<ul>
+<li>head 区有 3 个参数，每个 32 字节</li>
+<li>head = 3 × 32 = 96 bytes = 0x60</li>
+<li>所以 <code>_name</code> 的 tail 从 0x60 开始</li>
+</ul>
+<p><strong>核心规则</strong>：static 参数直接存值，dynamic 参数在 head 里存 offset，真实内容统一放在 tail 中。</p>
+<h2 id="abi">四、ABI 解码</h2>
+<pre><code class="language-solidity">(uint256 a, string memory b) = abi.decode(data, (uint256, string));
+</code></pre>
+<p>手动解码步骤：</p>
+<ol>
+<li>跳过前 4 字节选择器</li>
+<li>按参数顺序读取头部</li>
+<li>静态类型直接解析</li>
+<li>动态类型根据 offset 跳转到尾部，读取 length 和 data</li>
+</ol>
+<h2 id="_8">五、三种底层调用</h2>
+<table>
+<thead>
+<tr>
+<th>操作码</th>
+<th>用途</th>
+<th>一句话描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>call</td>
+<td>普通调用</td>
+<td>调用别人的代码，操作别人的存储</td>
+</tr>
+<tr>
+<td>delegatecall</td>
+<td>委托调用</td>
+<td>借用别人的代码，操作自己的存储</td>
+</tr>
+<tr>
+<td>staticcall</td>
+<td>只读调用</td>
+<td>调用别人的代码，禁止任何状态修改</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_9">上下文对比</h3>
+<p>当合约 A 调用合约 B 时：</p>
+<table>
+<thead>
+<tr>
+<th>上下文</th>
+<th>call</th>
+<th>delegatecall</th>
+<th>staticcall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>msg.sender</td>
+<td>A</td>
+<td>保持原值</td>
+<td>A</td>
+</tr>
+<tr>
+<td>msg.value</td>
+<td>可指定</td>
+<td>保持原值</td>
+<td>0</td>
+</tr>
+<tr>
+<td>代码来源</td>
+<td>B</td>
+<td>B</td>
+<td>B</td>
+</tr>
+<tr>
+<td>存储操作</td>
+<td>B 的存储</td>
+<td>A 的存储</td>
+<td>禁止写入</td>
+</tr>
+<tr>
+<td>address(this)</td>
+<td>B</td>
+<td>A</td>
+<td>B</td>
+</tr>
+</tbody>
+</table>
+<p><strong>delegatecall 的本质</strong>："借壳执行"——代码是 B 的，但执行环境完全是 A 的。</p>
+<h3 id="_10">返回值处理</h3>
+<pre><code class="language-solidity">(bool success, bytes memory data) = target.call(payload);
+</code></pre>
+<ul>
+<li><code>success</code>：调用是否成功（未 revert）</li>
+<li><code>data</code>：返回的原始字节数据</li>
+</ul>
+<h2 id="_11">六、底层调用的错误处理</h2>
+<h3 id="vs">高级调用 vs 底层调用</h3>
+<table>
+<thead>
+<tr>
+<th>调用方式</th>
+<th>异常行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高级调用（接口调用）</td>
+<td>异常自动"冒泡"，整个交易回滚</td>
+</tr>
+<tr>
+<td>底层调用</td>
+<td>返回 <code>(false, errorData)</code>，不会自动回滚</td>
+</tr>
+</tbody>
+</table>
+<p>底层调用把错误处理的决定权交给调用者。你可以选择：</p>
+<ul>
+<li>忽略错误，继续执行</li>
+<li>冒泡错误，回滚整个交易</li>
+<li>解码错误，做针对性处理</li>
+</ul>
+<h3 id="returndata">returndata 的结构</h3>
+<p>当被调用合约 revert 时，返回的 <code>data</code> 包含错误信息：</p>
+<p><img alt="" src="../../../assets/images/evm_fundamentals_part3_240413_3.png" /></p>
+<p>常见的错误选择器：</p>
+<table>
+<thead>
+<tr>
+<th>错误类型</th>
+<th>选择器</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Error(string)</td>
+<td>0x08c379a0</td>
+<td>require("message") 或 revert("message")</td>
+</tr>
+<tr>
+<td>Panic(uint256)</td>
+<td>0x4e487b71</td>
+<td>assert 失败、溢出、除零等</td>
+</tr>
+<tr>
+<td>自定义错误</td>
+<td>各不相同</td>
+<td>error CustomError(...)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1">方式 1：直接冒泡原始错误</h3>
+<p><strong>场景</strong>：不关心具体错误内容，只需要把错误原样传递给上层调用者。</p>
+<pre><code class="language-solidity">function forwardCall(address target, bytes calldata payload) external returns (bytes memory) {
+    (bool success, bytes memory data) = target.call(payload);
+
+    if (!success) {
+        assembly {
+            // data 的前 32 字节是长度，实际数据从 data + 32 开始
+            revert(add(data, 32), mload(data))
+        }
+    }
+
+    return data;
+}
+</code></pre>
+<p>原理解析：</p>
+<p><img alt="" src="../../../assets/images/evm_fundamentals_part3_240413_4.png" /></p>
+<ul>
+<li><code>add(data, 32)</code>：跳过长度字段，指向实际数据</li>
+<li><code>mload(data)</code>：读取数据长度</li>
+</ul>
+<h3 id="2_1">方式 2：解码错误信息</h3>
+<p><strong>场景</strong>：需要根据错误类型做不同处理，或者需要记录/转换错误信息。</p>
+<pre><code class="language-solidity">function decodeError(bytes memory data) internal pure returns (string memory) {
+    if (data.length &lt; 4) {
+        return &quot;Unknown error&quot;;
+    }
+
+    bytes4 selector;
+    assembly {
+        selector := mload(add(data, 32))
+    }
+
+    // Error(string) 的选择器
+    if (selector == 0x08c379a0 &amp;&amp; data.length &gt;= 68) {
+        assembly {
+            data := add(data, 4)  // 跳过 selector
+        }
+        return abi.decode(data, (string));
+    }
+
+    // Panic(uint256) 的选择器
+    if (selector == 0x4e487b71 &amp;&amp; data.length &gt;= 36) {
+        uint256 panicCode;
+        assembly {
+            panicCode := mload(add(data, 36))
+        }
+        // 根据 panicCode 返回对应描述
+        if (panicCode == 0x01) return &quot;Assertion failed&quot;;
+        if (panicCode == 0x11) return &quot;Arithmetic overflow&quot;;
+        if (panicCode == 0x12) return &quot;Division by zero&quot;;
+        // ... 其他 panic code
+    }
+
+    return &quot;Unknown error&quot;;
+}
+</code></pre>
+<h3 id="_12">两种方式的对比</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>直接冒泡</th>
+<th>解码处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>代码复杂度</td>
+<td>低（几行 assembly）</td>
+<td>高（需要解码逻辑）</td>
+</tr>
+<tr>
+<td>Gas 消耗</td>
+<td>低</td>
+<td>较高</td>
+</tr>
+<tr>
+<td>错误信息</td>
+<td>保留原始信息</td>
+<td>可以转换/增强</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>代理合约、简单转发</td>
+<td>需要错误日志、错误转换</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_13">代理合约的典型写法</h3>
+<pre><code class="language-solidity">fallback() external payable {
+    address impl = implementation;
+    assembly {
+        calldatacopy(0, 0, calldatasize())
+        let result := delegatecall(gas(), impl, 0, calldatasize(), 0, 0)
+        returndatacopy(0, 0, returndatasize())
+
+        switch result
+        case 0 { revert(0, returndatasize()) }
+        default { return(0, returndatasize()) }
+    }
+}
+</code></pre>
+<h2 id="_14">小结</h2>
+<p>本文介绍了 ABI 编码和底层调用的核心知识：</p>
+<ol>
+<li>函数选择器：keccak256 哈希的前 4 字节</li>
+<li>静态类型：填充到 32 字节，按顺序拼接</li>
+<li>动态类型：head 存 offset，tail 存 length + data</li>
+<li>三种调用：call/delegatecall/staticcall 上下文不同</li>
+<li>错误处理：可以冒泡原始错误，也可以解码处理</li>
+</ol>
+<p>理解这些底层机制，能帮助你：</p>
+<ul>
+<li>手动构造交易数据</li>
+<li>解析链上的 calldata 和 returndata</li>
+<li>编写更安全的代理合约</li>
+<li>排查调用失败的根本原因</li>
+</ul>
+<h2 id="_15">系列总结</h2>
+<p>至此，EVM 基础原理系列三篇文章已全部完成。让我们回顾整个系列的知识脉络：</p>
+<p><strong>第一篇：从交易到字节码</strong> —— 建立 EVM 的整体认知。我们了解了以太坊作为状态机的本质，交易如何驱动状态变化，以及 Solidity 代码如何编译成 EVM 可执行的字节码。函数选择器的路由机制揭示了 EVM 如何找到并执行目标函数。</p>
+<p><strong>第二篇：数据区域与合约执行</strong> —— 深入 EVM 的数据管理。栈、内存、存储三个数据区域各有特点和成本差异，理解它们是 Gas 优化的基础。合约的部署和调用机制则展示了 EVM 如何管理合约的生命周期。</p>
+<p><strong>第三篇：ABI 编码与底层调用</strong> —— 掌握与合约交互的底层协议。ABI 编码规则决定了数据如何在合约间传递，底层调用的三种方式为不同场景提供了灵活的选择。</p>
+<p>这三篇文章构成了一个完整的学习路径：<strong>从宏观认知到数据管理，再到交互协议</strong>。掌握这些基础知识后，你将能够：</p>
+<ul>
+<li>更深入地理解 Solidity 代码的执行过程</li>
+<li>有针对性地进行 Gas 优化</li>
+<li>排查和解决底层调用问题</li>
+<li>为学习更高级的主题（如代理模式、内联汇编、安全审计）打下坚实基础</li>
+</ul>
+<p>EVM 的世界远不止于此，但有了这些基础，你已经具备了继续深入探索的能力。</p>
+<p><strong>系列导航：</strong></p>
+<ul>
+<li>第一篇：<a href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/">EVM 基础原理（一）：从交易到字节码</a></li>
+<li>第二篇：<a href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/">EVM 基础原理（二）：EVM 数据区域与合约执行</a></li>
+<li>第三篇：EVM 基础原理（三）：ABI 编码与底层调用（本篇）</li>
 </ul>
 
 
