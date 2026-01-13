@@ -8,4 +8,7 @@
 - 2025-11-20：[为什么以太坊地址是 20 字节？从私钥到地址的全解析](./web3/dapp/ethereum_address_size_251120.md)
 - 2024-07-10：[Uniswap V2 价格精度解析](./web3/defi/uniswap_v2_price_precision_240710.md)
 - 2024-04-15：[Hardhat 入门指南（25年更新版）](./web3/dapp/hardhat_tutorial_240415.md)
+- 2024-04-13：[EVM 基础原理（三）：ABI 编码与底层调用](./web3/dapp/evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413.md)
+- 2024-04-11：[EVM 基础原理（二）：数据区域与合约执行](./web3/dapp/evm_fundamentals_part2_data_regions_and_contract_execution_240411.md)
+- 2024-04-10：[EVM 基础原理（一）：从交易到字节码](./web3/dapp/evm_fundamentals_part1_from_transactions_to_bytecode_240410.md)
 - 2024-02-13：[比特币的诞生历程](./blockchain/the_evolution_of_bitcoin_240213.md)
