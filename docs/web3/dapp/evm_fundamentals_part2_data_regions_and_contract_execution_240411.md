@@ -228,6 +228,10 @@ address = keccak256(0xff ++ sender ++ salt ++ keccak256(initCode))[12:]
 
 通过自定义 salt，可以在部署前预测地址。这在工厂合约、跨链部署中很有用。
 
+问题：为什么 CREATE2 要用 Init Code 而不是 Creation Code？
+
+使用 Init Code 是因为 **相同的代码 + 相同的参数** 才应该得到相同的地址。如果只用 Creation Code，不同参数会部署到同一地址，这不是期望的行为。
+
 ## 六、函数调用机制
 
 ### calldata 结构

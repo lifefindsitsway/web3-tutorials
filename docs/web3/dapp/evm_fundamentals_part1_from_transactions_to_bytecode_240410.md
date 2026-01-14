@@ -305,16 +305,6 @@ Creation Code 包含构造函数逻辑和参数解析代码，这些只在部署
 
 `immutable` 变量在部署时确定值，直接嵌入到 Runtime Code 中。所以每次部署参数不同，Runtime Code 也会略有不同。
 
-**Q3：为什么 CREATE2 要用 Init Code 而不是 Creation Code？**
-
-CREATE2 的地址计算公式：
-
-```
-address = keccak256(0xff ++ sender ++ salt ++ keccak256(initCode))[12:]
-```
-
-使用 Init Code 是因为**相同的代码 + 相同的参数**才应该得到相同的地址。如果只用 Creation Code，不同参数会部署到同一地址，这不是期望的行为。
-
 ## 八、EVM 执行模型
 
 EVM 是基于栈的虚拟机。栈是一种数据结构，就像一摞盘子——只能从顶部放入或取出。
