@@ -267,6 +267,6 @@ function rawCreate2(bytes memory bytecode, bytes32 salt) external returns (addre
 
 **系列导航**
 
-- 第一篇：[Solidity 合约间调用（一）：四种方式调用已部署合约](./solidity_contract_call_part1_251221.md)
-- 第二篇：[Solidity 合约间调用（二）：底层调用与 calldata 详解](./solidity_contract_call_part2_251223.md)
+- 第一篇：[Solidity 合约间调用（一）：四种方式调用已部署合约](./solidity_contract_call_part1_240521.md)
+- 第二篇：[Solidity 合约间调用（二）：底层调用与 calldata 详解](./solidity_contract_call_part2_240523.md)
 - 第三篇：Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2（本篇）
