@@ -122,11 +122,13 @@ slot[2²⁵⁶ - 1] → 32 bytes
 ```solidity
 contract SlotPacking {
     uint256 a;     // slot 0（完整占用）
-    uint128 b;     // slot 1（前 16 字节）
-    uint128 c;     // slot 1（后 16 字节）
+    uint128 b;     // slot 1（低 16 字节）
+    uint128 c;     // slot 1（高 16 字节）
     uint256 d;     // slot 2
 }
 ```
+
+Solidity 在同一个 storage slot（32 字节）里做打包时，**按声明顺序依次放入**，并且是**从该 slot 的低位（least-significant）字节开始填充**，往高位方向推进；放不下就换下一个 slot。
 
 **结构体**：从新槽位开始，内部按顺序排列。
 
