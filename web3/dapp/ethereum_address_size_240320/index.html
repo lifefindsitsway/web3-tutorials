@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/solidity_contract_call_part1_251221/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/ethereum_address_size_240320/">
       
       
-        <link rel="prev" href="../solidity_proxy_upgrade_series_part2_251230/">
+        <link rel="prev" href="../address_240321/">
       
       
-        <link rel="next" href="../solidity_contract_call_part2_251223/">
+        <link rel="next" href="../../defi/uniswap_v2_price_precision_240610/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Solidity 合约间调用（一）：四种方式调用已部署合约 - Life's Web3 开发指南</title>
+        <title>为什么以太坊地址是 20 字节？从私钥到地址的全解析 - Life's Web3 开发指南</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#receive-fallback" class="md-skip">
+        <a href="#1" class="md-skip">
           跳转至
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Solidity 合约间调用（一）：四种方式调用已部署合约
+              为什么以太坊地址是 20 字节？从私钥到地址的全解析
             
           </span>
         </div>
@@ -439,28 +439,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Solidity 合约间调用（一）：四种方式调用已部署合约
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../solidity_contract_call_part1_240521/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -469,135 +451,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#receive-fallback" class="md-nav__link">
-    <span class="md-ellipsis">
-      前置知识：receive 和 fallback
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="前置知识：receive 和 fallback">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#receive-eth" class="md-nav__link">
-    <span class="md-ellipsis">
-      receive：专门接收 ETH
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fallback" class="md-nav__link">
-    <span class="md-ellipsis">
-      fallback：兜底函数
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      触发逻辑
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      调用已部署合约需要什么？
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="调用已部署合约需要什么？">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式一：通过接口调用（推荐）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式二：通过合约类型调用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式三：存储合约引用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#call" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式四：使用 call 调用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      四种方式对比
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      小结
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -610,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../solidity_contract_call_part2_251223/" class="md-nav__link">
+      <a href="../solidity_contract_call_part2_240523/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -631,53 +484,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../solidity_contract_call_part3_251227/" class="md-nav__link">
+      <a href="../solidity_contract_call_part3_240527/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ethereum_address_size_251120/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    为什么以太坊地址是 20 字节？从私钥到地址的全解析
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../address_251125/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Solidity 地址类型 & 常见用法全攻略
   </span>
   
 
@@ -771,6 +582,120 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../address_240321/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solidity 地址类型 & 常见用法全攻略
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    为什么以太坊地址是 20 字节？从私钥到地址的全解析
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    为什么以太坊地址是 20 字节？从私钥到地址的全解析
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. 以太坊地址多大？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. 从密钥到地址：为什么是 20 字节？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-solidity-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Solidity 里的 address 实际占多少字节？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-abi-calldata-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 在 ABI / calldata / memory 里的地址大小
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -820,7 +745,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../defi/uniswap_v2_price_precision_240710/" class="md-nav__link">
+      <a href="../../defi/uniswap_v2_price_precision_240610/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -887,111 +812,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#receive-fallback" class="md-nav__link">
+  <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
-      前置知识：receive 和 fallback
+      1. 以太坊地址多大？
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="前置知识：receive 和 fallback">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#receive-eth" class="md-nav__link">
-    <span class="md-ellipsis">
-      receive：专门接收 ETH
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fallback" class="md-nav__link">
-    <span class="md-ellipsis">
-      fallback：兜底函数
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      触发逻辑
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#2-20" class="md-nav__link">
     <span class="md-ellipsis">
-      调用已部署合约需要什么？
+      2. 从密钥到地址：为什么是 20 字节？
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="调用已部署合约需要什么？">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式一：通过接口调用（推荐）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式二：通过合约类型调用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式三：存储合约引用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#call" class="md-nav__link">
-    <span class="md-ellipsis">
-      方式四：使用 call 调用
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      四种方式对比
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#3-solidity-address" class="md-nav__link">
     <span class="md-ellipsis">
-      小结
+      3. Solidity 里的 address 实际占多少字节？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-abi-calldata-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 在 ABI / calldata / memory 里的地址大小
     </span>
   </a>
   
@@ -1015,175 +865,124 @@
   
 
 
-  <h1>Solidity 合约间调用（一）：四种方式调用已部署合约</h1>
+  <h1>为什么以太坊地址是 20 字节？从私钥到地址的全解析</h1>
 
-<blockquote>
-<p>当你的合约需要和链上其他合约交互时，该怎么做？本篇介绍最常用的四种方式。</p>
-</blockquote>
-<h2 id="receive-fallback">前置知识：receive 和 fallback</h2>
-<p>在讲调用之前，先认识两个特殊函数。它们是合约的"后门入口"，在接收 ETH 和处理合约中不存在的函数调用时非常重要。</p>
-<h3 id="receive-eth">receive：专门接收 ETH</h3>
-<p>当合约收到<strong>纯 ETH 转账</strong>（没有附带任何数据）时，<code>receive</code> 会被触发。</p>
-<pre><code class="language-solidity">receive() external payable {
-    // 处理收到的 ETH
-}
-</code></pre>
-<p>语法特点：没有 <code>function</code> 关键字，没有参数，没有返回值，必须是 <code>external payable</code>。</p>
-<h3 id="fallback">fallback：兜底函数</h3>
-<p>当调用合约时，如果找不到匹配的函数，就会触发 <code>fallback</code>。</p>
-<pre><code class="language-solidity">// 基础形式
-fallback() external payable {}
-
-// 带参数形式（可以访问 calldata 并返回数据）
-fallback(bytes calldata input) external payable returns (bytes memory) {
-    return abi.encode(input.length);
-}
-</code></pre>
-<h3 id="_1">触发逻辑</h3>
-<pre><code>                     调用合约
-                        │
-                        ▼
-                 msg.data 是否为空？
-                   /         \
-                 是            否
-                /               \
-              ▼                  ▼
-        receive 存在？      函数签名匹配？
-          /     \            /       \
-        是       否        是         否
-        /         \        /           \
-    receive    fallback  执行函数    fallback
-</code></pre>
-<p>简单记忆：<strong>纯转账走 receive，其他兜底走 fallback</strong>。</p>
-<h2 id="_2">调用已部署合约需要什么？</h2>
-<p>两样东西：<strong>合约地址</strong> + <strong>调用接口</strong>。</p>
-<p>接口告诉编译器：这个地址上的合约有哪些函数可以调用。</p>
-<pre><code class="language-solidity">interface IERC20 {
-    function balanceOf(address account) external view returns (uint256);
-    function transfer(address to, uint256 amount) external returns (bool);
-    // ...其他函数
-}
-</code></pre>
-<p>有了接口，就可以开始调用了。</p>
-<h3 id="_3">方式一：通过接口调用（推荐）</h3>
-<p>这是最常用、最推荐的方式，类型安全，代码清晰。</p>
-<pre><code class="language-solidity">import &quot;./IERC20.sol&quot;;
-
-contract MyContract {
-    function getBalance(address token, address account) public view returns (uint256) {
-        return IERC20(token).balanceOf(account);
-    }
-}
-</code></pre>
-<p>核心语法：<code>IERC20(token)</code> 把地址"包装"成接口类型，然后就能像调用本地函数一样调用它。</p>
-<h3 id="_4">方式二：通过合约类型调用</h3>
-<p>如果你有目标合约的完整代码，可以直接用合约类型。</p>
-<pre><code class="language-solidity">import &quot;./ERC20.sol&quot;;
-
-contract MyContract {
-    function getBalance(address token, address account) public view returns (uint256) {
-        return ERC20(token).balanceOf(account);
-    }
-}
-</code></pre>
-<p>本质上和接口调用一样——都是告诉编译器"这个地址有哪些函数"。</p>
-<p><strong>区别</strong>：接口只声明函数签名，合约类型包含完整实现。如果只需要调用，用接口更轻量。</p>
-<h3 id="_5">方式三：存储合约引用</h3>
-<p>当你需要多次调用同一个合约时，可以把引用存为状态变量。</p>
-<pre><code class="language-solidity">import &quot;./IERC20.sol&quot;;
-
-contract MyContract {
-    IERC20 public token;  // 存储合约引用
-
-    constructor(address _token) {
-        token = IERC20(_token);
-    }
-
-    function getBalance(address account) public view returns (uint256) {
-        return token.balanceOf(account);
-    }
-
-    function doTransfer(address to, uint256 amount) public {
-        token.transfer(to, amount);
-    }
-}
-</code></pre>
-<p>好处：代码更简洁，不用每次都传地址。</p>
-<h3 id="call">方式四：使用 call 调用</h3>
-<p>当你<strong>不知道目标合约的接口</strong>时，可以用底层的 <code>call</code>。</p>
-<pre><code class="language-solidity">contract MyContract {
-    function getBalance(address token, address account) public returns (uint256) {
-        (bool success, bytes memory data) = token.call(
-            abi.encodeWithSignature(&quot;balanceOf(address)&quot;, account)
-        );
-        require(success, &quot;Call failed&quot;);
-        return abi.decode(data, (uint256));
-    }
-}
-</code></pre>
-<p><code>call</code> 是 <code>address</code> 类型的底层方法，特点是：</p>
+<h2 id="1">1. 以太坊地址多大？</h2>
+<p>以太坊地址大小：20 字节（bytes） = 160 位（bits），对外通常写成：<code>0x</code> + 40 个十六进制字符</p>
 <ul>
-<li>需要自己构造 calldata</li>
-<li>需要自己检查 success</li>
-<li>需要自己解析返回值</li>
+<li>每个十六进制字符是 4 bit</li>
+<li>40 × 4 = 160 bit = 20 byte</li>
 </ul>
-<p><strong>什么时候用 call？</strong></p>
-<ul>
-<li>目标合约的 ABI 未知</li>
-<li>需要更灵活的控制（如指定 gas、附带 ETH）</li>
-</ul>
-<p>一般情况下，<strong>优先用接口调用</strong>，更安全更清晰。</p>
-<h3 id="_6">四种方式对比</h3>
-<table>
-<thead>
-<tr>
-<th>方式</th>
-<th>需要接口/合约代码</th>
-<th>类型安全</th>
-<th>使用场景</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>接口调用</td>
-<td>需要接口</td>
-<td>✅</td>
-<td>日常开发首选</td>
-</tr>
-<tr>
-<td>合约类型调用</td>
-<td>需要完整代码</td>
-<td>✅</td>
-<td>有源码时可用</td>
-</tr>
-<tr>
-<td>存储引用</td>
-<td>需要接口</td>
-<td>✅</td>
-<td>频繁调用同一合约</td>
-</tr>
-<tr>
-<td>call 调用</td>
-<td>不需要</td>
-<td>❌</td>
-<td>ABI 未知或需要底层控制</td>
-</tr>
-</tbody>
-</table>
-<h2 id="_7">小结</h2>
-<p>本篇我们学习了：</p>
+<p>例如：0x28816c4c4792467390c90e5b426f198570e29307，去掉 <code>0x</code>，剩下的 40 个 Hex 字符，就是 20 字节的二进制地址。</p>
+<h2 id="2-20">2. 从密钥到地址：为什么是 20 字节？</h2>
+<p>以太坊账户的生成流程（外部账户 EOA）大致是这样：</p>
 <ol>
-<li><code>receive</code> 和 <code>fallback</code> 的触发逻辑</li>
-<li>四种调用已部署合约的方式</li>
-<li>日常开发推荐使用接口调用</li>
+<li>生成一个 <strong>私钥</strong>（256 bit 随机数）；</li>
+<li>用 secp256k1 椭圆曲线算出 <strong>公钥</strong>（64 字节：x、y 各 32 字节）；</li>
+<li>对公钥做一次 Keccak-256 哈希：得到 32 字节；</li>
+<li><strong>取哈希结果的后 20 字节（右边 20 字节）</strong>，作为地址；</li>
 </ol>
-<p>下一篇，我们深入 <code>call</code> 的底层细节：如何构造 calldata、三种 ABI 编码方式的区别，以及如何正确处理返回值。</p>
-<p><strong>系列导航</strong></p>
+<pre><code class="language-vbscript">┌──────────────────────────────────────────┐
+│          私钥 Private Key             │
+│     256-bit 随机数（32 字节）           │
+└──────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────┐
+│         公钥 Public Key               │
+│ secp256k1 椭圆曲线推导出 64 字节坐标     │
+│  公钥 = (x: 32 bytes, y: 32 bytes)    │
+└──────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────┐
+│      Keccak-256 哈希（32 字节）        │
+│ hash = keccak256(uncompressed_pubkey)│
+└──────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────┐
+│       取哈希结果的最后 20 字节           │
+│     （右 20 字节 = 160 bit）           │
+└──────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────┐
+│         以太坊地址 Ethereum Address    │
+│   0x + 40 位十六进制字符（= 20字节）     │
+└──────────────────────────────────────────┘
+
+</code></pre>
+<blockquote>
+<p>所以地址本质上是： address = last_20_bytes( keccak256( public_key ) )</p>
+</blockquote>
+<p>问题：为什么不用 32 字节，非要截断成 20 字节？</p>
+<p>简单理解：截断一点 hash，当地址用，<strong>够用 + 好用 + 节省资源</strong>。</p>
+<p>（1）短一点，方便展示与输入</p>
 <ul>
-<li>第一篇：Solidity 合约间调用（一）：四种方式调用已部署合约（本篇）</li>
-<li>第二篇：<a href="../solidity_contract_call_part2_251223/">Solidity 合约间调用（二）：底层调用与 calldata 详解</a></li>
-<li>第三篇：<a href="../solidity_contract_call_part3_251227/">Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2</a></li>
+<li>
+<p>32 字节地址 → 64 个 Hex 字符</p>
+</li>
+<li>
+<p>20 字节地址 → 40 个 Hex 字符</p>
+</li>
 </ul>
+<p>从前端 UI、钱包显示、用户复制粘贴的体验来看，40 个字符已经很长了，64 个更难用。</p>
+<p>（2）安全性仍然足够</p>
+<p>地址空间有 2¹⁶⁰ ≈ 1.46 × 10⁴⁸ 种可能，即使全地球算力爆炸式提高，要「碰撞」一个指定地址也几乎不可能。</p>
+<p>真正的安全性瓶颈是：私钥是否真的随机 &amp; 是否被泄露，而不是「地址够不够长」。</p>
+<p>（3）存储空间更小</p>
+<p>状态树（state trie）、交易编码里地址要存很多次，20 字节 × N 次，比 32 字节 × N 次省空间、省带宽、省存储。</p>
+<h2 id="3-solidity-address">3. Solidity 里的 address 实际占多少字节？</h2>
+<p>这里要分 <strong>“概念上的大小”</strong> 和 <strong>“EVM 实际存储的大小”</strong> 两层看。</p>
+<p>概念上：address = 20 字节</p>
+<p>在 Solidity 类型系统里：</p>
+<pre><code class="language-solidity">address         // 20 字节
+address payable // 也是 20 字节，只是多了转账函数
+</code></pre>
+<p>存储在 EVM storage 里：占用 32 字节槽位</p>
+<p>EVM 的最小存储单位是 <strong>一个 storage slot = 32 字节（256 bit）</strong>，即使只存一个 bool / uint8 / address，它默认也占用一个完整 32 字节槽（除非编译器做变量打包）。</p>
+<pre><code class="language-solidity">contract Store {
+    address public owner;    // slot 0，占 32 字节
+    uint256 public value;    // slot 1，占 32 字节
+}
+</code></pre>
+<p>虽然 address 实际只用掉 20 字节，其余 12 字节是填充的（通常为 0），但：</p>
+<ul>
+<li>在 <strong>storage 层面：1 个 address = 1 个 slot = 32 字节</strong></li>
+<li>在 <strong>语义层面：address 还是代表 20 字节的地址</strong></li>
+</ul>
+<p>这也就是为什么有时候讲「存一个地址，gas 很贵」，因为它会触发一次 <code>SSTORE</code> 到新槽位。</p>
+<p>如果变量打包，例如：</p>
+<pre><code class="language-solidity">contract Packed {
+    address public owner;   // 20 bytes
+    uint96  public count;   // 12 bytes
+}
+</code></pre>
+<ul>
+<li>20 + 12 = 32 字节</li>
+<li>编译器会把 <code>owner</code> 和 <code>count</code> <strong>塞进同一个 slot</strong> → 依然是 32 字节一个槽，但容纳了两个字段</li>
+</ul>
+<p>结论：</p>
+<ul>
+<li>单独看类型：address = 20 bytes；</li>
+<li>存在 storage：一般占 1 个 32-byte slot（除非 packing）；</li>
+</ul>
+<h2 id="4-abi-calldata-memory">4. 在 ABI / calldata / memory 里的地址大小</h2>
+<p>Solidity 对外编码（ABI）时候，有一个规则：<strong>所有值类型按 32 字节对齐</strong>。</p>
+<p>所以在以下场景中：</p>
+<ul>
+<li>函数参数的 ABI 编码（calldata）；</li>
+<li>函数返回值的 ABI 编码；</li>
+<li>event topics（日志里）；</li>
+</ul>
+<p>一个 address 通常是这么表示的：<strong>前面 12 字节补 0 + 后面 20 字节地址</strong></p>
+<p>例如地址：0x28816c4c4792467390c90e5b426f198570e29307，在 ABI 编码中，会被放进 32 字节：</p>
+<pre><code>0x00000000000000000000000028816c4c4792467390c90e5b426f198570e29307
+  ↑                       ↑
+12 bytes 0              20 bytes address
+</code></pre>
+<p>编码时，占 32 字节（对齐到 256 bit），语义上，有效载荷仍然是 20 字节。</p>
 
 
 

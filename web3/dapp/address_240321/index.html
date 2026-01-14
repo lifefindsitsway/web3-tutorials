@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/solidity_contract_call_part2_251223/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/address_240321/">
       
       
-        <link rel="prev" href="../solidity_contract_call_part1_251221/">
+        <link rel="prev" href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">
       
       
-        <link rel="next" href="../solidity_contract_call_part3_251227/">
+        <link rel="next" href="../ethereum_address_size_240320/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Solidity 合约间调用（二）：底层调用与 calldata 详解 - Life's Web3 开发指南</title>
+        <title>Solidity 地址类型 & 常见用法全攻略 - Life's Web3 开发指南</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#call" class="md-skip">
+        <a href="#1-solidity" class="md-skip">
           跳转至
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Solidity 合约间调用（二）：底层调用与 calldata 详解
+              Solidity 地址类型 & 常见用法全攻略
             
           </span>
         </div>
@@ -442,7 +442,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../solidity_contract_call_part1_251221/" class="md-nav__link">
+      <a href="../solidity_contract_call_part1_240521/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -460,28 +460,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Solidity 合约间调用（二）：底层调用与 calldata 详解
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../solidity_contract_call_part2_240523/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -490,162 +472,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#call" class="md-nav__link">
-    <span class="md-ellipsis">
-      call 的完整语法
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#calldata" class="md-nav__link">
-    <span class="md-ellipsis">
-      calldata 是什么？
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#calldata_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      三种构造 calldata 的方式
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="三种构造 calldata 的方式">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-abiencodewithsignature" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. abi.encodeWithSignature
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-abiencodewithselector" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. abi.encodeWithSelector
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-abiencodecall" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. abi.encodeCall（推荐）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      三种方式对比
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      处理返回值
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      处理调用失败
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#call-eth" class="md-nav__link">
-    <span class="md-ellipsis">
-      用 call 发送 ETH
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#transferviacall" class="md-nav__link">
-    <span class="md-ellipsis">
-      动手实验：TransferViaCall
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="动手实验：TransferViaCall">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      实验步骤
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      观察结果
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      小结
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -658,53 +484,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../solidity_contract_call_part3_251227/" class="md-nav__link">
+      <a href="../solidity_contract_call_part3_240527/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ethereum_address_size_251120/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    为什么以太坊地址是 20 字节？从私钥到地址的全解析
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../address_251125/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Solidity 地址类型 & 常见用法全攻略
   </span>
   
 
@@ -798,6 +582,186 @@
 
               
             
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Solidity 地址类型 & 常见用法全攻略
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Solidity 地址类型 & 常见用法全攻略
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-solidity" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Solidity 地址类型
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. 地址与外部合约交互（接口类型转换）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 地址与外部合约交互（接口类型转换）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 为什么转换成接口类型？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 地址转接口并调用函数（核心语法）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 最常用场景：把 address 储存起来，然后交互
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 安全注意事项
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. 地址 + 映射 / 数组：记账 &amp; 关系
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 地址 + 映射 / 数组：记账 & 关系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 地址 + 映射
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 地址 + 数组
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 特殊地址
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ethereum_address_size_240320/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    为什么以太坊地址是 20 字节？从私钥到地址的全解析
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -847,7 +811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../defi/uniswap_v2_price_precision_240710/" class="md-nav__link">
+      <a href="../../defi/uniswap_v2_price_precision_240610/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -914,64 +878,55 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#call" class="md-nav__link">
+  <a href="#1-solidity" class="md-nav__link">
     <span class="md-ellipsis">
-      call 的完整语法
+      1. Solidity 地址类型
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#calldata" class="md-nav__link">
+  <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
-      calldata 是什么？
+      2. 地址与外部合约交互（接口类型转换）
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#calldata_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      三种构造 calldata 的方式
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="三种构造 calldata 的方式">
+    <nav class="md-nav" aria-label="2. 地址与外部合约交互（接口类型转换）">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-abiencodewithsignature" class="md-nav__link">
+  <a href="#21" class="md-nav__link">
     <span class="md-ellipsis">
-      1. abi.encodeWithSignature
+      2.1 为什么转换成接口类型？
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-abiencodewithselector" class="md-nav__link">
+  <a href="#22" class="md-nav__link">
     <span class="md-ellipsis">
-      2. abi.encodeWithSelector
+      2.2 地址转接口并调用函数（核心语法）
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-abiencodecall" class="md-nav__link">
+  <a href="#23-address" class="md-nav__link">
     <span class="md-ellipsis">
-      3. abi.encodeCall（推荐）
+      2.3 最常用场景：把 address 储存起来，然后交互
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#24" class="md-nav__link">
     <span class="md-ellipsis">
-      三种方式对比
+      2.4 安全注意事项
     </span>
   </a>
   
@@ -983,55 +938,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
-      处理返回值
+      3. 地址 + 映射 / 数组：记账 &amp; 关系
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      处理调用失败
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#call-eth" class="md-nav__link">
-    <span class="md-ellipsis">
-      用 call 发送 ETH
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#transferviacall" class="md-nav__link">
-    <span class="md-ellipsis">
-      动手实验：TransferViaCall
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="动手实验：TransferViaCall">
+    <nav class="md-nav" aria-label="3. 地址 + 映射 / 数组：记账 & 关系">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#31" class="md-nav__link">
     <span class="md-ellipsis">
-      实验步骤
+      3.1 地址 + 映射
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#32" class="md-nav__link">
     <span class="md-ellipsis">
-      观察结果
+      3.2 地址 + 数组
     </span>
   </a>
   
@@ -1043,9 +971,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#4" class="md-nav__link">
     <span class="md-ellipsis">
-      小结
+      4. 特殊地址
     </span>
   </a>
   
@@ -1069,258 +997,195 @@
   
 
 
-  <h1>Solidity 合约间调用（二）：底层调用与 calldata 详解</h1>
+  <h1>Solidity 地址类型 & 常见用法全攻略</h1>
 
+<h2 id="1-solidity">1. Solidity 地址类型</h2>
+<p>地址类型（<code>address</code>）用于存储一个 20 字节的值（以太坊地址的大小）。它不仅仅是一个存储单位，还提供了与以太坊账户交互的多种方式，对于编写智能合约至关重要。</p>
 <blockquote>
-<p>上一篇我们知道了 call 可以在不知道 ABI 的情况下调用合约。本篇深入讲解 call 的完整用法。</p>
+<p>注：这些账户可以是外部账户（由用户控制的账户，拥有私钥）或合约账户（由合约代码控制的账户）。</p>
 </blockquote>
-<h2 id="call">call 的完整语法</h2>
-<pre><code class="language-solidity">(bool success, bytes memory data) = targetAddress.call{
-    value: 0.001 ether,  // 附带的 ETH（可选）
-    gas: 100000          // 指定 gas 上限（可选）
-}(
-    calldata              // 要发送的数据
-);
-</code></pre>
-<p>各部分含义：</p>
+<p>Solidity 中有两种地址类型：</p>
+<ul>
+<li><strong>address</strong>：普通地址，不能接收 ETH，即不能调用 <code>transfer</code> / <code>send</code> / <code>call{value: ...}</code> 等方法；</li>
+<li><strong>address payable</strong>：能接收 ETH，支持调用 <code>transfer</code> / <code>send</code> / <code>call{value: ...}</code> 等方法；</li>
+</ul>
+<blockquote>
+<p>注：与 ETH 相关的操作（转账、收款），都必须使用 address payable。</p>
+</blockquote>
+<p>对于 <code>address</code> 类型，常用的属性包括：</p>
+<ul>
+<li><code>balance</code>：获取地址中的 ETH 余额；</li>
+<li><code>code</code>（Solidity ^0.8.0）：获取地址中存储的合约代码（如果有的话），此属性在 Solidity 0.8.0 以后版本中新增；</li>
+<li><code>codehash</code>（Solidity ^0.8.0）：获取地址的合约代码的哈希值（如果地址为合约地址），如果地址是外部账户或合约中没有代码，则返回零哈希；</li>
+</ul>
+<p>对于 <code>address payable</code> 类型，除 <code>address</code> 类型的属性外，还包括三种与 ETH 转账相关的方法：</p>
+<ul>
+<li><code>transfer(uint256 amount)</code>：固定 2300 gas 供对方 fallback/receive 使用，失败会直接 <code>revert</code>，新版本里因为 gas 政策不稳定，<strong>官方已经不推荐用 <code>transfer</code> 和 <code>send</code> 了</strong>；</li>
+<li><code>send(uint256 amount) returns (bool)</code>：2300 gas 限制，返回一个布尔值表示成功与否，不会在失败时 <code>revert</code>，自己决定要不要 <code>require</code>；</li>
+<li><code>call(bytes memory data) returns (bool, bytes memory)</code>：向地址发送 ETH，可同时调用其合约函数，返回一个布尔值表示成功与否和返回数据。</li>
+</ul>
 <table>
 <thead>
 <tr>
-<th>部分</th>
-<th>说明</th>
+<th>函数</th>
+<th>是否推荐</th>
+<th>失败是否 revert</th>
+<th>Gas 限制</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>targetAddress</code></td>
-<td>目标合约地址</td>
+<td><code>transfer</code></td>
+<td>❌ 不推荐</td>
+<td>✔️ 自动 revert</td>
+<td>2300 gas</td>
 </tr>
 <tr>
-<td><code>value</code></td>
-<td>附带的 ETH，目标函数需要是 <code>payable</code></td>
+<td><code>send</code></td>
+<td>❌ 不推荐</td>
+<td>❌ 返回 false</td>
+<td>2300 gas</td>
 </tr>
 <tr>
-<td><code>gas</code></td>
-<td>转发的 gas 上限，不写则转发大部分剩余 gas</td>
-</tr>
-<tr>
-<td><code>calldata</code></td>
-<td>函数选择器 + ABI 编码的参数</td>
-</tr>
-<tr>
-<td><code>success</code></td>
-<td>调用是否成功（目标没有 revert）</td>
-</tr>
-<tr>
-<td><code>data</code></td>
-<td>目标函数的返回值（原始 bytes）</td>
+<td><code>call{value:...}</code></td>
+<td>✔️ 推荐标准</td>
+<td>❌ 需手动 require</td>
+<td>无限制</td>
 </tr>
 </tbody>
 </table>
-<p><strong>重要</strong>：<code>call</code> 永远不会 revert。即使目标合约出错，也只是返回 <code>success = false</code>。你必须自己检查并处理失败情况。</p>
-<h2 id="calldata">calldata 是什么？</h2>
-<p>当你调用 <code>token.transfer(to, amount)</code> 时，EVM 收到的不是函数名，而是一串字节：</p>
-<pre><code>0xa9059cbb                                                        ← 函数选择器（4 字节）
-000000000000000000000000recipient_address_here                    ← 参数1: to
-0000000000000000000000000000000000000000000000000000000000000064  ← 参数2: amount
+<p>需要转账时，建议使用 <code>call</code> 方法，因为 <code>transfer</code> 与 <code>send</code> 方法存在 Gas 限制（只提供2300 Gas，这足以记录事件，但不足以进行更复杂的操作），而 <code>call</code> 比较灵活。</p>
+<h2 id="2">2. 地址与外部合约交互（接口类型转换）</h2>
+<h3 id="21">2.1 为什么转换成接口类型？</h3>
+<p>以太坊世界里：</p>
+<ul>
+<li>每个合约 = 一段部署在链上的代码</li>
+<li>每个合约 = 一个独立的地址（address）</li>
+</ul>
+<p>但 <code>address</code> 本质只是 <strong>20 字节数字</strong>，并没有“函数信息”，因此：</p>
+<p>❌ address 不知道这个地址对应哪种合约</p>
+<p>❌ address 不知道里面有哪些函数</p>
+<p>❌ address 不能直接调用 transfer、approve、swap 等函数</p>
+<p>例如：</p>
+<pre><code class="language-solidity">address token = 0x...;
+token.transfer(to, amount); // ❌ 编译错误
 </code></pre>
-<p>这串字节就是 <strong>calldata</strong>，由两部分组成：</p>
+<p>因为 <code>address</code> 类型没有 <code>transfer</code> 方法。</p>
+<p>Solidity 是强类型语言，必须明确告诉它：这个 address 是什么类型的合约！</p>
+<p>所以我们才需要：</p>
+<p>✅ 先定义接口（Interface）——描述合约函数</p>
+<p>✅ 再把 <code>address</code> 强制转换成接口类型</p>
+<p>✅ 最后用接口来调用函数</p>
+<h3 id="22">2.2 地址转接口并调用函数（核心语法）</h3>
+<p>典型写法：<code>IERC20(tokenAddress).transfer(to, amount)</code></p>
+<p>代码含义：</p>
 <ol>
-<li><strong>函数选择器</strong>（4 字节）：<code>bytes4(keccak256("transfer(address,uint256)"))</code></li>
-<li><strong>ABI 编码的参数</strong>：按顺序编码的参数值</li>
+<li><code>tokenAddress</code> —— 这是 ERC20 合约部署在链上的地址；</li>
+<li><code>IERC20(tokenAddress)</code> —— 告诉 Solidity：按 ERC20 接口的规范访问这个 <code>address</code>；</li>
+<li><code>.transfer(...)</code> —— 编译器检查参数类型、返回值；</li>
+<li>编译后执行低级 call（ABI 编码，EVM 执行）；</li>
 </ol>
-<h2 id="calldata_1">三种构造 calldata 的方式</h2>
-<h3 id="1-abiencodewithsignature">1. abi.encodeWithSignature</h3>
-<p>用函数签名字符串构造：</p>
-<pre><code class="language-solidity">bytes memory data = abi.encodeWithSignature(
-    &quot;transfer(address,uint256)&quot;,  // 函数签名
-    to,                           // 参数1
-    amount                        // 参数2
-);
+<h3 id="23-address">2.3 最常用场景：把 address 储存起来，然后交互</h3>
+<p>例如 DEX、Vault、Staking 合约都这么写：</p>
+<pre><code class="language-solidity">contract Test {
+  address public token; // 保存代币合约地址
+
+  function setToken(address _token) external {
+    token = _token;
+  }
+
+  function transferOut(address to, uint256 amount) external {
+    // address → IERC20
+    bool ok = IERC20(token).transfer(to, amount);
+    require(ok, &quot;transfer failed&quot;);
+  }
+}
 </code></pre>
-<p><strong>注意</strong>：签名字符串中参数类型用逗号分隔，<strong>不能有空格</strong>，也<strong>不包含返回值类型</strong>。</p>
-<h3 id="2-abiencodewithselector">2. abi.encodeWithSelector</h3>
-<p>用函数选择器构造：</p>
-<pre><code class="language-solidity">bytes memory data = abi.encodeWithSelector(
-    IERC20.transfer.selector,  // 4 字节选择器
-    to,
-    amount
-);
+<p>为什么不能直接用 <code>address</code>？因为 <code>address</code> 没有 <code>transfer</code> 函数。</p>
+<h3 id="24">2.4 安全注意事项</h3>
+<p><strong>1）确保转换的 <code>address</code> 是期望的合约地址</strong></p>
+<p>如果用户传入恶意地址：<code>IERC20(fakeAddress).transfer(...)</code>，会调到错误逻辑 或 fallback，触发恶意代码。</p>
+<p>所以常见做法：</p>
+<ul>
+<li>✔ 白名单；</li>
+<li>✔ constructor 里写死地址；</li>
+<li>✔ 使用 immutable 常量；</li>
+<li>✔ 仅 owner 可修改 token 地址；</li>
+</ul>
+<p><strong>2）使用 <code>try/catch</code>（适合外部合约不稳定时）</strong></p>
+<pre><code class="language-solidity">try IERC20(token).transfer(to, amount) returns (bool ok) {
+  require(ok, &quot;failed&quot;);
+} catch {
+  revert(&quot;token call failed&quot;);
+}
 </code></pre>
-<p>两者本质相同：</p>
-<pre><code class="language-solidity">abi.encodeWithSignature(sig, args...) 
-≡ 
-abi.encodeWithSelector(bytes4(keccak256(bytes(sig))), args...)
+<p><strong>3）永远不要用 <code>address</code> 再去调用未知合约的 send/transfer（旧写法）</strong></p>
+<p>旧写法有风险：<code>payable(addr).transfer(amount);</code> // 可能失败</p>
+<p>改用：</p>
+<pre><code class="language-solidity">(bool ok,) = payable(addr).call{value: amount}(&quot;&quot;);
+require(ok);
 </code></pre>
-<h3 id="3-abiencodecall">3. abi.encodeCall（推荐）</h3>
-<p>Solidity 0.8.11 引入，<strong>类型安全</strong>：</p>
-<pre><code class="language-solidity">bytes memory data = abi.encodeCall(
-    IERC20.transfer,    // 函数指针，通常来自接口、合约名的函数成员
-    (to, amount)        // 参数元组
-);
-</code></pre>
-<p><strong>关键区别</strong>：编译器会检查参数类型是否匹配函数定义。如果你传错类型，编译时就会报错。</p>
-<h3 id="_1">三种方式对比</h3>
+<p>总结：</p>
 <table>
 <thead>
 <tr>
-<th>方式</th>
-<th>类型检查</th>
-<th>重构友好</th>
-<th>推荐场景</th>
+<th>步骤</th>
+<th>目的</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>encodeWithSignature</code></td>
-<td>❌</td>
-<td>❌</td>
-<td>快速调试、实验</td>
+<td>🔹 写接口 Interface</td>
+<td>告诉 Solidity 这个合约有哪些函数</td>
 </tr>
 <tr>
-<td><code>encodeWithSelector</code></td>
-<td>❌</td>
-<td>❌</td>
-<td>只有 selector 时</td>
+<td>🔹 用 <code>IERC20(tokenAddress)</code></td>
+<td>把 address 转成接口类型</td>
 </tr>
 <tr>
-<td><code>encodeCall</code></td>
-<td>✅</td>
-<td>✅</td>
-<td><strong>生产代码首选</strong></td>
+<td>🔹 用接口访问函数</td>
+<td>安全、类型检查、自动 ABI 编码</td>
+</tr>
+<tr>
+<td>🔹 用地址保存合约地址</td>
+<td>合约间交互</td>
 </tr>
 </tbody>
 </table>
-<p>为什么 <code>encodeCall</code> 更好？</p>
-<pre><code class="language-solidity">// 假设接口改了：transfer(address,uint256) → transfer(address,uint128)
+<h2 id="3">3. 地址 + 映射 / 数组：记账 &amp; 关系</h2>
+<h3 id="31">3.1 地址 + 映射</h3>
+<p><code>mapping(address =&gt; uint256)</code> 是最常见的用法之一，例如 ERC20 的余额表：</p>
+<pre><code class="language-solidity">mapping(address =&gt; uint256) public balanceOf;
 
-// encodeWithSignature：编译通过，运行时静默失败
-abi.encodeWithSignature(&quot;transfer(address,uint256)&quot;, to, amount);
-
-// encodeCall：编译报错，立即发现问题
-abi.encodeCall(IERC20.transfer, (to, amount));
-</code></pre>
-<h2 id="_2">处理返回值</h2>
-<p><code>call</code> 返回的 <code>data</code> 是原始 bytes，需要用 <code>abi.decode</code> 解析：</p>
-<pre><code class="language-solidity">(bool success, bytes memory returnData) = token.call(data);
-require(success, &quot;Call failed&quot;);
-
-bool result = abi.decode(returnData, (bool));
-</code></pre>
-<p><strong>实际开发中的坑</strong>：有些非标准 ERC20 代币的 <code>transfer</code> 不返回值，但执行成功。直接 <code>abi.decode</code> 会失败。</p>
-<p>兼容写法：</p>
-<pre><code class="language-solidity">function _parseBoolReturn(bool success, bytes memory returnData) internal pure returns (bool) {
-    if (!success) return false;
-    if (returnData.length == 0) return true;  // 兼容非标准 ERC20
-    return abi.decode(returnData, (bool));
+function mint(uint256 amount) external {
+    balanceOf[msg.sender] += amount;
 }
 </code></pre>
-<h2 id="_3">处理调用失败</h2>
-<p><code>call</code> 返回 <code>success = false</code> 的情况：</p>
-<ul>
-<li>目标函数 <code>revert</code></li>
-<li>gas 不足</li>
-<li>目标地址没有代码</li>
-<li>其他执行错误</li>
-</ul>
-<p><strong>注意</strong>：调用一个不存在的函数，如果目标合约有 <code>fallback</code>，<code>success</code> 可能是 <code>true</code>！</p>
-<p>正确的错误处理：</p>
-<pre><code class="language-solidity">(bool success, bytes memory returnData) = target.call(data);
+<p>多层 mapping（比如 allowance）：</p>
+<pre><code class="language-solidity">mapping(address =&gt; mapping(address =&gt; uint256)) public allowance;
 
-if (!success) {
-    if (returnData.length &gt; 0) {
-        // 转发 revert 原因
-        assembly {
-            revert(add(returnData, 32), mload(returnData))
-        }
-    } else {
-        revert(&quot;Call failed without reason&quot;);
+function approve(address spender, uint256 amount) external {
+    allowance[msg.sender][spender] = amount;
+}
+</code></pre>
+<p><code>mapping</code> 里的 key 用 <code>address</code> 非常自然，而且会自动初始化为 0，不存在则返回默认值。</p>
+<h3 id="32">3.2 地址 + 数组</h3>
+<p><code>address[]</code>，数组里的元素可以是 <code>address</code> 或 <code>address payable</code>，看你要不要给他们转账。</p>
+<p>比如记录所有存款过的用户：</p>
+<pre><code class="language-solidity">address[] public users;
+mapping(address =&gt; bool) public hasDeposited;
+
+function deposit() external payable {
+    if (!hasDeposited[msg.sender]) {
+        hasDeposited[msg.sender] = true;
+        users.push(msg.sender);
     }
 }
 </code></pre>
-<h2 id="call-eth">用 call 发送 ETH</h2>
-<p>除了调用函数，<code>call</code> 也是发送 ETH 的推荐方式：</p>
-<pre><code class="language-solidity">// 纯转账，不调用任何函数
-(bool success, ) = recipient.call{value: 1 ether}(&quot;&quot;);
-require(success, &quot;Transfer failed&quot;);
-</code></pre>
-<p>为什么不用 <code>transfer</code> 或 <code>send</code>？因为它们有 2300 gas 限制，可能导致接收方的 <code>receive</code> 函数执行失败。</p>
-<h2 id="transferviacall">动手实验：TransferViaCall</h2>
-<p>下面这个合约完整演示了四种转账方式，可以部署后实际对比：</p>
-<pre><code class="language-solidity">// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.28;
-
-import &quot;./IERC20.sol&quot;;
-
-contract TransferViaCall {
-    event LowLevelCall(bool success, bytes returnData);
-
-    // 1）接口直接调用
-    function transferViaInterface(address token, address recipient, uint256 amount) external returns (bool) {
-        return IERC20(token).transfer(recipient, amount);
-    }
-
-    // 2）encodeWithSignature
-    function transferViaSignature(address token, address recipient, uint256 amount) external returns (bool) {
-        bytes memory data = abi.encodeWithSignature(&quot;transfer(address,uint256)&quot;, recipient, amount);
-        (bool success, bytes memory returnData) = token.call(data);
-        emit LowLevelCall(success, returnData);
-        return _parseBoolReturn(success, returnData);
-    }
-
-    // 3）encodeWithSelector
-    function transferViaSelector(address token, address recipient, uint256 amount) external returns (bool) {
-        bytes memory data = abi.encodeWithSelector(IERC20.transfer.selector, recipient, amount);
-        (bool success, bytes memory returnData) = token.call(data);
-        emit LowLevelCall(success, returnData);
-        return _parseBoolReturn(success, returnData);
-    }
-
-    // 4）encodeCall（推荐）
-    function transferViaEncodeCall(address token, address recipient, uint256 amount) external returns (bool) {
-        bytes memory data = abi.encodeCall(IERC20.transfer, (recipient, amount));
-        (bool success, bytes memory returnData) = token.call(data);
-        emit LowLevelCall(success, returnData);
-        return _parseBoolReturn(success, returnData);
-    }
-
-    /// @dev 兼容标准和非标准 ERC20
-    function _parseBoolReturn(bool success, bytes memory returnData) internal pure returns (bool) {
-        if (!success) return false;
-        if (returnData.length == 0) return true;  // 非标准 ERC20
-        return abi.decode(returnData, (bool));
-    }
-}
-</code></pre>
-<h3 id="_4">实验步骤</h3>
-<ol>
-<li>部署一个 ERC20 代币合约（合约可参考：<a href="../../../assets/codes/IERC20.sol">IERC20.sol</a>，<a href="../../../assets/codes/ERC20.sol">ERC20.sol</a>）</li>
-<li>给自己 mint 一些代币</li>
-<li>向 <code>TransferViaCall</code> 合约转一些代币</li>
-<li>调用四个 transfer 函数，观察事件日志中的 <code>returnData</code></li>
-</ol>
-<h3 id="_5">观察结果</h3>
-<ul>
-<li><strong>标准 ERC20</strong>：<code>returnData</code> 是 32 字节，解码后为 <code>true</code></li>
-<li><strong>非标准 ERC20</strong>：<code>returnData</code> 可能为空（长度为 0），但 <code>success = true</code></li>
-</ul>
-<p>这就是为什么 <code>_parseBoolReturn</code> 要先检查长度——直接 decode 空数据会报错。</p>
-<h2 id="_6">小结</h2>
-<p>本篇我们学习了：</p>
-<ol>
-<li><code>call</code> 的完整语法和各参数含义</li>
-<li>calldata 的结构：选择器 + ABI 编码参数</li>
-<li>三种构造 calldata 的方式，推荐 <code>abi.encodeCall</code></li>
-<li>如何正确处理返回值和调用失败</li>
-<li>通过 <code>TransferViaCall</code> 实验验证所学</li>
-</ol>
-<p>下一篇，我们学习如何创建合约：<code>create</code> 和 <code>create2</code> 的区别，以及如何预测合约地址。</p>
-<p><strong>系列导航</strong></p>
-<ul>
-<li>第一篇：<a href="../solidity_contract_call_part1_251221/">Solidity 合约间调用（一）：四种方式调用已部署合约</a></li>
-<li>第二篇：Solidity 合约间调用（二）：底层调用与 calldata 详解（本篇）</li>
-<li>第三篇：<a href="../solidity_contract_call_part3_251227/">Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2</a></li>
-</ul>
+<h2 id="4">4. 特殊地址</h2>
+<p><code>msg.sender</code> – 当前合约的调用者，可能是外部账户，也可能是另一个合约。</p>
+<p><code>tx.origin</code> – 交易最原始发起人，容易被「中间合约」骗调用，导致钓鱼攻击，权限控制用 <code>msg.sender</code> 就够了。</p>
+<p><code>address(this)</code> - 合约自己的地址。</p>
 
 
 

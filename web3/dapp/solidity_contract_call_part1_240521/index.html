@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/address_251125/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/solidity_contract_call_part1_240521/">
       
       
-        <link rel="prev" href="../ethereum_address_size_251120/">
+        <link rel="prev" href="../solidity_proxy_upgrade_series_part2_251230/">
       
       
-        <link rel="next" href="../hardhat_tutorial_240415/">
+        <link rel="next" href="../solidity_contract_call_part2_240523/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Solidity 地址类型 & 常见用法全攻略 - Life's Web3 开发指南</title>
+        <title>Solidity 合约间调用（一）：四种方式调用已部署合约 - Life's Web3 开发指南</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#1-solidity" class="md-skip">
+        <a href="#receive-fallback" class="md-skip">
           跳转至
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Solidity 地址类型 & 常见用法全攻略
+              Solidity 合约间调用（一）：四种方式调用已部署合约
             
           </span>
         </div>
@@ -439,10 +439,28 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../solidity_contract_call_part1_251221/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Solidity 合约间调用（一）：四种方式调用已部署合约
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -451,6 +469,135 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#receive-fallback" class="md-nav__link">
+    <span class="md-ellipsis">
+      前置知识：receive 和 fallback
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="前置知识：receive 和 fallback">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#receive-eth" class="md-nav__link">
+    <span class="md-ellipsis">
+      receive：专门接收 ETH
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fallback" class="md-nav__link">
+    <span class="md-ellipsis">
+      fallback：兜底函数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      触发逻辑
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      调用已部署合约需要什么？
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="调用已部署合约需要什么？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      方式一：通过接口调用（推荐）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      方式二：通过合约类型调用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      方式三：存储合约引用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#call" class="md-nav__link">
+    <span class="md-ellipsis">
+      方式四：使用 call 调用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      四种方式对比
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -463,7 +610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../solidity_contract_call_part2_251223/" class="md-nav__link">
+      <a href="../solidity_contract_call_part2_240523/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -484,7 +631,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../solidity_contract_call_part3_251227/" class="md-nav__link">
+      <a href="../solidity_contract_call_part3_240527/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -493,186 +640,6 @@
   
 
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ethereum_address_size_251120/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    为什么以太坊地址是 20 字节？从私钥到地址的全解析
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Solidity 地址类型 & 常见用法全攻略
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    Solidity 地址类型 & 常见用法全攻略
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-solidity" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. Solidity 地址类型
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. 地址与外部合约交互（接口类型转换）
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. 地址与外部合约交互（接口类型转换）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#21" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.1 为什么转换成接口类型？
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.2 地址转接口并调用函数（核心语法）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#23-address" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.3 最常用场景：把 address 储存起来，然后交互
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#24" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.4 安全注意事项
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. 地址 + 映射 / 数组：记账 &amp; 关系
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. 地址 + 映射 / 数组：记账 & 关系">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.1 地址 + 映射
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32" class="md-nav__link">
-    <span class="md-ellipsis">
-      3.2 地址 + 数组
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
-    <span class="md-ellipsis">
-      4. 特殊地址
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -762,6 +729,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../address_240321/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solidity 地址类型 & 常见用法全攻略
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ethereum_address_size_240320/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    为什么以太坊地址是 20 字节？从私钥到地址的全解析
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -811,7 +820,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../defi/uniswap_v2_price_precision_240710/" class="md-nav__link">
+      <a href="../../defi/uniswap_v2_price_precision_240610/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -878,55 +887,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-solidity" class="md-nav__link">
+  <a href="#receive-fallback" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Solidity 地址类型
+      前置知识：receive 和 fallback
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. 地址与外部合约交互（接口类型转换）
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. 地址与外部合约交互（接口类型转换）">
+    <nav class="md-nav" aria-label="前置知识：receive 和 fallback">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21" class="md-nav__link">
+  <a href="#receive-eth" class="md-nav__link">
     <span class="md-ellipsis">
-      2.1 为什么转换成接口类型？
+      receive：专门接收 ETH
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#22" class="md-nav__link">
+  <a href="#fallback" class="md-nav__link">
     <span class="md-ellipsis">
-      2.2 地址转接口并调用函数（核心语法）
+      fallback：兜底函数
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#23-address" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      2.3 最常用场景：把 address 储存起来，然后交互
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#24" class="md-nav__link">
-    <span class="md-ellipsis">
-      2.4 安全注意事项
+      触发逻辑
     </span>
   </a>
   
@@ -938,28 +929,55 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      3. 地址 + 映射 / 数组：记账 &amp; 关系
+      调用已部署合约需要什么？
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. 地址 + 映射 / 数组：记账 & 关系">
+    <nav class="md-nav" aria-label="调用已部署合约需要什么？">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      3.1 地址 + 映射
+      方式一：通过接口调用（推荐）
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#32" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      3.2 地址 + 数组
+      方式二：通过合约类型调用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      方式三：存储合约引用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#call" class="md-nav__link">
+    <span class="md-ellipsis">
+      方式四：使用 call 调用
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      四种方式对比
     </span>
   </a>
   
@@ -971,9 +989,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      4. 特殊地址
+      小结
     </span>
   </a>
   
@@ -997,195 +1015,175 @@
   
 
 
-  <h1>Solidity 地址类型 & 常见用法全攻略</h1>
+  <h1>Solidity 合约间调用（一）：四种方式调用已部署合约</h1>
 
-<h2 id="1-solidity">1. Solidity 地址类型</h2>
-<p>地址类型（<code>address</code>）用于存储一个 20 字节的值（以太坊地址的大小）。它不仅仅是一个存储单位，还提供了与以太坊账户交互的多种方式，对于编写智能合约至关重要。</p>
 <blockquote>
-<p>注：这些账户可以是外部账户（由用户控制的账户，拥有私钥）或合约账户（由合约代码控制的账户）。</p>
+<p>当你的合约需要和链上其他合约交互时，该怎么做？本篇介绍最常用的四种方式。</p>
 </blockquote>
-<p>Solidity 中有两种地址类型：</p>
-<ul>
-<li><strong>address</strong>：普通地址，不能接收 ETH，即不能调用 <code>transfer</code> / <code>send</code> / <code>call{value: ...}</code> 等方法；</li>
-<li><strong>address payable</strong>：能接收 ETH，支持调用 <code>transfer</code> / <code>send</code> / <code>call{value: ...}</code> 等方法；</li>
-</ul>
-<blockquote>
-<p>注：与 ETH 相关的操作（转账、收款），都必须使用 address payable。</p>
-</blockquote>
-<p>对于 <code>address</code> 类型，常用的属性包括：</p>
-<ul>
-<li><code>balance</code>：获取地址中的 ETH 余额；</li>
-<li><code>code</code>（Solidity ^0.8.0）：获取地址中存储的合约代码（如果有的话），此属性在 Solidity 0.8.0 以后版本中新增；</li>
-<li><code>codehash</code>（Solidity ^0.8.0）：获取地址的合约代码的哈希值（如果地址为合约地址），如果地址是外部账户或合约中没有代码，则返回零哈希；</li>
-</ul>
-<p>对于 <code>address payable</code> 类型，除 <code>address</code> 类型的属性外，还包括三种与 ETH 转账相关的方法：</p>
-<ul>
-<li><code>transfer(uint256 amount)</code>：固定 2300 gas 供对方 fallback/receive 使用，失败会直接 <code>revert</code>，新版本里因为 gas 政策不稳定，<strong>官方已经不推荐用 <code>transfer</code> 和 <code>send</code> 了</strong>；</li>
-<li><code>send(uint256 amount) returns (bool)</code>：2300 gas 限制，返回一个布尔值表示成功与否，不会在失败时 <code>revert</code>，自己决定要不要 <code>require</code>；</li>
-<li><code>call(bytes memory data) returns (bool, bytes memory)</code>：向地址发送 ETH，可同时调用其合约函数，返回一个布尔值表示成功与否和返回数据。</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>函数</th>
-<th>是否推荐</th>
-<th>失败是否 revert</th>
-<th>Gas 限制</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>transfer</code></td>
-<td>❌ 不推荐</td>
-<td>✔️ 自动 revert</td>
-<td>2300 gas</td>
-</tr>
-<tr>
-<td><code>send</code></td>
-<td>❌ 不推荐</td>
-<td>❌ 返回 false</td>
-<td>2300 gas</td>
-</tr>
-<tr>
-<td><code>call{value:...}</code></td>
-<td>✔️ 推荐标准</td>
-<td>❌ 需手动 require</td>
-<td>无限制</td>
-</tr>
-</tbody>
-</table>
-<p>需要转账时，建议使用 <code>call</code> 方法，因为 <code>transfer</code> 与 <code>send</code> 方法存在 Gas 限制（只提供2300 Gas，这足以记录事件，但不足以进行更复杂的操作），而 <code>call</code> 比较灵活。</p>
-<h2 id="2">2. 地址与外部合约交互（接口类型转换）</h2>
-<h3 id="21">2.1 为什么转换成接口类型？</h3>
-<p>以太坊世界里：</p>
-<ul>
-<li>每个合约 = 一段部署在链上的代码</li>
-<li>每个合约 = 一个独立的地址（address）</li>
-</ul>
-<p>但 <code>address</code> 本质只是 <strong>20 字节数字</strong>，并没有“函数信息”，因此：</p>
-<p>❌ address 不知道这个地址对应哪种合约</p>
-<p>❌ address 不知道里面有哪些函数</p>
-<p>❌ address 不能直接调用 transfer、approve、swap 等函数</p>
-<p>例如：</p>
-<pre><code class="language-solidity">address token = 0x...;
-token.transfer(to, amount); // ❌ 编译错误
-</code></pre>
-<p>因为 <code>address</code> 类型没有 <code>transfer</code> 方法。</p>
-<p>Solidity 是强类型语言，必须明确告诉它：这个 address 是什么类型的合约！</p>
-<p>所以我们才需要：</p>
-<p>✅ 先定义接口（Interface）——描述合约函数</p>
-<p>✅ 再把 <code>address</code> 强制转换成接口类型</p>
-<p>✅ 最后用接口来调用函数</p>
-<h3 id="22">2.2 地址转接口并调用函数（核心语法）</h3>
-<p>典型写法：<code>IERC20(tokenAddress).transfer(to, amount)</code></p>
-<p>代码含义：</p>
-<ol>
-<li><code>tokenAddress</code> —— 这是 ERC20 合约部署在链上的地址；</li>
-<li><code>IERC20(tokenAddress)</code> —— 告诉 Solidity：按 ERC20 接口的规范访问这个 <code>address</code>；</li>
-<li><code>.transfer(...)</code> —— 编译器检查参数类型、返回值；</li>
-<li>编译后执行低级 call（ABI 编码，EVM 执行）；</li>
-</ol>
-<h3 id="23-address">2.3 最常用场景：把 address 储存起来，然后交互</h3>
-<p>例如 DEX、Vault、Staking 合约都这么写：</p>
-<pre><code class="language-solidity">contract Test {
-  address public token; // 保存代币合约地址
-
-  function setToken(address _token) external {
-    token = _token;
-  }
-
-  function transferOut(address to, uint256 amount) external {
-    // address → IERC20
-    bool ok = IERC20(token).transfer(to, amount);
-    require(ok, &quot;transfer failed&quot;);
-  }
+<h2 id="receive-fallback">前置知识：receive 和 fallback</h2>
+<p>在讲调用之前，先认识两个特殊函数。它们是合约的"后门入口"，在接收 ETH 和处理合约中不存在的函数调用时非常重要。</p>
+<h3 id="receive-eth">receive：专门接收 ETH</h3>
+<p>当合约收到<strong>纯 ETH 转账</strong>（没有附带任何数据）时，<code>receive</code> 会被触发。</p>
+<pre><code class="language-solidity">receive() external payable {
+    // 处理收到的 ETH
 }
 </code></pre>
-<p>为什么不能直接用 <code>address</code>？因为 <code>address</code> 没有 <code>transfer</code> 函数。</p>
-<h3 id="24">2.4 安全注意事项</h3>
-<p><strong>1）确保转换的 <code>address</code> 是期望的合约地址</strong></p>
-<p>如果用户传入恶意地址：<code>IERC20(fakeAddress).transfer(...)</code>，会调到错误逻辑 或 fallback，触发恶意代码。</p>
-<p>所以常见做法：</p>
-<ul>
-<li>✔ 白名单；</li>
-<li>✔ constructor 里写死地址；</li>
-<li>✔ 使用 immutable 常量；</li>
-<li>✔ 仅 owner 可修改 token 地址；</li>
-</ul>
-<p><strong>2）使用 <code>try/catch</code>（适合外部合约不稳定时）</strong></p>
-<pre><code class="language-solidity">try IERC20(token).transfer(to, amount) returns (bool ok) {
-  require(ok, &quot;failed&quot;);
-} catch {
-  revert(&quot;token call failed&quot;);
+<p>语法特点：没有 <code>function</code> 关键字，没有参数，没有返回值，必须是 <code>external payable</code>。</p>
+<h3 id="fallback">fallback：兜底函数</h3>
+<p>当调用合约时，如果找不到匹配的函数，就会触发 <code>fallback</code>。</p>
+<pre><code class="language-solidity">// 基础形式
+fallback() external payable {}
+
+// 带参数形式（可以访问 calldata 并返回数据）
+fallback(bytes calldata input) external payable returns (bytes memory) {
+    return abi.encode(input.length);
 }
 </code></pre>
-<p><strong>3）永远不要用 <code>address</code> 再去调用未知合约的 send/transfer（旧写法）</strong></p>
-<p>旧写法有风险：<code>payable(addr).transfer(amount);</code> // 可能失败</p>
-<p>改用：</p>
-<pre><code class="language-solidity">(bool ok,) = payable(addr).call{value: amount}(&quot;&quot;);
-require(ok);
+<h3 id="_1">触发逻辑</h3>
+<pre><code>                     调用合约
+                        │
+                        ▼
+                 msg.data 是否为空？
+                   /         \
+                 是            否
+                /               \
+              ▼                  ▼
+        receive 存在？      函数签名匹配？
+          /     \            /       \
+        是       否        是         否
+        /         \        /           \
+    receive    fallback  执行函数    fallback
 </code></pre>
-<p>总结：</p>
-<table>
-<thead>
-<tr>
-<th>步骤</th>
-<th>目的</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>🔹 写接口 Interface</td>
-<td>告诉 Solidity 这个合约有哪些函数</td>
-</tr>
-<tr>
-<td>🔹 用 <code>IERC20(tokenAddress)</code></td>
-<td>把 address 转成接口类型</td>
-</tr>
-<tr>
-<td>🔹 用接口访问函数</td>
-<td>安全、类型检查、自动 ABI 编码</td>
-</tr>
-<tr>
-<td>🔹 用地址保存合约地址</td>
-<td>合约间交互</td>
-</tr>
-</tbody>
-</table>
-<h2 id="3">3. 地址 + 映射 / 数组：记账 &amp; 关系</h2>
-<h3 id="31">3.1 地址 + 映射</h3>
-<p><code>mapping(address =&gt; uint256)</code> 是最常见的用法之一，例如 ERC20 的余额表：</p>
-<pre><code class="language-solidity">mapping(address =&gt; uint256) public balanceOf;
-
-function mint(uint256 amount) external {
-    balanceOf[msg.sender] += amount;
+<p>简单记忆：<strong>纯转账走 receive，其他兜底走 fallback</strong>。</p>
+<h2 id="_2">调用已部署合约需要什么？</h2>
+<p>两样东西：<strong>合约地址</strong> + <strong>调用接口</strong>。</p>
+<p>接口告诉编译器：这个地址上的合约有哪些函数可以调用。</p>
+<pre><code class="language-solidity">interface IERC20 {
+    function balanceOf(address account) external view returns (uint256);
+    function transfer(address to, uint256 amount) external returns (bool);
+    // ...其他函数
 }
 </code></pre>
-<p>多层 mapping（比如 allowance）：</p>
-<pre><code class="language-solidity">mapping(address =&gt; mapping(address =&gt; uint256)) public allowance;
+<p>有了接口，就可以开始调用了。</p>
+<h3 id="_3">方式一：通过接口调用（推荐）</h3>
+<p>这是最常用、最推荐的方式，类型安全，代码清晰。</p>
+<pre><code class="language-solidity">import &quot;./IERC20.sol&quot;;
 
-function approve(address spender, uint256 amount) external {
-    allowance[msg.sender][spender] = amount;
-}
-</code></pre>
-<p><code>mapping</code> 里的 key 用 <code>address</code> 非常自然，而且会自动初始化为 0，不存在则返回默认值。</p>
-<h3 id="32">3.2 地址 + 数组</h3>
-<p><code>address[]</code>，数组里的元素可以是 <code>address</code> 或 <code>address payable</code>，看你要不要给他们转账。</p>
-<p>比如记录所有存款过的用户：</p>
-<pre><code class="language-solidity">address[] public users;
-mapping(address =&gt; bool) public hasDeposited;
-
-function deposit() external payable {
-    if (!hasDeposited[msg.sender]) {
-        hasDeposited[msg.sender] = true;
-        users.push(msg.sender);
+contract MyContract {
+    function getBalance(address token, address account) public view returns (uint256) {
+        return IERC20(token).balanceOf(account);
     }
 }
 </code></pre>
-<h2 id="4">4. 特殊地址</h2>
-<p><code>msg.sender</code> – 当前合约的调用者，可能是外部账户，也可能是另一个合约。</p>
-<p><code>tx.origin</code> – 交易最原始发起人，容易被「中间合约」骗调用，导致钓鱼攻击，权限控制用 <code>msg.sender</code> 就够了。</p>
-<p><code>address(this)</code> - 合约自己的地址。</p>
+<p>核心语法：<code>IERC20(token)</code> 把地址"包装"成接口类型，然后就能像调用本地函数一样调用它。</p>
+<h3 id="_4">方式二：通过合约类型调用</h3>
+<p>如果你有目标合约的完整代码，可以直接用合约类型。</p>
+<pre><code class="language-solidity">import &quot;./ERC20.sol&quot;;
+
+contract MyContract {
+    function getBalance(address token, address account) public view returns (uint256) {
+        return ERC20(token).balanceOf(account);
+    }
+}
+</code></pre>
+<p>本质上和接口调用一样——都是告诉编译器"这个地址有哪些函数"。</p>
+<p><strong>区别</strong>：接口只声明函数签名，合约类型包含完整实现。如果只需要调用，用接口更轻量。</p>
+<h3 id="_5">方式三：存储合约引用</h3>
+<p>当你需要多次调用同一个合约时，可以把引用存为状态变量。</p>
+<pre><code class="language-solidity">import &quot;./IERC20.sol&quot;;
+
+contract MyContract {
+    IERC20 public token;  // 存储合约引用
+
+    constructor(address _token) {
+        token = IERC20(_token);
+    }
+
+    function getBalance(address account) public view returns (uint256) {
+        return token.balanceOf(account);
+    }
+
+    function doTransfer(address to, uint256 amount) public {
+        token.transfer(to, amount);
+    }
+}
+</code></pre>
+<p>好处：代码更简洁，不用每次都传地址。</p>
+<h3 id="call">方式四：使用 call 调用</h3>
+<p>当你<strong>不知道目标合约的接口</strong>时，可以用底层的 <code>call</code>。</p>
+<pre><code class="language-solidity">contract MyContract {
+    function getBalance(address token, address account) public returns (uint256) {
+        (bool success, bytes memory data) = token.call(
+            abi.encodeWithSignature(&quot;balanceOf(address)&quot;, account)
+        );
+        require(success, &quot;Call failed&quot;);
+        return abi.decode(data, (uint256));
+    }
+}
+</code></pre>
+<p><code>call</code> 是 <code>address</code> 类型的底层方法，特点是：</p>
+<ul>
+<li>需要自己构造 calldata</li>
+<li>需要自己检查 success</li>
+<li>需要自己解析返回值</li>
+</ul>
+<p><strong>什么时候用 call？</strong></p>
+<ul>
+<li>目标合约的 ABI 未知</li>
+<li>需要更灵活的控制（如指定 gas、附带 ETH）</li>
+</ul>
+<p>一般情况下，<strong>优先用接口调用</strong>，更安全更清晰。</p>
+<h3 id="_6">四种方式对比</h3>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>需要接口/合约代码</th>
+<th>类型安全</th>
+<th>使用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>接口调用</td>
+<td>需要接口</td>
+<td>✅</td>
+<td>日常开发首选</td>
+</tr>
+<tr>
+<td>合约类型调用</td>
+<td>需要完整代码</td>
+<td>✅</td>
+<td>有源码时可用</td>
+</tr>
+<tr>
+<td>存储引用</td>
+<td>需要接口</td>
+<td>✅</td>
+<td>频繁调用同一合约</td>
+</tr>
+<tr>
+<td>call 调用</td>
+<td>不需要</td>
+<td>❌</td>
+<td>ABI 未知或需要底层控制</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_7">小结</h2>
+<p>本篇我们学习了：</p>
+<ol>
+<li><code>receive</code> 和 <code>fallback</code> 的触发逻辑</li>
+<li>四种调用已部署合约的方式</li>
+<li>日常开发推荐使用接口调用</li>
+</ol>
+<p>下一篇，我们深入 <code>call</code> 的底层细节：如何构造 calldata、三种 ABI 编码方式的区别，以及如何正确处理返回值。</p>
+<p><strong>系列导航</strong></p>
+<ul>
+<li>第一篇：Solidity 合约间调用（一）：四种方式调用已部署合约（本篇）</li>
+<li>第二篇：<a href="../solidity_contract_call_part2_240523/">Solidity 合约间调用（二）：底层调用与 calldata 详解</a></li>
+<li>第三篇：<a href="../solidity_contract_call_part3_240527/">Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2</a></li>
+</ul>
 
 
 
