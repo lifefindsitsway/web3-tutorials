@@ -189,7 +189,7 @@ keccak256(abi.encode(id, keccak256(abi.encode(addr, p))))
 
 ## 五、合约部署机制
 
-### 两种交易类型
+**两种交易类型**
 
 以太坊的交易分两种，由 `to` 字段决定：
 
@@ -198,16 +198,7 @@ keccak256(abi.encode(id, keccak256(abi.encode(addr, p))))
 | 空 | 创建合约 | 执行 data 中的 Init Code |
 | 合约地址 | 调用合约 | 执行 data 作为 calldata |
 
-### 术语说明：Creation Code 与 Init Code
-
-在不同的文档和工具中，你可能会看到 **Creation Code** 和 **Init Code** 这两个术语：
-
-- **Creation Code**：Solidity 编译器和开发工具（如 Hardhat、Foundry）常用的术语，指编译产出的部署字节码
-- **Init Code**：以太坊黄皮书和 EVM 规范中使用的术语，指实际发送到链上执行的完整部署数据
-
-两者的关系：**Init Code = Creation Code + ABI 编码的构造函数参数**
-
-如果合约没有构造函数参数，两者完全相同；如果有参数，Init Code 会在 Creation Code 末尾附加参数数据。本系列遵循 EVM 规范，使用 Init Code 术语。
+> 关于 Creation Code 与 Init Code 的详细区别和实际验证，参见第一篇的"动手验证：查看三种字节码"部分。
 
 ### 部署执行流程
 
