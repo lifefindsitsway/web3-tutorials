@@ -1602,6 +1602,8 @@ slot[2²⁵⁶ - 1] → 32 bytes
 <pre><code>address = keccak256(0xff ++ sender ++ salt ++ keccak256(initCode))[12:]
 </code></pre>
 <p>通过自定义 salt，可以在部署前预测地址。这在工厂合约、跨链部署中很有用。</p>
+<p>问题：为什么 CREATE2 要用 Init Code 而不是 Creation Code？</p>
+<p>使用 Init Code 是因为 <strong>相同的代码 + 相同的参数</strong> 才应该得到相同的地址。如果只用 Creation Code，不同参数会部署到同一地址，这不是期望的行为。</p>
 <h2 id="_10">六、函数调用机制</h2>
 <h3 id="calldata">calldata 结构</h3>
 <p>调用 <code>transfer(address to, uint256 amount)</code> 时，calldata 的结构：</p>

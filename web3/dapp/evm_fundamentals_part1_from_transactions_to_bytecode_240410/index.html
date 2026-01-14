@@ -1455,11 +1455,6 @@ contract Counter {
 <p>Creation Code 包含构造函数逻辑和参数解析代码，这些只在部署时执行一次。Runtime Code 只保留运行时需要的函数，所以通常更短。在本例中，Runtime Code（491 字节）大约只有 Creation Code（953 字节）的一半大小。</p>
 <p><strong>Q2：immutable 变量存在哪里？</strong></p>
 <p><code>immutable</code> 变量在部署时确定值，直接嵌入到 Runtime Code 中。所以每次部署参数不同，Runtime Code 也会略有不同。</p>
-<p><strong>Q3：为什么 CREATE2 要用 Init Code 而不是 Creation Code？</strong></p>
-<p>CREATE2 的地址计算公式：</p>
-<pre><code>address = keccak256(0xff ++ sender ++ salt ++ keccak256(initCode))[12:]
-</code></pre>
-<p>使用 Init Code 是因为<strong>相同的代码 + 相同的参数</strong>才应该得到相同的地址。如果只用 Creation Code，不同参数会部署到同一地址，这不是期望的行为。</p>
 <h2 id="evm_2">八、EVM 执行模型</h2>
 <p>EVM 是基于栈的虚拟机。栈是一种数据结构，就像一摞盘子——只能从顶部放入或取出。</p>
 <p>EVM 栈的特性：</p>
