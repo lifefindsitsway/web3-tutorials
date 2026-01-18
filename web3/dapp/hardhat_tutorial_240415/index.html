@@ -1,1423 +1,832 @@
-
-<!doctype html>
-<html lang="zh" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/hardhat_tutorial_240415/">
-      
-      
-        <link rel="prev" href="../solidity_contract_call_part3_240527/">
-      
-      
-        <link rel="next" href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/">
-      
-      
-      <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
-    
-    
-      
-        <title>Hardhat 入门指南（25年更新版） - Life's Web3 开发指南</title>
-      
-    
-    
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.35f28582.min.css">
-      
-        
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
-      
-      
-
-
-    
-    
-      
-    
-    
-      
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto Slab";--md-code-font:"Roboto Mono"}</style>
-      
-    
-    
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-    
-      
-
-    
-    
-    
-  </head>
-  
-  
-    
-    
-      
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-purple">
-  
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#_1" class="md-skip">
+<!DOCTYPE html>
+<html class="no-js" lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://lifefindsitsway.wiki/web3/dapp/hardhat_tutorial_240415/" rel="canonical"/>
+<link href="../solidity_contract_call_part3_240527/" rel="prev"/>
+<link href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/" rel="next"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.5.34" name="generator"/>
+<title>Hardhat 入门指南（25年更新版） - Life's Web3 开发指南</title>
+<link href="../../../assets/stylesheets/main.35f28582.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto Slab";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../css/heti.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/mathjax-custom.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-KJB4RXSKZG"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-KJB4RXSKZG",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-KJB4RXSKZG",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="deep-purple" data-md-color-primary="light-blue" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#_1">
           跳转至
         </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-    
-      
-
-  
-
+</div>
+<div data-md-component="announce">
+</div>
 <header class="md-header md-header--shadow" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../../.." title="Life&#39;s Web3 开发指南" class="md-header__button md-logo" aria-label="Life's Web3 开发指南" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
-
-    </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
+<nav aria-label="页眉" class="md-header__inner md-grid">
+<a aria-label="Life's Web3 开发指南" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
             Life's Web3 开发指南
           </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
             
               Hardhat 入门指南（25年更新版）
             
           </span>
-        </div>
-      </div>
-    </div>
-    
-      
-        <form class="md-header__option" data-md-component="palette">
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
-    
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
-      </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="deep-purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
-    
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
-      </label>
-    
-  
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="light-blue" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="black" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+</label>
 </form>
-      
-    
-    
-      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="查找">
-        
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
-          </a>
-        
-        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-        <div class="md-search__suggest" data-md-component="search-suggest"></div>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="搜索" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="搜索" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="查找" class="md-search__options">
+<a aria-label="分享" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="分享">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="清空当前内容" class="md-search__icon md-icon" tabindex="-1" title="清空当前内容" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
             正在初始化搜索引擎
           </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
+<ol class="md-search-result__list" role="presentation"></ol>
 </div>
-    
-    
-      <div class="md-header__source">
-        <a href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
-  </div>
-  <div class="md-source__repository">
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
     web3-tutorials
   </div>
 </a>
-      </div>
-    
-  </nav>
-  
+</div>
+</nav>
 </header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-          
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-
-<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Life&#39;s Web3 开发指南" class="md-nav__button md-logo" aria-label="Life's Web3 开发指南" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
-
-    </a>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="导航栏" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Life's Web3 开发指南" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
     Life's Web3 开发指南
   </label>
-  
-    <div class="md-nav__source">
-      <a href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
-  </div>
-  <div class="md-source__repository">
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
     web3-tutorials
   </div>
 </a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../..">
+<span class="md-ellipsis">
     Welcome to My Blog
   </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../changelog/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../changelog/">
+<span class="md-ellipsis">
     更新日志
   </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
     区块链基础
   </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
             区块链基础
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../blockchain/the_evolution_of_bitcoin_240213/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../blockchain/the_evolution_of_bitcoin_240213/">
+<span class="md-ellipsis">
     比特币的诞生历程
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
     DAPP开发
   </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
             DAPP开发
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_proxy_upgrade_series_part1_251229/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_proxy_upgrade_series_part1_251229/">
+<span class="md-ellipsis">
     代理合约与可升级合约系列（一）：为什么需要可升级？
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_proxy_upgrade_series_part2_251230/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_proxy_upgrade_series_part2_251230/">
+<span class="md-ellipsis">
     代理合约与可升级合约系列（二）：透明代理 vs UUPS
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part1_gas_mechanism/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part1_gas_mechanism/">
+<span class="md-ellipsis">
     Gas 优化指南（一）：Gas 机制原理
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part2_eip1559_transaction_analysis/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part2_eip1559_transaction_analysis/">
+<span class="md-ellipsis">
     Gas 优化指南（二）：EIP-1559 交易解析
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part3_storage_optimization/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part3_storage_optimization/">
+<span class="md-ellipsis">
     Gas 优化指南（三）：存储优化
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part4_computation_optimization/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part4_computation_optimization/">
+<span class="md-ellipsis">
     Gas 优化指南（四）：计算优化
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part5_gas_measurement/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part5_gas_measurement/">
+<span class="md-ellipsis">
     Gas 优化指南（五）：Gas 评估与测量
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_contract_call_part1_240521/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part1_240521/">
+<span class="md-ellipsis">
     Solidity 合约间调用（一）：四种方式调用已部署合约
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_contract_call_part2_240523/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part2_240523/">
+<span class="md-ellipsis">
     Solidity 合约间调用（二）：底层调用与 calldata 详解
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_contract_call_part3_240527/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part3_240527/">
+<span class="md-ellipsis">
     Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
     Hardhat 入门指南（25年更新版）
   </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
     Hardhat 入门指南（25年更新版）
   </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
+</a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
       目录
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
       一、配置环境
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hardhat">
+<span class="md-ellipsis">
       二、创建 Hardhat 项目
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
       三、创建 &amp; 编译智能合约
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat-network" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hardhat-network">
+<span class="md-ellipsis">
       四、编写测试并运行（基于 Hardhat Network）
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat-network_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hardhat-network_1">
+<span class="md-ellipsis">
       五、使用 Hardhat Network 调试
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="五、使用 Hardhat Network 调试">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#51-solidity-consolelog" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="五、使用 Hardhat Network 调试" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#51-solidity-consolelog">
+<span class="md-ellipsis">
       5.1 在 Solidity 里直接 console.log
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#52" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#52">
+<span class="md-ellipsis">
       5.2 额外调试抓手
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#sepolia" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sepolia">
+<span class="md-ellipsis">
       六、部署到 Sepolia 测试网
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="六、部署到 Sepolia 测试网">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#61-ignition-module" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="六、部署到 Sepolia 测试网" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#61-ignition-module">
+<span class="md-ellipsis">
       6.1 用 Ignition Module 描述部署
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#62-sepolia-rpc" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#62-sepolia-rpc">
+<span class="md-ellipsis">
       6.2 配置 Sepolia RPC 与私钥
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#63" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#63">
+<span class="md-ellipsis">
       6.3 部署合约
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
+</ul>
 </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/">
+<span class="md-ellipsis">
     EVM 基础原理（一）：从交易到字节码
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/">
+<span class="md-ellipsis">
     EVM 基础原理（二）：数据区域与合约执行
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">
+<span class="md-ellipsis">
     EVM 基础原理（三）：ABI 编码与底层调用
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../address_240321/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Solidity 地址类型 & 常见用法全攻略
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../address_240321/">
+<span class="md-ellipsis">
+    Solidity 地址类型 &amp; 常见用法全攻略
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ethereum_address_size_240320/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ethereum_address_size_240320/">
+<span class="md-ellipsis">
     为什么以太坊地址是 20 字节？从私钥到地址的全解析
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
     DeFi
   </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
             DeFi
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../defi/uniswap_v2_price_precision_240610/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../defi/uniswap_v2_price_precision_240610/">
+<span class="md-ellipsis">
     Uniswap V2 价格精度解析
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../defi/flash_loan_attack_260101/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../defi/flash_loan_attack_260101/">
+<span class="md-ellipsis">
     闪电贷：从原理到攻击演示
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-  </ul>
+</a>
+</li>
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
       目录
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
       一、配置环境
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hardhat">
+<span class="md-ellipsis">
       二、创建 Hardhat 项目
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
       三、创建 &amp; 编译智能合约
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat-network" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hardhat-network">
+<span class="md-ellipsis">
       四、编写测试并运行（基于 Hardhat Network）
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#hardhat-network_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#hardhat-network_1">
+<span class="md-ellipsis">
       五、使用 Hardhat Network 调试
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="五、使用 Hardhat Network 调试">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#51-solidity-consolelog" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="五、使用 Hardhat Network 调试" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#51-solidity-consolelog">
+<span class="md-ellipsis">
       5.1 在 Solidity 里直接 console.log
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#52" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#52">
+<span class="md-ellipsis">
       5.2 额外调试抓手
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#sepolia" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#sepolia">
+<span class="md-ellipsis">
       六、部署到 Sepolia 测试网
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="六、部署到 Sepolia 测试网">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#61-ignition-module" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="六、部署到 Sepolia 测试网" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#61-ignition-module">
+<span class="md-ellipsis">
       6.1 用 Ignition Module 描述部署
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#62-sepolia-rpc" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#62-sepolia-rpc">
+<span class="md-ellipsis">
       6.2 配置 Sepolia RPC 与私钥
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#63" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#63">
+<span class="md-ellipsis">
       6.3 部署合约
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          
-            <div class="md-content" data-md-component="content">
-              <article class="md-content__inner md-typeset">
-                
-                  
-
-  
-  
-
-
-  <h1>Hardhat 入门指南（25年更新版）</h1>
-
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1><span>Hardhat<span class="heti-spacing"> </span></span>入门指南（<span>25<span class="heti-spacing"> </span></span>年更新版）</h1>
 <blockquote>
-<p>说明：原版发布于 2024-04-15，基于 Node 20.x，Ubuntu 20.04 系统开发，最新版更新于2025-12-12，基于 Node 22.x，Ubuntu 24.04 系统开发。</p>
+<p>说明：原版发布于<span><span class="heti-spacing"> </span>2024-04-15</span>，基于<span><span class="heti-spacing"> </span>Node 20.x</span>，<span>Ubuntu 20.04<span class="heti-spacing"> </span></span>系统开发，最新版更新于<span><span class="heti-spacing"> </span>2025-12-12</span>，基于<span><span class="heti-spacing"> </span>Node 22.x</span>，<span>Ubuntu 24.04<span class="heti-spacing"> </span></span>系统开发。</p>
 </blockquote>
-<p>Hardhat 是一个以 Node.js/JavaScript 生态为核心的以太坊智能合约开发环境，帮助开发者把「写合约 → 编译 → 测试 → 本地调试 → 部署到测试网/主网」这一系列重复工作自动化与工程化；它内置 Hardhat Network（本地以太坊网络），用于部署、跑测试、调试合约逻辑。  </p>
-<p>在 Hardhat 的设计里：</p>
+<p><span>Hardhat<span class="heti-spacing"> </span></span>是一个以<span class="heti-skip"><span class="heti-spacing"> </span>Node.js/JavaScript<span class="heti-spacing"> </span></span>生态为核心的以太坊智能合约开发环境，帮助开发者把「写合约 → 编译 → 测试 → 本地调试 → 部署到测试网<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>主网」这一系列重复工作自动化与工程化；它内置<span><span class="heti-spacing"> </span>Hardhat Network</span>（本地以太坊网络<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，用于部署、跑测试、调试合约逻辑。  </p>
+<p>在<span class="heti-skip"><span class="heti-spacing"> </span>Hardhat<span class="heti-spacing"> </span></span>的设计里：</p>
 <ul>
-<li>在命令行每跑一次 <code>npx hardhat xxx</code>，本质上是在执行一个 task；</li>
-<li>大部分能力由 plugins 提供（例如 ethers 集成、chai-matchers、Ignition 部署等），官方推荐初学者使用 <code>@nomicfoundation/hardhat-toolbox</code> 一揽子插件。</li>
+<li>在命令行每跑一次 <code>npx hardhat xxx</code>，本质上是在执行一个<span><span class="heti-spacing"> </span>task</span>；</li>
+<li>大部分能力由<span class="heti-skip"><span class="heti-spacing"> </span>plugins<span class="heti-spacing"> </span></span>提供（例如<span class="heti-skip"><span class="heti-spacing"> </span>ethers<span class="heti-spacing"> </span></span>集成、chai-matchers、<span>Ignition<span class="heti-spacing"> </span></span>部署等<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，官方推荐初学者使用 <code>@nomicfoundation/hardhat-toolbox</code> 一揽子插件。</li>
 </ul>
-<h2 id="_1">一、配置环境</h2>
-<p>在 Windows 系统使用 VS Code 配置 Ubuntu 24.04 上的开发环境。</p>
-<p>安装 22.x 版 Node.js：</p>
-<pre><code class="language-bash">curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# 查看安装的版本
-node -v
-npm -v
-</code></pre>
-<h2 id="hardhat">二、创建 Hardhat 项目</h2>
-<p>使用 Node.js 的包管理器 <code>npm</code> 来安装 hardhat：</p>
-<p>初始化项目目录与 npm 工程：</p>
-<pre><code class="language-bash">mkdir hardhat-tutorial
-cd hardhat-tutorial
-npm init
-</code></pre>
-<p>安装 Hardhat v2（官方教程使用 <code>hardhat@hh2</code> 这个标签来锁定 v2）：</p>
-<pre><code class="language-bash">npm install --save-dev hardhat@hh2 # 该过程可能比较花时间
-</code></pre>
-<p>初始化 Hardhat 配置文件：</p>
-<pre><code class="language-bash">npx hardhat init    # 选择：Create an empty hardhat.config.js
-</code></pre>
-<p>安装官方推荐插件集合 hardhat-toolbox：</p>
-<pre><code class="language-bash">npm install --save-dev @nomicfoundation/hardhat-toolbox@hh2
-</code></pre>
-<p>在 hardhat.config.js 文件中添加 <code>require("@nomicfoundation/hardhat-toolbox");</code>，这一步完成后，hardhat.config.js 如下：</p>
-<pre><code class="language-javascript">require(&quot;@nomicfoundation/hardhat-toolbox&quot;);
-
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
-  solidity: &quot;0.8.28&quot;,
-};
-</code></pre>
-<p>补充：如果使用 npm install --save-dev hardhat 安装 hardhat 太慢，可以使用 yarn add --dev hardhat 来安装。</p>
-<p>安装 yarn 指令如下：<code>yarn</code> 官方提供了一个 APT 仓库，可以通过它来安装 <code>yarn</code>，配置仓库并导入 Yarn 的 GPG 公钥：</p>
-<pre><code class="language-bash">curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo &quot;deb https://dl.yarnpkg.com/debian/ stable main&quot; | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt-get update
-sudo apt-get install yarn
-yarn --version
-</code></pre>
-<h2 id="_2">三、创建 &amp; 编译智能合约</h2>
-<p>在项目根目录中新建一个 <code>contracts</code> 目录，接下来就可以在 <code>contracts</code> 目录中编写我们的合约代码，以下 MiniToken.sol 参考自 Hardhat 官方教程：</p>
-<pre><code class="language-solidity">// SPDX-License-Identifier:MIT
-pragma solidity ^0.8.28;
-import &quot;hardhat/console.sol&quot;;
-
-contract MiniToken {
-    string public name = &quot;Mini Hardhat Token&quot;;
-    string public symbol = &quot;MHT&quot;;
-    uint256 public totalSupply = 1000000;
-
-    address public owner;
-    mapping(address =&gt; uint256) private balances;
-
-    event Transfer(address indexed from, address indexed to, uint256 value);
-
-    constructor() {
-        owner = msg.sender;
-        balances[msg.sender] = totalSupply;
-    }
-
-    function balanceOf(address account) external view returns (uint256) {
-        return balances[account];
-    }
-
-    function transfer(address to, uint256 amount) external {
-        require(balances[msg.sender] &gt;= amount, &quot;Not enough tokens&quot;);
-        balances[msg.sender] -= amount;
-        balances[to] += amount;
-
-        emit Transfer(msg.sender, to, amount);
-    }
-}
-</code></pre>
-<p>注：可以在 VS Code 中安装 hardhat 的扩展程序 Solidity by Nomic Foundation。</p>
+<h2 id="_1">一、配置环境<a class="headerlink" href="#_1" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p>在<span class="heti-skip"><span class="heti-spacing"> </span>Windows<span class="heti-spacing"> </span></span>系统使用<span class="heti-skip"><span class="heti-spacing"> </span>VS Code<span class="heti-spacing"> </span></span>配置<span class="heti-skip"><span class="heti-spacing"> </span>Ubuntu 24.04<span class="heti-spacing"> </span></span>上的开发环境。</p>
+<p>安装<span class="heti-skip"><span class="heti-spacing"> </span>22.x<span class="heti-spacing"> </span></span>版<span><span class="heti-spacing"> </span>Node.js</span>：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://deb.nodesource.com/setup_22.x<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>-E<span class="w"> </span>bash<span class="w"> </span>-
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nodejs
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># 查看安装的版本</span>
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>&lt;div<span class="w"> </span><span class="nv">markdown</span><span class="o">=</span><span class="s2">"1"</span><span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">"margin-top: -30px; font-size: 0.75em; opacity: 0.7;"</span>&gt;
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>:material-circle-edit-outline:<span class="w"> </span>约<span class="w"> </span><span class="m">1140</span><span class="w"> </span>个字<span class="w"> </span>:fontawesome-solid-code:<span class="w"> </span><span class="m">189</span><span class="w"> </span>行代码<span class="w"> </span>:material-clock-time-two-outline:<span class="w"> </span>预计阅读时间<span class="w"> </span><span class="m">6</span><span class="w"> </span>分钟
+<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>&lt;/div&gt;
+<a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a>node<span class="w"> </span>-v
+<a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a>npm<span class="w"> </span>-v
+</code></pre></div>
+<h2 id="hardhat">二、创建<span class="heti-skip"><span class="heti-spacing"> </span>Hardhat<span class="heti-spacing"> </span></span>项目<a class="headerlink" href="#hardhat" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p>使用<span class="heti-skip"><span class="heti-spacing"> </span>Node.js<span class="heti-spacing"> </span></span>的包管理器 <code>npm</code> 来安装<span><span class="heti-spacing"> </span>hardhat</span>：</p>
+<p>初始化项目目录与<span class="heti-skip"><span class="heti-spacing"> </span>npm<span class="heti-spacing"> </span></span>工程：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>mkdir<span class="w"> </span>hardhat-tutorial
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>hardhat-tutorial
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>npm<span class="w"> </span>init
+</code></pre></div>
+<p>安装<span><span class="heti-spacing"> </span>Hardhat v2</span>（官方教程使用 <code>hardhat@hh2</code> 这个标签来锁定<span><span class="heti-spacing"> </span>v2</span><heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>npm<span class="w"> </span>install<span class="w"> </span>--save-dev<span class="w"> </span>hardhat@hh2<span class="w"> </span><span class="c1"># 该过程可能比较花时间</span>
+</code></pre></div>
+<p>初始化<span class="heti-skip"><span class="heti-spacing"> </span>Hardhat<span class="heti-spacing"> </span></span>配置文件：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>npx<span class="w"> </span>hardhat<span class="w"> </span>init<span class="w">    </span><span class="c1"># 选择：Create an empty hardhat.config.js</span>
+</code></pre></div>
+<p>安装官方推荐插件集合<span><span class="heti-spacing"> </span>hardhat-toolbox</span>：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>npm<span class="w"> </span>install<span class="w"> </span>--save-dev<span class="w"> </span>@nomicfoundation/hardhat-toolbox@hh2
+</code></pre></div>
+<p>在<span class="heti-skip"><span class="heti-spacing"> </span>hardhat.config.js<span class="heti-spacing"> </span></span>文件中添加 <code>require("@nomicfoundation/hardhat-toolbox");</code>，这一步完成后，<span>hardhat.config.js<span class="heti-spacing"> </span></span>如下：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="nx">require</span><span class="p">(</span><span class="s2">"@nomicfoundation/hardhat-toolbox"</span><span class="p">);</span>
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="cm">/** @type import('hardhat/config').HardhatUserConfig */</span>
+<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">  </span><span class="nx">solidity</span><span class="o">:</span><span class="w"> </span><span class="s2">"0.8.28"</span><span class="p">,</span>
+<a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="p">};</span>
+</code></pre></div>
+<p>补充：如果使用<span class="heti-skip"><span class="heti-spacing"> </span>npm install --save-dev hardhat<span class="heti-spacing"> </span></span>安装<span class="heti-skip"><span class="heti-spacing"> </span>hardhat<span class="heti-spacing"> </span></span>太慢，可以使用<span class="heti-skip"><span class="heti-spacing"> </span>yarn add --dev hardhat<span class="heti-spacing"> </span></span>来安装。</p>
+<p>安装<span class="heti-skip"><span class="heti-spacing"> </span>yarn<span class="heti-spacing"> </span></span>指令如下：<code>yarn</code> 官方提供了一个<span class="heti-skip"><span class="heti-spacing"> </span>APT<span class="heti-spacing"> </span></span>仓库，可以通过它来安装 <code>yarn</code>，配置仓库并导入<span class="heti-skip"><span class="heti-spacing"> </span>Yarn<span class="heti-spacing"> </span></span>的<span class="heti-skip"><span class="heti-spacing"> </span>GPG<span class="heti-spacing"> </span></span>公钥：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>curl<span class="w"> </span>-sS<span class="w"> </span>https://dl.yarnpkg.com/debian/pubkey.gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>apt-key<span class="w"> </span>add<span class="w"> </span>-
+<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"deb https://dl.yarnpkg.com/debian/ stable main"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/yarn.list
+<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>yarn
+<a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a>yarn<span class="w"> </span>--version
+</code></pre></div>
+<h2 id="_2">三、创建<span class="heti-skip"><span class="heti-spacing"> </span>&amp;<span class="heti-spacing"> </span></span>编译智能合约<a class="headerlink" href="#_2" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p>在项目根目录中新建一个 <code>contracts</code> 目录，接下来就可以在 <code>contracts</code> 目录中编写我们的合约代码，以下<span class="heti-skip"><span class="heti-spacing"> </span>MiniToken.sol<span class="heti-spacing"> </span></span>参考自<span class="heti-skip"><span class="heti-spacing"> </span>Hardhat<span class="heti-spacing"> </span></span>官方教程：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="c1">// SPDX-License-Identifier:MIT</span>
+<a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="k">pragma solidity</span><span class="w"> </span><span class="o">^</span><span class="k">0.8.28</span><span class="p">;</span>
+<a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="kt">import</span><span class="w"> </span><span class="s2">"hardhat/console.sol"</span><span class="p">;</span>
+<a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a>
+<a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="k">contract</span><span class="w"> </span><span class="ni">MiniToken</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="k">public </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Mini Hardhat Token"</span><span class="p">;</span>
+<a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="k">public </span><span class="nv">symbol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"MHT"</span><span class="p">;</span>
+<a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="w">    </span><span class="kt">uint256</span><span class="w"> </span><span class="k">public </span><span class="nv">totalSupply</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m m-Decimal">1000000</span><span class="p">;</span>
+<a href="#__codelineno-7-9" id="__codelineno-7-9" name="__codelineno-7-9"></a>
+<a href="#__codelineno-7-10" id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="w">    </span><span class="kt">address</span><span class="w"> </span><span class="k">public </span><span class="nv">owner</span><span class="p">;</span>
+<a href="#__codelineno-7-11" id="__codelineno-7-11" name="__codelineno-7-11"></a><span class="w">    </span><span class="kt">mapping</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="kt">uint256</span><span class="p">)</span><span class="w"> </span><span class="kt">private</span><span class="w"> </span>balances<span class="p">;</span>
+<a href="#__codelineno-7-12" id="__codelineno-7-12" name="__codelineno-7-12"></a>
+<a href="#__codelineno-7-13" id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="w">    </span><span class="kt">event</span><span class="w"> </span><span class="nv">Transfer</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">indexed</span><span class="w"> </span>from<span class="p">,</span><span class="w"> </span><span class="kt">address</span><span class="w"> </span><span class="nv">indexed</span><span class="w"> </span>to<span class="p">,</span><span class="w"> </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">value</span><span class="p">);</span>
+<a href="#__codelineno-7-14" id="__codelineno-7-14" name="__codelineno-7-14"></a>
+<a href="#__codelineno-7-15" id="__codelineno-7-15" name="__codelineno-7-15"></a><span class="w">    </span><span class="kt">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-7-16" id="__codelineno-7-16" name="__codelineno-7-16"></a><span class="w">        </span>owner<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">msg.sender</span><span class="p">;</span>
+<a href="#__codelineno-7-17" id="__codelineno-7-17" name="__codelineno-7-17"></a><span class="w">        </span>balances<span class="p">[</span><span class="k">msg.sender</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>totalSupply<span class="p">;</span>
+<a href="#__codelineno-7-18" id="__codelineno-7-18" name="__codelineno-7-18"></a><span class="w">    </span><span class="p">}</span>
+<a href="#__codelineno-7-19" id="__codelineno-7-19" name="__codelineno-7-19"></a>
+<a href="#__codelineno-7-20" id="__codelineno-7-20" name="__codelineno-7-20"></a><span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">balanceOf</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">account</span><span class="p">)</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span>view<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">uint256</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-7-21" id="__codelineno-7-21" name="__codelineno-7-21"></a><span class="w">        </span><span class="kt">return</span><span class="w"> </span>balances<span class="p">[</span>account<span class="p">];</span>
+<a href="#__codelineno-7-22" id="__codelineno-7-22" name="__codelineno-7-22"></a><span class="w">    </span><span class="p">}</span>
+<a href="#__codelineno-7-23" id="__codelineno-7-23" name="__codelineno-7-23"></a>
+<a href="#__codelineno-7-24" id="__codelineno-7-24" name="__codelineno-7-24"></a><span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">transfer</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">to</span><span class="p">,</span><span class="w"> </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">amount</span><span class="p">)</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-7-25" id="__codelineno-7-25" name="__codelineno-7-25"></a><span class="w">        </span><span class="kt">require</span><span class="p">(</span>balances<span class="p">[</span><span class="k">msg.sender</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>amount<span class="p">,</span><span class="w"> </span><span class="s2">"Not enough tokens"</span><span class="p">);</span>
+<a href="#__codelineno-7-26" id="__codelineno-7-26" name="__codelineno-7-26"></a><span class="w">        </span>balances<span class="p">[</span><span class="k">msg.sender</span><span class="p">]</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span>amount<span class="p">;</span>
+<a href="#__codelineno-7-27" id="__codelineno-7-27" name="__codelineno-7-27"></a><span class="w">        </span>balances<span class="p">[</span>to<span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>amount<span class="p">;</span>
+<a href="#__codelineno-7-28" id="__codelineno-7-28" name="__codelineno-7-28"></a>
+<a href="#__codelineno-7-29" id="__codelineno-7-29" name="__codelineno-7-29"></a><span class="w">        </span>emit<span class="w"> </span>Transfer<span class="p">(</span><span class="k">msg.sender</span><span class="p">,</span><span class="w"> </span>to<span class="p">,</span><span class="w"> </span>amount<span class="p">);</span>
+<a href="#__codelineno-7-30" id="__codelineno-7-30" name="__codelineno-7-30"></a><span class="w">    </span><span class="p">}</span>
+<a href="#__codelineno-7-31" id="__codelineno-7-31" name="__codelineno-7-31"></a><span class="p">}</span>
+</code></pre></div>
+<p>注：可以在<span class="heti-skip"><span class="heti-spacing"> </span>VS Code<span class="heti-spacing"> </span></span>中安装<span class="heti-skip"><span class="heti-spacing"> </span>hardhat<span class="heti-spacing"> </span></span>的扩展程序<span><span class="heti-spacing"> </span>Solidity by Nomic Foundation</span>。</p>
 <p>合约代码编写完后，使用 <code>npx hardhat compile</code> 指令编译。</p>
-<h2 id="hardhat-network">四、编写测试并运行（基于 Hardhat Network）</h2>
-<p>Hardhat 默认网络就是 Hardhat Network，跑测试无需额外启动节点或配置。官方教程用 ethers.js + Mocha + Chai 来写测试。</p>
-<p>在根目录中新建一个目录 <code>test</code>，添加如下 MiniToken.js 文件：</p>
-<pre><code class="language-javascript">const { expect } = require(&quot;chai&quot;);
-
-describe(&quot;MiniToken&quot;, function () {
-  it(&quot;部署后：部署者应拿到全部 totalSupply&quot;, async function () {
-    const [owner] = await ethers.getSigners();
-    const token = await ethers.deployContract(&quot;MiniToken&quot;);
-
-    const ownerBalance = await token.balanceOf(owner.address);
-    expect(await token.totalSupply()).to.equal(ownerBalance);
-  });
-
-  it(&quot;转账：应能在不同账户间转移余额&quot;, async function () {
-    const [owner, addr1, addr2] = await ethers.getSigners();
-    const token = await ethers.deployContract(&quot;MiniToken&quot;);
-
-    await token.transfer(addr1.address, 50);
-    expect(await token.balanceOf(addr1.address)).to.equal(50);
-
-    await token.connect(addr1).transfer(addr2.address, 50);
-    expect(await token.balanceOf(addr2.address)).to.equal(50);
-  });
-
-  it(&quot;失败用例：余额不足应 revert&quot;, async function () {
-    const [, addr1, addr2] = await ethers.getSigners();
-    const token = await ethers.deployContract(&quot;MiniToken&quot;);
-
-    await expect(token.connect(addr1).transfer(addr2.address, 1))
-      .to.be.revertedWith(&quot;Not enough tokens&quot;);
-  });
-});
-</code></pre>
+<h2 id="hardhat-network">四、编写测试并运行（基于<span><span class="heti-spacing"> </span>Hardhat Network</span>）<a class="headerlink" href="#hardhat-network" title="Permanent link">¶</a></h2>
+<p><span>Hardhat<span class="heti-spacing"> </span></span>默认网络就是<span><span class="heti-spacing"> </span>Hardhat Network</span>，跑测试无需额外启动节点或配置。官方教程用<span class="heti-skip"><span class="heti-spacing"> </span>ethers.js + Mocha + Chai<span class="heti-spacing"> </span></span>来写测试。</p>
+<p>在根目录中新建一个目录 <code>test</code>，添加如下<span class="heti-skip"><span class="heti-spacing"> </span>MiniToken.js<span class="heti-spacing"> </span></span>文件：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">expect</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">"chai"</span><span class="p">);</span>
+<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a>
+<a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="nx">describe</span><span class="p">(</span><span class="s2">"MiniToken"</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">  </span><span class="nx">it</span><span class="p">(</span><span class="s2">"部署后：部署者应拿到全部 totalSupply"</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">owner</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">ethers</span><span class="p">.</span><span class="nx">getSigners</span><span class="p">();</span>
+<a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">ethers</span><span class="p">.</span><span class="nx">deployContract</span><span class="p">(</span><span class="s2">"MiniToken"</span><span class="p">);</span>
+<a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a>
+<a href="#__codelineno-8-8" id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">ownerBalance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">owner</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>
+<a href="#__codelineno-8-9" id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">totalSupply</span><span class="p">()).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">ownerBalance</span><span class="p">);</span>
+<a href="#__codelineno-8-10" id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="w">  </span><span class="p">});</span>
+<a href="#__codelineno-8-11" id="__codelineno-8-11" name="__codelineno-8-11"></a>
+<a href="#__codelineno-8-12" id="__codelineno-8-12" name="__codelineno-8-12"></a><span class="w">  </span><span class="nx">it</span><span class="p">(</span><span class="s2">"转账：应能在不同账户间转移余额"</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-8-13" id="__codelineno-8-13" name="__codelineno-8-13"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">owner</span><span class="p">,</span><span class="w"> </span><span class="nx">addr1</span><span class="p">,</span><span class="w"> </span><span class="nx">addr2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">ethers</span><span class="p">.</span><span class="nx">getSigners</span><span class="p">();</span>
+<a href="#__codelineno-8-14" id="__codelineno-8-14" name="__codelineno-8-14"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">ethers</span><span class="p">.</span><span class="nx">deployContract</span><span class="p">(</span><span class="s2">"MiniToken"</span><span class="p">);</span>
+<a href="#__codelineno-8-15" id="__codelineno-8-15" name="__codelineno-8-15"></a>
+<a href="#__codelineno-8-16" id="__codelineno-8-16" name="__codelineno-8-16"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">addr1</span><span class="p">.</span><span class="nx">address</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">);</span>
+<a href="#__codelineno-8-17" id="__codelineno-8-17" name="__codelineno-8-17"></a><span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">addr1</span><span class="p">.</span><span class="nx">address</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="mf">50</span><span class="p">);</span>
+<a href="#__codelineno-8-18" id="__codelineno-8-18" name="__codelineno-8-18"></a>
+<a href="#__codelineno-8-19" id="__codelineno-8-19" name="__codelineno-8-19"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">addr1</span><span class="p">).</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">addr2</span><span class="p">.</span><span class="nx">address</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">);</span>
+<a href="#__codelineno-8-20" id="__codelineno-8-20" name="__codelineno-8-20"></a><span class="w">    </span><span class="nx">expect</span><span class="p">(</span><span class="k">await</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">balanceOf</span><span class="p">(</span><span class="nx">addr2</span><span class="p">.</span><span class="nx">address</span><span class="p">)).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="mf">50</span><span class="p">);</span>
+<a href="#__codelineno-8-21" id="__codelineno-8-21" name="__codelineno-8-21"></a><span class="w">  </span><span class="p">});</span>
+<a href="#__codelineno-8-22" id="__codelineno-8-22" name="__codelineno-8-22"></a>
+<a href="#__codelineno-8-23" id="__codelineno-8-23" name="__codelineno-8-23"></a><span class="w">  </span><span class="nx">it</span><span class="p">(</span><span class="s2">"失败用例：余额不足应 revert"</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-8-24" id="__codelineno-8-24" name="__codelineno-8-24"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">[,</span><span class="w"> </span><span class="nx">addr1</span><span class="p">,</span><span class="w"> </span><span class="nx">addr2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">ethers</span><span class="p">.</span><span class="nx">getSigners</span><span class="p">();</span>
+<a href="#__codelineno-8-25" id="__codelineno-8-25" name="__codelineno-8-25"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">ethers</span><span class="p">.</span><span class="nx">deployContract</span><span class="p">(</span><span class="s2">"MiniToken"</span><span class="p">);</span>
+<a href="#__codelineno-8-26" id="__codelineno-8-26" name="__codelineno-8-26"></a>
+<a href="#__codelineno-8-27" id="__codelineno-8-27" name="__codelineno-8-27"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">expect</span><span class="p">(</span><span class="nx">token</span><span class="p">.</span><span class="nx">connect</span><span class="p">(</span><span class="nx">addr1</span><span class="p">).</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">addr2</span><span class="p">.</span><span class="nx">address</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">))</span>
+<a href="#__codelineno-8-28" id="__codelineno-8-28" name="__codelineno-8-28"></a><span class="w">      </span><span class="p">.</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">revertedWith</span><span class="p">(</span><span class="s2">"Not enough tokens"</span><span class="p">);</span>
+<a href="#__codelineno-8-29" id="__codelineno-8-29" name="__codelineno-8-29"></a><span class="w">  </span><span class="p">});</span>
+<a href="#__codelineno-8-30" id="__codelineno-8-30" name="__codelineno-8-30"></a><span class="p">});</span>
+</code></pre></div>
 <p>执行<code>npx hardhat test</code>指令，测试结果如下：</p>
-<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat test
-
-
-  MiniToken
-    ✔ 部署后：部署者应拿到全部 totalSupply (486ms)
-    ✔ 转账：应能在不同账户间转移余额
-    ✔ 失败用例：余额不足应 revert
-
-
-  3 passing (537ms)
-
-</code></pre>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$<span class="w"> </span>npx<span class="w"> </span>hardhat<span class="w"> </span><span class="nb">test</span>
+<a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a>
+<a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a>
+<a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="w">  </span>MiniToken
+<a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="w">    </span>✔<span class="w"> </span>部署后：部署者应拿到全部<span class="w"> </span>totalSupply<span class="w"> </span><span class="o">(</span>486ms<span class="o">)</span>
+<a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">    </span>✔<span class="w"> </span>转账：应能在不同账户间转移余额
+<a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="w">    </span>✔<span class="w"> </span>失败用例：余额不足应<span class="w"> </span>revert
+<a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a>
+<a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a>
+<a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="w">  </span><span class="m">3</span><span class="w"> </span>passing<span class="w"> </span><span class="o">(</span>537ms<span class="o">)</span>
+</code></pre></div>
 <p>官方教程还推荐用 <code>loadFixture</code> 做测试夹具与快照回滚，提高测试速度并减少重复部署代码。</p>
-<h2 id="hardhat-network_1">五、使用 Hardhat Network 调试</h2>
-<h3 id="51-solidity-consolelog">5.1 在 Solidity 里直接 console.log</h3>
-<p>Hardhat Network 支持在 Solidity 代码中调用 <code>console.log()</code> 输出日志信息、合约变量，用法是在合约代码中导入 <code>import "hardhat/console.sol";</code> 并在函数里打印。</p>
+<h2 id="hardhat-network_1">五、使用<span class="heti-skip"><span class="heti-spacing"> </span>Hardhat Network<span class="heti-spacing"> </span></span>调试<a class="headerlink" href="#hardhat-network_1" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<h3 id="51-solidity-consolelog"><span>5.1<span class="heti-spacing"> </span></span>在<span class="heti-skip"><span class="heti-spacing"> </span>Solidity<span class="heti-spacing"> </span></span>里直接<span><span class="heti-spacing"> </span>console.log</span><a class="headerlink" href="#51-solidity-consolelog" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><span>Hardhat Network<span class="heti-spacing"> </span></span>支持在<span class="heti-skip"><span class="heti-spacing"> </span>Solidity<span class="heti-spacing"> </span></span>代码中调用 <code>console.log()</code> 输出日志信息、合约变量，用法是在合约代码中导入 <code>import "hardhat/console.sol";</code> 并在函数里打印。</p>
 <p>示例：编辑 <code>contracts/MiniToken.sol</code>，在 <code>transfer()</code> 中加入日志：</p>
-<pre><code class="language-solidity">import &quot;hardhat/console.sol&quot;;
-
-function transfer(address to, uint256 amount) external {
-    require(balances[msg.sender] &gt;= amount, &quot;Not enough tokens&quot;);
-
-    console.log(
-        &quot;Transferring from %s to %s %s tokens&quot;,
-        msg.sender,
-        to,
-        amount
-    );
-
-    balances[msg.sender] -= amount;
-    balances[to] += amount;
-    emit Transfer(msg.sender, to, amount);
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="kt">import</span><span class="w"> </span><span class="s2">"hardhat/console.sol"</span><span class="p">;</span>
+<a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a>
+<a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="kt">function</span><span class="w"> </span><span class="nv">transfer</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">to</span><span class="p">,</span><span class="w"> </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">amount</span><span class="p">)</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="w">    </span><span class="kt">require</span><span class="p">(</span>balances<span class="p">[</span><span class="k">msg.sender</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>amount<span class="p">,</span><span class="w"> </span><span class="s2">"Not enough tokens"</span><span class="p">);</span>
+<a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a>
+<a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="w">    </span>console<span class="p">.</span>log<span class="p">(</span>
+<a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="w">        </span><span class="s2">"Transferring from %s to %s %s tokens"</span><span class="p">,</span>
+<a href="#__codelineno-10-8" id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="w">        </span><span class="k">msg.sender</span><span class="p">,</span>
+<a href="#__codelineno-10-9" id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="w">        </span>to<span class="p">,</span>
+<a href="#__codelineno-10-10" id="__codelineno-10-10" name="__codelineno-10-10"></a><span class="w">        </span>amount
+<a href="#__codelineno-10-11" id="__codelineno-10-11" name="__codelineno-10-11"></a><span class="w">    </span><span class="p">);</span>
+<a href="#__codelineno-10-12" id="__codelineno-10-12" name="__codelineno-10-12"></a>
+<a href="#__codelineno-10-13" id="__codelineno-10-13" name="__codelineno-10-13"></a><span class="w">    </span>balances<span class="p">[</span><span class="k">msg.sender</span><span class="p">]</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span>amount<span class="p">;</span>
+<a href="#__codelineno-10-14" id="__codelineno-10-14" name="__codelineno-10-14"></a><span class="w">    </span>balances<span class="p">[</span>to<span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>amount<span class="p">;</span>
+<a href="#__codelineno-10-15" id="__codelineno-10-15" name="__codelineno-10-15"></a><span class="w">    </span>emit<span class="w"> </span>Transfer<span class="p">(</span><span class="k">msg.sender</span><span class="p">,</span><span class="w"> </span>to<span class="p">,</span><span class="w"> </span>amount<span class="p">);</span>
+<a href="#__codelineno-10-16" id="__codelineno-10-16" name="__codelineno-10-16"></a><span class="p">}</span>
+</code></pre></div>
 <p>再跑一次测试指令<code>npx hardhat test</code>，会在测试输出中看到转账日志：</p>
-<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat test
-Compiled 2 Solidity files successfully (evm target: paris).
-
-
-  MiniToken
-    ✔ 部署后：部署者应拿到全部 totalSupply (471ms)
-Transferring from 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 to 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 50 tokens
-Transferring from 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 to 0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc 50 tokens
-    ✔ 转账：应能在不同账户间转移余额
-    ✔ 失败用例：余额不足应 revert
-
-
-  3 passing (520ms)
-</code></pre>
-<p>注意点（来自 Hardhat Network 参考文档）：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a>test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$<span class="w"> </span>npx<span class="w"> </span>hardhat<span class="w"> </span><span class="nb">test</span>
+<a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a>Compiled<span class="w"> </span><span class="m">2</span><span class="w"> </span>Solidity<span class="w"> </span>files<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>evm<span class="w"> </span>target:<span class="w"> </span>paris<span class="o">)</span>.
+<a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a>
+<a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a>
+<a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="w">  </span>MiniToken
+<a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="w">    </span>✔<span class="w"> </span>部署后：部署者应拿到全部<span class="w"> </span>totalSupply<span class="w"> </span><span class="o">(</span>471ms<span class="o">)</span>
+<a href="#__codelineno-11-7" id="__codelineno-11-7" name="__codelineno-11-7"></a>Transferring<span class="w"> </span>from<span class="w"> </span>0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266<span class="w"> </span>to<span class="w"> </span>0x70997970c51812dc3a010c7d01b50e0d17dc79c8<span class="w"> </span><span class="m">50</span><span class="w"> </span>tokens
+<a href="#__codelineno-11-8" id="__codelineno-11-8" name="__codelineno-11-8"></a>Transferring<span class="w"> </span>from<span class="w"> </span>0x70997970c51812dc3a010c7d01b50e0d17dc79c8<span class="w"> </span>to<span class="w"> </span>0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc<span class="w"> </span><span class="m">50</span><span class="w"> </span>tokens
+<a href="#__codelineno-11-9" id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="w">    </span>✔<span class="w"> </span>转账：应能在不同账户间转移余额
+<a href="#__codelineno-11-10" id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="w">    </span>✔<span class="w"> </span>失败用例：余额不足应<span class="w"> </span>revert
+<a href="#__codelineno-11-11" id="__codelineno-11-11" name="__codelineno-11-11"></a>
+<a href="#__codelineno-11-12" id="__codelineno-11-12" name="__codelineno-11-12"></a>
+<a href="#__codelineno-11-13" id="__codelineno-11-13" name="__codelineno-11-13"></a><span class="w">  </span><span class="m">3</span><span class="w"> </span>passing<span class="w"> </span><span class="o">(</span>520ms<span class="o">)</span>
+</code></pre></div>
+<p>注意点（来自<span class="heti-skip"><span class="heti-spacing"> </span>Hardhat Network<span class="heti-spacing"> </span></span>参考文档<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：</p>
 <ul>
-<li><code>console.log</code> 可在 call/transaction 中使用，<code>view</code> 可用，但 <code>pure</code> 不行；</li>
+<li><code>console.log</code> 可在<span class="heti-skip"><span class="heti-spacing"> </span>call/transaction<span class="heti-spacing"> </span></span>中使用，<code>view</code> 可用，但 <code>pure</code> 不行；</li>
 <li>需要<code>import "hardhat/console.sol"</code>；</li>
-<li><code>console.log</code> 最多支持 4 个参数，且有明确的类型范围与若干单参 API。</li>
+<li><code>console.log</code> 最多支持<span class="heti-skip"><span class="heti-spacing"> </span>4<span class="heti-spacing"> </span></span>个参数，且有明确的类型范围与若干单参<span><span class="heti-spacing"> </span>API</span>。</li>
 </ul>
-<h3 id="52">5.2 额外调试抓手</h3>
-<p><strong>失败堆栈</strong>：Hardhat Network 默认会在交易失败时抛出“JavaScript + Solidity”的组合堆栈信息（便于定位 revert 触发点）。</p>
-<p><strong>in-process vs JSON-RPC node</strong>：测试时用的是 in-process Hardhat Network；如果用 <code>node</code> 任务启动 JSON-RPC server（便于前端/钱包连接），日志与行为会略有不同（例如 loggingEnabled 默认值对 in-process 与 node 有差异）。</p>
-<h2 id="sepolia">六、部署到 Sepolia 测试网</h2>
-<h3 id="61-ignition-module">6.1 用 Ignition Module 描述部署</h3>
-<p>Ignition 的部署入口是 Module，放在 <code>ignition/modules</code> 目录下。</p>
+<h3 id="52"><span>5.2<span class="heti-spacing"> </span></span>额外调试抓手<a class="headerlink" href="#52" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>失败堆栈</strong>：<span>Hardhat Network<span class="heti-spacing"> </span></span>默认会在交易失败时抛出“JavaScript + Solidity”的组合堆栈信息（便于定位<span class="heti-skip"><span class="heti-spacing"> </span>revert<span class="heti-spacing"> </span></span>触发点<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<p><strong>in-process vs JSON-RPC node</strong>：测试时用的是<span><span class="heti-spacing"> </span>in-process Hardhat Network</span>；如果用 <code>node</code> 任务启动<span><span class="heti-spacing"> </span>JSON-RPC server</span>（便于前端<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>钱包连接<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，日志与行为会略有不同（例如<span class="heti-skip"><span class="heti-spacing"> </span>loggingEnabled<span class="heti-spacing"> </span></span>默认值对<span class="heti-skip"><span class="heti-spacing"> </span>in-process<span class="heti-spacing"> </span></span>与<span class="heti-skip"><span class="heti-spacing"> </span>node<span class="heti-spacing"> </span></span>有差异<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<h2 id="sepolia">六、部署到<span class="heti-skip"><span class="heti-spacing"> </span>Sepolia<span class="heti-spacing"> </span></span>测试网<a class="headerlink" href="#sepolia" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<h3 id="61-ignition-module"><span>6.1<span class="heti-spacing"> </span></span>用<span class="heti-skip"><span class="heti-spacing"> </span>Ignition Module<span class="heti-spacing"> </span></span>描述部署<a class="headerlink" href="#61-ignition-module" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><span>Ignition<span class="heti-spacing"> </span></span>的部署入口是<span><span class="heti-spacing"> </span>Module</span>，放在 <code>ignition/modules</code> 目录下。</p>
 <p>创建 <code>ignition/modules/MiniToken.js</code> 文件如下：</p>
-<pre><code class="language-javascript">const { buildModule } = require(&quot;@nomicfoundation/hardhat-ignition/modules&quot;);
-
-const TokenModule = buildModule(&quot;TokenModule&quot;, (m) =&gt; {
-  const token = m.contract(&quot;Token&quot;);
-
-  return { token };
-});
-
-module.exports = TokenModule;
-</code></pre>
-<h3 id="62-sepolia-rpc">6.2 配置 Sepolia RPC 与私钥</h3>
-<p>部署到远程测试网络需要在 <code>hardhat.config.js</code> 中配置 RPC 信息，然后在部署指令中使用 <code>--network</code>参数告知 Hardhat 连接到哪个网络。</p>
-<p>注册一个 <a href="https://www.alchemy.com/">Alchemy</a> 账户， 然后创建一个 Ethereum Sepolia 的 App，获取该 App 的 API key。</p>
-<p>从虚拟钱包发出的每一笔交易都需要使用<code>private key</code>来签名，该步骤通过把钱包地址的 private key、alchemy API key 存储在一个 environment file 中，来为程序提供必要的访问权限。</p>
-<p>通过<code>npm install dotenv</code>指令安装 dotenv 模块，以便读取<code>.env</code>文件：</p>
-<pre><code class="language-plain">ALCHEMY_API_KEY = &quot;xxx&quot;
-SEPOLIA_PRIVATE_KEY = &quot;xxx&quot;
-</code></pre>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">buildModule</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">"@nomicfoundation/hardhat-ignition/modules"</span><span class="p">);</span>
+<a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a>
+<a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="kd">const</span><span class="w"> </span><span class="nx">TokenModule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">buildModule</span><span class="p">(</span><span class="s2">"TokenModule"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">m</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">contract</span><span class="p">(</span><span class="s2">"Token"</span><span class="p">);</span>
+<a href="#__codelineno-12-5" id="__codelineno-12-5" name="__codelineno-12-5"></a>
+<a href="#__codelineno-12-6" id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="p">};</span>
+<a href="#__codelineno-12-7" id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="p">});</span>
+<a href="#__codelineno-12-8" id="__codelineno-12-8" name="__codelineno-12-8"></a>
+<a href="#__codelineno-12-9" id="__codelineno-12-9" name="__codelineno-12-9"></a><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">TokenModule</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="62-sepolia-rpc"><span>6.2<span class="heti-spacing"> </span></span>配置<span class="heti-skip"><span class="heti-spacing"> </span>Sepolia RPC<span class="heti-spacing"> </span></span>与私钥<a class="headerlink" href="#62-sepolia-rpc" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>部署到远程测试网络需要在 <code>hardhat.config.js</code> 中配置<span class="heti-skip"><span class="heti-spacing"> </span>RPC<span class="heti-spacing"> </span></span>信息，然后在部署指令中使用 <code>--network</code>参数告知<span class="heti-skip"><span class="heti-spacing"> </span>Hardhat<span class="heti-spacing"> </span></span>连接到哪个网络。</p>
+<p>注册一个<a href="https://www.alchemy.com/"><span class="heti-skip"><span class="heti-spacing"> </span>Alchemy<span class="heti-spacing"> </span></span></a>账户， 然后创建一个<span class="heti-skip"><span class="heti-spacing"> </span>Ethereum Sepolia<span class="heti-spacing"> </span></span>的<span><span class="heti-spacing"> </span>App</span>，获取该<span class="heti-skip"><span class="heti-spacing"> </span>App<span class="heti-spacing"> </span></span>的<span><span class="heti-spacing"> </span>API key</span>。</p>
+<p>从虚拟钱包发出的每一笔交易都需要使用<code>private key</code>来签名，该步骤通过把钱包地址的<span><span class="heti-spacing"> </span>private key</span>、<span>alchemy API key<span class="heti-spacing"> </span></span>存储在一个<span class="heti-skip"><span class="heti-spacing"> </span>environment file<span class="heti-spacing"> </span></span>中，来为程序提供必要的访问权限。</p>
+<p>通过<code>npm install dotenv</code>指令安装<span class="heti-skip"><span class="heti-spacing"> </span>dotenv<span class="heti-spacing"> </span></span>模块，以便读取<code>.env</code>文件：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a>ALCHEMY_API_KEY = "xxx"
+<a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a>SEPOLIA_PRIVATE_KEY = "xxx"
+</code></pre></div>
 <p>注：测试用的钱包地址中不要放置任何真实资产。</p>
-<p>在<code>hardhat.config.js</code>文件中添加配置，以便部署到 Sepolia 测试网：</p>
-<pre><code class="language-javascript">require(&quot;@nomicfoundation/hardhat-toolbox&quot;);
-require(&quot;dotenv&quot;).config();
-
-const { ALCHEMY_API_KEY, SEPOLIA_PRIVATE_KEY } = process.env;
-
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
-  solidity: &quot;0.8.28&quot;,
-  networks: {
-    sepolia: {
-      url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      accounts: [SEPOLIA_PRIVATE_KEY],
-    },
-  },
-};
-</code></pre>
-<h3 id="63">6.3 部署合约</h3>
+<p>在<code>hardhat.config.js</code>文件中添加配置，以便部署到<span class="heti-skip"><span class="heti-spacing"> </span>Sepolia<span class="heti-spacing"> </span></span>测试网：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="nx">require</span><span class="p">(</span><span class="s2">"@nomicfoundation/hardhat-toolbox"</span><span class="p">);</span>
+<a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="nx">require</span><span class="p">(</span><span class="s2">"dotenv"</span><span class="p">).</span><span class="nx">config</span><span class="p">();</span>
+<a href="#__codelineno-14-3" id="__codelineno-14-3" name="__codelineno-14-3"></a>
+<a href="#__codelineno-14-4" id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ALCHEMY_API_KEY</span><span class="p">,</span><span class="w"> </span><span class="nx">SEPOLIA_PRIVATE_KEY</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">;</span>
+<a href="#__codelineno-14-5" id="__codelineno-14-5" name="__codelineno-14-5"></a>
+<a href="#__codelineno-14-6" id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="cm">/** @type import('hardhat/config').HardhatUserConfig */</span>
+<a href="#__codelineno-14-7" id="__codelineno-14-7" name="__codelineno-14-7"></a><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-14-8" id="__codelineno-14-8" name="__codelineno-14-8"></a><span class="w">  </span><span class="nx">solidity</span><span class="o">:</span><span class="w"> </span><span class="s2">"0.8.28"</span><span class="p">,</span>
+<a href="#__codelineno-14-9" id="__codelineno-14-9" name="__codelineno-14-9"></a><span class="w">  </span><span class="nx">networks</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-14-10" id="__codelineno-14-10" name="__codelineno-14-10"></a><span class="w">    </span><span class="nx">sepolia</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-14-11" id="__codelineno-14-11" name="__codelineno-14-11"></a><span class="w">      </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="sb">`https://eth-sepolia.g.alchemy.com/v2/</span><span class="si">${</span><span class="nx">ALCHEMY_API_KEY</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span>
+<a href="#__codelineno-14-12" id="__codelineno-14-12" name="__codelineno-14-12"></a><span class="w">      </span><span class="nx">accounts</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">SEPOLIA_PRIVATE_KEY</span><span class="p">],</span>
+<a href="#__codelineno-14-13" id="__codelineno-14-13" name="__codelineno-14-13"></a><span class="w">    </span><span class="p">},</span>
+<a href="#__codelineno-14-14" id="__codelineno-14-14" name="__codelineno-14-14"></a><span class="w">  </span><span class="p">},</span>
+<a href="#__codelineno-14-15" id="__codelineno-14-15" name="__codelineno-14-15"></a><span class="p">};</span>
+</code></pre></div>
+<h3 id="63"><span>6.3<span class="heti-spacing"> </span></span>部署合约<a class="headerlink" href="#63" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
 <p>到目前为止，已经可以完成最后的部署了，在终端中执行如下指令：</p>
-<pre><code class="language-shell">$ npx hardhat ignition deploy ./ignition/modules/MiniToken.js --network sepolia
-[dotenv@17.2.3] injecting env (2) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
-✔ Confirm deploy to network sepolia (11155111)? … yes
-[ MiniTokenModule ] Nothing new to deploy based on previous execution stored in ./ignition/deployments/chain-11155111
-
-Deployed Addresses
-
-MiniTokenModule#MiniToken - 0x07831829b9F8182eE65B446adc7cD6Dc0Ba61b6D
-</code></pre>
-<p>Hardhat 也支持通过脚本来部署合约。在项目根目录下新建<code>scripts/</code> 目录，将 JS 编写的部署脚本 <code>deploy.js</code> 放在该<code>scripts/</code> 目录中，最后执行 <code>npx hardhat run scripts/deploy.js --network sepolia</code>就可以了。</p>
-<pre><code class="language-javascript">const hre = require(&quot;hardhat&quot;);
-
-async function main() {
-  const [deployer] = await hre.ethers.getSigners();
-
-  const balance = await hre.ethers.provider.getBalance(deployer.address);
-  console.log(&quot;Deployer:&quot;, deployer.address);
-  console.log(&quot;Deployer balance:&quot;, hre.ethers.formatEther(balance), &quot;ETH&quot;);
-
-  // 推荐写法：hardhat-ethers 提供 ethers.deployContract
-  const token = await hre.ethers.deployContract(&quot;MiniToken&quot;);
-  await token.waitForDeployment();
-
-  // ethers v6 合约地址常用 token.target（或 await token.getAddress()）
-  console.log(&quot;MiniToken deployed to:&quot;, token.target);
-
-  const tx = token.deploymentTransaction();
-  console.log(&quot;Deployment tx hash:&quot;, tx.hash);
-}
-
-main().catch((err) =&gt; {
-  console.error(err);
-  process.exitCode = 1;
-});
-</code></pre>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a>$<span class="w"> </span>npx<span class="w"> </span>hardhat<span class="w"> </span>ignition<span class="w"> </span>deploy<span class="w"> </span>./ignition/modules/MiniToken.js<span class="w"> </span>--network<span class="w"> </span>sepolia
+<a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="o">[</span>dotenv@17.2.3<span class="o">]</span><span class="w"> </span>injecting<span class="w"> </span>env<span class="w"> </span><span class="o">(</span><span class="m">2</span><span class="o">)</span><span class="w"> </span>from<span class="w"> </span>.env<span class="w"> </span>--<span class="w"> </span>tip:<span class="w"> </span>🔐<span class="w"> </span>prevent<span class="w"> </span>committing<span class="w"> </span>.env<span class="w"> </span>to<span class="w"> </span>code:<span class="w"> </span>https://dotenvx.com/precommit
+<a href="#__codelineno-15-3" id="__codelineno-15-3" name="__codelineno-15-3"></a>✔<span class="w"> </span>Confirm<span class="w"> </span>deploy<span class="w"> </span>to<span class="w"> </span>network<span class="w"> </span>sepolia<span class="w"> </span><span class="o">(</span><span class="m">11155111</span><span class="o">)</span>?<span class="w"> </span>…<span class="w"> </span>yes
+<a href="#__codelineno-15-4" id="__codelineno-15-4" name="__codelineno-15-4"></a><span class="o">[</span><span class="w"> </span>MiniTokenModule<span class="w"> </span><span class="o">]</span><span class="w"> </span>Nothing<span class="w"> </span>new<span class="w"> </span>to<span class="w"> </span>deploy<span class="w"> </span>based<span class="w"> </span>on<span class="w"> </span>previous<span class="w"> </span>execution<span class="w"> </span>stored<span class="w"> </span><span class="k">in</span><span class="w"> </span>./ignition/deployments/chain-11155111
+<a href="#__codelineno-15-5" id="__codelineno-15-5" name="__codelineno-15-5"></a>
+<a href="#__codelineno-15-6" id="__codelineno-15-6" name="__codelineno-15-6"></a>Deployed<span class="w"> </span>Addresses
+<a href="#__codelineno-15-7" id="__codelineno-15-7" name="__codelineno-15-7"></a>
+<a href="#__codelineno-15-8" id="__codelineno-15-8" name="__codelineno-15-8"></a>MiniTokenModule#MiniToken<span class="w"> </span>-<span class="w"> </span>0x07831829b9F8182eE65B446adc7cD6Dc0Ba61b6D
+</code></pre></div>
+<p><span>Hardhat<span class="heti-spacing"> </span></span>也支持通过脚本来部署合约。在项目根目录下新建<code>scripts/</code> 目录，将<span class="heti-skip"><span class="heti-spacing"> </span>JS<span class="heti-spacing"> </span></span>编写的部署脚本 <code>deploy.js</code> 放在该<code>scripts/</code> 目录中，最后执行 <code>npx hardhat run scripts/deploy.js --network sepolia</code>就可以了。</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">hre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">"hardhat"</span><span class="p">);</span>
+<a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a>
+<a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-16-4" id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">deployer</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">hre</span><span class="p">.</span><span class="nx">ethers</span><span class="p">.</span><span class="nx">getSigners</span><span class="p">();</span>
+<a href="#__codelineno-16-5" id="__codelineno-16-5" name="__codelineno-16-5"></a>
+<a href="#__codelineno-16-6" id="__codelineno-16-6" name="__codelineno-16-6"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">hre</span><span class="p">.</span><span class="nx">ethers</span><span class="p">.</span><span class="nx">provider</span><span class="p">.</span><span class="nx">getBalance</span><span class="p">(</span><span class="nx">deployer</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>
+<a href="#__codelineno-16-7" id="__codelineno-16-7" name="__codelineno-16-7"></a><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Deployer:"</span><span class="p">,</span><span class="w"> </span><span class="nx">deployer</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>
+<a href="#__codelineno-16-8" id="__codelineno-16-8" name="__codelineno-16-8"></a><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Deployer balance:"</span><span class="p">,</span><span class="w"> </span><span class="nx">hre</span><span class="p">.</span><span class="nx">ethers</span><span class="p">.</span><span class="nx">formatEther</span><span class="p">(</span><span class="nx">balance</span><span class="p">),</span><span class="w"> </span><span class="s2">"ETH"</span><span class="p">);</span>
+<a href="#__codelineno-16-9" id="__codelineno-16-9" name="__codelineno-16-9"></a>
+<a href="#__codelineno-16-10" id="__codelineno-16-10" name="__codelineno-16-10"></a><span class="w">  </span><span class="c1">// 推荐写法：hardhat-ethers 提供 ethers.deployContract</span>
+<a href="#__codelineno-16-11" id="__codelineno-16-11" name="__codelineno-16-11"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">hre</span><span class="p">.</span><span class="nx">ethers</span><span class="p">.</span><span class="nx">deployContract</span><span class="p">(</span><span class="s2">"MiniToken"</span><span class="p">);</span>
+<a href="#__codelineno-16-12" id="__codelineno-16-12" name="__codelineno-16-12"></a><span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">waitForDeployment</span><span class="p">();</span>
+<a href="#__codelineno-16-13" id="__codelineno-16-13" name="__codelineno-16-13"></a>
+<a href="#__codelineno-16-14" id="__codelineno-16-14" name="__codelineno-16-14"></a><span class="w">  </span><span class="c1">// ethers v6 合约地址常用 token.target（或 await token.getAddress()）</span>
+<a href="#__codelineno-16-15" id="__codelineno-16-15" name="__codelineno-16-15"></a><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"MiniToken deployed to:"</span><span class="p">,</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
+<a href="#__codelineno-16-16" id="__codelineno-16-16" name="__codelineno-16-16"></a>
+<a href="#__codelineno-16-17" id="__codelineno-16-17" name="__codelineno-16-17"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">tx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">token</span><span class="p">.</span><span class="nx">deploymentTransaction</span><span class="p">();</span>
+<a href="#__codelineno-16-18" id="__codelineno-16-18" name="__codelineno-16-18"></a><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Deployment tx hash:"</span><span class="p">,</span><span class="w"> </span><span class="nx">tx</span><span class="p">.</span><span class="nx">hash</span><span class="p">);</span>
+<a href="#__codelineno-16-19" id="__codelineno-16-19" name="__codelineno-16-19"></a><span class="p">}</span>
+<a href="#__codelineno-16-20" id="__codelineno-16-20" name="__codelineno-16-20"></a>
+<a href="#__codelineno-16-21" id="__codelineno-16-21" name="__codelineno-16-21"></a><span class="nx">main</span><span class="p">().</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-16-22" id="__codelineno-16-22" name="__codelineno-16-22"></a><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<a href="#__codelineno-16-23" id="__codelineno-16-23" name="__codelineno-16-23"></a><span class="w">  </span><span class="nx">process</span><span class="p">.</span><span class="nx">exitCode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+<a href="#__codelineno-16-24" id="__codelineno-16-24" name="__codelineno-16-24"></a><span class="p">});</span>
+</code></pre></div>
 <p>执行结果大致如下：</p>
-<pre><code class="language-bash">test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$ npx hardhat run scripts/deploy.js --network sepolia
-[dotenv@17.2.3] injecting env (2) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
-[dotenv@17.2.3] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
-Deployer: 0x84B62e4c0766414a867A5aCc7BCa14901B3c713C
-Deployer balance: 0.508237594610744345 ETH
-MiniToken deployed to: 0xEc2E9d1ddEb8d6b1F695c23512afaa70d716458e
-Deployment tx hash: 0x421c29757589388e092d52d48bf65d89060bb725cfc96a9b02497557b64bd8fa
-</code></pre>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a>test@DESKTOP-958GQ8P:~/desktop/hardhat-tutorial$<span class="w"> </span>npx<span class="w"> </span>hardhat<span class="w"> </span>run<span class="w"> </span>scripts/deploy.js<span class="w"> </span>--network<span class="w"> </span>sepolia
+<a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="o">[</span>dotenv@17.2.3<span class="o">]</span><span class="w"> </span>injecting<span class="w"> </span>env<span class="w"> </span><span class="o">(</span><span class="m">2</span><span class="o">)</span><span class="w"> </span>from<span class="w"> </span>.env<span class="w"> </span>--<span class="w"> </span>tip:<span class="w"> </span>⚙️<span class="w">  </span>load<span class="w"> </span>multiple<span class="w"> </span>.env<span class="w"> </span>files<span class="w"> </span>with<span class="w"> </span><span class="o">{</span><span class="w"> </span>path:<span class="w"> </span><span class="o">[</span><span class="s1">'.env.local'</span>,<span class="w"> </span><span class="s1">'.env'</span><span class="o">]</span><span class="w"> </span><span class="o">}</span>
+<a href="#__codelineno-17-3" id="__codelineno-17-3" name="__codelineno-17-3"></a><span class="o">[</span>dotenv@17.2.3<span class="o">]</span><span class="w"> </span>injecting<span class="w"> </span>env<span class="w"> </span><span class="o">(</span><span class="m">0</span><span class="o">)</span><span class="w"> </span>from<span class="w"> </span>.env<span class="w"> </span>--<span class="w"> </span>tip:<span class="w"> </span>🛠️<span class="w">  </span>run<span class="w"> </span>anywhere<span class="w"> </span>with<span class="w"> </span><span class="sb">`</span>dotenvx<span class="w"> </span>run<span class="w"> </span>--<span class="w"> </span>yourcommand<span class="sb">`</span>
+<a href="#__codelineno-17-4" id="__codelineno-17-4" name="__codelineno-17-4"></a>Deployer:<span class="w"> </span>0x84B62e4c0766414a867A5aCc7BCa14901B3c713C
+<a href="#__codelineno-17-5" id="__codelineno-17-5" name="__codelineno-17-5"></a>Deployer<span class="w"> </span>balance:<span class="w"> </span><span class="m">0</span>.508237594610744345<span class="w"> </span>ETH
+<a href="#__codelineno-17-6" id="__codelineno-17-6" name="__codelineno-17-6"></a>MiniToken<span class="w"> </span>deployed<span class="w"> </span>to:<span class="w"> </span>0xEc2E9d1ddEb8d6b1F695c23512afaa70d716458e
+<a href="#__codelineno-17-7" id="__codelineno-17-7" name="__codelineno-17-7"></a>Deployment<span class="w"> </span>tx<span class="w"> </span>hash:<span class="w"> </span>0x421c29757589388e092d52d48bf65d89060bb725cfc96a9b02497557b64bd8fa
+</code></pre></div>
 <p>参考资料：<a href="https://v2.hardhat.org/tutorial">Hardhat's tutorial for beginners</a></p>
-
-
-
-
-
-
-
-
-
-
-
+<aside class="md-source-file">
+<span class="md-source-file__fact">
+<span class="md-icon" title="最后更新">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">2025年12月12日 18:05:30</span>
+</span>
+<span class="md-source-file__fact">
+<span class="md-icon" title="创建日期">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">2025年12月12日 18:05:30</span>
+</span>
+</aside>
 <!-- Insert generated snippet here -->
-<script src="https://giscus.app/client.js"
-        data-repo="lifefindsitsway/web3-tutorials"
-        data-repo-id="R_kgDOMt1b5Q"
-        data-category="Comments"
-        data-category-id="DIC_kwDOMt1b5c4CiWjc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="1"
-        data-input-position="top"
-        data-theme="light_protanopia"
-        data-lang="zh-CN"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script async="" crossorigin="anonymous" data-category="Comments" data-category-id="DIC_kwDOMt1b5c4CiWjc" data-emit-metadata="1" data-input-position="top" data-lang="zh-CN" data-loading="lazy" data-mapping="title" data-reactions-enabled="1" data-repo="lifefindsitsway/web3-tutorials" data-repo-id="R_kgDOMt1b5Q" data-strict="0" data-theme="light_protanopia" src="https://giscus.app/client.js">
 </script>
-
 <!-- Synchronize Giscus theme with palette -->
 <script>
 var giscus = document.querySelector("script[src*=giscus]")
@@ -1453,55 +862,44 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 })
 </script>
-                
-              </article>
-            </div>
-          
-          
+</article>
+</div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
-        </div>
-        
-          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
   回到页面顶部
 </button>
-        
-      </main>
-      
-        <footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-    <div class="md-copyright__highlight">
-      Copyright &copy; 2024 ~ present by <a href="https://github.com/lifefindsitsway" target="_blank" rel="noopener noreferrer">Lifefindsitsway</a>
-    </div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2024 ~ present by <a href="https://github.com/lifefindsitsway" rel="noopener noreferrer" target="_blank">Lifefindsitsway</a>
+</div>
   
   
     Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
       Material for MkDocs
     </a>
-  
 </div>
-      
-    </div>
-  </div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/lifefindsitsway/web3-tutorials/" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
 </footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    
-    
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["header.autohide", "navigation.tracking", "navigation.top", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
-    
-    
-      <script src="../../../assets/javascripts/bundle.56dfad97.min.js"></script>
-      
-    
-  </body>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../../..", "features": ["header.autohide", "navigation.tracking", "navigation.top", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+<script src="../../../assets/javascripts/bundle.56dfad97.min.js"></script>
+<script src="../../../assets/javascripts/mathjax-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
 </html>

@@ -1,1309 +1,690 @@
-
-<!doctype html>
-<html lang="zh" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/evm_fundamentals_part1_from_transactions_to_bytecode_240410/">
-      
-      
-        <link rel="prev" href="../hardhat_tutorial_240415/">
-      
-      
-        <link rel="next" href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/">
-      
-      
-      <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
-    
-    
-      
-        <title>EVM 基础原理（一）：从交易到字节码 - Life's Web3 开发指南</title>
-      
-    
-    
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.35f28582.min.css">
-      
-        
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
-      
-      
-
-
-    
-    
-      
-    
-    
-      
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto Slab";--md-code-font:"Roboto Mono"}</style>
-      
-    
-    
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-    
-      
-
-    
-    
-    
-  </head>
-  
-  
-    
-    
-      
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-purple">
-  
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#evm" class="md-skip">
+<!DOCTYPE html>
+<html class="no-js" lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://lifefindsitsway.wiki/web3/dapp/evm_fundamentals_part1_from_transactions_to_bytecode_240410/" rel="canonical"/>
+<link href="../hardhat_tutorial_240415/" rel="prev"/>
+<link href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/" rel="next"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.5.34" name="generator"/>
+<title>EVM 基础原理（一）：从交易到字节码 - Life's Web3 开发指南</title>
+<link href="../../../assets/stylesheets/main.35f28582.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto Slab";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../css/heti.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/mathjax-custom.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-KJB4RXSKZG"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-KJB4RXSKZG",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-KJB4RXSKZG",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="deep-purple" data-md-color-primary="light-blue" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#evm">
           跳转至
         </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-    
-      
-
-  
-
+</div>
+<div data-md-component="announce">
+</div>
 <header class="md-header md-header--shadow" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../../.." title="Life&#39;s Web3 开发指南" class="md-header__button md-logo" aria-label="Life's Web3 开发指南" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
-
-    </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
+<nav aria-label="页眉" class="md-header__inner md-grid">
+<a aria-label="Life's Web3 开发指南" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
             Life's Web3 开发指南
           </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
             
               EVM 基础原理（一）：从交易到字节码
             
           </span>
-        </div>
-      </div>
-    </div>
-    
-      
-        <form class="md-header__option" data-md-component="palette">
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
-    
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
-      </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="deep-purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
-    
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
-      </label>
-    
-  
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="light-blue" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="black" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+</label>
 </form>
-      
-    
-    
-      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="查找">
-        
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
-          </a>
-        
-        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-        <div class="md-search__suggest" data-md-component="search-suggest"></div>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="搜索" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="搜索" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="查找" class="md-search__options">
+<a aria-label="分享" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="分享">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="清空当前内容" class="md-search__icon md-icon" tabindex="-1" title="清空当前内容" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
             正在初始化搜索引擎
           </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
+<ol class="md-search-result__list" role="presentation"></ol>
 </div>
-    
-    
-      <div class="md-header__source">
-        <a href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
-  </div>
-  <div class="md-source__repository">
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
     web3-tutorials
   </div>
 </a>
-      </div>
-    
-  </nav>
-  
+</div>
+</nav>
 </header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-          
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-
-<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Life&#39;s Web3 开发指南" class="md-nav__button md-logo" aria-label="Life's Web3 开发指南" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
-
-    </a>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="导航栏" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Life's Web3 开发指南" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
     Life's Web3 开发指南
   </label>
-  
-    <div class="md-nav__source">
-      <a href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
-  </div>
-  <div class="md-source__repository">
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
     web3-tutorials
   </div>
 </a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../..">
+<span class="md-ellipsis">
     Welcome to My Blog
   </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../changelog/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../changelog/">
+<span class="md-ellipsis">
     更新日志
   </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
     区块链基础
   </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
             区块链基础
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../blockchain/the_evolution_of_bitcoin_240213/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../blockchain/the_evolution_of_bitcoin_240213/">
+<span class="md-ellipsis">
     比特币的诞生历程
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
     DAPP开发
   </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
             DAPP开发
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_proxy_upgrade_series_part1_251229/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_proxy_upgrade_series_part1_251229/">
+<span class="md-ellipsis">
     代理合约与可升级合约系列（一）：为什么需要可升级？
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_proxy_upgrade_series_part2_251230/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_proxy_upgrade_series_part2_251230/">
+<span class="md-ellipsis">
     代理合约与可升级合约系列（二）：透明代理 vs UUPS
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part1_gas_mechanism/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part1_gas_mechanism/">
+<span class="md-ellipsis">
     Gas 优化指南（一）：Gas 机制原理
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part2_eip1559_transaction_analysis/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part2_eip1559_transaction_analysis/">
+<span class="md-ellipsis">
     Gas 优化指南（二）：EIP-1559 交易解析
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part3_storage_optimization/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part3_storage_optimization/">
+<span class="md-ellipsis">
     Gas 优化指南（三）：存储优化
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part4_computation_optimization/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part4_computation_optimization/">
+<span class="md-ellipsis">
     Gas 优化指南（四）：计算优化
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part5_gas_measurement/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part5_gas_measurement/">
+<span class="md-ellipsis">
     Gas 优化指南（五）：Gas 评估与测量
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_contract_call_part1_240521/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part1_240521/">
+<span class="md-ellipsis">
     Solidity 合约间调用（一）：四种方式调用已部署合约
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_contract_call_part2_240523/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part2_240523/">
+<span class="md-ellipsis">
     Solidity 合约间调用（二）：底层调用与 calldata 详解
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_contract_call_part3_240527/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part3_240527/">
+<span class="md-ellipsis">
     Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../hardhat_tutorial_240415/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../hardhat_tutorial_240415/">
+<span class="md-ellipsis">
     Hardhat 入门指南（25年更新版）
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
     EVM 基础原理（一）：从交易到字节码
   </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
     EVM 基础原理（一）：从交易到字节码
   </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
+</a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
       目录
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
       一、以太坊是一台状态机
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
       二、两种账户
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_3">
+<span class="md-ellipsis">
       三、交易的结构
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_4">
+<span class="md-ellipsis">
       四、交易执行流程
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#gas" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gas">
+<span class="md-ellipsis">
       五、Gas：计算的燃料
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_5">
+<span class="md-ellipsis">
       六、实战：追踪一笔交易
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_6">
+<span class="md-ellipsis">
       七、编译产出：两段字节码
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="七、编译产出：两段字节码">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#creation-code" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="七、编译产出：两段字节码" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#creation-code">
+<span class="md-ellipsis">
       Creation Code
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#runtime-code" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#runtime-code">
+<span class="md-ellipsis">
       Runtime Code
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#evm_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#evm_1">
+<span class="md-ellipsis">
       用 EVM 视角重新理解"部署合约"
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_7">
+<span class="md-ellipsis">
       动手验证：查看三种字节码
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#evm_2" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#evm_2">
+<span class="md-ellipsis">
       八、EVM 执行模型
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#evm_3" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#evm_3">
+<span class="md-ellipsis">
       九、操作码：EVM 的指令集
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="九、操作码：EVM 的指令集">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="九、操作码：EVM 的指令集" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_8">
+<span class="md-ellipsis">
       一个最简单的例子
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_9">
+<span class="md-ellipsis">
       常用核心操作码
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#evm_4" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#evm_4">
+<span class="md-ellipsis">
       十、函数选择器：EVM 如何路由？
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="十、函数选择器：EVM 如何路由？">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="十、函数选择器：EVM 如何路由？" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_10">
+<span class="md-ellipsis">
       选择器的计算
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_11">
+<span class="md-ellipsis">
       路由逻辑
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_12">
+<span class="md-ellipsis">
       小结
     </span>
-  </a>
-  
+</a>
 </li>
-      
-    </ul>
-  
+</ul>
 </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/">
+<span class="md-ellipsis">
     EVM 基础原理（二）：数据区域与合约执行
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">
+<span class="md-ellipsis">
     EVM 基础原理（三）：ABI 编码与底层调用
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../address_240321/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Solidity 地址类型 & 常见用法全攻略
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../address_240321/">
+<span class="md-ellipsis">
+    Solidity 地址类型 &amp; 常见用法全攻略
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ethereum_address_size_240320/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ethereum_address_size_240320/">
+<span class="md-ellipsis">
     为什么以太坊地址是 20 字节？从私钥到地址的全解析
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
     DeFi
   </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
             DeFi
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../defi/uniswap_v2_price_precision_240610/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../defi/uniswap_v2_price_precision_240610/">
+<span class="md-ellipsis">
     Uniswap V2 价格精度解析
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../defi/flash_loan_attack_260101/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../defi/flash_loan_attack_260101/">
+<span class="md-ellipsis">
     闪电贷：从原理到攻击演示
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-  </ul>
+</a>
+</li>
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
       目录
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
       一、以太坊是一台状态机
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
       二、两种账户
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_3">
+<span class="md-ellipsis">
       三、交易的结构
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_4">
+<span class="md-ellipsis">
       四、交易执行流程
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#gas" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#gas">
+<span class="md-ellipsis">
       五、Gas：计算的燃料
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_5">
+<span class="md-ellipsis">
       六、实战：追踪一笔交易
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_6">
+<span class="md-ellipsis">
       七、编译产出：两段字节码
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="七、编译产出：两段字节码">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#creation-code" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="七、编译产出：两段字节码" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#creation-code">
+<span class="md-ellipsis">
       Creation Code
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#runtime-code" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#runtime-code">
+<span class="md-ellipsis">
       Runtime Code
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#evm_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#evm_1">
+<span class="md-ellipsis">
       用 EVM 视角重新理解"部署合约"
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_7">
+<span class="md-ellipsis">
       动手验证：查看三种字节码
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#evm_2" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#evm_2">
+<span class="md-ellipsis">
       八、EVM 执行模型
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#evm_3" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#evm_3">
+<span class="md-ellipsis">
       九、操作码：EVM 的指令集
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="九、操作码：EVM 的指令集">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="九、操作码：EVM 的指令集" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_8">
+<span class="md-ellipsis">
       一个最简单的例子
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_9">
+<span class="md-ellipsis">
       常用核心操作码
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#evm_4" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#evm_4">
+<span class="md-ellipsis">
       十、函数选择器：EVM 如何路由？
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="十、函数选择器：EVM 如何路由？">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="十、函数选择器：EVM 如何路由？" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_10">
+<span class="md-ellipsis">
       选择器的计算
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_11">
+<span class="md-ellipsis">
       路由逻辑
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_12">
+<span class="md-ellipsis">
       小结
     </span>
-  </a>
-  
+</a>
 </li>
-      
-    </ul>
-  
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          
-            <div class="md-content" data-md-component="content">
-              <article class="md-content__inner md-typeset">
-                
-                  
-
-  
-  
-
-
-<h1 id="evm">EVM 基础原理（一）：从交易到字节码</h1>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="evm"><span>EVM<span class="heti-spacing"> </span></span>基础原理（一<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：从交易到字节码<a class="headerlink" href="#evm" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h1>
+<div style="margin-top: -30px; font-size: 0.75em; opacity: 0.7;">
+<p><span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10h-2a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8zm6.78 1a.7.7 0 0 0-.48.2l-1.22 1.21 2.5 2.5L20.8 5.7c.26-.26.26-.7 0-.95L19.25 3.2c-.13-.13-.3-.2-.47-.2m-2.41 2.12L9 12.5V15h2.5l7.37-7.38z"></path></svg></span> 约<span class="heti-skip"><span class="heti-spacing"> </span>2974<span class="heti-spacing"> </span></span>个字 <span class="twemoji"><svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6m80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3"></path></svg></span> <span>28<span class="heti-spacing"> </span></span>行代码 <span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 17H7V3h14m0-2H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2M3 5H1v16a2 2 0 0 0 2 2h16v-2H3m12.96-10.71-2.75 3.54-1.96-2.36L8.5 15h11z"></path></svg></span> <span>5<span class="heti-spacing"> </span></span>张图片 <span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 20c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8m0-18c5.5 0 10 4.5 10 10s-4.5 10-10 10C6.47 22 2 17.5 2 12S6.5 2 12 2m.5 11H11V7h1.5v4.26l3.7-2.13.75 1.3z"></path></svg></span> 预计阅读时间<span class="heti-skip"><span class="heti-spacing"> </span>10<span class="heti-spacing"> </span></span>分钟</p>
+</div>
 <blockquote>
-<p>本文是 EVM 基础原理系列的第一篇，帮助你建立对以太坊虚拟机的整体认知。</p>
+<p>本文是<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>基础原理系列的第一篇，帮助你建立对以太坊虚拟机的整体认知。</p>
 </blockquote>
-<p>作为 Solidity 开发者，你可能已经写过不少合约，但有没有想过：当你点击 "Deploy" 的那一刻，代码究竟经历了什么？</p>
-<pre><code>Solidity 源码 → 编译 → 字节码 → 部署上链 → EVM 执行
-</code></pre>
+<p>作为<span class="heti-skip"><span class="heti-spacing"> </span>Solidity<span class="heti-spacing"> </span></span>开发者，你可能已经写过不少合约，但有没有想过：当你点击<span class="heti-skip"><span class="heti-spacing"> </span>"Deploy"<span class="heti-spacing"> </span></span>的那一刻，代码究竟经历了什么？</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>Solidity 源码 → 编译 → 字节码 → 部署上链 → EVM 执行
+</code></pre></div>
 <p>EVM（Ethereum Virtual Machine）是这条链路的终点，也是真正的执行者。它不认识 <code>function</code>、<code>mapping</code> 这些关键字，只认识一串十六进制的字节码。</p>
-<p>理解 EVM 的工作原理，是写出高效、安全合约的基础。</p>
-<h2 id="_1">一、以太坊是一台状态机</h2>
+<p>理解<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>的工作原理，是写出高效、安全合约的基础。</p>
+<h2 id="_1">一、以太坊是一台状态机<a class="headerlink" href="#_1" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
 <p>以太坊的本质是一台<strong>全球共享的状态机</strong>，通过交易驱动状态变化。</p>
 <p>三个核心概念：</p>
 <ul>
 <li><strong>状态</strong>：所有账户的数据快照（余额、合约存储等）</li>
 <li><strong>交易</strong>：改变状态的唯一方式</li>
-<li><strong>状态转换函数</strong>：给定当前状态 + 交易 → 输出新状态</li>
+<li><strong>状态转换函数</strong>：给定当前状态<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>交易 → 输出新状态</li>
 </ul>
 <p>用公式表达：</p>
-<pre><code>APPLY(旧状态, 交易) → 新状态 或 错误
-</code></pre>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>APPLY(旧状态, 交易) → 新状态 或 错误
+</code></pre></div>
 <p>每个区块包含一批交易，按顺序执行后世界状态更新。整个以太坊网络就是不断重复这个过程。</p>
-<h2 id="_2">二、两种账户</h2>
+<h2 id="_2">二、两种账户<a class="headerlink" href="#_2" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
 <p>以太坊的世界状态由账户组成，账户分两种：</p>
 <table>
 <thead>
@@ -1331,57 +712,57 @@
 </tr>
 <tr>
 <td>例子</td>
-<td>你的 MetaMask 钱包</td>
-<td>Uniswap 合约</td>
+<td>你的<span class="heti-skip"><span class="heti-spacing"> </span>MetaMask<span class="heti-spacing"> </span></span>钱包</td>
+<td><span>Uniswap<span class="heti-spacing"> </span></span>合约</td>
 </tr>
 </tbody>
 </table>
-<p>每个账户有 4 个字段：</p>
-<pre><code>账户 {
-    nonce,        // 交易计数（防重放）
-    balance,      // ETH 余额（单位：wei）
-    codeHash,     // 代码哈希（EOA 为空）
-    storageRoot   // 存储树根（合约数据）
-}
-</code></pre>
-<p><strong>关键点</strong>：合约账户不能主动发起交易，必须由 EOA 触发。这就是为什么每笔交易都需要你用钱包签名。</p>
-<h2 id="_3">三、交易的结构</h2>
+<p>每个账户有<span class="heti-skip"><span class="heti-spacing"> </span>4<span class="heti-spacing"> </span></span>个字段：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>账户 {
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>    nonce,        // 交易计数（防重放）
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>    balance,      // ETH 余额（单位：wei）
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>    codeHash,     // 代码哈希（EOA 为空）
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a>    storageRoot   // 存储树根（合约数据）
+<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>}
+</code></pre></div>
+<p><strong>关键点</strong>：合约账户不能主动发起交易，必须由<span class="heti-skip"><span class="heti-spacing"> </span>EOA<span class="heti-spacing"> </span></span>触发。这就是为什么每笔交易都需要你用钱包签名。</p>
+<h2 id="_3">三、交易的结构<a class="headerlink" href="#_3" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
 <p>当你调用合约时，实际上是发送了一笔交易。交易的关键字段：</p>
 <ul>
-<li><strong>from</strong>：发送者（必须是 EOA）</li>
-<li><strong>to</strong>：接收者（合约地址或 EOA；部署合约时为空）</li>
+<li><strong>from</strong>：发送者（必须是<span><span class="heti-spacing"> </span>EOA</span>）</li>
+<li><strong>to</strong>：接收者（合约地址或<span><span class="heti-spacing"> </span>EOA</span>；部署合约时为空）</li>
 <li><strong>value</strong>：转账金额（单位：wei）</li>
-<li><strong>data</strong>：调用数据（函数选择器 + 参数编码）</li>
-<li><strong>gasLimit</strong>：愿意支付的最大 Gas</li>
-<li><strong>gasPrice</strong>：每单位 Gas 的价格</li>
+<li><strong>data</strong>：调用数据（函数选择器<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>参数编码）</li>
+<li><strong>gasLimit</strong>：愿意支付的最大<span><span class="heti-spacing"> </span>Gas</span></li>
+<li><strong>gasPrice</strong>：每单位<span class="heti-skip"><span class="heti-spacing"> </span>Gas<span class="heti-spacing"> </span></span>的价格</li>
 </ul>
 <p>两种交易类型由 <code>to</code> 字段决定：</p>
 <ul>
 <li><code>to</code> 为空 → 创建合约</li>
 <li><code>to</code> 为合约地址 → 调用合约</li>
 </ul>
-<h2 id="_4">四、交易执行流程</h2>
+<h2 id="_4">四、交易执行流程<a class="headerlink" href="#_4" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
 <p>一笔交易从签名到改变状态，经历以下步骤：</p>
 <ol>
 <li>验证交易（签名、nonce、余额）</li>
-<li>预扣 Gas 费用</li>
-<li>EVM 执行交易</li>
-<li>成功：更新状态，退还剩余 Gas；失败：回滚状态，Gas 不退</li>
+<li>预扣<span class="heti-skip"><span class="heti-spacing"> </span>Gas<span class="heti-spacing"> </span></span>费用</li>
+<li><span>EVM<span class="heti-spacing"> </span></span>执行交易</li>
+<li>成功：更新状态，退还剩余<span><span class="heti-spacing"> </span>Gas</span>；失败：回滚状态，<span>Gas<span class="heti-spacing"> </span></span>不退</li>
 </ol>
 <p><strong>原子性</strong>：交易要么完全成功，要么完全失败，没有中间状态。</p>
-<h2 id="gas">五、Gas：计算的燃料</h2>
-<p>EVM 执行每一步操作都需要消耗 Gas。这个设计有三个目的：</p>
+<h2 id="gas">五、Gas：计算的燃料<a class="headerlink" href="#gas" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p><span>EVM<span class="heti-spacing"> </span></span>执行每一步操作都需要消耗<span><span class="heti-spacing"> </span>Gas</span>。这个设计有三个目的：</p>
 <ol>
-<li><strong>防止无限循环</strong>：没有 Gas 限制，恶意代码可以卡死网络</li>
+<li><strong>防止无限循环</strong>：没有<span class="heti-skip"><span class="heti-spacing"> </span>Gas<span class="heti-spacing"> </span></span>限制，恶意代码可以卡死网络</li>
 <li><strong>资源定价</strong>：不同操作消耗不同资源，价格不同</li>
-<li><strong>激励矿工</strong>：Gas 费支付给区块生产者</li>
+<li><strong>激励矿工</strong>：<span>Gas<span class="heti-spacing"> </span></span>费支付给区块生产者</li>
 </ol>
-<p>Gas 成本的大致分级：</p>
+<p><span>Gas<span class="heti-spacing"> </span></span>成本的大致分级：</p>
 <table>
 <thead>
 <tr>
 <th>级别</th>
-<th>Gas 范围</th>
+<th><span>Gas<span class="heti-spacing"> </span></span>范围</th>
 <th>典型操作</th>
 </tr>
 </thead>
@@ -1409,78 +790,78 @@
 </tbody>
 </table>
 <p>为什么存储操作这么贵？因为存储数据需要永久保存在区块链上，所有节点都要存一份。这个话题我们在第二篇详细展开。</p>
-<h2 id="_5">六、实战：追踪一笔交易</h2>
+<h2 id="_5">六、实战：追踪一笔交易<a class="headerlink" href="#_5" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
 <p>来看一个具体例子。部署这个简单的计数器合约：</p>
-<pre><code class="language-solidity">// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
-
-contract Counter {
-    uint256 public count;
-    address public immutable owner;
-
-    event Initialized(uint256 initialCount, address indexed owner);
-
-    constructor(uint256 initialCount, address initialOwner) {
-        owner = initialOwner;   // immutable：部署时确定，运行时从 code 中读取
-        count = initialCount;
-
-        emit Initialized(initialCount, initialOwner);
-    }
-
-    function increment() external {
-        count += 1;
-    }
-}
-</code></pre>
-<p>调用 <code>increment()</code> 后，在 Etherscan 上可以看到交易的 Input Data 是：<code>0xd09de08a</code> </p>
-<p>这 4 个字节是什么？它是 <code>increment()</code> 函数的<strong>选择器</strong>，计算方式：</p>
-<pre><code>keccak256(&quot;increment()&quot;) 的前 4 字节 = 0xd09de08a
-</code></pre>
-<p>EVM 就是通过这个选择器来识别你要调用哪个函数。接下来我们深入字节码的世界。</p>
-<h2 id="_6">七、编译产出：两段字节码</h2>
-<p>Solidity 编译后会产出两段字节码：</p>
-<p><img alt="" src="../../../assets/images/evm_fundamentals_part1_240410_1.png" />               </p>
-<h3 id="creation-code">Creation Code</h3>
-<p>Solidity 源码编译后会生成 Creation Code（创建字节码），主要职责包括：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="c1">// SPDX-License-Identifier: MIT</span>
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="k">pragma solidity</span><span class="w"> </span><span class="o">^</span><span class="k">0.8.24</span><span class="p">;</span>
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="k">contract</span><span class="w"> </span><span class="ni">Counter</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">    </span><span class="kt">uint256</span><span class="w"> </span><span class="k">public </span><span class="nv">count</span><span class="p">;</span>
+<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">    </span><span class="kt">address</span><span class="w"> </span><span class="k">public </span><span class="nv">immutable</span><span class="w"> </span>owner<span class="p">;</span>
+<a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a>
+<a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">    </span><span class="kt">event</span><span class="w"> </span><span class="nv">Initialized</span><span class="p">(</span><span class="kt">uint256</span><span class="w"> </span><span class="nv">initialCount</span><span class="p">,</span><span class="w"> </span><span class="kt">address</span><span class="w"> </span><span class="nv">indexed</span><span class="w"> </span>owner<span class="p">);</span>
+<a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a>
+<a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">    </span><span class="kt">constructor</span><span class="p">(</span><span class="kt">uint256</span><span class="w"> </span><span class="nv">initialCount</span><span class="p">,</span><span class="w"> </span><span class="kt">address</span><span class="w"> </span><span class="nv">initialOwner</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">        </span>owner<span class="w"> </span><span class="o">=</span><span class="w"> </span>initialOwner<span class="p">;</span><span class="w">   </span><span class="c1">// immutable：部署时确定，运行时从 code 中读取</span>
+<a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">        </span>count<span class="w"> </span><span class="o">=</span><span class="w"> </span>initialCount<span class="p">;</span>
+<a href="#__codelineno-3-13" id="__codelineno-3-13" name="__codelineno-3-13"></a>
+<a href="#__codelineno-3-14" id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="w">        </span>emit<span class="w"> </span>Initialized<span class="p">(</span>initialCount<span class="p">,</span><span class="w"> </span>initialOwner<span class="p">);</span>
+<a href="#__codelineno-3-15" id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="w">    </span><span class="p">}</span>
+<a href="#__codelineno-3-16" id="__codelineno-3-16" name="__codelineno-3-16"></a>
+<a href="#__codelineno-3-17" id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">increment</span><span class="p">()</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-3-18" id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="w">        </span>count<span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="m m-Decimal">1</span><span class="p">;</span>
+<a href="#__codelineno-3-19" id="__codelineno-3-19" name="__codelineno-3-19"></a><span class="w">    </span><span class="p">}</span>
+<a href="#__codelineno-3-20" id="__codelineno-3-20" name="__codelineno-3-20"></a><span class="p">}</span>
+</code></pre></div>
+<p>调用 <code>increment()</code> 后，在<span class="heti-skip"><span class="heti-spacing"> </span>Etherscan<span class="heti-spacing"> </span></span>上可以看到交易的<span class="heti-skip"><span class="heti-spacing"> </span>Input Data<span class="heti-spacing"> </span></span>是：<code>0xd09de08a</code> </p>
+<p>这<span class="heti-skip"><span class="heti-spacing"> </span>4<span class="heti-spacing"> </span></span>个字节是什么？它是 <code>increment()</code> 函数的<strong>选择器</strong>，计算方式：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>keccak256("increment()") 的前 4 字节 = 0xd09de08a
+</code></pre></div>
+<p><span>EVM<span class="heti-spacing"> </span></span>就是通过这个选择器来识别你要调用哪个函数。接下来我们深入字节码的世界。</p>
+<h2 id="_6">七、编译产出：两段字节码<a class="headerlink" href="#_6" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p><span>Solidity<span class="heti-spacing"> </span></span>编译后会产出两段字节码：</p>
+<p><img alt="" src="../../../assets/images/evm_fundamentals_part1_240410_1.png"/> </p>
+<h3 id="creation-code">Creation Code<a class="headerlink" href="#creation-code" title="Permanent link">¶</a></h3>
+<p><span>Solidity<span class="heti-spacing"> </span></span>源码编译后会生成<span><span class="heti-spacing"> </span>Creation Code</span>（创建字节码<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，主要职责包括：</p>
 <ul>
-<li>解析 constructor 参数</li>
-<li>执行 constructor 逻辑</li>
-<li>初始化 storage（写入状态变量初始值）</li>
-<li>在最后 <code>RETURN</code> 出 Runtime Code</li>
+<li>解析<span class="heti-skip"><span class="heti-spacing"> </span>constructor<span class="heti-spacing"> </span></span>参数</li>
+<li>执行<span class="heti-skip"><span class="heti-spacing"> </span>constructor<span class="heti-spacing"> </span></span>逻辑</li>
+<li>初始化<span><span class="heti-spacing"> </span>storage</span>（写入状态变量初始值）</li>
+<li>在最后 <code>RETURN</code> 出<span><span class="heti-spacing"> </span>Runtime Code</span></li>
 </ul>
-<p>Creation Code 只在部署阶段执行一次，执行完毕后返回 Runtime Code，然后被丢弃，不存储在链上。</p>
-<h3 id="runtime-code">Runtime Code</h3>
-<p>Runtime Code 是 Creation Code 执行结束时返回的字节序列，永久存储在链上，后续所有 <code>CALL / DELEGATECALL / STATICCALL</code> 调用都执行这段代码。</p>
-<p>它不包含 constructor，无法再修改（不可变），只负责响应外部函数调用。</p>
-<p>一句话总结：<strong><em>Solidity 源码在编译后会生成 Creation Code，合约部署的过程，本质上就是 EVM 执行 Creation Code，而该执行过程的返回值就是最终被永久存储在链上的 Runtime Code</em></strong>。</p>
+<p><span>Creation Code<span class="heti-spacing"> </span></span>只在部署阶段执行一次，执行完毕后返回<span><span class="heti-spacing"> </span>Runtime Code</span>，然后被丢弃，不存储在链上。</p>
+<h3 id="runtime-code">Runtime Code<a class="headerlink" href="#runtime-code" title="Permanent link">¶</a></h3>
+<p><span>Runtime Code<span class="heti-spacing"> </span></span>是<span class="heti-skip"><span class="heti-spacing"> </span>Creation Code<span class="heti-spacing"> </span></span>执行结束时返回的字节序列，永久存储在链上，后续所有 <code>CALL / DELEGATECALL / STATICCALL</code> 调用都执行这段代码。</p>
+<p>它不包含<span><span class="heti-spacing"> </span>constructor</span>，无法再修改（不可变<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，只负责响应外部函数调用。</p>
+<p>一句话总结：<strong><em><span>Solidity<span class="heti-spacing"> </span></span>源码在编译后会生成<span><span class="heti-spacing"> </span>Creation Code</span>，合约部署的过程，本质上就是<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>执行<span><span class="heti-spacing"> </span>Creation Code</span>，而该执行过程的返回值就是最终被永久存储在链上的<span><span class="heti-spacing"> </span>Runtime Code</span></em></strong>。</p>
 <blockquote>
-<p><strong>类比</strong>：Creation Code 像是"安装程序"，执行一次就完成使命；Runtime Code 是"已安装的软件"，长期驻留。</p>
+<p><strong>类比</strong>：<span>Creation Code<span class="heti-spacing"> </span></span>像是<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>安装程序<span><span class="heti-spacing"> </span>"</span>，执行一次就完成使命；<span>Runtime Code<span class="heti-spacing"> </span></span>是<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>已安装的软件<span><span class="heti-spacing"> </span>"</span>，长期驻留。</p>
 </blockquote>
-<h3 id="evm_1">用 EVM 视角重新理解"部署合约"</h3>
-<p>从 EVM 的角度看：</p>
-<p>1.部署交易本身也是一笔普通交易</p>
-<p>2.<code>data</code> 字段中携带的是 Creation Code</p>
-<p>3.EVM 在部署阶段：</p>
+<h3 id="evm_1">用<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>视角重新理解<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>部署合约<span><span class="heti-spacing"> </span>"</span><a class="headerlink" href="#evm_1" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>从<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>的角度看：</p>
+<p><span>1.<span class="heti-spacing"> </span></span>部署交易本身也是一笔普通交易</p>
+<p><span>2.<span class="heti-spacing"> </span></span><code>data</code>字段中携带的是<span><span class="heti-spacing"> </span>Creation Code</span></p>
+<p><span>3.EVM<span class="heti-spacing"> </span></span>在部署阶段：</p>
 <ul>
 <li>创建一个新的空合约账户</li>
-<li>执行 Creation Code</li>
+<li>执行<span><span class="heti-spacing"> </span>Creation Code</span></li>
 <li>将 <code>RETURN</code> 的字节码保存为该账户的 <code>code</code></li>
 </ul>
-<p>用一句非常"EVM 味"的话说就是：</p>
+<p>用一句非常<span class="heti-skip"><span class="heti-spacing"> </span>"EVM<span class="heti-spacing"> </span></span>味<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>的话说就是：</p>
 <blockquote>
 <p><strong>Deploy = execute init code, store returned bytes as account.code</strong></p>
 </blockquote>
-<h3 id="_7">动手验证：查看三种字节码</h3>
-<p>前面介绍了 Creation Code 和 Runtime Code，现在通过 Remix 实际查看它们的样子。</p>
+<h3 id="_7">动手验证：查看三种字节码<a class="headerlink" href="#_7" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>前面介绍了<span class="heti-skip"><span class="heti-spacing"> </span>Creation Code<span class="heti-spacing"> </span></span>和<span><span class="heti-spacing"> </span>Runtime Code</span>，现在通过<span class="heti-skip"><span class="heti-spacing"> </span>Remix<span class="heti-spacing"> </span></span>实际查看它们的样子。</p>
 <p>在实际部署时，还有一个概念需要了解：<strong>Init Code</strong>。</p>
 <ul>
-<li><strong>Creation Code</strong>：Solidity 编译器生成的部署字节码</li>
-<li><strong>Init Code</strong>：实际发送到链上执行的完整部署数据，<strong>Init Code = Creation Code + ABI 编码的构造函数参数</strong></li>
+<li><strong>Creation Code</strong>：<span>Solidity<span class="heti-spacing"> </span></span>编译器生成的部署字节码</li>
+<li><strong>Init Code</strong>：实际发送到链上执行的完整部署数据，<strong><span>Init Code = Creation Code + ABI<span class="heti-spacing"> </span></span>编码的构造函数参数</strong></li>
 </ul>
-<p>如果合约没有构造函数参数，两者完全相同；如果有参数，Init Code 会在 Creation Code 末尾附加参数数据。Init Code 是以太坊黄皮书和 EVM 规范中使用的术语，本系列后续内容遵循 EVM 规范，使用 Init Code 术语。</p>
-<p><strong>（1）在 Remix 中查看字节码</strong></p>
-<p>以前面的 Counter 合约为例，这个合约有两个构造函数参数（<code>initialCount</code> 和 <code>initialOwner</code>）。</p>
-<p>在 Remix 中创建、编译合约后，点击 <strong>Compilation Details</strong> 按钮（在 Compile 按钮对应界面），会弹出一个详情窗口。在这个窗口中可以看到：</p>
+<p>如果合约没有构造函数参数，两者完全相同；如果有参数，<span>Init Code<span class="heti-spacing"> </span></span>会在<span class="heti-skip"><span class="heti-spacing"> </span>Creation Code<span class="heti-spacing"> </span></span>末尾附加参数数据。<span>Init Code<span class="heti-spacing"> </span></span>是以太坊黄皮书和<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>规范中使用的术语，本系列后续内容遵循<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>规范，使用<span class="heti-skip"><span class="heti-spacing"> </span>Init Code<span class="heti-spacing"> </span></span>术语。</p>
+<p><strong>（1）在<span class="heti-skip"><span class="heti-spacing"> </span>Remix<span class="heti-spacing"> </span></span>中查看字节码</strong></p>
+<p>以前面的<span class="heti-skip"><span class="heti-spacing"> </span>Counter<span class="heti-spacing"> </span></span>合约为例，这个合约有两个构造函数参数（<code>initialCount</code> 和 <code>initialOwner</code><heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<p>在<span class="heti-skip"><span class="heti-spacing"> </span>Remix<span class="heti-spacing"> </span></span>中创建、编译合约后，点击 <strong>Compilation Details</strong> 按钮（在<span class="heti-skip"><span class="heti-spacing"> </span>Compile<span class="heti-spacing"> </span></span>按钮对应界面<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，会弹出一个详情窗口。在这个窗口中可以看到：</p>
 <table>
 <thead>
 <tr>
@@ -1499,91 +880,91 @@ contract Counter {
 </tr>
 </tbody>
 </table>
-<p><img alt="" src="../../../assets/images/evm_fundamentals_part1_240410_2.png" /></p>
-<p>点击 <strong>BYTECODE</strong> 旁边的复制图标，得到一个 JSON 对象：</p>
-<pre><code class="language-json">{
-  &quot;functionDebugData&quot;: {},
-  &quot;generatedSources&quot;: [...],
-  &quot;linkReferences&quot;: {},
-  &quot;object&quot;: &quot;60a0604052...&quot;,  // ← 这就是 Creation Code
-  &quot;opcodes&quot;: &quot;PUSH1 0xA0 PUSH1 0x40 ...&quot;,
-  &quot;sourceMap&quot;: &quot;...&quot;
-}
-</code></pre>
-<p><code>object</code> 字段的值就是 <strong>Creation Code</strong>（十六进制字符串）。</p>
+<p><img alt="" src="../../../assets/images/evm_fundamentals_part1_240410_2.png"/></p>
+<p>点击 <strong>BYTECODE</strong> 旁边的复制图标，得到一个<span class="heti-skip"><span class="heti-spacing"> </span>JSON<span class="heti-spacing"> </span></span>对象：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="p">{</span>
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">  </span><span class="nt">"functionDebugData"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">  </span><span class="nt">"generatedSources"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">...</span><span class="p">],</span>
+<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">  </span><span class="nt">"linkReferences"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">  </span><span class="nt">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"60a0604052..."</span><span class="p">,</span><span class="w">  </span><span class="c1">// ← 这就是 Creation Code</span>
+<a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="w">  </span><span class="nt">"opcodes"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUSH1 0xA0 PUSH1 0x40 ..."</span><span class="p">,</span>
+<a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">  </span><span class="nt">"sourceMap"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span>
+<a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>object</code> 字段的值就是 <strong>Creation Code</strong>（十六进制字符串<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
 <p>同样，复制 <strong>RUNTIME BYTECODE</strong>，其中的 <code>object</code> 字段就是 <strong>Runtime Code</strong>。</p>
-<p>以下是使用 Solidity 0.8.25 编译后的实际字节码（可能因编译器版本和优化设置略有不同）：</p>
-<p>Creation Code（编译产出）：</p>
-<pre><code>60a060405234801561000f575f80fd5b506040516103b93803806103b983398181016040528101906100319190610151565b8073ffffffffffffffffffffffffffffffffffffffff1660808173ffffffffffffffffffffffffffffffffffffffff1681525050815f819055508073ffffffffffffffffffffffffffffffffffffffff167fa7a5b80bcd3bef76524ec80559f1ad1932344089b316a7be619ed23956b5ad6c836040516100b1919061019e565b60405180910390a250506101b7565b5f80fd5b5f819050919050565b6100d6816100c4565b81146100e0575f80fd5b50565b5f815190506100f1816100cd565b92915050565b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f610120826100f7565b9050919050565b61013081610116565b811461013a575f80fd5b50565b5f8151905061014b81610127565b92915050565b5f8060408385031215610167576101666100c0565b5b5f610174858286016100e3565b92505060206101858582860161013d565b9150509250929050565b610198816100c4565b82525050565b5f6020820190506101b15f83018461018f565b92915050565b6080516101eb6101ce5f395f609001526101eb5ff3fe608060405234801561000f575f80fd5b506004361061003f575f3560e01c806306661abd146100435780638da5cb5b14610061578063d09de08a1461007f575b5f80fd5b61004b610089565b60405161005891906100e4565b60405180910390f35b61006961008e565b604051610076919061013c565b60405180910390f35b6100876100b2565b005b5f5481565b7f000000000000000000000000000000000000000000000000000000000000000081565b60015f808282546100c39190610182565b92505081905550565b5f819050919050565b6100de816100cc565b82525050565b5f6020820190506100f75f8301846100d5565b92915050565b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f610126826100fd565b9050919050565b6101368161011c565b82525050565b5f60208201905061014f5f83018461012d565b92915050565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52601160045260245ffd5b5f61018c826100cc565b9150610197836100cc565b92508282019050808211156101af576101ae610155565b5b9291505056fea26469706673582212205e4cbff569d629a1f295a09c80bb97e55d3dde1d2d301c4b1863f0f00f0b34e464736f6c63430008190033
-</code></pre>
-<p>这段代码包含：构造函数逻辑、参数解析代码、最终 RETURN Runtime Code 的逻辑。长度：953 字节（1906 个十六进制字符）。</p>
-<p>Runtime Code（部署后永久存储在链上）：</p>
-<pre><code>608060405234801561000f575f80fd5b506004361061003f575f3560e01c806306661abd146100435780638da5cb5b14610061578063d09de08a1461007f575b5f80fd5b61004b610089565b60405161005891906100e4565b60405180910390f35b61006961008e565b604051610076919061013c565b60405180910390f35b6100876100b2565b005b5f5481565b7f000000000000000000000000000000000000000000000000000000000000000081565b60015f808282546100c39190610182565b92505081905550565b5f819050919050565b6100de816100cc565b82525050565b5f6020820190506100f75f8301846100d5565b92915050565b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f610126826100fd565b9050919050565b6101368161011c565b82525050565b5f60208201905061014f5f83018461012d565b92915050565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52601160045260245ffd5b5f61018c826100cc565b9150610197836100cc565b92508282019050808211156101af576101ae610155565b5b9291505056fea26469706673582212205e4cbff569d629a1f295a09c80bb97e55d3dde1d2d301c4b1863f0f00f0b34e464736f6c63430008190033
-</code></pre>
-<p>这段代码只包含：函数调度器（dispatcher）、<code>count()</code> 函数逻辑、<code>owner()</code> 函数逻辑、<code>increment()</code> 函数逻辑。长度：491 字节（982 个十六进制字符）。</p>
-<p><strong>注意</strong>：Runtime Code 中不包含构造函数，因为构造函数只执行一次。可以看到 Runtime Code 比 Creation Code 短了将近一半。</p>
-<p><strong>（2）构造 Init Code</strong></p>
-<p><strong>步骤 1：准备构造函数参数</strong></p>
+<p>以下是使用<span class="heti-skip"><span class="heti-spacing"> </span>Solidity 0.8.25<span class="heti-spacing"> </span></span>编译后的实际字节码（可能因编译器版本和优化设置略有不同<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：</p>
+<p>Creation Code（编译产出<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>60a060405234801561000f575f80fd5b506040516103b93803806103b983398181016040528101906100319190610151565b8073ffffffffffffffffffffffffffffffffffffffff1660808173ffffffffffffffffffffffffffffffffffffffff1681525050815f819055508073ffffffffffffffffffffffffffffffffffffffff167fa7a5b80bcd3bef76524ec80559f1ad1932344089b316a7be619ed23956b5ad6c836040516100b1919061019e565b60405180910390a250506101b7565b5f80fd5b5f819050919050565b6100d6816100c4565b81146100e0575f80fd5b50565b5f815190506100f1816100cd565b92915050565b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f610120826100f7565b9050919050565b61013081610116565b811461013a575f80fd5b50565b5f8151905061014b81610127565b92915050565b5f8060408385031215610167576101666100c0565b5b5f610174858286016100e3565b92505060206101858582860161013d565b9150509250929050565b610198816100c4565b82525050565b5f6020820190506101b15f83018461018f565b92915050565b6080516101eb6101ce5f395f609001526101eb5ff3fe608060405234801561000f575f80fd5b506004361061003f575f3560e01c806306661abd146100435780638da5cb5b14610061578063d09de08a1461007f575b5f80fd5b61004b610089565b60405161005891906100e4565b60405180910390f35b61006961008e565b604051610076919061013c565b60405180910390f35b6100876100b2565b005b5f5481565b7f000000000000000000000000000000000000000000000000000000000000000081565b60015f808282546100c39190610182565b92505081905550565b5f819050919050565b6100de816100cc565b82525050565b5f6020820190506100f75f8301846100d5565b92915050565b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f610126826100fd565b9050919050565b6101368161011c565b82525050565b5f60208201905061014f5f83018461012d565b92915050565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52601160045260245ffd5b5f61018c826100cc565b9150610197836100cc565b92508282019050808211156101af576101ae610155565b5b9291505056fea26469706673582212205e4cbff569d629a1f295a09c80bb97e55d3dde1d2d301c4b1863f0f00f0b34e464736f6c63430008190033
+</code></pre></div>
+<p>这段代码包含：构造函数逻辑、参数解析代码、最终<span class="heti-skip"><span class="heti-spacing"> </span>RETURN Runtime Code<span class="heti-spacing"> </span></span>的逻辑。长度：<span>953<span class="heti-spacing"> </span></span>字节（<span>1906<span class="heti-spacing"> </span></span>个十六进制字符<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<p>Runtime Code（部署后永久存储在链上<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>608060405234801561000f575f80fd5b506004361061003f575f3560e01c806306661abd146100435780638da5cb5b14610061578063d09de08a1461007f575b5f80fd5b61004b610089565b60405161005891906100e4565b60405180910390f35b61006961008e565b604051610076919061013c565b60405180910390f35b6100876100b2565b005b5f5481565b7f000000000000000000000000000000000000000000000000000000000000000081565b60015f808282546100c39190610182565b92505081905550565b5f819050919050565b6100de816100cc565b82525050565b5f6020820190506100f75f8301846100d5565b92915050565b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f610126826100fd565b9050919050565b6101368161011c565b82525050565b5f60208201905061014f5f83018461012d565b92915050565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52601160045260245ffd5b5f61018c826100cc565b9150610197836100cc565b92508282019050808211156101af576101ae610155565b5b9291505056fea26469706673582212205e4cbff569d629a1f295a09c80bb97e55d3dde1d2d301c4b1863f0f00f0b34e464736f6c63430008190033
+</code></pre></div>
+<p>这段代码只包含：函数调度器（dispatcher<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>、<code>count()</code> 函数逻辑、<code>owner()</code> 函数逻辑、<code>increment()</code> 函数逻辑。长度：<span>491<span class="heti-spacing"> </span></span>字节（<span>982<span class="heti-spacing"> </span></span>个十六进制字符<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<p><strong>注意</strong>：<span>Runtime Code<span class="heti-spacing"> </span></span>中不包含构造函数，因为构造函数只执行一次。可以看到<span class="heti-skip"><span class="heti-spacing"> </span>Runtime Code<span class="heti-spacing"> </span></span>比<span class="heti-skip"><span class="heti-spacing"> </span>Creation Code<span class="heti-spacing"> </span></span>短了将近一半。</p>
+<p><strong>（2）构造<span><span class="heti-spacing"> </span>Init Code</span></strong></p>
+<p><strong>步骤<span><span class="heti-spacing"> </span>1</span>：准备构造函数参数</strong></p>
 <p>假设我们部署时传入：</p>
 <ul>
 <li><code>initialCount = 100</code></li>
 <li><code>initialOwner = 0x1d477b7733Fe1347eE91e8D15f8c7f203E147AA0</code></li>
 </ul>
-<p><strong>步骤 2：ABI 编码参数</strong></p>
-<p>构造函数参数需要按 ABI 规则编码：</p>
-<pre><code>// uint256(100) = 0x64，左填充零到 32 字节
-0000000000000000000000000000000000000000000000000000000000000064
-
-// address，左填充零到 32 字节
-0000000000000000000000001d477b7733Fe1347eE91e8D15f8c7f203E147AA0
-</code></pre>
-<p>两个参数拼接后（64 字节 = 128 个十六进制字符）：</p>
-<pre><code>00000000000000000000000000000000000000000000000000000000000000640000000000000000000000001d477b7733Fe1347eE91e8D15f8c7f203E147AA0
-</code></pre>
-<p><strong>步骤 3：拼接得到 Init Code</strong></p>
-<p>Init Code = Creation Code + 构造函数参数编码</p>
-<p>完整的 Init Code（1017 字节 = 2034 个十六进制字符）：</p>
-<pre><code>60a060405234801561000f575f80fd5b506040516103b93803806103b983398181016040528101906100319190610151565b8073ffffffffffffffffffffffffffffffffffffffff1660808173ffffffffffffffffffffffffffffffffffffffff1681525050815f819055508073ffffffffffffffffffffffffffffffffffffffff167fa7a5b80bcd3bef76524ec80559f1ad1932344089b316a7be619ed23956b5ad6c836040516100b1919061019e565b60405180910390a250506101b7565b5f80fd5b5f819050919050565b6100d6816100c4565b81146100e0575f80fd5b50565b5f815190506100f1816100cd565b92915050565b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f610120826100f7565b9050919050565b61013081610116565b811461013a575f80fd5b50565b5f8151905061014b81610127565b92915050565b5f8060408385031215610167576101666100c0565b5b5f610174858286016100e3565b92505060206101858582860161013d565b9150509250929050565b610198816100c4565b82525050565b5f6020820190506101b15f83018461018f565b92915050565b6080516101eb6101ce5f395f609001526101eb5ff3fe608060405234801561000f575f80fd5b506004361061003f575f3560e01c806306661abd146100435780638da5cb5b14610061578063d09de08a1461007f575b5f80fd5b61004b610089565b60405161005891906100e4565b60405180910390f35b61006961008e565b604051610076919061013c565b60405180910390f35b6100876100b2565b005b5f5481565b7f000000000000000000000000000000000000000000000000000000000000000081565b60015f808282546100c39190610182565b92505081905550565b5f819050919050565b6100de816100cc565b82525050565b5f6020820190506100f75f8301846100d5565b92915050565b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f610126826100fd565b9050919050565b6101368161011c565b82525050565b5f60208201905061014f5f83018461012d565b92915050565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52601160045260245ffd5b5f61018c826100cc565b9150610197836100cc565b92508282019050808211156101af576101ae610155565b5b9291505056fea26469706673582212205e4cbff569d629a1f295a09c80bb97e55d3dde1d2d301c4b1863f0f00f0b34e464736f6c6343000819003300000000000000000000000000000000000000000000000000000000000000640000000000000000000000001d477b7733Fe1347eE91e8D15f8c7f203E147AA0
-</code></pre>
-<p>长度验证：953（Creation Code）+ 64（参数）= 1017 字节 ✓</p>
-<p><strong>（3）在 Etherscan 上验证</strong></p>
-<p>在 Etherscan 上查看部署交易详情，input 字段的内容就是 Init Code（Creation Code + 参数编码）：</p>
-<p><img alt="" src="../../../assets/images/evm_fundamentals_part1_240410_3.png" /></p>
+<p><strong>步骤<span><span class="heti-spacing"> </span>2</span>：<span>ABI<span class="heti-spacing"> </span></span>编码参数</strong></p>
+<p>构造函数参数需要按<span class="heti-skip"><span class="heti-spacing"> </span>ABI<span class="heti-spacing"> </span></span>规则编码：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>// uint256(100) = 0x64，左填充零到 32 字节
+<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a>0000000000000000000000000000000000000000000000000000000000000064
+<a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a>
+<a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a>// address，左填充零到 32 字节
+<a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a>0000000000000000000000001d477b7733Fe1347eE91e8D15f8c7f203E147AA0
+</code></pre></div>
+<p>两个参数拼接后（<span>64<span class="heti-spacing"> </span></span>字节<span class="heti-skip"><span class="heti-spacing"> </span>= 128<span class="heti-spacing"> </span></span>个十六进制字符<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>00000000000000000000000000000000000000000000000000000000000000640000000000000000000000001d477b7733Fe1347eE91e8D15f8c7f203E147AA0
+</code></pre></div>
+<p><strong>步骤<span><span class="heti-spacing"> </span>3</span>：拼接得到<span><span class="heti-spacing"> </span>Init Code</span></strong></p>
+<p><span>Init Code = Creation Code +<span class="heti-spacing"> </span></span>构造函数参数编码</p>
+<p>完整的<span><span class="heti-spacing"> </span>Init Code</span>（<span>1017<span class="heti-spacing"> </span></span>字节<span class="heti-skip"><span class="heti-spacing"> </span>= 2034<span class="heti-spacing"> </span></span>个十六进制字符<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>60a060405234801561000f575f80fd5b506040516103b93803806103b983398181016040528101906100319190610151565b8073ffffffffffffffffffffffffffffffffffffffff1660808173ffffffffffffffffffffffffffffffffffffffff1681525050815f819055508073ffffffffffffffffffffffffffffffffffffffff167fa7a5b80bcd3bef76524ec80559f1ad1932344089b316a7be619ed23956b5ad6c836040516100b1919061019e565b60405180910390a250506101b7565b5f80fd5b5f819050919050565b6100d6816100c4565b81146100e0575f80fd5b50565b5f815190506100f1816100cd565b92915050565b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f610120826100f7565b9050919050565b61013081610116565b811461013a575f80fd5b50565b5f8151905061014b81610127565b92915050565b5f8060408385031215610167576101666100c0565b5b5f610174858286016100e3565b92505060206101858582860161013d565b9150509250929050565b610198816100c4565b82525050565b5f6020820190506101b15f83018461018f565b92915050565b6080516101eb6101ce5f395f609001526101eb5ff3fe608060405234801561000f575f80fd5b506004361061003f575f3560e01c806306661abd146100435780638da5cb5b14610061578063d09de08a1461007f575b5f80fd5b61004b610089565b60405161005891906100e4565b60405180910390f35b61006961008e565b604051610076919061013c565b60405180910390f35b6100876100b2565b005b5f5481565b7f000000000000000000000000000000000000000000000000000000000000000081565b60015f808282546100c39190610182565b92505081905550565b5f819050919050565b6100de816100cc565b82525050565b5f6020820190506100f75f8301846100d5565b92915050565b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f610126826100fd565b9050919050565b6101368161011c565b82525050565b5f60208201905061014f5f83018461012d565b92915050565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52601160045260245ffd5b5f61018c826100cc565b9150610197836100cc565b92508282019050808211156101af576101ae610155565b5b9291505056fea26469706673582212205e4cbff569d629a1f295a09c80bb97e55d3dde1d2d301c4b1863f0f00f0b34e464736f6c6343000819003300000000000000000000000000000000000000000000000000000000000000640000000000000000000000001d477b7733Fe1347eE91e8D15f8c7f203E147AA0
+</code></pre></div>
+<p>长度验证：953（Creation Code）+ 64（参数）<span>= 1017<span class="heti-spacing"> </span></span>字节 ✓</p>
+<p><strong>（3）在<span class="heti-skip"><span class="heti-spacing"> </span>Etherscan<span class="heti-spacing"> </span></span>上验证</strong></p>
+<p>在<span class="heti-skip"><span class="heti-spacing"> </span>Etherscan<span class="heti-spacing"> </span></span>上查看部署交易详情，<span>input<span class="heti-spacing"> </span></span>字段的内容就是<span><span class="heti-spacing"> </span>Init Code</span>（<span>Creation Code +<span class="heti-spacing"> </span></span>参数编码<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：</p>
+<p><img alt="" src="../../../assets/images/evm_fundamentals_part1_240410_3.png"/></p>
 <p>部署成功后，查看合约页面：</p>
 <ul>
-<li>Contract Creation Code 显示的是 Init Code</li>
-<li>Deployed Bytecode 显示的是 Runtime Code</li>
+<li><span>Contract Creation Code<span class="heti-spacing"> </span></span>显示的是<span><span class="heti-spacing"> </span>Init Code</span></li>
+<li><span>Deployed Bytecode<span class="heti-spacing"> </span></span>显示的是<span><span class="heti-spacing"> </span>Runtime Code</span></li>
 </ul>
-<p><img alt="" src="../../../assets/images/evm_fundamentals_part1_240410_4.png" /></p>
+<p><img alt="" src="../../../assets/images/evm_fundamentals_part1_240410_4.png"/></p>
 <p><strong>（4）常见问题</strong></p>
-<p><strong>Q1：为什么 Runtime Code 比 Creation Code 短？</strong></p>
-<p>Creation Code 包含构造函数逻辑和参数解析代码，这些只在部署时执行一次。Runtime Code 只保留运行时需要的函数，所以通常更短。在本例中，Runtime Code（491 字节）大约只有 Creation Code（953 字节）的一半大小。</p>
-<p><strong>Q2：immutable 变量存在哪里？</strong></p>
-<p><code>immutable</code> 变量在部署时确定值，直接嵌入到 Runtime Code 中。所以每次部署参数不同，Runtime Code 也会略有不同。</p>
-<h2 id="evm_2">八、EVM 执行模型</h2>
-<p>EVM 是基于栈的虚拟机。栈是一种数据结构，就像一摞盘子——只能从顶部放入或取出。</p>
-<p>EVM 栈的特性：</p>
+<p><strong>Q1：为什么<span class="heti-skip"><span class="heti-spacing"> </span>Runtime Code<span class="heti-spacing"> </span></span>比<span class="heti-skip"><span class="heti-spacing"> </span>Creation Code<span class="heti-spacing"> </span></span>短？</strong></p>
+<p><span>Creation Code<span class="heti-spacing"> </span></span>包含构造函数逻辑和参数解析代码，这些只在部署时执行一次。<span>Runtime Code<span class="heti-spacing"> </span></span>只保留运行时需要的函数，所以通常更短。在本例中，Runtime Code（<span>491<span class="heti-spacing"> </span></span>字节）大约只有<span><span class="heti-spacing"> </span>Creation Code</span>（<span>953<span class="heti-spacing"> </span></span>字节）的一半大小。</p>
+<p><strong>Q2：<span>immutable<span class="heti-spacing"> </span></span>变量存在哪里？</strong></p>
+<p><code>immutable</code> 变量在部署时确定值，直接嵌入到<span class="heti-skip"><span class="heti-spacing"> </span>Runtime Code<span class="heti-spacing"> </span></span>中。所以每次部署参数不同，<span>Runtime Code<span class="heti-spacing"> </span></span>也会略有不同。</p>
+<h2 id="evm_2">八、<span>EVM<span class="heti-spacing"> </span></span>执行模型<a class="headerlink" href="#evm_2" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p><span>EVM<span class="heti-spacing"> </span></span>是基于栈的虚拟机。栈是一种数据结构，就像一摞盘子——只能从顶部放入或取出。</p>
+<p><span>EVM<span class="heti-spacing"> </span></span>栈的特性：</p>
 <ul>
-<li>每个元素 256 位（32 字节）</li>
-<li>最大深度 1024</li>
-<li>只能操作顶部 16 个元素（这是硬限制）</li>
+<li>每个元素<span class="heti-skip"><span class="heti-spacing"> </span>256<span class="heti-spacing"> </span></span>位（<span>32<span class="heti-spacing"> </span></span>字节）</li>
+<li>最大深度<span><span class="heti-spacing"> </span>1024</span></li>
+<li>只能操作顶部<span class="heti-skip"><span class="heti-spacing"> </span>16<span class="heti-spacing"> </span></span>个元素（这是硬限制）</li>
 </ul>
-<p><img alt="" src="../../../assets/images/evm_fundamentals_part1_240410_5.png" /></p>
-<p>EVM 执行字节码的过程：</p>
+<p><img alt="" src="../../../assets/images/evm_fundamentals_part1_240410_5.png"/></p>
+<p><span>EVM<span class="heti-spacing"> </span></span>执行字节码的过程：</p>
 <ol>
 <li>读取当前位置的操作码</li>
 <li>执行该操作码</li>
-<li>扣除 Gas</li>
+<li>扣除<span><span class="heti-spacing"> </span>Gas</span></li>
 <li>移动到下一个位置</li>
-<li>重复，直到遇到 STOP/RETURN/REVERT 或 Gas 耗尽</li>
+<li>重复，直到遇到<span class="heti-skip"><span class="heti-spacing"> </span>STOP/RETURN/REVERT<span class="heti-spacing"> </span></span>或<span class="heti-skip"><span class="heti-spacing"> </span>Gas<span class="heti-spacing"> </span></span>耗尽</li>
 </ol>
-<p><strong>程序计数器（PC）</strong>：记录当前执行到哪个位置。遇到跳转指令时，PC 会改变。</p>
-<h2 id="evm_3">九、操作码：EVM 的指令集</h2>
-<p>操作码（Opcode）是 EVM 能理解的最小指令。每个操作码占 1 字节，所以最多 256 种，目前使用约 140 种。</p>
-<h3 id="_8">一个最简单的例子</h3>
-<p>这段字节码计算 1 + 1：</p>
-<pre><code>6001 6001 01
-</code></pre>
+<p><strong>程序计数器（PC）</strong>：记录当前执行到哪个位置。遇到跳转指令时，<span>PC<span class="heti-spacing"> </span></span>会改变。</p>
+<h2 id="evm_3">九、操作码：<span>EVM<span class="heti-spacing"> </span></span>的指令集<a class="headerlink" href="#evm_3" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p>操作码（Opcode）是<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>能理解的最小指令。每个操作码占<span class="heti-skip"><span class="heti-spacing"> </span>1<span class="heti-spacing"> </span></span>字节，所以最多<span class="heti-skip"><span class="heti-spacing"> </span>256<span class="heti-spacing"> </span></span>种，目前使用约<span class="heti-skip"><span class="heti-spacing"> </span>140<span class="heti-spacing"> </span></span>种。</p>
+<h3 id="_8">一个最简单的例子<a class="headerlink" href="#_8" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>这段字节码计算<span><span class="heti-spacing"> </span>1 + 1</span>：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a>6001 6001 01
+</code></pre></div>
 <p>拆解：</p>
 <table>
 <thead>
@@ -1597,12 +978,12 @@ contract Counter {
 <tr>
 <td>60 01</td>
 <td>PUSH1 0x01</td>
-<td>把 1 压入栈</td>
+<td>把<span class="heti-skip"><span class="heti-spacing"> </span>1<span class="heti-spacing"> </span></span>压入栈</td>
 </tr>
 <tr>
 <td>60 01</td>
 <td>PUSH1 0x01</td>
-<td>把 1 压入栈</td>
+<td>把<span class="heti-skip"><span class="heti-spacing"> </span>1<span class="heti-spacing"> </span></span>压入栈</td>
 </tr>
 <tr>
 <td>01</td>
@@ -1612,12 +993,12 @@ contract Counter {
 </tbody>
 </table>
 <p>执行过程：</p>
-<pre><code>初始:     []
-PUSH1 1: [1]
-PUSH1 1: [1, 1]
-ADD:     [2]       ← 1+1 的结果
-</code></pre>
-<h3 id="_9">常用核心操作码</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a>初始:     []
+<a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a>PUSH1 1: [1]
+<a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a>PUSH1 1: [1, 1]
+<a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a>ADD:     [2]       ← 1+1 的结果
+</code></pre></div>
+<h3 id="_9">常用核心操作码<a class="headerlink" href="#_9" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
 <table>
 <thead>
 <tr>
@@ -1650,7 +1031,7 @@ ADD:     [2]       ← 1+1 的结果
 <tr>
 <td>存储</td>
 <td>SLOAD, SSTORE</td>
-<td>读写存储（很贵！）</td>
+<td>读写存储（很贵<heti-adjacent class="heti-adjacent-half">！</heti-adjacent>）</td>
 </tr>
 <tr>
 <td>环境</td>
@@ -1664,87 +1045,75 @@ ADD:     [2]       ← 1+1 的结果
 </tr>
 </tbody>
 </table>
-<p><strong>Gas 差异预告</strong>：MLOAD 只要 3 Gas，SLOAD 要 100-2100 Gas。为什么差这么多？下一篇揭晓。</p>
+<p><strong><span>Gas<span class="heti-spacing"> </span></span>差异预告</strong>：<span>MLOAD<span class="heti-spacing"> </span></span>只要<span><span class="heti-spacing"> </span>3 Gas</span>，<span>SLOAD<span class="heti-spacing"> </span></span>要<span><span class="heti-spacing"> </span>100-2100 Gas</span>。为什么差这么多？下一篇揭晓。</p>
 <blockquote>
-<p>完整操作码列表：https://www.evm.codes/</p>
+<p>完整操作码列表：<a href="https://www.evm.codes/">https://www.evm.codes/</a></p>
 </blockquote>
-<h2 id="evm_4">十、函数选择器：EVM 如何路由？</h2>
-<p>一个合约有多个函数，EVM 怎么知道调用哪个？</p>
-<h3 id="_10">选择器的计算</h3>
-<p>每个函数有一个 4 字节的"身份证" —— <strong>函数选择器</strong>：</p>
-<pre><code>选择器 = keccak256(&quot;函数签名&quot;) 的前 4 字节
-</code></pre>
+<h2 id="evm_4">十、函数选择器：<span>EVM<span class="heti-spacing"> </span></span>如何路由？<a class="headerlink" href="#evm_4" title="Permanent link">¶</a></h2>
+<p>一个合约有多个函数，<span>EVM<span class="heti-spacing"> </span></span>怎么知道调用哪个？</p>
+<h3 id="_10">选择器的计算<a class="headerlink" href="#_10" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>每个函数有一个<span class="heti-skip"><span class="heti-spacing"> </span>4<span class="heti-spacing"> </span></span>字节的<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>身份证<span><span class="heti-spacing"> </span>"</span> —— <strong>函数选择器</strong>：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a>选择器 = keccak256("函数签名") 的前 4 字节
+</code></pre></div>
 <p>例如：</p>
-<pre><code>keccak256(&quot;increment()&quot;) → 0xd09de08a...
-keccak256(&quot;count()&quot;)     → 0x06661abd...
-</code></pre>
-<h3 id="_11">路由逻辑</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a>keccak256("increment()") → 0xd09de08a...
+<a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a>keccak256("count()")     → 0x06661abd...
+</code></pre></div>
+<h3 id="_11">路由逻辑<a class="headerlink" href="#_11" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
 <p>合约字节码开头有一段 <strong>dispatcher（调度器）</strong>，逻辑如下：</p>
 <ol>
-<li>从 calldata 取前 4 字节作为 selector</li>
+<li>从<span class="heti-skip"><span class="heti-spacing"> </span>calldata<span class="heti-spacing"> </span></span>取前<span class="heti-skip"><span class="heti-spacing"> </span>4<span class="heti-spacing"> </span></span>字节作为<span><span class="heti-spacing"> </span>selector</span></li>
 <li>依次与每个函数的选择器比较</li>
 <li>匹配 → 跳转到对应函数代码</li>
-<li>都不匹配 → 执行 fallback 或 revert</li>
+<li>都不匹配 → 执行<span class="heti-skip"><span class="heti-spacing"> </span>fallback<span class="heti-spacing"> </span></span>或<span><span class="heti-spacing"> </span>revert</span></li>
 </ol>
 <p>用操作码表示的核心流程：</p>
-<pre><code>PUSH1 0x00
-CALLDATALOAD     // 加载 calldata 前 32 字节
-PUSH1 0xe0
-SHR              // 右移 224 位，得到前 4 字节
-DUP1
-PUSH4 0xd09de08a // increment() 的选择器
-EQ               // 比较是否相等
-PUSH2 0x0045     // increment() 代码位置
-JUMPI            // 相等则跳转
-</code></pre>
-<p><strong>这就解释了</strong>为什么调用 <code>increment()</code> 时，交易的 input 是 <code>0xd09de08a</code>。</p>
-<h2 id="_12">小结</h2>
-<p>本文介绍了 EVM 的核心概念：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a>PUSH1 0x00
+<a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a>CALLDATALOAD     // 加载 calldata 前 32 字节
+<a href="#__codelineno-15-3" id="__codelineno-15-3" name="__codelineno-15-3"></a>PUSH1 0xe0
+<a href="#__codelineno-15-4" id="__codelineno-15-4" name="__codelineno-15-4"></a>SHR              // 右移 224 位，得到前 4 字节
+<a href="#__codelineno-15-5" id="__codelineno-15-5" name="__codelineno-15-5"></a>DUP1
+<a href="#__codelineno-15-6" id="__codelineno-15-6" name="__codelineno-15-6"></a>PUSH4 0xd09de08a // increment() 的选择器
+<a href="#__codelineno-15-7" id="__codelineno-15-7" name="__codelineno-15-7"></a>EQ               // 比较是否相等
+<a href="#__codelineno-15-8" id="__codelineno-15-8" name="__codelineno-15-8"></a>PUSH2 0x0045     // increment() 代码位置
+<a href="#__codelineno-15-9" id="__codelineno-15-9" name="__codelineno-15-9"></a>JUMPI            // 相等则跳转
+</code></pre></div>
+<p><strong>这就解释了</strong>为什么调用 <code>increment()</code> 时，交易的<span class="heti-skip"><span class="heti-spacing"> </span>input<span class="heti-spacing"> </span></span>是 <code>0xd09de08a</code>。</p>
+<h2 id="_12">小结<a class="headerlink" href="#_12" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p>本文介绍了<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>的核心概念：</p>
 <ol>
 <li>以太坊是交易驱动的状态机</li>
-<li>账户分 EOA 和合约账户两种</li>
+<li>账户分<span class="heti-skip"><span class="heti-spacing"> </span>EOA<span class="heti-spacing"> </span></span>和合约账户两种</li>
 <li>交易是改变状态的唯一方式</li>
-<li>Gas 是计算资源的度量单位</li>
-<li>编译产出 Creation Code 和 Runtime Code，动手验证了它们与 Init Code 的区别</li>
-<li>EVM 是基于栈的虚拟机，通过操作码执行计算</li>
+<li><span>Gas<span class="heti-spacing"> </span></span>是计算资源的度量单位</li>
+<li>编译产出<span class="heti-skip"><span class="heti-spacing"> </span>Creation Code<span class="heti-spacing"> </span></span>和<span><span class="heti-spacing"> </span>Runtime Code</span>，动手验证了它们与<span class="heti-skip"><span class="heti-spacing"> </span>Init Code<span class="heti-spacing"> </span></span>的区别</li>
+<li><span>EVM<span class="heti-spacing"> </span></span>是基于栈的虚拟机，通过操作码执行计算</li>
 <li>函数选择器用于路由到正确的函数</li>
 </ol>
-<p>下一篇，我们将深入 EVM 的三个数据区域——栈、内存、存储，理解它们的成本差异和优化策略。</p>
+<p>下一篇，我们将深入<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>的三个数据区域——栈、内存、存储，理解它们的成本差异和优化策略。</p>
 <p><strong>系列导航：</strong></p>
 <ul>
-<li>第一篇：EVM 基础原理（一）：从交易到字节码（本篇）</li>
-<li>第二篇：<a href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/">EVM 基础原理（二）：EVM 数据区域与合约执行</a></li>
-<li>第三篇：<a href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">EVM 基础原理（三）：ABI 编码与底层调用</a></li>
+<li>第一篇：<span>EVM<span class="heti-spacing"> </span></span>基础原理（一<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：从交易到字节码（本篇）</li>
+<li>第二篇：<a href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/"><span>EVM<span class="heti-spacing"> </span></span>基础原理（二<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：<span>EVM<span class="heti-spacing"> </span></span>数据区域与合约执行</a></li>
+<li>第三篇：<a href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/"><span>EVM<span class="heti-spacing"> </span></span>基础原理（三<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：<span>ABI<span class="heti-spacing"> </span></span>编码与底层调用</a></li>
 </ul>
-
-
-
-
-
-
-
-
-
-
-
+<aside class="md-source-file">
+<span class="md-source-file__fact">
+<span class="md-icon" title="最后更新">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">2026年1月14日 22:11:43</span>
+</span>
+<span class="md-source-file__fact">
+<span class="md-icon" title="创建日期">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">2026年1月13日 22:20:39</span>
+</span>
+</aside>
 <!-- Insert generated snippet here -->
-<script src="https://giscus.app/client.js"
-        data-repo="lifefindsitsway/web3-tutorials"
-        data-repo-id="R_kgDOMt1b5Q"
-        data-category="Comments"
-        data-category-id="DIC_kwDOMt1b5c4CiWjc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="1"
-        data-input-position="top"
-        data-theme="light_protanopia"
-        data-lang="zh-CN"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script async="" crossorigin="anonymous" data-category="Comments" data-category-id="DIC_kwDOMt1b5c4CiWjc" data-emit-metadata="1" data-input-position="top" data-lang="zh-CN" data-loading="lazy" data-mapping="title" data-reactions-enabled="1" data-repo="lifefindsitsway/web3-tutorials" data-repo-id="R_kgDOMt1b5Q" data-strict="0" data-theme="light_protanopia" src="https://giscus.app/client.js">
 </script>
-
 <!-- Synchronize Giscus theme with palette -->
 <script>
 var giscus = document.querySelector("script[src*=giscus]")
@@ -1780,55 +1149,44 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 })
 </script>
-                
-              </article>
-            </div>
-          
-          
+</article>
+</div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
-        </div>
-        
-          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
   回到页面顶部
 </button>
-        
-      </main>
-      
-        <footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-    <div class="md-copyright__highlight">
-      Copyright &copy; 2024 ~ present by <a href="https://github.com/lifefindsitsway" target="_blank" rel="noopener noreferrer">Lifefindsitsway</a>
-    </div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2024 ~ present by <a href="https://github.com/lifefindsitsway" rel="noopener noreferrer" target="_blank">Lifefindsitsway</a>
+</div>
   
   
     Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
       Material for MkDocs
     </a>
-  
 </div>
-      
-    </div>
-  </div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/lifefindsitsway/web3-tutorials/" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
 </footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    
-    
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["header.autohide", "navigation.tracking", "navigation.top", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
-    
-    
-      <script src="../../../assets/javascripts/bundle.56dfad97.min.js"></script>
-      
-    
-  </body>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../../..", "features": ["header.autohide", "navigation.tracking", "navigation.top", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+<script src="../../../assets/javascripts/bundle.56dfad97.min.js"></script>
+<script src="../../../assets/javascripts/mathjax-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
 </html>

@@ -1,1460 +1,801 @@
-
-<!doctype html>
-<html lang="zh" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/evm_fundamentals_part2_data_regions_and_contract_execution_240411/">
-      
-      
-        <link rel="prev" href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/">
-      
-      
-        <link rel="next" href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">
-      
-      
-      <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
-    
-    
-      
-        <title>EVM 基础原理（二）：数据区域与合约执行 - Life's Web3 开发指南</title>
-      
-    
-    
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.35f28582.min.css">
-      
-        
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
-      
-      
-
-
-    
-    
-      
-    
-    
-      
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto Slab";--md-code-font:"Roboto Mono"}</style>
-      
-    
-    
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-    
-      
-
-    
-    
-    
-  </head>
-  
-  
-    
-    
-      
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-purple">
-  
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#evm" class="md-skip">
+<!DOCTYPE html>
+<html class="no-js" lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://lifefindsitsway.wiki/web3/dapp/evm_fundamentals_part2_data_regions_and_contract_execution_240411/" rel="canonical"/>
+<link href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/" rel="prev"/>
+<link href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/" rel="next"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.5.34" name="generator"/>
+<title>EVM 基础原理（二）：数据区域与合约执行 - Life's Web3 开发指南</title>
+<link href="../../../assets/stylesheets/main.35f28582.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto Slab";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../css/heti.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/mathjax-custom.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-KJB4RXSKZG"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-KJB4RXSKZG",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-KJB4RXSKZG",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="deep-purple" data-md-color-primary="light-blue" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#evm">
           跳转至
         </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-    
-      
-
-  
-
+</div>
+<div data-md-component="announce">
+</div>
 <header class="md-header md-header--shadow" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../../.." title="Life&#39;s Web3 开发指南" class="md-header__button md-logo" aria-label="Life's Web3 开发指南" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
-
-    </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
+<nav aria-label="页眉" class="md-header__inner md-grid">
+<a aria-label="Life's Web3 开发指南" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
             Life's Web3 开发指南
           </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
             
               EVM 基础原理（二）：数据区域与合约执行
             
           </span>
-        </div>
-      </div>
-    </div>
-    
-      
-        <form class="md-header__option" data-md-component="palette">
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
-    
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
-      </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="deep-purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
-    
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
-      </label>
-    
-  
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="light-blue" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="black" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+</label>
 </form>
-      
-    
-    
-      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="查找">
-        
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
-          </a>
-        
-        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-        <div class="md-search__suggest" data-md-component="search-suggest"></div>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="搜索" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="搜索" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="查找" class="md-search__options">
+<a aria-label="分享" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="分享">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="清空当前内容" class="md-search__icon md-icon" tabindex="-1" title="清空当前内容" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
             正在初始化搜索引擎
           </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
+<ol class="md-search-result__list" role="presentation"></ol>
 </div>
-    
-    
-      <div class="md-header__source">
-        <a href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
-  </div>
-  <div class="md-source__repository">
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
     web3-tutorials
   </div>
 </a>
-      </div>
-    
-  </nav>
-  
+</div>
+</nav>
 </header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-          
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-
-<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Life&#39;s Web3 开发指南" class="md-nav__button md-logo" aria-label="Life's Web3 开发指南" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
-
-    </a>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="导航栏" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Life's Web3 开发指南" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
     Life's Web3 开发指南
   </label>
-  
-    <div class="md-nav__source">
-      <a href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
-  </div>
-  <div class="md-source__repository">
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
     web3-tutorials
   </div>
 </a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../..">
+<span class="md-ellipsis">
     Welcome to My Blog
   </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../changelog/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../changelog/">
+<span class="md-ellipsis">
     更新日志
   </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
     区块链基础
   </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
             区块链基础
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../blockchain/the_evolution_of_bitcoin_240213/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../blockchain/the_evolution_of_bitcoin_240213/">
+<span class="md-ellipsis">
     比特币的诞生历程
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
     DAPP开发
   </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
             DAPP开发
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_proxy_upgrade_series_part1_251229/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_proxy_upgrade_series_part1_251229/">
+<span class="md-ellipsis">
     代理合约与可升级合约系列（一）：为什么需要可升级？
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_proxy_upgrade_series_part2_251230/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_proxy_upgrade_series_part2_251230/">
+<span class="md-ellipsis">
     代理合约与可升级合约系列（二）：透明代理 vs UUPS
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part1_gas_mechanism/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part1_gas_mechanism/">
+<span class="md-ellipsis">
     Gas 优化指南（一）：Gas 机制原理
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part2_eip1559_transaction_analysis/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part2_eip1559_transaction_analysis/">
+<span class="md-ellipsis">
     Gas 优化指南（二）：EIP-1559 交易解析
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part3_storage_optimization/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part3_storage_optimization/">
+<span class="md-ellipsis">
     Gas 优化指南（三）：存储优化
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part4_computation_optimization/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part4_computation_optimization/">
+<span class="md-ellipsis">
     Gas 优化指南（四）：计算优化
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part5_gas_measurement/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part5_gas_measurement/">
+<span class="md-ellipsis">
     Gas 优化指南（五）：Gas 评估与测量
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_contract_call_part1_240521/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part1_240521/">
+<span class="md-ellipsis">
     Solidity 合约间调用（一）：四种方式调用已部署合约
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_contract_call_part2_240523/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part2_240523/">
+<span class="md-ellipsis">
     Solidity 合约间调用（二）：底层调用与 calldata 详解
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../solidity_contract_call_part3_240527/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part3_240527/">
+<span class="md-ellipsis">
     Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../hardhat_tutorial_240415/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../hardhat_tutorial_240415/">
+<span class="md-ellipsis">
     Hardhat 入门指南（25年更新版）
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/">
+<span class="md-ellipsis">
     EVM 基础原理（一）：从交易到字节码
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
     EVM 基础原理（二）：数据区域与合约执行
   </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
     EVM 基础原理（二）：数据区域与合约执行
   </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
+</a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
       目录
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
       一、三个数据区域概览
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#stack" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stack">
+<span class="md-ellipsis">
       二、栈（Stack）
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#memory" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#memory">
+<span class="md-ellipsis">
       三、内存（Memory）
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="三、内存（Memory）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#solidity" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="三、内存（Memory）" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#solidity">
+<span class="md-ellipsis">
       Solidity 的内存布局
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
       扩展成本：越大越贵
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#storage" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#storage">
+<span class="md-ellipsis">
       四、存储（Storage）
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="四、存储（Storage）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="四、存储（Storage）" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_3">
+<span class="md-ellipsis">
       存储模型
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_4">
+<span class="md-ellipsis">
       状态变量的槽位分配
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_5">
+<span class="md-ellipsis">
       动态类型的槽位计算
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_6">
+<span class="md-ellipsis">
       存储成本详解
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_7">
+<span class="md-ellipsis">
       五、合约部署机制
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="五、合约部署机制">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="五、合约部署机制" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_8">
+<span class="md-ellipsis">
       部署执行流程
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_9">
+<span class="md-ellipsis">
       合约地址计算
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_10">
+<span class="md-ellipsis">
       六、函数调用机制
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="六、函数调用机制">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#calldata" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="六、函数调用机制" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#calldata">
+<span class="md-ellipsis">
       calldata 结构
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#call" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#call">
+<span class="md-ellipsis">
       Call 的上下文传递
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_11">
+<span class="md-ellipsis">
       三种调用方式
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_12">
+<span class="md-ellipsis">
       七、返回与异常
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="七、返回与异常">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_13" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="七、返回与异常" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_13">
+<span class="md-ellipsis">
       正常返回
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_14" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_14">
+<span class="md-ellipsis">
       异常回滚
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#returndata" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#returndata">
+<span class="md-ellipsis">
       returndata 机制
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#event" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#event">
+<span class="md-ellipsis">
       八、Event 底层机制
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="八、Event 底层机制">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#log" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="八、Event 底层机制" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#log">
+<span class="md-ellipsis">
       LOG 操作码
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#indexed" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#indexed">
+<span class="md-ellipsis">
       indexed 参数
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#event_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#event_1">
+<span class="md-ellipsis">
       为什么 Event 比存储便宜？
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_15" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_15">
+<span class="md-ellipsis">
       小结
     </span>
-  </a>
-  
+</a>
 </li>
-      
-    </ul>
-  
+</ul>
 </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">
+<span class="md-ellipsis">
     EVM 基础原理（三）：ABI 编码与底层调用
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../address_240321/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Solidity 地址类型 & 常见用法全攻略
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../address_240321/">
+<span class="md-ellipsis">
+    Solidity 地址类型 &amp; 常见用法全攻略
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ethereum_address_size_240320/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ethereum_address_size_240320/">
+<span class="md-ellipsis">
     为什么以太坊地址是 20 字节？从私钥到地址的全解析
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
     DeFi
   </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
             DeFi
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../defi/uniswap_v2_price_precision_240610/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../defi/uniswap_v2_price_precision_240610/">
+<span class="md-ellipsis">
     Uniswap V2 价格精度解析
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../defi/flash_loan_attack_260101/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../defi/flash_loan_attack_260101/">
+<span class="md-ellipsis">
     闪电贷：从原理到攻击演示
   </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-  </ul>
+</a>
+</li>
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
       目录
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
       一、三个数据区域概览
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#stack" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#stack">
+<span class="md-ellipsis">
       二、栈（Stack）
     </span>
-  </a>
-  
+</a>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#memory" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#memory">
+<span class="md-ellipsis">
       三、内存（Memory）
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="三、内存（Memory）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#solidity" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="三、内存（Memory）" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#solidity">
+<span class="md-ellipsis">
       Solidity 的内存布局
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
       扩展成本：越大越贵
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#storage" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#storage">
+<span class="md-ellipsis">
       四、存储（Storage）
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="四、存储（Storage）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="四、存储（Storage）" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_3">
+<span class="md-ellipsis">
       存储模型
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_4">
+<span class="md-ellipsis">
       状态变量的槽位分配
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_5">
+<span class="md-ellipsis">
       动态类型的槽位计算
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_6">
+<span class="md-ellipsis">
       存储成本详解
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_7">
+<span class="md-ellipsis">
       五、合约部署机制
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="五、合约部署机制">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="五、合约部署机制" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_8">
+<span class="md-ellipsis">
       部署执行流程
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_9">
+<span class="md-ellipsis">
       合约地址计算
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_10">
+<span class="md-ellipsis">
       六、函数调用机制
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="六、函数调用机制">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#calldata" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="六、函数调用机制" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#calldata">
+<span class="md-ellipsis">
       calldata 结构
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#call" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#call">
+<span class="md-ellipsis">
       Call 的上下文传递
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_11">
+<span class="md-ellipsis">
       三种调用方式
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_12">
+<span class="md-ellipsis">
       七、返回与异常
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="七、返回与异常">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_13" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="七、返回与异常" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_13">
+<span class="md-ellipsis">
       正常返回
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_14" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_14">
+<span class="md-ellipsis">
       异常回滚
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#returndata" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#returndata">
+<span class="md-ellipsis">
       returndata 机制
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#event" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#event">
+<span class="md-ellipsis">
       八、Event 底层机制
     </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="八、Event 底层机制">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#log" class="md-nav__link">
-    <span class="md-ellipsis">
+</a>
+<nav aria-label="八、Event 底层机制" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#log">
+<span class="md-ellipsis">
       LOG 操作码
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#indexed" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#indexed">
+<span class="md-ellipsis">
       indexed 参数
     </span>
-  </a>
-  
+</a>
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#event_1" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#event_1">
+<span class="md-ellipsis">
       为什么 Event 比存储便宜？
     </span>
-  </a>
-  
+</a>
 </li>
-        
-      </ul>
-    </nav>
-  
+</ul>
+</nav>
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_15" class="md-nav__link">
-    <span class="md-ellipsis">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_15">
+<span class="md-ellipsis">
       小结
     </span>
-  </a>
-  
+</a>
 </li>
-      
-    </ul>
-  
+</ul>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          
-            <div class="md-content" data-md-component="content">
-              <article class="md-content__inner md-typeset">
-                
-                  
-
-  
-  
-
-
-<h1 id="evm">EVM 基础原理（二）：数据区域与合约执行</h1>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="evm"><span>EVM<span class="heti-spacing"> </span></span>基础原理（二<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：数据区域与合约执行<a class="headerlink" href="#evm" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h1>
+<div style="margin-top: -30px; font-size: 0.75em; opacity: 0.7;">
+<p><span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10h-2a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8zm6.78 1a.7.7 0 0 0-.48.2l-1.22 1.21 2.5 2.5L20.8 5.7c.26-.26.26-.7 0-.95L19.25 3.2c-.13-.13-.3-.2-.47-.2m-2.41 2.12L9 12.5V15h2.5l7.37-7.38z"></path></svg></span> 约<span class="heti-skip"><span class="heti-spacing"> </span>2215<span class="heti-spacing"> </span></span>个字 <span class="twemoji"><svg viewbox="0 0 640 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6m80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3"></path></svg></span> <span>15<span class="heti-spacing"> </span></span>行代码 <span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 17H7V3h14m0-2H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2M3 5H1v16a2 2 0 0 0 2 2h16v-2H3m12.96-10.71-2.75 3.54-1.96-2.36L8.5 15h11z"></path></svg></span> <span>1<span class="heti-spacing"> </span></span>张图片 <span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 20c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8m0-18c5.5 0 10 4.5 10 10s-4.5 10-10 10C6.47 22 2 17.5 2 12S6.5 2 12 2m.5 11H11V7h1.5v4.26l3.7-2.13.75 1.3z"></path></svg></span> 预计阅读时间<span class="heti-skip"><span class="heti-spacing"> </span>8<span class="heti-spacing"> </span></span>分钟</p>
+</div>
 <blockquote>
-<p>本文是 EVM 基础原理系列的第二篇，深入理解栈、内存、存储的设计原理，以及合约的部署与调用机制。</p>
+<p>本文是<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>基础原理系列的第二篇，深入理解栈、内存、存储的设计原理，以及合约的部署与调用机制。</p>
 </blockquote>
-<p>上一篇我们提到 MLOAD 只要 3 Gas，而 SLOAD 要 2100 Gas（冷访问）。为什么差距这么大？</p>
+<p>上一篇我们提到<span class="heti-skip"><span class="heti-spacing"> </span>MLOAD<span class="heti-spacing"> </span></span>只要<span><span class="heti-spacing"> </span>3 Gas</span>，而<span class="heti-skip"><span class="heti-spacing"> </span>SLOAD<span class="heti-spacing"> </span></span>要<span><span class="heti-spacing"> </span>2100 Gas</span>（冷访问<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。为什么差距这么大？</p>
 <p>因为它们操作的数据区域有本质区别：</p>
 <ul>
 <li><strong>内存</strong>：临时的、本地的、便宜的</li>
 <li><strong>存储</strong>：永久的、全网共识的、昂贵的</li>
 </ul>
-<h2 id="_1">一、三个数据区域概览</h2>
+<h2 id="_1">一、三个数据区域概览<a class="headerlink" href="#_1" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
 <table>
 <thead>
 <tr>
@@ -1486,34 +827,34 @@
 </tbody>
 </table>
 <p><strong>核心原则</strong>：能用栈就不用内存，能用内存就不用存储。</p>
-<h2 id="stack">二、栈（Stack）</h2>
+<h2 id="stack">二、栈（Stack）<a class="headerlink" href="#stack" title="Permanent link">¶</a></h2>
 <p>上一篇已经介绍了栈的基础，这里聚焦它的局限性。</p>
-<p><strong>局限性 1：只能访问顶部 16 个元素</strong></p>
-<p>EVM 的 DUP 和 SWAP 指令最多操作第 16 个元素：</p>
-<pre><code>DUP1 - DUP16     // 复制第 1-16 个元素到栈顶
-SWAP1 - SWAP16   // 交换栈顶与第 2-17 个元素
-</code></pre>
-<p>如果你的函数有超过 16 个局部变量，编译器会被迫使用内存，Gas 成本上升。</p>
+<p><strong>局限性<span><span class="heti-spacing"> </span>1</span>：只能访问顶部<span class="heti-skip"><span class="heti-spacing"> </span>16<span class="heti-spacing"> </span></span>个元素</strong></p>
+<p><span>EVM<span class="heti-spacing"> </span></span>的<span class="heti-skip"><span class="heti-spacing"> </span>DUP<span class="heti-spacing"> </span></span>和<span class="heti-skip"><span class="heti-spacing"> </span>SWAP<span class="heti-spacing"> </span></span>指令最多操作第<span class="heti-skip"><span class="heti-spacing"> </span>16<span class="heti-spacing"> </span></span>个元素：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>DUP1 - DUP16     // 复制第 1-16 个元素到栈顶
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>SWAP1 - SWAP16   // 交换栈顶与第 2-17 个元素
+</code></pre></div>
+<p>如果你的函数有超过<span class="heti-skip"><span class="heti-spacing"> </span>16<span class="heti-spacing"> </span></span>个局部变量，编译器会被迫使用内存，<span>Gas<span class="heti-spacing"> </span></span>成本上升。</p>
 <p>实践建议：减少函数内的局部变量数量，尤其是同时存活的变量。</p>
-<p><strong>局限性 2：最大深度 1024</strong></p>
-<p>栈深度超过 1024 会导致交易失败。这在深度递归或复杂的合约调用链中可能触发。</p>
+<p><strong>局限性<span><span class="heti-spacing"> </span>2</span>：最大深度<span><span class="heti-spacing"> </span>1024</span></strong></p>
+<p>栈深度超过<span class="heti-skip"><span class="heti-spacing"> </span>1024<span class="heti-spacing"> </span></span>会导致交易失败。这在深度递归或复杂的合约调用链中可能触发。</p>
 <p><strong>栈的优势</strong></p>
 <ul>
-<li>操作成本极低（PUSH/POP/DUP/SWAP 都是 3 Gas 左右）</li>
+<li>操作成本极低（<span>PUSH/POP/DUP/SWAP<span class="heti-spacing"> </span></span>都是<span class="heti-skip"><span class="heti-spacing"> </span>3 Gas<span class="heti-spacing"> </span></span>左右）</li>
 <li>无需地址寻址，直接操作栈顶</li>
 </ul>
-<p><strong>Stack too deep 错误</strong></p>
-<p>Solidity 编译器会尝试优化栈使用。当你遇到 <code>Stack too deep</code> 错误时，意味着编译器无法在 16 个槽位内安排所有变量。</p>
+<p><strong><span>Stack too deep<span class="heti-spacing"> </span></span>错误</strong></p>
+<p><span>Solidity<span class="heti-spacing"> </span></span>编译器会尝试优化栈使用。当你遇到 <code>Stack too deep</code> 错误时，意味着编译器无法在<span class="heti-skip"><span class="heti-spacing"> </span>16<span class="heti-spacing"> </span></span>个槽位内安排所有变量。</p>
 <p>解决方案：</p>
 <ul>
 <li>减少同时存活的局部变量</li>
 <li>将部分逻辑提取到内部函数</li>
 <li>使用结构体打包相关变量</li>
 </ul>
-<h2 id="memory">三、内存（Memory）</h2>
+<h2 id="memory">三、内存（Memory）<a class="headerlink" href="#memory" title="Permanent link">¶</a></h2>
 <p>内存是<strong>线性字节数组</strong>，按需扩展，函数执行结束后清空。</p>
-<h3 id="solidity">Solidity 的内存布局</h3>
-<p>Solidity 保留了前 4 个 32 字节槽位：</p>
+<h3 id="solidity"><span>Solidity<span class="heti-spacing"> </span></span>的内存布局<a class="headerlink" href="#solidity" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><span>Solidity<span class="heti-spacing"> </span></span>保留了前<span class="heti-skip"><span class="heti-spacing"> </span>4<span class="heti-spacing"> </span></span>个<span class="heti-skip"><span class="heti-spacing"> </span>32<span class="heti-spacing"> </span></span>字节槽位：</p>
 <table>
 <thead>
 <tr>
@@ -1540,16 +881,16 @@ SWAP1 - SWAP16   // 交换栈顶与第 2-17 个元素
 </tr>
 </tbody>
 </table>
-<p><strong>Free Memory Pointer（0x40）</strong> 是 Solidity 内存管理的核心：</p>
+<p><strong>Free Memory Pointer（0x40）</strong> 是<span class="heti-skip"><span class="heti-spacing"> </span>Solidity<span class="heti-spacing"> </span></span>内存管理的核心：</p>
 <ul>
 <li>存储下一个可分配地址</li>
 <li>每次分配内存后自动递增</li>
-<li>Solidity 不会主动释放内存（函数结束后整体清空）</li>
+<li><span>Solidity<span class="heti-spacing"> </span></span>不会主动释放内存（函数结束后整体清空）</li>
 </ul>
-<h3 id="_2">扩展成本：越大越贵</h3>
+<h3 id="_2">扩展成本：越大越贵<a class="headerlink" href="#_2" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
 <p>内存不是固定大小，而是按需扩展。扩展是有成本的，而且是<strong>非线性增长</strong>：</p>
-<pre><code>memory_cost = 3 * words + words² / 512
-</code></pre>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>memory_cost = 3 * words + words² / 512
+</code></pre></div>
 <p>其中 <code>words = ceil(size / 32)</code>。</p>
 <table>
 <thead>
@@ -1573,66 +914,66 @@ SWAP1 - SWAP16   // 交换栈顶与第 2-17 个元素
 </tr>
 </tbody>
 </table>
-<p><strong>二次方增长的设计意图</strong>：防止合约滥用内存。小内存操作便宜（鼓励正常使用），大内存操作极其昂贵（惩罚滥用）。</p>
-<p><strong>内存 vs 栈</strong></p>
-<p>内存的优势是可以存储任意大小的数据（如动态数组、字符串），而栈每个元素固定 32 字节。</p>
-<h2 id="storage">四、存储（Storage）</h2>
+<p><strong>二次方增长的设计意图</strong>：防止合约滥用内存。小内存操作便宜（鼓励正常使用<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，大内存操作极其昂贵（惩罚滥用<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<p><strong>内存<span class="heti-skip"><span class="heti-spacing"> </span>vs<span class="heti-spacing"> </span></span>栈</strong></p>
+<p>内存的优势是可以存储任意大小的数据（如动态数组、字符串<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，而栈每个元素固定<span class="heti-skip"><span class="heti-spacing"> </span>32<span class="heti-spacing"> </span></span>字节。</p>
+<h2 id="storage">四、存储（Storage）<a class="headerlink" href="#storage" title="Permanent link">¶</a></h2>
 <p>存储是合约的<strong>永久状态</strong>，数据写入后一直保留在区块链上。</p>
-<h3 id="_3">存储模型</h3>
-<p>存储是一个 <strong>2²⁵⁶ 槽位的稀疏数组</strong>，每个槽位 32 字节：</p>
-<pre><code>slot[0] → 32 bytes
-slot[1] → 32 bytes
-...
-slot[2²⁵⁶ - 1] → 32 bytes
-</code></pre>
-<p>实际实现是键值数据库（如 LevelDB），只有非零槽位才占用空间。</p>
-<h3 id="_4">状态变量的槽位分配</h3>
-<p><strong>定长类型</strong>：Solidity 按声明顺序分配，小变量会打包到同一槽位。</p>
-<pre><code class="language-solidity">contract SlotPacking {
-    uint256 a;     // slot 0（完整占用）
-    uint128 b;     // slot 1（低 16 字节）
-    uint128 c;     // slot 1（高 16 字节）
-    uint256 d;     // slot 2
-}
-</code></pre>
-<p>Solidity 在同一个 storage slot（32 字节）里做打包时，<strong>按声明顺序依次放入</strong>，并且是<strong>从该 slot 的低位（least-significant）字节开始填充</strong>，往高位方向推进；放不下就换下一个 slot。</p>
+<h3 id="_3">存储模型<a class="headerlink" href="#_3" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>存储是一个 <strong>2²⁵⁶ 槽位的稀疏数组</strong>，每个槽位<span class="heti-skip"><span class="heti-spacing"> </span>32<span class="heti-spacing"> </span></span>字节：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>slot[0] → 32 bytes
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>slot[1] → 32 bytes
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>...
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>slot[2²⁵⁶ - 1] → 32 bytes
+</code></pre></div>
+<p>实际实现是键值数据库（如<span><span class="heti-spacing"> </span>LevelDB</span><heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，只有非零槽位才占用空间。</p>
+<h3 id="_4">状态变量的槽位分配<a class="headerlink" href="#_4" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>定长类型</strong>：<span>Solidity<span class="heti-spacing"> </span></span>按声明顺序分配，小变量会打包到同一槽位。</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="k">contract</span><span class="w"> </span><span class="ni">SlotPacking</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">    </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">a</span><span class="p">;</span><span class="w">     </span><span class="c1">// slot 0（完整占用）</span>
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">    </span><span class="kt">uint128</span><span class="w"> </span><span class="nv">b</span><span class="p">;</span><span class="w">     </span><span class="c1">// slot 1（低 16 字节）</span>
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">    </span><span class="kt">uint128</span><span class="w"> </span><span class="nv">c</span><span class="p">;</span><span class="w">     </span><span class="c1">// slot 1（高 16 字节）</span>
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">    </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">d</span><span class="p">;</span><span class="w">     </span><span class="c1">// slot 2</span>
+<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="p">}</span>
+</code></pre></div>
+<p><span>Solidity<span class="heti-spacing"> </span></span>在同一个<span><span class="heti-spacing"> </span>storage slot</span>（<span>32<span class="heti-spacing"> </span></span>字节）里做打包时，<strong>按声明顺序依次放入</strong>，并且是<strong>从该<span class="heti-skip"><span class="heti-spacing"> </span>slot<span class="heti-spacing"> </span></span>的低位（least-significant）字节开始填充</strong>，往高位方向推进；放不下就换下一个<span><span class="heti-spacing"> </span>slot</span>。</p>
 <p><strong>结构体</strong>：从新槽位开始，内部按顺序排列。</p>
-<pre><code class="language-solidity">struct Data {
-    uint256 id;    // slot n
-    address owner; // slot n+1
-}
-</code></pre>
-<h3 id="_5">动态类型的槽位计算</h3>
-<p>Solidity 用 keccak256 计算动态类型的位置。</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kt">struct</span><span class="w"> </span><span class="nv">Data</span><span class="w"> </span><span class="p">{</span>
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">    </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">id</span><span class="p">;</span><span class="w">    </span><span class="c1">// slot n</span>
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">    </span><span class="kt">address</span><span class="w"> </span><span class="nv">owner</span><span class="p">;</span><span class="w"> </span><span class="c1">// slot n+1</span>
+<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_5">动态类型的槽位计算<a class="headerlink" href="#_5" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><span>Solidity<span class="heti-spacing"> </span></span>用<span class="heti-skip"><span class="heti-spacing"> </span>keccak256<span class="heti-spacing"> </span></span>计算动态类型的位置。</p>
 <p><strong>动态数组</strong>：</p>
-<pre><code class="language-solidity">uint256[] arr;  // 假设在 slot p
-</code></pre>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kt">uint256</span><span class="p">[]</span><span class="w"> </span>arr<span class="p">;</span><span class="w">  </span><span class="c1">// 假设在 slot p</span>
+</code></pre></div>
 <ul>
 <li><code>slot p</code> 存储数组长度</li>
 <li><code>arr[i]</code> 的位置：<code>keccak256(p) + i</code></li>
 </ul>
 <p><strong>Mapping</strong>：</p>
 <p>映射不能按顺序存储，因为键是动态的。</p>
-<pre><code class="language-solidity">mapping(address =&gt; uint256) balances;  // 假设在 slot p
-</code></pre>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="kt">mapping</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="kt">uint256</span><span class="p">)</span><span class="w"> </span>balances<span class="p">;</span><span class="w">  </span><span class="c1">// 假设在 slot p</span>
+</code></pre></div>
 <ul>
 <li><code>slot p</code> 不存储任何数据</li>
 <li><code>balances[key]</code> 的位置：<code>keccak256(abi.encode(key, p))</code></li>
 </ul>
-<p>把 key（32 字节）和 slot（32 字节）拼成 64 字节，再哈希。</p>
-<p><strong>嵌套 Mapping</strong>：</p>
-<pre><code class="language-solidity">mapping(address =&gt; mapping(uint256 =&gt; bool)) approvals;  // slot p
-</code></pre>
+<p>把<span><span class="heti-spacing"> </span>key</span>（<span>32<span class="heti-spacing"> </span></span>字节）和<span><span class="heti-spacing"> </span>slot</span>（<span>32<span class="heti-spacing"> </span></span>字节）拼成<span class="heti-skip"><span class="heti-spacing"> </span>64<span class="heti-spacing"> </span></span>字节，再哈希。</p>
+<p><strong>嵌套<span><span class="heti-spacing"> </span>Mapping</span></strong>：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="kt">mapping</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="kt">mapping</span><span class="p">(</span><span class="kt">uint256</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="kt">bool</span><span class="p">))</span><span class="w"> </span>approvals<span class="p">;</span><span class="w">  </span><span class="c1">// slot p</span>
+</code></pre></div>
 <p><code>approvals[addr][id]</code> 的位置：</p>
-<pre><code>keccak256(abi.encode(id, keccak256(abi.encode(addr, p))))
-</code></pre>
-<h3 id="_6">存储成本详解</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>keccak256(abi.encode(id, keccak256(abi.encode(addr, p))))
+</code></pre></div>
+<h3 id="_6">存储成本详解<a class="headerlink" href="#_6" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
 <table>
 <thead>
 <tr>
 <th>操作</th>
 <th>条件</th>
-<th>Gas 成本</th>
+<th><span>Gas<span class="heti-spacing"> </span></span>成本</th>
 </tr>
 </thead>
 <tbody>
@@ -1663,14 +1004,14 @@ slot[2²⁵⁶ - 1] → 32 bytes
 </tr>
 </tbody>
 </table>
-<p><strong>冷/热访问（EIP-2929）</strong>：同一交易中首次访问某槽位为"冷"，后续为"热"。</p>
-<h2 id="_7">五、合约部署机制</h2>
+<p><strong>冷<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>热访问（EIP-2929）</strong>：同一交易中首次访问某槽位为<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>冷<span><span class="heti-spacing"> </span>"</span>，后续为<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>热<span><span class="heti-spacing"> </span>"</span>。</p>
+<h2 id="_7">五、合约部署机制<a class="headerlink" href="#_7" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
 <p><strong>两种交易类型</strong></p>
 <p>以太坊的交易分两种，由 <code>to</code> 字段决定：</p>
 <table>
 <thead>
 <tr>
-<th>to 字段</th>
+<th><span>to<span class="heti-spacing"> </span></span>字段</th>
 <th>交易类型</th>
 <th>执行内容</th>
 </tr>
@@ -1679,45 +1020,45 @@ slot[2²⁵⁶ - 1] → 32 bytes
 <tr>
 <td>空</td>
 <td>创建合约</td>
-<td>执行 data 中的 Init Code</td>
+<td>执行<span class="heti-skip"><span class="heti-spacing"> </span>data<span class="heti-spacing"> </span></span>中的<span><span class="heti-spacing"> </span>Init Code</span></td>
 </tr>
 <tr>
 <td>合约地址</td>
 <td>调用合约</td>
-<td>执行 data 作为 calldata</td>
+<td>执行<span class="heti-skip"><span class="heti-spacing"> </span>data<span class="heti-spacing"> </span></span>作为<span><span class="heti-spacing"> </span>calldata</span></td>
 </tr>
 </tbody>
 </table>
 <blockquote>
-<p>关于 Creation Code 与 Init Code 的详细区别和实际验证，参见第一篇的"动手验证：查看三种字节码"部分。</p>
+<p>关于<span class="heti-skip"><span class="heti-spacing"> </span>Creation Code<span class="heti-spacing"> </span></span>与<span class="heti-skip"><span class="heti-spacing"> </span>Init Code<span class="heti-spacing"> </span></span>的详细区别和实际验证，参见第一篇的<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>动手验证：查看三种字节码<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>部分。</p>
 </blockquote>
-<h3 id="_8">部署执行流程</h3>
-<p><img alt="" src="../../../assets/images/evm_fundamentals_part2_240411_1.png" /></p>
+<h3 id="_8">部署执行流程<a class="headerlink" href="#_8" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><img alt="" src="../../../assets/images/evm_fundamentals_part2_240411_1.png"/></p>
 <p>关键点：</p>
 <ul>
-<li>Init Code 是一段"安装程序"，执行后被丢弃</li>
-<li>Runtime Code 是 Init Code 的执行结果，由 RETURN 返回</li>
-<li>构造函数的参数被 ABI 编码后附加在 Creation Code 末尾，共同构成 Init Code</li>
+<li><span>Init Code<span class="heti-spacing"> </span></span>是一段<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>安装程序<span><span class="heti-spacing"> </span>"</span>，执行后被丢弃</li>
+<li><span>Runtime Code<span class="heti-spacing"> </span></span>是<span class="heti-skip"><span class="heti-spacing"> </span>Init Code<span class="heti-spacing"> </span></span>的执行结果，由<span class="heti-skip"><span class="heti-spacing"> </span>RETURN<span class="heti-spacing"> </span></span>返回</li>
+<li>构造函数的参数被<span class="heti-skip"><span class="heti-spacing"> </span>ABI<span class="heti-spacing"> </span></span>编码后附加在<span class="heti-skip"><span class="heti-spacing"> </span>Creation Code<span class="heti-spacing"> </span></span>末尾，共同构成<span><span class="heti-spacing"> </span>Init Code</span></li>
 </ul>
-<h3 id="_9">合约地址计算</h3>
+<h3 id="_9">合约地址计算<a class="headerlink" href="#_9" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
 <p><strong>CREATE（普通部署）</strong>：</p>
-<pre><code>address = keccak256(rlp([sender, nonce]))[12:]
-</code></pre>
-<p>地址由部署者地址和 nonce 决定，因此<strong>不可预测</strong>（nonce 会变化）。</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>address = keccak256(rlp([sender, nonce]))[12:]
+</code></pre></div>
+<p>地址由部署者地址和<span class="heti-skip"><span class="heti-spacing"> </span>nonce<span class="heti-spacing"> </span></span>决定，因此<strong>不可预测</strong>（<span>nonce<span class="heti-spacing"> </span></span>会变化<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
 <p><strong>CREATE2（确定性部署）</strong>：</p>
-<pre><code>address = keccak256(0xff ++ sender ++ salt ++ keccak256(initCode))[12:]
-</code></pre>
-<p>通过自定义 salt，可以在部署前预测地址。这在工厂合约、跨链部署中很有用。</p>
-<p>问题：为什么 CREATE2 要用 Init Code 而不是 Creation Code？</p>
-<p>使用 Init Code 是因为 <strong>相同的代码 + 相同的参数</strong> 才应该得到相同的地址。如果只用 Creation Code，不同参数会部署到同一地址，这不是期望的行为。</p>
-<h2 id="_10">六、函数调用机制</h2>
-<h3 id="calldata">calldata 结构</h3>
-<p>调用 <code>transfer(address to, uint256 amount)</code> 时，calldata 的结构：</p>
-<pre><code>函数选择器（4 字节）+ ABI 编码的参数（32 字节 × N）
-</code></pre>
-<p>EVM 通过选择器路由到对应函数（上一篇已讲）。</p>
-<h3 id="call">Call 的上下文传递</h3>
-<p>当合约 A 调用合约 B 时，EVM 会传递一个执行上下文：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>address = keccak256(0xff ++ sender ++ salt ++ keccak256(initCode))[12:]
+</code></pre></div>
+<p>通过自定义<span><span class="heti-spacing"> </span>salt</span>，可以在部署前预测地址。这在工厂合约、跨链部署中很有用。</p>
+<p>问题：为什么<span class="heti-skip"><span class="heti-spacing"> </span>CREATE2<span class="heti-spacing"> </span></span>要用<span class="heti-skip"><span class="heti-spacing"> </span>Init Code<span class="heti-spacing"> </span></span>而不是<span><span class="heti-spacing"> </span>Creation Code</span>？</p>
+<p>使用<span class="heti-skip"><span class="heti-spacing"> </span>Init Code<span class="heti-spacing"> </span></span>是因为 <strong>相同的代码<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>相同的参数</strong> 才应该得到相同的地址。如果只用<span><span class="heti-spacing"> </span>Creation Code</span>，不同参数会部署到同一地址，这不是期望的行为。</p>
+<h2 id="_10">六、函数调用机制<a class="headerlink" href="#_10" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<h3 id="calldata"><span>calldata<span class="heti-spacing"> </span></span>结构<a class="headerlink" href="#calldata" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>调用 <code>transfer(address to, uint256 amount)</code> 时，<span>calldata<span class="heti-spacing"> </span></span>的结构：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a>函数选择器（4 字节）+ ABI 编码的参数（32 字节 × N）
+</code></pre></div>
+<p><span>EVM<span class="heti-spacing"> </span></span>通过选择器路由到对应函数（上一篇已讲<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<h3 id="call"><span>Call<span class="heti-spacing"> </span></span>的上下文传递<a class="headerlink" href="#call" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>当合约<span class="heti-skip"><span class="heti-spacing"> </span>A<span class="heti-spacing"> </span></span>调用合约<span class="heti-skip"><span class="heti-spacing"> </span>B<span class="heti-spacing"> </span></span>时，<span>EVM<span class="heti-spacing"> </span></span>会传递一个执行上下文：</p>
 <table>
 <thead>
 <tr>
@@ -1728,11 +1069,11 @@ slot[2²⁵⁶ - 1] → 32 bytes
 <tbody>
 <tr>
 <td>msg.sender</td>
-<td>调用者（A 的地址）</td>
+<td>调用者（<span>A<span class="heti-spacing"> </span></span>的地址）</td>
 </tr>
 <tr>
 <td>msg.value</td>
-<td>发送的 ETH</td>
+<td>发送的<span><span class="heti-spacing"> </span>ETH</span></td>
 </tr>
 <tr>
 <td>msg.data</td>
@@ -1740,12 +1081,12 @@ slot[2²⁵⁶ - 1] → 32 bytes
 </tr>
 <tr>
 <td>gas</td>
-<td>可用 Gas</td>
+<td>可用<span><span class="heti-spacing"> </span>Gas</span></td>
 </tr>
 </tbody>
 </table>
-<p><strong>63/64 规则（EIP-150）</strong>：调用时最多转发当前剩余 Gas 的 63/64，保留 1/64 用于调用后的操作。</p>
-<h3 id="_11">三种调用方式</h3>
+<p><strong><span>63/64<span class="heti-spacing"> </span></span>规则（EIP-150）</strong>：调用时最多转发当前剩余<span class="heti-skip"><span class="heti-spacing"> </span>Gas<span class="heti-spacing"> </span></span>的<span><span class="heti-spacing"> </span>63/64</span>，保留<span class="heti-skip"><span class="heti-spacing"> </span>1/64<span class="heti-spacing"> </span></span>用于调用后的操作。</p>
+<h3 id="_11">三种调用方式<a class="headerlink" href="#_11" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
 <table>
 <thead>
 <tr>
@@ -1772,63 +1113,63 @@ slot[2²⁵⁶ - 1] → 32 bytes
 <td>staticcall</td>
 <td>变为调用者</td>
 <td>只读</td>
-<td>view 函数</td>
+<td><span>view<span class="heti-spacing"> </span></span>函数</td>
 </tr>
 </tbody>
 </table>
-<p><strong>delegatecall 的本质</strong>："借壳执行"——代码是 B 的，但存储和 msg.sender 都是 A 的。这是代理合约的基础。</p>
-<h2 id="_12">七、返回与异常</h2>
-<h3 id="_13">正常返回</h3>
+<p><strong><span>delegatecall<span class="heti-spacing"> </span></span>的本质</strong>：<span>"<span class="heti-spacing"> </span></span>借壳执行<span><span class="heti-spacing"> </span>"</span>——代码是<span class="heti-skip"><span class="heti-spacing"> </span>B<span class="heti-spacing"> </span></span>的，但存储和<span class="heti-skip"><span class="heti-spacing"> </span>msg.sender<span class="heti-spacing"> </span></span>都是<span class="heti-skip"><span class="heti-spacing"> </span>A<span class="heti-spacing"> </span></span>的。这是代理合约的基础。</p>
+<h2 id="_12">七、返回与异常<a class="headerlink" href="#_12" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<h3 id="_13">正常返回<a class="headerlink" href="#_13" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
 <p><strong>RETURN</strong>：返回数据并结束执行。</p>
-<pre><code>RETURN(offset, size)  // 返回 memory[offset:offset+size]
-</code></pre>
-<p>返回的数据存入调用者的 returndata 缓冲区，可通过 RETURNDATASIZE 和 RETURNDATACOPY 访问。</p>
-<h3 id="_14">异常回滚</h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a>RETURN(offset, size)  // 返回 memory[offset:offset+size]
+</code></pre></div>
+<p>返回的数据存入调用者的<span class="heti-skip"><span class="heti-spacing"> </span>returndata<span class="heti-spacing"> </span></span>缓冲区，可通过<span class="heti-skip"><span class="heti-spacing"> </span>RETURNDATASIZE<span class="heti-spacing"> </span></span>和<span class="heti-skip"><span class="heti-spacing"> </span>RETURNDATACOPY<span class="heti-spacing"> </span></span>访问。</p>
+<h3 id="_14">异常回滚<a class="headerlink" href="#_14" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
 <table>
 <thead>
 <tr>
 <th>操作码</th>
 <th>行为</th>
-<th>Gas 处理</th>
+<th><span>Gas<span class="heti-spacing"> </span></span>处理</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>REVERT</td>
 <td>回滚状态，返回错误数据</td>
-<td>退还剩余 Gas</td>
+<td>退还剩余<span><span class="heti-spacing"> </span>Gas</span></td>
 </tr>
 <tr>
 <td>INVALID</td>
 <td>回滚状态，无返回数据</td>
-<td>消耗所有 Gas</td>
+<td>消耗所有<span><span class="heti-spacing"> </span>Gas</span></td>
 </tr>
 </tbody>
 </table>
-<p>Solidity 的 <code>require</code> 和 <code>revert</code> 编译为 REVERT，<code>assert</code> 在 0.8.0 后也用 REVERT（早期版本用 INVALID）。</p>
-<h3 id="returndata">returndata 机制</h3>
-<p>EIP-211 引入了 returndata 缓冲区：</p>
-<pre><code class="language-solidity">(bool success, bytes memory data) = target.call(payload);
-</code></pre>
+<p><span>Solidity<span class="heti-spacing"> </span></span>的 <code>require</code> 和 <code>revert</code> 编译为<span><span class="heti-spacing"> </span>REVERT</span>，<code>assert</code> 在<span class="heti-skip"><span class="heti-spacing"> </span>0.8.0<span class="heti-spacing"> </span></span>后也用<span><span class="heti-spacing"> </span>REVERT</span>（早期版本用<span><span class="heti-spacing"> </span>INVALID</span><heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<h3 id="returndata"><span>returndata<span class="heti-spacing"> </span></span>机制<a class="headerlink" href="#returndata" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><span>EIP-211<span class="heti-spacing"> </span></span>引入了<span class="heti-skip"><span class="heti-spacing"> </span>returndata<span class="heti-spacing"> </span></span>缓冲区：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="nv">success</span><span class="p">,</span><span class="w"> </span><span class="kt">bytes</span><span class="w"> </span><span class="nv">memory</span><span class="w"> </span>data<span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>target<span class="p">.</span>call<span class="p">(</span>payload<span class="p">);</span>
+</code></pre></div>
 <p>底层操作：</p>
 <ol>
-<li>call 执行后，返回值写入 returndata</li>
-<li>RETURNDATASIZE 获取返回数据长度</li>
-<li>RETURNDATACOPY 将数据复制到内存</li>
+<li><span>call<span class="heti-spacing"> </span></span>执行后，返回值写入<span><span class="heti-spacing"> </span>returndata</span></li>
+<li><span>RETURNDATASIZE<span class="heti-spacing"> </span></span>获取返回数据长度</li>
+<li><span>RETURNDATACOPY<span class="heti-spacing"> </span></span>将数据复制到内存</li>
 </ol>
-<h2 id="event">八、Event 底层机制</h2>
-<h3 id="log">LOG 操作码</h3>
-<p>Event 通过 LOG0 - LOG4 操作码实现：</p>
-<pre><code>LOG{n}(offset, size, topic0, topic1, ..., topic{n-1})
-</code></pre>
+<h2 id="event">八、<span>Event<span class="heti-spacing"> </span></span>底层机制<a class="headerlink" href="#event" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<h3 id="log"><span>LOG<span class="heti-spacing"> </span></span>操作码<a class="headerlink" href="#log" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><span>Event<span class="heti-spacing"> </span></span>通过<span class="heti-skip"><span class="heti-spacing"> </span>LOG0 - LOG4<span class="heti-spacing"> </span></span>操作码实现：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a>LOG{n}(offset, size, topic0, topic1, ..., topic{n-1})
+</code></pre></div>
 <ul>
-<li><code>n</code> 是 topic 数量（0-4）</li>
-<li><code>offset/size</code> 指定非 indexed 数据在内存中的位置</li>
-<li>topic0 通常是事件签名的 keccak256</li>
+<li><code>n</code> 是<span class="heti-skip"><span class="heti-spacing"> </span>topic<span class="heti-spacing"> </span></span>数量（0-4）</li>
+<li><code>offset/size</code> 指定非<span class="heti-skip"><span class="heti-spacing"> </span>indexed<span class="heti-spacing"> </span></span>数据在内存中的位置</li>
+<li><span>topic0<span class="heti-spacing"> </span></span>通常是事件签名的<span><span class="heti-spacing"> </span>keccak256</span></li>
 </ul>
-<h3 id="indexed">indexed 参数</h3>
-<pre><code class="language-solidity">event Transfer(address indexed from, address indexed to, uint256 value);
-</code></pre>
+<h3 id="indexed"><span>indexed<span class="heti-spacing"> </span></span>参数<a class="headerlink" href="#indexed" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="kt">event</span><span class="w"> </span><span class="nv">Transfer</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">indexed</span><span class="w"> </span>from<span class="p">,</span><span class="w"> </span><span class="kt">address</span><span class="w"> </span><span class="nv">indexed</span><span class="w"> </span>to<span class="p">,</span><span class="w"> </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">value</span><span class="p">);</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1844,67 +1185,55 @@ slot[2²⁵⁶ - 1] → 32 bytes
 <td>可被链下高效过滤</td>
 </tr>
 <tr>
-<td>非 indexed</td>
+<td>非<span><span class="heti-spacing"> </span>indexed</span></td>
 <td>data</td>
 <td>只能全量读取</td>
 </tr>
 </tbody>
 </table>
-<p>一个事件最多 4 个 topic（包括事件签名），所以最多 3 个 indexed 参数。</p>
-<h3 id="event_1">为什么 Event 比存储便宜？</h3>
-<p>Event 数据：</p>
+<p>一个事件最多<span class="heti-skip"><span class="heti-spacing"> </span>4<span class="heti-spacing"> </span></span>个<span><span class="heti-spacing"> </span>topic</span>（包括事件签名<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，所以最多<span class="heti-skip"><span class="heti-spacing"> </span>3<span class="heti-spacing"> </span></span>个<span class="heti-skip"><span class="heti-spacing"> </span>indexed<span class="heti-spacing"> </span></span>参数。</p>
+<h3 id="event_1">为什么<span class="heti-skip"><span class="heti-spacing"> </span>Event<span class="heti-spacing"> </span></span>比存储便宜？<a class="headerlink" href="#event_1" title="Permanent link">¶</a></h3>
+<p><span>Event<span class="heti-spacing"> </span></span>数据：</p>
 <ul>
 <li>不存储在世界状态中</li>
 <li>不参与共识验证</li>
 <li>只能被链下读取</li>
 </ul>
-<p>因此 LOG 操作的 Gas 远低于 SSTORE。</p>
-<h2 id="_15">小结</h2>
-<p>本文介绍了 EVM 的数据管理和执行机制：</p>
+<p>因此<span class="heti-skip"><span class="heti-spacing"> </span>LOG<span class="heti-spacing"> </span></span>操作的<span class="heti-skip"><span class="heti-spacing"> </span>Gas<span class="heti-spacing"> </span></span>远低于<span><span class="heti-spacing"> </span>SSTORE</span>。</p>
+<h2 id="_15">小结<a class="headerlink" href="#_15" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p>本文介绍了<span class="heti-skip"><span class="heti-spacing"> </span>EVM<span class="heti-spacing"> </span></span>的数据管理和执行机制：</p>
 <ol>
-<li>栈：最快最便宜，但有 16 元素和 1024 深度限制</li>
+<li>栈：最快最便宜，但有<span class="heti-skip"><span class="heti-spacing"> </span>16<span class="heti-spacing"> </span></span>元素和<span class="heti-skip"><span class="heti-spacing"> </span>1024<span class="heti-spacing"> </span></span>深度限制</li>
 <li>内存：临时存储，扩展成本非线性增长</li>
 <li>存储：永久状态，成本最高，冷热访问有区别</li>
-<li>部署：Init Code 执行后返回 Runtime Code</li>
-<li>调用：call/delegatecall/staticcall 各有不同的上下文</li>
-<li>Event：通过 LOG 操作码实现，比存储便宜</li>
+<li>部署：<span>Init Code<span class="heti-spacing"> </span></span>执行后返回<span><span class="heti-spacing"> </span>Runtime Code</span></li>
+<li>调用：<span>call/delegatecall/staticcall<span class="heti-spacing"> </span></span>各有不同的上下文</li>
+<li>Event：通过<span class="heti-skip"><span class="heti-spacing"> </span>LOG<span class="heti-spacing"> </span></span>操作码实现，比存储便宜</li>
 </ol>
-<p>下一篇，我们将深入 ABI 编码规则和底层调用的实战技巧。</p>
+<p>下一篇，我们将深入<span class="heti-skip"><span class="heti-spacing"> </span>ABI<span class="heti-spacing"> </span></span>编码规则和底层调用的实战技巧。</p>
 <p><strong>系列导航：</strong></p>
 <ul>
-<li>第一篇：<a href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/">EVM 基础原理（一）：从交易到字节码</a></li>
-<li>第二篇：EVM 基础原理（二）：EVM 数据区域与合约执行（本篇）</li>
-<li>第三篇：<a href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">EVM 基础原理（三）：ABI 编码与底层调用</a></li>
+<li>第一篇：<a href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/"><span>EVM<span class="heti-spacing"> </span></span>基础原理（一<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：从交易到字节码</a></li>
+<li>第二篇：<span>EVM<span class="heti-spacing"> </span></span>基础原理（二<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：<span>EVM<span class="heti-spacing"> </span></span>数据区域与合约执行（本篇）</li>
+<li>第三篇：<a href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/"><span>EVM<span class="heti-spacing"> </span></span>基础原理（三<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：<span>ABI<span class="heti-spacing"> </span></span>编码与底层调用</a></li>
 </ul>
-
-
-
-
-
-
-
-
-
-
-
+<aside class="md-source-file">
+<span class="md-source-file__fact">
+<span class="md-icon" title="最后更新">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">2026年1月14日 22:47:17</span>
+</span>
+<span class="md-source-file__fact">
+<span class="md-icon" title="创建日期">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">2026年1月13日 22:20:39</span>
+</span>
+</aside>
 <!-- Insert generated snippet here -->
-<script src="https://giscus.app/client.js"
-        data-repo="lifefindsitsway/web3-tutorials"
-        data-repo-id="R_kgDOMt1b5Q"
-        data-category="Comments"
-        data-category-id="DIC_kwDOMt1b5c4CiWjc"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="1"
-        data-input-position="top"
-        data-theme="light_protanopia"
-        data-lang="zh-CN"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
+<script async="" crossorigin="anonymous" data-category="Comments" data-category-id="DIC_kwDOMt1b5c4CiWjc" data-emit-metadata="1" data-input-position="top" data-lang="zh-CN" data-loading="lazy" data-mapping="title" data-reactions-enabled="1" data-repo="lifefindsitsway/web3-tutorials" data-repo-id="R_kgDOMt1b5Q" data-strict="0" data-theme="light_protanopia" src="https://giscus.app/client.js">
 </script>
-
 <!-- Synchronize Giscus theme with palette -->
 <script>
 var giscus = document.querySelector("script[src*=giscus]")
@@ -1940,55 +1269,44 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 })
 </script>
-                
-              </article>
-            </div>
-          
-          
+</article>
+</div>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
-        </div>
-        
-          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
   回到页面顶部
 </button>
-        
-      </main>
-      
-        <footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-    <div class="md-copyright__highlight">
-      Copyright &copy; 2024 ~ present by <a href="https://github.com/lifefindsitsway" target="_blank" rel="noopener noreferrer">Lifefindsitsway</a>
-    </div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2024 ~ present by <a href="https://github.com/lifefindsitsway" rel="noopener noreferrer" target="_blank">Lifefindsitsway</a>
+</div>
   
   
     Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
       Material for MkDocs
     </a>
-  
 </div>
-      
-    </div>
-  </div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/lifefindsitsway/web3-tutorials/" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
 </footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    
-    
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["header.autohide", "navigation.tracking", "navigation.top", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
-    
-    
-      <script src="../../../assets/javascripts/bundle.56dfad97.min.js"></script>
-      
-    
-  </body>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../../..", "features": ["header.autohide", "navigation.tracking", "navigation.top", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+<script src="../../../assets/javascripts/bundle.56dfad97.min.js"></script>
+<script src="../../../assets/javascripts/mathjax-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
 </html>
