@@ -54,9 +54,7 @@ plugins:
       type: datetime
       timezone: Asia/Shanghai
       locale: zh
-      enable_creation_date: true
-  # 用于生成和管理站点的更新日志（Changelog）页面
-  # - changelog
+      enable_creation_date: false
   # 统计每篇文章的字数和预计阅读时间，并可以在页面上显示
   - statistics:
       # page_check_metadata: comment  # 注释掉这行，所有页面都会显示
