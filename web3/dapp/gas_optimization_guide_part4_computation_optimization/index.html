@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/solidity_proxy_upgrade_series_part2_251230/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/gas_optimization_guide_part4_computation_optimization/">
       
       
-        <link rel="prev" href="../solidity_proxy_upgrade_series_part1_251229/">
+        <link rel="prev" href="../gas_optimization_guide_part3_storage_optimization/">
       
       
-        <link rel="next" href="../gas_optimization_guide_part1_gas_mechanism/">
+        <link rel="next" href="../gas_optimization_guide_part5_gas_measurement/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>代理合约与可升级合约系列（二）：透明代理 vs UUPS - Life's Web3 开发指南</title>
+        <title>Gas 优化指南（四）：计算优化 - Life's Web3 开发指南</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#gas" class="md-skip">
           跳转至
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              代理合约与可升级合约系列（二）：透明代理 vs UUPS
+              Gas 优化指南（四）：计算优化
             
           </span>
         </div>
@@ -418,28 +418,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    代理合约与可升级合约系列（二）：透明代理 vs UUPS
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../solidity_proxy_upgrade_series_part2_251230/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -448,183 +430,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      函数选择器冲突
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#transparent-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      解决方案一：透明代理（Transparent Proxy）
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="解决方案一：透明代理（Transparent Proxy）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openzeppelin" class="md-nav__link">
-    <span class="md-ellipsis">
-      OpenZeppelin 的实现结构
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#uups" class="md-nav__link">
-    <span class="md-ellipsis">
-      解决方案二：UUPS（通用可升级代理标准）
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="解决方案二：UUPS（通用可升级代理标准）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      升级是如何工作的？
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      代码结构
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#proxiableuuid" class="md-nav__link">
-    <span class="md-ellipsis">
-      proxiableUUID：安全检查
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#uups_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      UUPS 的风险
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vs-uups" class="md-nav__link">
-    <span class="md-ellipsis">
-      透明代理 vs UUPS：如何选择？
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="透明代理 vs UUPS：如何选择？">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      架构对比图
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      其他代理模式简介
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="其他代理模式简介">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#beacon-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      Beacon Proxy
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#diamond-proxyeip-2535" class="md-nav__link">
-    <span class="md-ellipsis">
-      Diamond Proxy（EIP-2535）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#minimal-proxyeip-1167" class="md-nav__link">
-    <span class="md-ellipsis">
-      Minimal Proxy（EIP-1167）
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      小结
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -697,10 +502,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part4_computation_optimization/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Gas 优化指南（四）：计算优化
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -709,6 +534,116 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、计算优化的价值
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、循环优化
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、短路求值
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、自定义错误
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、位运算优化
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、已过时的技巧
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usermanagerv3" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、UserManagerV3：计算优化版
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      八、事件参数使用局部变量的安全性
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      九、总结与展望
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      小结
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1032,6 +967,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1042,155 +979,86 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      函数选择器冲突
+      一、计算优化的价值
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#transparent-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      解决方案一：透明代理（Transparent Proxy）
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="解决方案一：透明代理（Transparent Proxy）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openzeppelin" class="md-nav__link">
-    <span class="md-ellipsis">
-      OpenZeppelin 的实现结构
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#uups" class="md-nav__link">
-    <span class="md-ellipsis">
-      解决方案二：UUPS（通用可升级代理标准）
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="解决方案二：UUPS（通用可升级代理标准）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      升级是如何工作的？
+      二、循环优化
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      代码结构
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#proxiableuuid" class="md-nav__link">
-    <span class="md-ellipsis">
-      proxiableUUID：安全检查
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#uups_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      UUPS 的风险
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#vs-uups" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      透明代理 vs UUPS：如何选择？
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="透明代理 vs UUPS：如何选择？">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      架构对比图
+      三、短路求值
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、自定义错误
+    </span>
+  </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      其他代理模式简介
+      五、位运算优化
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="其他代理模式简介">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#beacon-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      Beacon Proxy
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#diamond-proxyeip-2535" class="md-nav__link">
-    <span class="md-ellipsis">
-      Diamond Proxy（EIP-2535）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#minimal-proxyeip-1167" class="md-nav__link">
-    <span class="md-ellipsis">
-      Minimal Proxy（EIP-1167）
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、已过时的技巧
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usermanagerv3" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、UserManagerV3：计算优化版
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      八、事件参数使用局部变量的安全性
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      九、总结与展望
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
       小结
     </span>
@@ -1216,276 +1084,384 @@
   
 
 
-  <h1>代理合约与可升级合约系列（二）：透明代理 vs UUPS</h1>
-
+<h1 id="gas">Gas 优化指南（四）：计算优化</h1>
 <blockquote>
-<p>上一篇我们理解了 delegatecall 和存储槽冲突问题。本篇将深入两大主流代理模式。</p>
+<p>本篇是 Gas 优化系列的第四篇，聚焦于计算层面的 Gas 优化。</p>
 </blockquote>
-<h2 id="_1">函数选择器冲突</h2>
-<p>在实现可升级代理时，我们遇到了新问题。</p>
-<p>假设代理合约需要一个 <code>upgrade()</code> 函数来更新逻辑合约地址：</p>
-<pre><code class="language-solidity">contract Proxy {
-    address public implementation;
-
-    function upgrade(address newImpl) public {
-        implementation = newImpl;
-    }
-
-    fallback() external payable {
-        // delegatecall to implementation
-    }
-}
-</code></pre>
-<p>问题来了：如果逻辑合约也有一个 <code>upgrade()</code> 函数呢？</p>
-<pre><code class="language-solidity">contract Implementation {
-    function upgrade(address) public {
-        // 业务逻辑...
-    }
-}
-</code></pre>
-<p>当用户调用 <code>upgrade()</code> 时，EVM 会先检查代理合约是否有匹配的函数。如果有，就直接执行代理合约的函数，<strong>永远不会触发 fallback</strong>。</p>
-<p>结果：逻辑合约的 <code>upgrade()</code> 函数无法被调用。</p>
-<p>更危险的是：不同函数可能有<strong>相同的函数选择器</strong>。函数选择器只有 4 字节，存在约 1/43 亿的碰撞概率。比如 <code>clash550254402()</code> 和 <code>proxyAdmin()</code> 的选择器完全相同。</p>
-<h2 id="transparent-proxy">解决方案一：透明代理（Transparent Proxy）</h2>
-<p>透明代理的核心思路很简单：<strong>代理合约除了 fallback，不暴露任何公开函数</strong>。</p>
-<p>但没有公开函数，怎么升级？答案是：<strong>通过 msg.sender 来区分调用者</strong>。</p>
-<p><img alt="透明代理的路由规则" src="../../../assets/images/solidity_proxy_upgrade_series_part2_251230_1.png" /></p>
-<p><strong>为什么叫「透明」？</strong></p>
-<p>对于普通用户来说，代理合约是「透明」的——他们看不到任何代理相关的函数，所有调用都会被转发。代理合约的管理功能只对管理员「可见」。</p>
-<pre><code class="language-solidity">contract TransparentProxy {
-    address immutable admin;
-
-    constructor(address _admin) {
-        admin = _admin;
-    }
-
-    fallback() external payable {
-        if (msg.sender == admin) {
-            // 执行升级逻辑
-        } else {
-            // delegatecall 到逻辑合约
-        }
-    }
-}
-</code></pre>
-<p>规则：
-- <strong>admin 调用</strong>：路由到升级逻辑
-- <strong>普通用户调用</strong>：路由到逻辑合约</p>
-<p>这完全消除了函数选择器冲突——因为代理合约根本没有公开函数。</p>
-<h3 id="openzeppelin">OpenZeppelin 的实现结构</h3>
-<p>但上述设计有个问题：admin 无法直接使用合约功能，因为它的调用会被路由到升级逻辑。</p>
-<p>OpenZeppelin 的解决方案是引入 <strong>ProxyAdmin</strong> 合约：</p>
-<p><img alt="ProxyAdmin" src="../../../assets/images/solidity_proxy_upgrade_series_part2_251230_2.png" /></p>
-<ul>
-<li>代理合约的 admin 是 ProxyAdmin 合约（地址固定）</li>
-<li>ProxyAdmin 的 owner 是真正的管理员</li>
-<li>owner 通过 ProxyAdmin 间接升级代理</li>
-<li>owner 也可以直接调用代理使用合约功能（因为 msg.sender 是 owner，不是 admin）</li>
-</ul>
-<p><strong>OpenZeppelin 合约继承结构</strong>：</p>
-<pre><code>Proxy.sol (抽象基类)
-    │
-    └── ERC1967Proxy.sol (实现 EIP-1967 槽位)
-            │
-            └── TransparentUpgradeableProxy.sol
-                    │
-                    └── 配合 ProxyAdmin.sol 使用
-</code></pre>
-<pre><code class="language-solidity">contract ProxyAdmin {
-    address public owner;
-
-    function upgradeAndCall(
-        ITransparentUpgradeableProxy proxy,
-        address implementation,
-        bytes memory data
-    ) public onlyOwner {
-        proxy.upgradeToAndCall(implementation, data);
-    }
-}
-</code></pre>
-<p>关键设计：</p>
-<ul>
-<li>代理合约只有 <code>fallback()</code> 函数</li>
-<li>所有管理功能通过 ProxyAdmin 调用</li>
-<li>管理员地址存储在 EIP-1967 槽位</li>
-</ul>
-<p><strong>优点</strong>：</p>
-<ul>
-<li>彻底消除函数选择器冲突</li>
-<li>升级逻辑在代理合约中，逻辑合约不需要包含升级代码</li>
-</ul>
-<p><strong>缺点</strong>：</p>
-<ul>
-<li>需要额外部署 ProxyAdmin 合约</li>
-<li>每次调用都要检查 <code>msg.sender == admin</code>，增加 gas 消耗</li>
-</ul>
-<h2 id="uups">解决方案二：UUPS（通用可升级代理标准）</h2>
-<p>UUPS（ERC-1822）采用了不同的策略：<strong>把升级逻辑放在逻辑合约中</strong>。</p>
-<p><img alt="UUPS" src="../../../assets/images/solidity_proxy_upgrade_series_part2_251230_3.png" /></p>
-<h3 id="_2">升级是如何工作的？</h3>
-<p>UUPS 的升级过程：</p>
+<p>本篇将介绍循环优化、短路求值、自定义错误、位运算等技巧，并在 UserManagerV2 的基础上完成 UserManagerV3 的计算优化。</p>
+<h2 id="_1">一、计算优化的价值</h2>
+<p>计算操作通常远便宜于 storage，但在循环与高频函数中，计算成本会线性累计。计算优化的价值主要体现在两类场景：</p>
 <ol>
-<li>管理员调用 Proxy 的 <code>upgradeTo(newImpl)</code></li>
-<li>Proxy 通过 <code>fallback()</code> 将调用 delegatecall 给当前实现合约</li>
-<li>实现合约的 <code>upgradeTo()</code> 被执行</li>
-<li>由于是 delegatecall，修改的是 Proxy 的存储</li>
-<li>Proxy 的实现地址被更新为 <code>newImpl</code></li>
+<li><strong>循环次数大，批量处理多元素</strong></li>
+<li><strong>storage 热点已经压低，计算成为新的瓶颈</strong></li>
 </ol>
-<pre><code>Admin ──upgradeTo(V2)──► Proxy ─delegatecall─► Impl V1
-                           │                      │
-                           │    upgradeTo() 修改   │
-                           │    Proxy 的存储       │
-                           ▼                      │
-                    implementation = V2  ◄────────┘
-</code></pre>
-<h3 id="_3">代码结构</h3>
-<p>代理合约极其简单：</p>
-<pre><code class="language-solidity">contract UUPSProxy {
-    constructor(address _implementation) {
-        assembly {
-            sstore(
-                0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc,
-                _implementation
-            )
-        }
-    }
-
-    fallback() external payable {
-        // 读取实现地址并 delegatecall
+<h2 id="_2">二、循环优化</h2>
+<p>循环优化的目标是减少每次迭代的额外开销，尤其是避免重复触发昂贵路径。</p>
+<p><strong>缓存长度与常用值</strong>：把 arr.length 等重复读取的值缓存到局部变量，减少迭代中的额外指令路径。</p>
+<p><strong>用 unchecked 包裹递增操作</strong>：Solidity 0.8+ 默认检查算术溢出，这需要额外指令。在确保不会溢出的场景，可以用 unchecked 跳过检查。</p>
+<p><strong>递增前置</strong>：前置递增 <code>++i</code> 比后置递增 <code>i++</code> 略省 Gas。补充：对 0.8 系列而言，差异经常被编译器优化掉，尤其在优化器开启时。</p>
+<pre><code class="language-solidity">function sumOptimized(uint256[] calldata arr) external pure returns (uint256 total) {
+    uint256 len = arr.length;
+    for (uint256 i; i &lt; len; ) {
+        total += arr[i];
+        unchecked { ++i; }
     }
 }
 </code></pre>
-<p>逻辑合约需要继承 OpenZeppelin 的 <code>UUPSUpgradeable</code>：</p>
-<pre><code class="language-solidity">import &quot;@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol&quot;;
+<h2 id="_3">三、短路求值</h2>
+<p>逻辑运算符 <code>&amp;&amp;</code> 和 <code>||</code> 会短路求值：</p>
+<ul>
+<li><code>A &amp;&amp; B</code>：如果 A 为 false，不计算 B</li>
+<li><code>A || B</code>：如果 A 为 true，不计算 B</li>
+</ul>
+<p>优化原则：把更便宜的、更可能短路的条件放前面。</p>
+<p>短路优化的价值不是节省一次比较操作，而是避免触发更昂贵的路径，例如 SLOAD、外部调用或哈希计算。</p>
+<pre><code class="language-solidity">// ❌ 昂贵操作在前
+function check(uint256 id) external view returns (bool) {
+    // balanceOf 需要 SLOAD，即使 id == 0 也会执行
+    return balanceOf[id] &gt; 0 &amp;&amp; id != 0;
+}
 
-contract MyContract is UUPSUpgradeable {
-    // 业务逻辑...
-
-    function _authorizeUpgrade(address newImplementation) 
-        internal 
-        override 
-        onlyOwner 
-    {}
+// ✅ 便宜操作在前
+function check(uint256 id) external view returns (bool) {
+    // id != 0 只需栈操作，如果为 false 就短路
+    return id != 0 &amp;&amp; balanceOf[id] &gt; 0;
 }
 </code></pre>
-<h3 id="proxiableuuid">proxiableUUID：安全检查</h3>
-<p>UUPS 有个巧妙的安全机制：升级前会检查新合约是否兼容。</p>
-<pre><code class="language-solidity">function proxiableUUID() external view returns (bytes32) {
-    return IMPLEMENTATION_SLOT;
-}
-</code></pre>
-<p>升级时，会调用新合约的 <code>proxiableUUID()</code>：
-- 如果返回正确的存储槽地址，说明新合约是 UUPS 兼容的
-- 如果调用失败或返回值错误，升级被拒绝</p>
-<p>这防止了意外升级到一个没有升级能力的合约——那将导致合约永远无法再升级。</p>
-<h3 id="uups_1">UUPS 的风险</h3>
-<p><strong>风险一：忘记实现升级函数</strong></p>
-<p>如果新版本的实现合约没有 <code>upgradeTo()</code> 函数，合约将<strong>永久失去升级能力</strong>：</p>
-<pre><code class="language-solidity">// ❌ 灾难：忘了继承 UUPSUpgradeable
-contract ImplV2 {
-    // 没有 upgradeTo() 函数 → 永远无法再升级！
-}
-</code></pre>
-<p>防护措施：OpenZeppelin 要求实现合约继承 <code>UUPSUpgradeable</code>，并实现 <code>_authorizeUpgrade()</code> 钩子。</p>
-<p><strong>风险二：未初始化的实现合约</strong></p>
-<p>如果有人直接调用实现合约的 <code>initialize()</code>，他可以成为实现合约的 owner，然后调用 <code>upgradeTo()</code> 指向一个包含 <code>selfdestruct</code> 的合约。<strong>这曾经是真实的攻击向量</strong>（Wormhole 事件）。</p>
-<p>防护：在构造函数中调用 <code>_disableInitializers()</code>：</p>
-<pre><code class="language-solidity">constructor() {
-    _disableInitializers();
-}
-</code></pre>
-<h2 id="vs-uups">透明代理 vs UUPS：如何选择？</h2>
+<h2 id="_4">四、自定义错误</h2>
+<p>自定义错误减少部署字节码与 revert data，通常比 require 字符串更省 Gas，并且更利于前端结构化解析。</p>
 <table>
 <thead>
 <tr>
-<th>特性</th>
-<th>透明代理</th>
-<th>UUPS</th>
+<th>方式</th>
+<th>存储内容</th>
+<th>大小</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>升级逻辑位置</td>
-<td>代理合约</td>
-<td>逻辑合约</td>
+<td>require("message")</td>
+<td>错误选择器 + 字符串</td>
+<td>64+ 字节</td>
 </tr>
 <tr>
-<td>Gas 成本</td>
-<td>较高（每次检查 admin）</td>
-<td>较低</td>
-</tr>
-<tr>
-<td>代理合约大小</td>
-<td>较大</td>
-<td>最小</td>
-</tr>
-<tr>
-<td>逻辑合约大小</td>
-<td>较小</td>
-<td>较大（含升级代码）</td>
-</tr>
-<tr>
-<td>风险</td>
-<td>较低</td>
-<td>较高（可能丢失升级能力）</td>
-</tr>
-<tr>
-<td>适用场景</td>
-<td>通用场景、安全优先</td>
-<td>高频调用、gas 敏感</td>
+<td>revert CustomError()</td>
+<td>错误选择器</td>
+<td>4 字节</td>
 </tr>
 </tbody>
 </table>
-<p><strong>选择建议</strong>：</p>
+<pre><code class="language-solidity">// ❌ 字符串错误
+function withdraw(uint256 amount) external {
+    require(amount &lt;= balance, &quot;Insufficient balance&quot;);
+    // ...
+}
+
+// ✅ 自定义错误
+error InsufficientBalance(uint256 available, uint256 required);
+
+function withdraw(uint256 amount) external {
+    if (amount &gt; balance) {
+        revert InsufficientBalance(balance, amount);
+    }
+    // ...
+}
+</code></pre>
+<h2 id="_5">五、位运算优化</h2>
+<p>现代编译器会自动优化常量乘除，手动优化的收益有限，位运算不是"通用省 Gas 秘籍"。</p>
+<p>位运算优化在 EVM 上的价值主要来自两个地方：bit packing 与 bitmap 类数据结构，以及避免分支或实现 mask 提取。如果只是把 x 乘 8 写成左移，多数情况下收益很有限。</p>
+<p><strong>乘除 2 的幂次</strong></p>
+<pre><code class="language-solidity">x * 2   →   x &lt;&lt; 1
+x / 2   →   x &gt;&gt; 1
+x * 8   →   x &lt;&lt; 3
+x / 256 →   x &gt;&gt; 8
+</code></pre>
+<p><strong>取模 2 的幂次</strong></p>
+<pre><code class="language-solidity">x % 2   →   x &amp; 1
+x % 256 →   x &amp; 0xff
+</code></pre>
+<p><strong>判断奇偶</strong></p>
+<pre><code class="language-solidity">// 传统方式
+bool isEven = (x % 2 == 0);
+
+// 位运算
+bool isEven = (x &amp; 1 == 0);
+</code></pre>
+<p><strong>位运算符一览</strong></p>
+<table>
+<thead>
+<tr>
+<th>运算</th>
+<th>运算符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>与</td>
+<td><code>&amp;</code></td>
+<td>两位都为 1 才为 1</td>
+</tr>
+<tr>
+<td>或</td>
+<td><code>\|</code></td>
+<td>任意一位为 1 即为 1</td>
+</tr>
+<tr>
+<td>异或</td>
+<td><code>^</code></td>
+<td>两位不同才为 1</td>
+</tr>
+<tr>
+<td>非</td>
+<td><code>~</code></td>
+<td>按位取反</td>
+</tr>
+<tr>
+<td>左移</td>
+<td><code>&lt;&lt;</code></td>
+<td>所有位向左移动</td>
+</tr>
+<tr>
+<td>右移</td>
+<td><code>&gt;&gt;</code></td>
+<td>所有位向右移动（算术右移）</td>
+</tr>
+</tbody>
+</table>
+<p>注意：<code>&amp;&amp;</code> / <code>||</code> 是逻辑运算，不是位运算。</p>
+<h2 id="_6">六、已过时的技巧</h2>
+<p>以下技巧在早期版本有效，现在已不再推荐：</p>
+<table>
+<thead>
+<tr>
+<th>技巧</th>
+<th>状态</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gas Token</td>
+<td>❌ 失效</td>
+<td>EIP-3529 削减了退款上限</td>
+</tr>
+<tr>
+<td>短字符串打包</td>
+<td>⚠️ 编译器已优化</td>
+<td>Solidity 0.8+ 自动处理</td>
+</tr>
+<tr>
+<td><code>&gt; 0</code> 改 <code>!= 0</code></td>
+<td>⚠️ 收益极小</td>
+<td>编译器通常会优化</td>
+</tr>
+<tr>
+<td><code>i++</code> 改 <code>++i</code></td>
+<td>⚠️ 收益极小</td>
+<td>在 unchecked 块外差异不大</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usermanagerv3">七、UserManagerV3：计算优化版</h2>
+<p>在 UserManagerV2 的基础上，我们继续进行计算层面的优化：</p>
+<pre><code class="language-solidity">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.28;
+
+/// @title UserManagerV3
+/// @notice Gas 优化版（存储优化、计算优化）
+contract UserManagerV3 {
+    uint16 public nextUserId = 1;
+    uint16 constant MAX_USERS = 1000;
+    address public owner;
+
+    struct User {
+        uint16 id;             // 用户 ID（与 mapping 的 key 保持一致）
+        address wallet;        // 用户绑定的钱包地址（不可更换）
+        uint64 lastUpdated;    // 最近一次状态或余额变更的区块时间戳
+        bool isBanned;         // 是否被封禁
+        uint256 balance;       // 用户余额
+    }
+
+    mapping(uint16 =&gt; User) public users;
+    mapping(address =&gt; uint16) public userIdByWallet;
+
+    event UserCreated(uint16 indexed userId, address indexed wallet, uint256 balance, uint64 lastUpdated);
+    event BalanceUpdated(uint16 indexed userId, uint256 balance, uint64 lastUpdated);
+    event OwnershipTransferred(address indexed oldOwner, address indexed newOwner);
+    event UserStatusChanged(uint16 indexed userId, bool status, uint64 lastUpdated);
+
+    error Unauthorized(address owner, address caller);
+    error MaxUsersReached(uint16 maxUsers, uint16 nextUserId);
+    error InvalidWallet(address wallet);
+    error WalletExisted(address wallet);
+    error NotExist(uint16 userId);
+    error BannedUser(uint16 userId);
+    error ZeroAddress();
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        if (msg.sender != owner) revert Unauthorized(owner, msg.sender);
+        _;
+    }
+
+    function createUserAccount(address wallet) public onlyOwner {
+        uint16 newUserId = nextUserId;
+
+        if (newUserId &gt; MAX_USERS) { revert MaxUsersReached(MAX_USERS, newUserId); }
+        if (wallet == address(0)) revert InvalidWallet(wallet);
+        if (userIdByWallet[wallet] != 0) revert WalletExisted(wallet);
+
+        uint64 ts = uint64(block.timestamp);
+        users[newUserId] = User({
+            id: newUserId,
+            wallet: wallet,
+            lastUpdated: ts,
+            isBanned: false,
+            balance: 0
+        });
+
+        userIdByWallet[wallet] = newUserId;
+
+        emit UserCreated(newUserId, wallet, 0, ts);
+        unchecked { nextUserId = newUserId + 1; }
+    }
+
+    function setBalance(uint16 userId, uint256 amount) public onlyOwner {
+        User storage u = users[userId];
+
+        if (u.wallet == address(0)) revert NotExist(userId);
+        if (u.isBanned) revert BannedUser(userId);
+
+        uint64 ts = uint64(block.timestamp);
+        u.balance = amount;
+        u.lastUpdated = ts;
+
+        emit BalanceUpdated(userId, amount, ts);
+    }
+
+    function changeStatus(uint16 userId, bool status) public onlyOwner {
+        User storage u = users[userId];
+
+        if (u.wallet == address(0)) revert NotExist(userId);
+
+        uint64 ts = uint64(block.timestamp);
+        u.isBanned = status;
+        u.lastUpdated = ts;
+
+        emit UserStatusChanged(userId, status, ts);
+    }
+
+    function checkIfWalletMappedCorrectly(address wallet) public view returns (bool) {
+        uint16 id = userIdByWallet[wallet];
+        return (id != 0 &amp;&amp; users[id].wallet == wallet);
+    }
+
+    function transferOwnership(address newOwner) public onlyOwner {
+        if (newOwner == address(0)) revert ZeroAddress();
+
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
+    }
+}
+</code></pre>
+<p><strong>V2 → V3 核心优化点</strong></p>
+<p>对比 V2 的 changeStatus 函数：</p>
+<pre><code class="language-solidity">// V2 版本
+function changeStatus(uint16 userId, bool status) public onlyOwner {
+    User storage u = users[userId];
+    if (u.wallet == address(0)) revert NotExist(userId);
+
+    u.isBanned = status;
+    u.lastUpdated = uint64(block.timestamp);
+
+    emit UserStatusChanged(userId, u.isBanned, u.lastUpdated);
+}
+
+// V3 版本
+function changeStatus(uint16 userId, bool status) public onlyOwner {
+    User storage u = users[userId];
+    if (u.wallet == address(0)) revert NotExist(userId);
+
+    uint64 ts = uint64(block.timestamp);
+    u.isBanned = status;
+    u.lastUpdated = ts;
+
+    emit UserStatusChanged(userId, status, ts);
+}
+</code></pre>
+<p>V3 版本将事件参数从 storage 读取改为使用局部变量，减少了额外的 SLOAD。</p>
+<h2 id="_7">八、事件参数使用局部变量的安全性</h2>
+<p>你可能会担心：如果事件参数使用局部变量而非 storage 读取，会不会出现"storage 没写成功，但事件里却像写成功了一样"的不一致情况？</p>
+<p>答案是：在正常 Solidity 执行中，这种不一致不会发生。核心规则如下：</p>
+<p><strong>规则 1</strong>：只要交易没有回滚，emit 之前的 storage 写入也必然发生过。日志与 storage 是同一条执行路径的副产品。EVM 按顺序执行，如果写入时发生错误（out-of-gas、revert），整个调用会回滚，包括 storage 更改和事件日志。</p>
+<p><strong>规则 2</strong>：事件参数用局部变量的常见收益是减少额外 SLOAD，并且更贴近事件语义——事件记录的是动作的输入，而不是最终状态快照。</p>
+<p>需要注意的边界情况包括：同一笔交易后面又把值改回去、使用 delegatecall 导致 storage 写在另一个合约、用内联汇编伪造日志等。但这些都不是正常 Solidity emit 的问题，而是特定场景下的"认知陷阱"。</p>
+<h2 id="_8">九、总结与展望</h2>
+<p>本篇介绍的计算优化技巧包括：</p>
+<table>
+<thead>
+<tr>
+<th>技巧</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>循环优化</td>
+<td>缓存长度、unchecked 递增、前置递增</td>
+</tr>
+<tr>
+<td>短路求值</td>
+<td>便宜条件前置，避免触发昂贵路径</td>
+</tr>
+<tr>
+<td>自定义错误</td>
+<td>减少部署字节码与 revert data</td>
+</tr>
+<tr>
+<td>位运算</td>
+<td>bit packing、bitmap、mask 提取</td>
+</tr>
+<tr>
+<td>事件参数</td>
+<td>使用局部变量减少 SLOAD</td>
+</tr>
+</tbody>
+</table>
+<p>通过 UserManagerV1 → V2（存储优化）→ V3（计算优化）的演进，我们完成了一个教学合约的完整优化流程。</p>
+<p><strong>进一步优化方向</strong></p>
+<p>合约 Gas 优化还可以从以下方面考虑，但本系列暂不涉及：</p>
 <ul>
-<li>逻辑合约接近 24KB 限制 → 透明代理</li>
-<li>需要极致 gas 优化 → UUPS</li>
-<li>追求简单安全 → 透明代理</li>
+<li><strong>架构层面</strong>：合约拆分、代理模式、批量操作合并</li>
+<li><strong>内联汇编</strong>：直接操作 EVM 指令，绕过 Solidity 抽象层</li>
+<li><strong>编译器优化</strong>：调整 optimizer runs 参数、使用 via-ir 编译管道</li>
 </ul>
-<p>OpenZeppelin 当前<strong>推荐使用 UUPS</strong>，因为它更轻量且灵活。</p>
-<h3 id="_4">架构对比图</h3>
-<p><img alt="架构对比图" src="../../../assets/images/solidity_proxy_upgrade_series_part2_251230_4.png" /></p>
-<h2 id="_5">其他代理模式简介</h2>
-<p>除了透明代理和 UUPS，还有几种常见模式，这里简单了解即可：</p>
-<h3 id="beacon-proxy">Beacon Proxy</h3>
-<p>多个代理共享同一个逻辑合约地址，通过 Beacon 合约统一管理。更新 Beacon 一次，所有代理同时升级。</p>
-<p><strong>适用场景</strong>：需要批量部署和批量升级，如 NFT 工厂。</p>
-<h3 id="diamond-proxyeip-2535">Diamond Proxy（EIP-2535）</h3>
-<p>一个代理可以指向<strong>多个</strong>逻辑合约，通过函数选择器路由到不同的 Facet。</p>
-<p><strong>适用场景</strong>：超大型合约，需要突破 24KB 限制。</p>
-<h3 id="minimal-proxyeip-1167">Minimal Proxy（EIP-1167）</h3>
-<p>极简克隆模式，所有克隆共享同一份逻辑代码，部署成本极低（约 45 字节），但<strong>不可升级</strong>。</p>
-<p><strong>适用场景</strong>：需要大量部署相同逻辑的合约，如用户钱包。</p>
-<h2 id="_6">小结</h2>
-<p>本篇我们学习了：</p>
-<ol>
-<li><strong>函数选择器冲突问题</strong>：代理合约的公开函数会遮蔽逻辑合约的同名函数</li>
-<li><strong>透明代理</strong>：通过检查 msg.sender 区分调用者，消除冲突</li>
-<li><strong>UUPS</strong>：将升级逻辑放入逻辑合约，代理合约极简化</li>
-<li><strong>如何选择</strong>：根据 gas 优化需求、合约大小限制、安全性需求决定</li>
-<li><strong>其他代理模式</strong>：Beacon、Diamond、Minimal Proxy</li>
-</ol>
-<p><strong>最后的建议</strong>：</p>
-<p>可升级合约是一把双刃剑。它解决了不可变性的困境，但也引入了新的信任假设和安全风险。</p>
-<p>在使用可升级模式前，请认真思考：</p>
+<p>这些高级优化技巧需要更深入的 EVM 知识，适合在掌握基础优化后进一步学习。</p>
+<h2 id="_9">小结</h2>
+<p>本篇介绍了计算层面的 Gas 优化技巧：</p>
 <ul>
-<li>你的合约真的需要升级能力吗？</li>
-<li>用户是否信任你（或 DAO）不会恶意升级？</li>
-<li>你是否有完善的升级治理流程？</li>
+<li>循环优化通过缓存长度和 unchecked 递增减少开销；</li>
+<li>短路求值通过条件排序避免触发昂贵路径；</li>
+<li>自定义错误比 require 字符串更省 Gas；</li>
+<li>位运算在特定场景下有优化价值。</li>
 </ul>
-<p>如果答案都是肯定的，那么请选择适合的模式，遵循最佳实践，让可升级性成为你的优势而非负担。</p>
-<p><strong>参考资料</strong></p>
+<p>通过 UserManagerV2 → UserManagerV3 的演示，我们看到了如何在存储优化的基础上进一步进行计算优化。</p>
+<p>下一篇我们将介绍 Gas 评估与测量工具，学习如何使用 Foundry 的 Gas Report、Snapshots 和 gasleft() 来验证优化效果，并对整个系列进行总结。</p>
+<p><strong>系列导航：</strong></p>
 <ul>
-<li><a href="https://rareskills.io/proxy-patterns">RareSkills: Book of Proxy Patterns</a></li>
-<li><a href="https://ethereum.org/zh/developers/docs/smart-contracts/upgrading">Ethereum.org: 升级智能合约</a></li>
-<li><a href="https://docs.openzeppelin.com/upgrades-plugins">OpenZeppelin Upgrades Plugins</a></li>
-<li><a href="https://eips.ethereum.org/EIPS/eip-1967">EIP-1967: Standard Proxy Storage Slots</a></li>
-<li><a href="https://eips.ethereum.org/EIPS/eip-1822">EIP-1822: Universal Upgradeable Proxy Standard</a></li>
-</ul>
-<p><strong>系列导航</strong></p>
-<ul>
-<li>第一篇：<a href="../solidity_proxy_upgrade_series_part1_251229/">Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？</a></li>
-<li>第二篇：Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS（本篇）</li>
+<li>第一篇：<a href="../gas_optimization_guide_part1_gas_mechanism/">Gas 优化指南（一）：Gas 机制原理</a></li>
+<li>第二篇：<a href="../gas_optimization_guide_part2_eip1559_transaction_analysis/">Gas 优化指南（二）：EIP-1559 交易解析</a></li>
+<li>
+<p>第三篇：<a href="../gas_optimization_guide_part3_storage_optimization/">Gas 优化指南（三）：存储优化</a></p>
+</li>
+<li>
+<p>第四篇：Gas 优化指南（四）：计算优化（本篇）</p>
+</li>
+<li>第五篇：<a href="../gas_optimization_guide_part5_gas_measurement/">Gas 优化指南（五）：Gas 评估与测量</a></li>
 </ul>
 
 

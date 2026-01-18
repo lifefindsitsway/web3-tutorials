@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/solidity_proxy_upgrade_series_part2_251230/">
+        <link rel="canonical" href="https://lifefindsitsway.wiki/web3/dapp/gas_optimization_guide_part1_gas_mechanism/">
       
       
-        <link rel="prev" href="../solidity_proxy_upgrade_series_part1_251229/">
+        <link rel="prev" href="../solidity_proxy_upgrade_series_part2_251230/">
       
       
-        <link rel="next" href="../gas_optimization_guide_part1_gas_mechanism/">
+        <link rel="next" href="../gas_optimization_guide_part2_eip1559_transaction_analysis/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>代理合约与可升级合约系列（二）：透明代理 vs UUPS - Life's Web3 开发指南</title>
+        <title>Gas 优化指南（一）：Gas 机制原理 - Life's Web3 开发指南</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#gas-gas" class="md-skip">
           跳转至
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              代理合约与可升级合约系列（二）：透明代理 vs UUPS
+              Gas 优化指南（一）：Gas 机制原理
             
           </span>
         </div>
@@ -418,6 +418,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../solidity_proxy_upgrade_series_part2_251230/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    代理合约与可升级合约系列（二）：透明代理 vs UUPS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -427,12 +448,14 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
   <span class="md-ellipsis">
-    代理合约与可升级合约系列（二）：透明代理 vs UUPS
+    Gas 优化指南（一）：Gas 机制原理
   </span>
   
 
@@ -443,7 +466,7 @@
         
   
   <span class="md-ellipsis">
-    代理合约与可升级合约系列（二）：透明代理 vs UUPS
+    Gas 优化指南（一）：Gas 机制原理
   </span>
   
 
@@ -455,6 +478,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -463,157 +488,79 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#gas" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、Gas 是什么
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      函数选择器冲突
+      二、交易费用构成
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#transparent-proxy" class="md-nav__link">
+  <a href="#eip-1559" class="md-nav__link">
     <span class="md-ellipsis">
-      解决方案一：透明代理（Transparent Proxy）
+      三、EIP-1559 费用模型
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="解决方案一：透明代理（Transparent Proxy）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openzeppelin" class="md-nav__link">
-    <span class="md-ellipsis">
-      OpenZeppelin 的实现结构
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#uups" class="md-nav__link">
+  <a href="#gas_1" class="md-nav__link">
     <span class="md-ellipsis">
-      解决方案二：UUPS（通用可升级代理标准）
+      四、操作码 Gas 成本分级
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="解决方案二：UUPS（通用可升级代理标准）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eip-2929" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、冷/热访问机制（EIP-2929）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sstore-eip-2200" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、SSTORE 的核心定价（EIP-2200）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gas_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、Gas 退款机制
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gas_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      八、Gas 消耗预测心法
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      升级是如何工作的？
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      代码结构
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#proxiableuuid" class="md-nav__link">
-    <span class="md-ellipsis">
-      proxiableUUID：安全检查
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#uups_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      UUPS 的风险
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vs-uups" class="md-nav__link">
-    <span class="md-ellipsis">
-      透明代理 vs UUPS：如何选择？
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="透明代理 vs UUPS：如何选择？">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      架构对比图
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      其他代理模式简介
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="其他代理模式简介">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#beacon-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      Beacon Proxy
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#diamond-proxyeip-2535" class="md-nav__link">
-    <span class="md-ellipsis">
-      Diamond Proxy（EIP-2535）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#minimal-proxyeip-1167" class="md-nav__link">
-    <span class="md-ellipsis">
-      Minimal Proxy（EIP-1167）
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       小结
     </span>
@@ -625,27 +572,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gas_optimization_guide_part1_gas_mechanism/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Gas 优化指南（一）：Gas 机制原理
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1032,6 +958,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1040,157 +968,79 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#gas" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、Gas 是什么
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      函数选择器冲突
+      二、交易费用构成
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#transparent-proxy" class="md-nav__link">
+  <a href="#eip-1559" class="md-nav__link">
     <span class="md-ellipsis">
-      解决方案一：透明代理（Transparent Proxy）
+      三、EIP-1559 费用模型
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="解决方案一：透明代理（Transparent Proxy）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openzeppelin" class="md-nav__link">
-    <span class="md-ellipsis">
-      OpenZeppelin 的实现结构
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#uups" class="md-nav__link">
+  <a href="#gas_1" class="md-nav__link">
     <span class="md-ellipsis">
-      解决方案二：UUPS（通用可升级代理标准）
+      四、操作码 Gas 成本分级
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="解决方案二：UUPS（通用可升级代理标准）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eip-2929" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、冷/热访问机制（EIP-2929）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sstore-eip-2200" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、SSTORE 的核心定价（EIP-2200）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gas_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、Gas 退款机制
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gas_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      八、Gas 消耗预测心法
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      升级是如何工作的？
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      代码结构
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#proxiableuuid" class="md-nav__link">
-    <span class="md-ellipsis">
-      proxiableUUID：安全检查
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#uups_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      UUPS 的风险
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vs-uups" class="md-nav__link">
-    <span class="md-ellipsis">
-      透明代理 vs UUPS：如何选择？
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="透明代理 vs UUPS：如何选择？">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      架构对比图
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      其他代理模式简介
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="其他代理模式简介">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#beacon-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      Beacon Proxy
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#diamond-proxyeip-2535" class="md-nav__link">
-    <span class="md-ellipsis">
-      Diamond Proxy（EIP-2535）
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#minimal-proxyeip-1167" class="md-nav__link">
-    <span class="md-ellipsis">
-      Minimal Proxy（EIP-1167）
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       小结
     </span>
@@ -1216,276 +1066,397 @@
   
 
 
-  <h1>代理合约与可升级合约系列（二）：透明代理 vs UUPS</h1>
-
+<h1 id="gas-gas">Gas 优化指南（一）：Gas 机制原理</h1>
 <blockquote>
-<p>上一篇我们理解了 delegatecall 和存储槽冲突问题。本篇将深入两大主流代理模式。</p>
+<p>本篇是 Gas 优化系列的第一篇，聚焦于 Gas 机制的底层原理。</p>
 </blockquote>
-<h2 id="_1">函数选择器冲突</h2>
-<p>在实现可升级代理时，我们遇到了新问题。</p>
-<p>假设代理合约需要一个 <code>upgrade()</code> 函数来更新逻辑合约地址：</p>
-<pre><code class="language-solidity">contract Proxy {
-    address public implementation;
-
-    function upgrade(address newImpl) public {
-        implementation = newImpl;
-    }
-
-    fallback() external payable {
-        // delegatecall to implementation
-    }
-}
-</code></pre>
-<p>问题来了：如果逻辑合约也有一个 <code>upgrade()</code> 函数呢？</p>
-<pre><code class="language-solidity">contract Implementation {
-    function upgrade(address) public {
-        // 业务逻辑...
-    }
-}
-</code></pre>
-<p>当用户调用 <code>upgrade()</code> 时，EVM 会先检查代理合约是否有匹配的函数。如果有，就直接执行代理合约的函数，<strong>永远不会触发 fallback</strong>。</p>
-<p>结果：逻辑合约的 <code>upgrade()</code> 函数无法被调用。</p>
-<p>更危险的是：不同函数可能有<strong>相同的函数选择器</strong>。函数选择器只有 4 字节，存在约 1/43 亿的碰撞概率。比如 <code>clash550254402()</code> 和 <code>proxyAdmin()</code> 的选择器完全相同。</p>
-<h2 id="transparent-proxy">解决方案一：透明代理（Transparent Proxy）</h2>
-<p>透明代理的核心思路很简单：<strong>代理合约除了 fallback，不暴露任何公开函数</strong>。</p>
-<p>但没有公开函数，怎么升级？答案是：<strong>通过 msg.sender 来区分调用者</strong>。</p>
-<p><img alt="透明代理的路由规则" src="../../../assets/images/solidity_proxy_upgrade_series_part2_251230_1.png" /></p>
-<p><strong>为什么叫「透明」？</strong></p>
-<p>对于普通用户来说，代理合约是「透明」的——他们看不到任何代理相关的函数，所有调用都会被转发。代理合约的管理功能只对管理员「可见」。</p>
-<pre><code class="language-solidity">contract TransparentProxy {
-    address immutable admin;
-
-    constructor(address _admin) {
-        admin = _admin;
-    }
-
-    fallback() external payable {
-        if (msg.sender == admin) {
-            // 执行升级逻辑
-        } else {
-            // delegatecall 到逻辑合约
-        }
-    }
-}
-</code></pre>
-<p>规则：
-- <strong>admin 调用</strong>：路由到升级逻辑
-- <strong>普通用户调用</strong>：路由到逻辑合约</p>
-<p>这完全消除了函数选择器冲突——因为代理合约根本没有公开函数。</p>
-<h3 id="openzeppelin">OpenZeppelin 的实现结构</h3>
-<p>但上述设计有个问题：admin 无法直接使用合约功能，因为它的调用会被路由到升级逻辑。</p>
-<p>OpenZeppelin 的解决方案是引入 <strong>ProxyAdmin</strong> 合约：</p>
-<p><img alt="ProxyAdmin" src="../../../assets/images/solidity_proxy_upgrade_series_part2_251230_2.png" /></p>
+<p>我们将从 Gas 的设计哲学出发，逐步拆解交易费用的构成、EIP-1559 定价模型、操作码成本分级、冷热访问机制，以及 SSTORE 的核心定价规则。理解这些基础知识，是后续进行 Gas 优化的前提。</p>
+<h2 id="gas">一、Gas 是什么</h2>
+<p>Gas 是 EVM 的"燃料"，用于衡量计算工作量。其设计目的主要包括：</p>
 <ul>
-<li>代理合约的 admin 是 ProxyAdmin 合约（地址固定）</li>
-<li>ProxyAdmin 的 owner 是真正的管理员</li>
-<li>owner 通过 ProxyAdmin 间接升级代理</li>
-<li>owner 也可以直接调用代理使用合约功能（因为 msg.sender 是 owner，不是 admin）</li>
+<li><strong>防止无限循环</strong>：必须付费才能执行代码，从机制上阻止恶意或无穷计算</li>
+<li><strong>公平分配区块空间</strong>：区块空间有限，通过竞价机制分配执行权</li>
+<li><strong>反映真实的计算成本</strong>：操作越复杂，对网络负担越重，对应 Gas 越高</li>
 </ul>
-<p><strong>OpenZeppelin 合约继承结构</strong>：</p>
-<pre><code>Proxy.sol (抽象基类)
-    │
-    └── ERC1967Proxy.sol (实现 EIP-1967 槽位)
-            │
-            └── TransparentUpgradeableProxy.sol
-                    │
-                    └── 配合 ProxyAdmin.sol 使用
-</code></pre>
-<pre><code class="language-solidity">contract ProxyAdmin {
-    address public owner;
-
-    function upgradeAndCall(
-        ITransparentUpgradeableProxy proxy,
-        address implementation,
-        bytes memory data
-    ) public onlyOwner {
-        proxy.upgradeToAndCall(implementation, data);
-    }
-}
-</code></pre>
-<p>关键设计：</p>
-<ul>
-<li>代理合约只有 <code>fallback()</code> 函数</li>
-<li>所有管理功能通过 ProxyAdmin 调用</li>
-<li>管理员地址存储在 EIP-1967 槽位</li>
-</ul>
-<p><strong>优点</strong>：</p>
-<ul>
-<li>彻底消除函数选择器冲突</li>
-<li>升级逻辑在代理合约中，逻辑合约不需要包含升级代码</li>
-</ul>
-<p><strong>缺点</strong>：</p>
-<ul>
-<li>需要额外部署 ProxyAdmin 合约</li>
-<li>每次调用都要检查 <code>msg.sender == admin</code>，增加 gas 消耗</li>
-</ul>
-<h2 id="uups">解决方案二：UUPS（通用可升级代理标准）</h2>
-<p>UUPS（ERC-1822）采用了不同的策略：<strong>把升级逻辑放在逻辑合约中</strong>。</p>
-<p><img alt="UUPS" src="../../../assets/images/solidity_proxy_upgrade_series_part2_251230_3.png" /></p>
-<h3 id="_2">升级是如何工作的？</h3>
-<p>UUPS 的升级过程：</p>
-<ol>
-<li>管理员调用 Proxy 的 <code>upgradeTo(newImpl)</code></li>
-<li>Proxy 通过 <code>fallback()</code> 将调用 delegatecall 给当前实现合约</li>
-<li>实现合约的 <code>upgradeTo()</code> 被执行</li>
-<li>由于是 delegatecall，修改的是 Proxy 的存储</li>
-<li>Proxy 的实现地址被更新为 <code>newImpl</code></li>
-</ol>
-<pre><code>Admin ──upgradeTo(V2)──► Proxy ─delegatecall─► Impl V1
-                           │                      │
-                           │    upgradeTo() 修改   │
-                           │    Proxy 的存储       │
-                           ▼                      │
-                    implementation = V2  ◄────────┘
-</code></pre>
-<h3 id="_3">代码结构</h3>
-<p>代理合约极其简单：</p>
-<pre><code class="language-solidity">contract UUPSProxy {
-    constructor(address _implementation) {
-        assembly {
-            sstore(
-                0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc,
-                _implementation
-            )
-        }
-    }
-
-    fallback() external payable {
-        // 读取实现地址并 delegatecall
-    }
-}
-</code></pre>
-<p>逻辑合约需要继承 OpenZeppelin 的 <code>UUPSUpgradeable</code>：</p>
-<pre><code class="language-solidity">import &quot;@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol&quot;;
-
-contract MyContract is UUPSUpgradeable {
-    // 业务逻辑...
-
-    function _authorizeUpgrade(address newImplementation) 
-        internal 
-        override 
-        onlyOwner 
-    {}
-}
-</code></pre>
-<h3 id="proxiableuuid">proxiableUUID：安全检查</h3>
-<p>UUPS 有个巧妙的安全机制：升级前会检查新合约是否兼容。</p>
-<pre><code class="language-solidity">function proxiableUUID() external view returns (bytes32) {
-    return IMPLEMENTATION_SLOT;
-}
-</code></pre>
-<p>升级时，会调用新合约的 <code>proxiableUUID()</code>：
-- 如果返回正确的存储槽地址，说明新合约是 UUPS 兼容的
-- 如果调用失败或返回值错误，升级被拒绝</p>
-<p>这防止了意外升级到一个没有升级能力的合约——那将导致合约永远无法再升级。</p>
-<h3 id="uups_1">UUPS 的风险</h3>
-<p><strong>风险一：忘记实现升级函数</strong></p>
-<p>如果新版本的实现合约没有 <code>upgradeTo()</code> 函数，合约将<strong>永久失去升级能力</strong>：</p>
-<pre><code class="language-solidity">// ❌ 灾难：忘了继承 UUPSUpgradeable
-contract ImplV2 {
-    // 没有 upgradeTo() 函数 → 永远无法再升级！
-}
-</code></pre>
-<p>防护措施：OpenZeppelin 要求实现合约继承 <code>UUPSUpgradeable</code>，并实现 <code>_authorizeUpgrade()</code> 钩子。</p>
-<p><strong>风险二：未初始化的实现合约</strong></p>
-<p>如果有人直接调用实现合约的 <code>initialize()</code>，他可以成为实现合约的 owner，然后调用 <code>upgradeTo()</code> 指向一个包含 <code>selfdestruct</code> 的合约。<strong>这曾经是真实的攻击向量</strong>（Wormhole 事件）。</p>
-<p>防护：在构造函数中调用 <code>_disableInitializers()</code>：</p>
-<pre><code class="language-solidity">constructor() {
-    _disableInitializers();
-}
-</code></pre>
-<h2 id="vs-uups">透明代理 vs UUPS：如何选择？</h2>
+<p>EVM 的基本计费规则：每条 EVM 指令都有固定的 Gas 成本，一笔交易的总 Gas 消耗等于所有执行指令的成本之和。</p>
+<p>以太坊中的计量单位：</p>
 <table>
 <thead>
 <tr>
-<th>特性</th>
-<th>透明代理</th>
-<th>UUPS</th>
+<th>单位</th>
+<th>相当于</th>
+<th>用途</th>
+<th>科学计数法</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>升级逻辑位置</td>
-<td>代理合约</td>
-<td>逻辑合约</td>
+<td>1 ETH</td>
+<td>1 Ether</td>
+<td>账户余额、转账金额</td>
+<td>10^0 ETH</td>
 </tr>
 <tr>
-<td>Gas 成本</td>
-<td>较高（每次检查 admin）</td>
-<td>较低</td>
+<td>1 Gwei</td>
+<td>0.000000001 ETH</td>
+<td>计算 Gas 价格</td>
+<td>10^-9 ETH</td>
 </tr>
 <tr>
-<td>代理合约大小</td>
-<td>较大</td>
-<td>最小</td>
-</tr>
-<tr>
-<td>逻辑合约大小</td>
-<td>较小</td>
-<td>较大（含升级代码）</td>
-</tr>
-<tr>
-<td>风险</td>
-<td>较低</td>
-<td>较高（可能丢失升级能力）</td>
-</tr>
-<tr>
-<td>适用场景</td>
-<td>通用场景、安全优先</td>
-<td>高频调用、gas 敏感</td>
+<td>1 wei</td>
+<td>0.000000000000000001 ETH</td>
+<td>最小单位</td>
+<td>10^-18 ETH</td>
 </tr>
 </tbody>
 </table>
-<p><strong>选择建议</strong>：</p>
+<p><strong>wei（最小单位）</strong>：合约与协议层统一使用整数运算，所有金额最终都以 wei 为单位存储和计算，避免浮点数精度问题。</p>
+<p><strong>gwei（最常用单位）</strong>：这是日常使用最频繁的单位，主要用于表示 Gas 价格。当你在钱包（如 MetaMask）设置交易手续费时，看到的 "Gas Price" 或 "Max Priority Fee" 通常就是以 gwei 为单位。例如，"Gas Price: 20 gwei" 意味着你愿意为每个计算步骤支付 20 gwei。</p>
+<p><strong>ETH（标准单位）</strong>：用于表示账户余额、转账金额、代币价格等宏观数值。我们平时说"我有一个以太币"，指的就是 1 ETH。</p>
+<h2 id="_1">二、交易费用构成</h2>
+<p>一笔交易的 Gas 消耗分为两部分：<strong>总 Gas = Intrinsic Gas + Execution Gas</strong></p>
+<p><strong>Intrinsic Gas（固有成本）</strong></p>
+<p>Intrinsic Gas 本质上是在为"交易进入 EVM 执行环境之前"的行为付费，它是交易本身的基础成本，与合约执行无关。包括：交易签名验证、nonce 校验、账户存在性检查、calldata 字节拷贝等。</p>
+<table>
+<thead>
+<tr>
+<th>组成部分</th>
+<th>Gas 成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基础费用</td>
+<td>21,000</td>
+</tr>
+<tr>
+<td>每字节零值 calldata</td>
+<td>4</td>
+</tr>
+<tr>
+<td>每字节非零值 calldata</td>
+<td>16</td>
+</tr>
+<tr>
+<td>创建合约额外费用</td>
+<td>32,000</td>
+</tr>
+</tbody>
+</table>
+<p>示例：一笔简单的 ETH 转账，calldata 为空，消耗 21,000 Gas。</p>
+<p><strong>Execution Gas（执行成本）</strong></p>
+<p>合约代码执行过程中，每条指令的 Gas 成本累加。</p>
+<p>EVM 不关心你在做什么业务，它只对三件事情收费：</p>
 <ul>
-<li>逻辑合约接近 24KB 限制 → 透明代理</li>
-<li>需要极致 gas 优化 → UUPS</li>
-<li>追求简单安全 → 透明代理</li>
+<li>你输入了多少字节</li>
+<li>你执行了多少指令</li>
+<li>你是否改变了全网状态</li>
 </ul>
-<p>OpenZeppelin 当前<strong>推荐使用 UUPS</strong>，因为它更轻量且灵活。</p>
-<h3 id="_4">架构对比图</h3>
-<p><img alt="架构对比图" src="../../../assets/images/solidity_proxy_upgrade_series_part2_251230_4.png" /></p>
-<h2 id="_5">其他代理模式简介</h2>
-<p>除了透明代理和 UUPS，还有几种常见模式，这里简单了解即可：</p>
-<h3 id="beacon-proxy">Beacon Proxy</h3>
-<p>多个代理共享同一个逻辑合约地址，通过 Beacon 合约统一管理。更新 Beacon 一次，所有代理同时升级。</p>
-<p><strong>适用场景</strong>：需要批量部署和批量升级，如 NFT 工厂。</p>
-<h3 id="diamond-proxyeip-2535">Diamond Proxy（EIP-2535）</h3>
-<p>一个代理可以指向<strong>多个</strong>逻辑合约，通过函数选择器路由到不同的 Facet。</p>
-<p><strong>适用场景</strong>：超大型合约，需要突破 24KB 限制。</p>
-<h3 id="minimal-proxyeip-1167">Minimal Proxy（EIP-1167）</h3>
-<p>极简克隆模式，所有克隆共享同一份逻辑代码，部署成本极低（约 45 字节），但<strong>不可升级</strong>。</p>
-<p><strong>适用场景</strong>：需要大量部署相同逻辑的合约，如用户钱包。</p>
-<h2 id="_6">小结</h2>
-<p>本篇我们学习了：</p>
+<p>在深入细节之前，先记住这个模型。以太坊上任何一笔交易的 Gas 消耗，都可以归入三个来源：</p>
+<pre><code class="language-plain">       存储成本
+       （最贵）
+          /\
+         /  \
+        /    \
+       /      \
+      /________\
+ 执行成本    数据成本
+ （中等）   （按字节）
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>成本类型</th>
+<th>来源</th>
+<th>量级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存储成本</td>
+<td>读写 Storage（SLOAD/SSTORE）</td>
+<td>100 ~ 22,100 Gas</td>
+</tr>
+<tr>
+<td>执行成本</td>
+<td>运算指令（ADD/MUL/JUMP 等）</td>
+<td>3 ~ 10 Gas</td>
+</tr>
+<tr>
+<td>数据成本</td>
+<td>Calldata（交易输入数据）、Log（事件日志）</td>
+<td>Calldata：4 Gas/零字节，16 Gas/非零字节<br />Log：375 基础 + 375/topic + 8/数据字节</td>
+</tr>
+</tbody>
+</table>
+<p>在大多数需要写入状态的业务合约中，存储读写往往是成本大头，所以我们默认先从 Storage 找热点。但纯读合约、签名验证合约、批量操作合约可能呈现不同的成本分布，具体问题具体分析。</p>
+<h2 id="eip-1559">三、EIP-1559 费用模型</h2>
+<p>2021 年 8 月伦敦升级后，在 EIP-1559 机制下，交易费用计算方式为：</p>
+<p><strong>交易费用 = Gas Used × (Base Fee + Priority Fee)</strong></p>
+<table>
+<thead>
+<tr>
+<th>费用类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gas Used</td>
+<td>交易实际消耗的 Gas 数量</td>
+</tr>
+<tr>
+<td>Base Fee</td>
+<td>当前区块的基础费用（单位：wei/gas 或 gwei/gas），由网络根据拥堵程度动态调整，会被销毁</td>
+</tr>
+<tr>
+<td>Priority Fee</td>
+<td>用户愿意支付给验证者的最高小费（单位：wei/gas 或 gwei/gas），实际支付金额可能低于该值</td>
+</tr>
+</tbody>
+</table>
+<p>需要注意：EIP-1559 ≠ Gas 优化，它只是定价模型，真正的优化发生在 EVM opcode 层。</p>
+<p>Gas 优化发生在 opcode 层、storage 布局层、calldata 与 memory 层，而 EIP-1559 只解决"每单位 Gas 多少钱"的问题。</p>
+<p><strong>Max Fee 和 Max Priority Fee</strong></p>
+<p>为了保护用户，EIP-1559 引入了两个上限参数：</p>
+<ul>
+<li><strong>Max Fee Per Gas</strong>：用户愿意支付的最高总费用（包括基础费用和优先费用）</li>
+<li><strong>Max Priority Fee Per Gas</strong>：用户愿意支付的最高优先费用</li>
+</ul>
+<p>实际支付的费用计算拆解如下：</p>
+<p>第一步，定义有效小费：</p>
+<pre><code>effectivePriorityFee = min(MaxPriorityFee, MaxFee − BaseFee)
+</code></pre>
+<p>第二步，定义最终 Gas Price：</p>
+<pre><code>effectiveGasPrice = BaseFee + effectivePriorityFee
+</code></pre>
+<p>最终费用：</p>
+<pre><code>txFee = gasUsed × effectiveGasPrice
+</code></pre>
+<p>这一步拆解在教学中非常重要，因为区块浏览器、RPC 返回值、EVM trace、receipt.effectiveGasPrice 全部都在使用这个中间变量。</p>
+<p>上述过程合在一起的计算公式为：</p>
+<pre><code>实际费用 = Gas Used × min(Max Fee, Base Fee + min(Max Priority Fee, Max Fee - Base Fee))
+</code></pre>
+<p>多支付的部分会自动退还给用户。</p>
+<p><strong>动态调整机制</strong></p>
+<ul>
+<li>区块利用率 &gt; 50%：Base Fee 上涨（最多 +12.5%）</li>
+<li>区块利用率 &lt; 50%：Base Fee 下降（最多 -12.5%）</li>
+</ul>
+<p>EIP-1559 的设计是让区块在短期内可以 0.5x 到 2x 摆动，但长期稳定在 targetGasUsed 附近。</p>
+<p>Base Fee 的调整依据是区块 gasUsed 与 targetGasUsed 的偏离程度，而不是简单的百分比规则。</p>
+<p><strong>费用计算示例</strong></p>
+<p>假设：</p>
+<ul>
+<li>Gas Used = 21,000（简单转账）</li>
+<li>Base Fee = 30 gwei</li>
+<li>Priority Fee = 2 gwei</li>
+<li>Max Fee = 100 gwei</li>
+<li>Max Priority Fee = 2 gwei</li>
+</ul>
+<p>计算过程：</p>
+<ul>
+<li>实际优先费用 = min(2 gwei, 100 gwei - 30 gwei) = 2 gwei</li>
+<li>实际总费用每 Gas = min(100 gwei, 30 gwei + 2 gwei) = 32 gwei</li>
+<li>交易总费用 = 21,000 × 32 gwei = 672,000 gwei = 0.000672 ETH</li>
+</ul>
+<p>其中：</p>
+<ul>
+<li>基础费用：21,000 × 30 gwei = 630,000 gwei（被销毁）</li>
+<li>优先费用：21,000 × 2 gwei = 42,000 gwei（支付给验证者）</li>
+</ul>
+<p><strong>Gas 优化的直接影响</strong></p>
+<p>从上述公式可以看出，降低 Gas Used 可以直接按比例减少交易费用。如果能将合约的 Gas 消耗从 100,000 降低到 80,000（减少 20%），那么用户的交易费用也会相应减少 20%。</p>
+<p>这就是为什么 Gas 优化如此重要——它直接影响到每一位用户的钱包。</p>
+<h2 id="gas_1">四、操作码 Gas 成本分级</h2>
+<p>EVM 操作码的 Gas 成本反映了其计算复杂度：</p>
+<table>
+<thead>
+<tr>
+<th>等级</th>
+<th>Gas 范围</th>
+<th>典型操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最便宜</td>
+<td>2-3</td>
+<td>ADD, SUB, LT, GT, POP</td>
+</tr>
+<tr>
+<td>便宜</td>
+<td>3-5</td>
+<td>MUL, DIV, MLOAD, MSTORE</td>
+</tr>
+<tr>
+<td>中等</td>
+<td>10-30</td>
+<td>JUMP, JUMPI, CALLDATALOAD</td>
+</tr>
+<tr>
+<td>较贵</td>
+<td>100-700</td>
+<td>BALANCE, EXTCODESIZE, CALL（热访问）</td>
+</tr>
+<tr>
+<td>昂贵</td>
+<td>2100-2600</td>
+<td>SLOAD, CALL（冷访问）</td>
+</tr>
+<tr>
+<td>非常昂贵</td>
+<td>5000-22100</td>
+<td>SSTORE</td>
+</tr>
+</tbody>
+</table>
+<p>关键观察：存储操作（SLOAD/SSTORE）是最昂贵的，因为它们涉及全网状态的读写。</p>
+<p>SLOAD 贵，因为需要访问全局状态树；SSTORE 更贵，因为会改变共识状态，影响所有全节点。Gas 本质不是 CPU 时间，而是对全网负担的定价。</p>
+<h2 id="eip-2929">五、冷/热访问机制（EIP-2929）</h2>
+<p>2021 年柏林升级引入了"访问列表"概念，区分冷访问和热访问。</p>
+<p><strong>同一笔交易中</strong>：</p>
+<ul>
+<li>首次访问某个地址或存储槽 → <strong>冷访问</strong>（贵）</li>
+<li>再次访问同一地址或存储槽 → <strong>热访问</strong>（便宜）</li>
+</ul>
+<p>对 storage slot 而言：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>Gas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cold SLOAD</td>
+<td>2100</td>
+</tr>
+<tr>
+<td>warm SLOAD</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p>EIP-2929 本质是在惩罚"不可预测的状态访问"。第一次访问贵，不是因为慢，而是因为节点无法提前缓存。</p>
+<h2 id="sstore-eip-2200">六、SSTORE 的核心定价（EIP-2200）</h2>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>Gas 成本</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 → 非零</td>
+<td>22,100</td>
+<td>创建新存储槽</td>
+</tr>
+<tr>
+<td>非零 → 非零（不同值）</td>
+<td>5,000</td>
+<td>修改现有值</td>
+</tr>
+<tr>
+<td>非零 → 0</td>
+<td>5,000，退款</td>
+<td>清除存储槽</td>
+</tr>
+<tr>
+<td>0/非零 → 相同值</td>
+<td>100</td>
+<td>无实际变化</td>
+</tr>
+</tbody>
+</table>
+<p>SSTORE 的 Gas 主要由「写入前后 slot 值的变化类型」决定，而不是 cold/warm。例如：</p>
+<pre><code class="language-solidity">_status = 2; // ~5000 gas
+_status = 1; // ~5000 gas
+</code></pre>
+<p>这两个都是非 0 → 非 0 的 SSTORE，即使第二次是 warm slot，依然是 ~5000 Gas，而不是 2900。</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>适用指令</th>
+<th>决定因素</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cold/warm</td>
+<td>SLOAD、slot 访问</td>
+<td>本交易中是否首次访问该 slot</td>
+</tr>
+<tr>
+<td>SSTORE 执行成本</td>
+<td>SSTORE</td>
+<td>slot 的「原始值 → 新值」变化类型</td>
+</tr>
+</tbody>
+</table>
+<p>SSTORE ≠ SLOAD + 写入，SSTORE 是一个原子语义操作，以状态变化为计价单位，而不是以指令执行为计价单位。</p>
+<h2 id="gas_2">七、Gas 退款机制</h2>
+<p>退款机制的演进历程：</p>
+<p><strong>最早版本</strong>：非零→0 = 15,000 refund，refund cap = 1/2</p>
+<p><strong>EIP-2200</strong>：refund cap 降为 1/5</p>
+<p><strong>EIP-3529</strong>：非零→0 refund 从 15,000 → 4,800，SELFDESTRUCT refund 移除</p>
+<p>在 London 升级后的 EIP-3529 中，SSTORE 从非零值写为 0 时仍可获得 Gas 退款，但退款金额从原本的 15,000 Gas 大幅削减为 4,800 Gas。同时，单笔交易中可实际获得的退款总量仍受退款上限限制，即不超过该交易实际消耗 Gas（gasUsed）的 20%。</p>
+<p><strong>EIP-3529 后的规则</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>退款额度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SSTORE 清零（非零 → 0）</td>
+<td>4,800</td>
+</tr>
+<tr>
+<td>SELFDESTRUCT</td>
+<td>不再有退款</td>
+</tr>
+</tbody>
+</table>
+<p>退款上限：最多退还交易总 Gas 的 20%。</p>
+<p><strong>为什么有退款上限？</strong></p>
+<p>历史上出现过「Gas Token」套利：在 Gas 便宜时写入大量存储，在 Gas 贵时清除获取退款。EIP-3529 将退款上限从 50% 降到 20%，基本堵死了这条路。</p>
+<p>退款不是「返现」，而是「抵扣」——它直接减少 Gas Used，但你不会在钱包里看到一笔退款。</p>
+<p>不要为了退款而刻意清零。清零的 5,000 Gas 成本 + 4,800 退款 = 净成本 200 Gas，看起来很便宜。但如果下次还要用这个槽，你又要付 22,100 Gas 从 0 写入非零。只有当你确定这个存储槽「永远不会再用」时，清零才是划算的。</p>
+<h2 id="gas_3">八、Gas 消耗预测心法</h2>
+<p>判断一段代码是否昂贵，只问三个问题：</p>
 <ol>
-<li><strong>函数选择器冲突问题</strong>：代理合约的公开函数会遮蔽逻辑合约的同名函数</li>
-<li><strong>透明代理</strong>：通过检查 msg.sender 区分调用者，消除冲突</li>
-<li><strong>UUPS</strong>：将升级逻辑放入逻辑合约，代理合约极简化</li>
-<li><strong>如何选择</strong>：根据 gas 优化需求、合约大小限制、安全性需求决定</li>
-<li><strong>其他代理模式</strong>：Beacon、Diamond、Minimal Proxy</li>
+<li>是否写 storage</li>
+<li>是否首次访问 slot</li>
+<li>是否写入非零值</li>
 </ol>
-<p><strong>最后的建议</strong>：</p>
-<p>可升级合约是一把双刃剑。它解决了不可变性的困境，但也引入了新的信任假设和安全风险。</p>
-<p>在使用可升级模式前，请认真思考：</p>
+<p>三者同时满足，必然是 Gas hotspot。</p>
+<p>再例如：for 循环本身几乎不贵，真正昂贵的是循环里的 SLOAD 与 SSTORE。memory 扩展虽有二次项，但仍远便宜于 storage。</p>
+<p>这类经验规则的价值，远高于任何表格。</p>
+<p><strong>注意复杂性和可读性</strong></p>
+<p>Gas 优化通常会使代码变得更难读和更复杂。一个好的工程师必须在主观上权衡哪些优化是值得的，哪些不是。</p>
+<h2 id="_2">小结</h2>
+<p>本篇介绍了 Gas 机制的核心原理：</p>
 <ul>
-<li>你的合约真的需要升级能力吗？</li>
-<li>用户是否信任你（或 DAO）不会恶意升级？</li>
-<li>你是否有完善的升级治理流程？</li>
+<li>Gas 是 EVM 衡量计算工作量的燃料，交易费用由 Intrinsic Gas 和 Execution Gas 两部分构成。</li>
+<li>EIP-1559 定价模型通过 Base Fee 和 Priority Fee 计算最终费用，但真正的 Gas 优化发生在 opcode 层。</li>
+<li>在所有操作中，存储读写（SLOAD/SSTORE）是最昂贵的，其中从 0 写入非零值的成本高达 22,100 Gas。</li>
+<li>冷热访问机制和退款规则进一步影响实际成本。</li>
 </ul>
-<p>如果答案都是肯定的，那么请选择适合的模式，遵循最佳实践，让可升级性成为你的优势而非负担。</p>
-<p><strong>参考资料</strong></p>
+<p>下一篇我们将通过一个真实的链上实验，验证本篇介绍的 EIP-1559 费用计算规则，直观感受不同存储操作的 Gas 差异。</p>
+<p><strong>系列导航：</strong></p>
 <ul>
-<li><a href="https://rareskills.io/proxy-patterns">RareSkills: Book of Proxy Patterns</a></li>
-<li><a href="https://ethereum.org/zh/developers/docs/smart-contracts/upgrading">Ethereum.org: 升级智能合约</a></li>
-<li><a href="https://docs.openzeppelin.com/upgrades-plugins">OpenZeppelin Upgrades Plugins</a></li>
-<li><a href="https://eips.ethereum.org/EIPS/eip-1967">EIP-1967: Standard Proxy Storage Slots</a></li>
-<li><a href="https://eips.ethereum.org/EIPS/eip-1822">EIP-1822: Universal Upgradeable Proxy Standard</a></li>
-</ul>
-<p><strong>系列导航</strong></p>
-<ul>
-<li>第一篇：<a href="../solidity_proxy_upgrade_series_part1_251229/">Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？</a></li>
-<li>第二篇：Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS（本篇）</li>
+<li>第一篇：Gas 优化指南（一）：Gas 机制原理（本篇）</li>
+<li>第二篇：<a href="../gas_optimization_guide_part2_eip1559_transaction_analysis/">Gas 优化指南（二）：EIP-1559 交易解析</a></li>
+<li>第三篇：<a href="../gas_optimization_guide_part3_storage_optimization/">Gas 优化指南（三）：存储优化</a></li>
+<li>第四篇：<a href="../gas_optimization_guide_part4_computation_optimization/">Gas 优化指南（四）：计算优化</a></li>
+<li>第五篇：<a href="../gas_optimization_guide_part5_gas_measurement/">Gas 优化指南（五）：Gas 评估与测量</a></li>
 </ul>
 
 
