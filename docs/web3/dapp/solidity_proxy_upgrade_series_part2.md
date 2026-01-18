@@ -42,7 +42,7 @@ contract Implementation {
 
 但没有公开函数，怎么升级？答案是：**通过 msg.sender 来区分调用者**。
 
-![透明代理的路由规则](./../../assets/images/solidity_proxy_upgrade_series_part2_251230_1.png)
+![透明代理的路由规则](./../../assets/images/solidity_proxy_upgrade_series_part2_1.png)
 
 **为什么叫「透明」？**
 
@@ -78,7 +78,7 @@ contract TransparentProxy {
 
 OpenZeppelin 的解决方案是引入 **ProxyAdmin** 合约：
 
-![ProxyAdmin](./../../assets/images/solidity_proxy_upgrade_series_part2_251230_2.png)
+![ProxyAdmin](./../../assets/images/solidity_proxy_upgrade_series_part2_2.png)
 
 - 代理合约的 admin 是 ProxyAdmin 合约（地址固定）
 - ProxyAdmin 的 owner 是真正的管理员
@@ -131,7 +131,7 @@ contract ProxyAdmin {
 
 UUPS（ERC-1822）采用了不同的策略：**把升级逻辑放在逻辑合约中**。
 
-![UUPS](./../../assets/images/solidity_proxy_upgrade_series_part2_251230_3.png)
+![UUPS](./../../assets/images/solidity_proxy_upgrade_series_part2_3.png)
 
 ### 升级是如何工作的？
 
@@ -253,7 +253,7 @@ OpenZeppelin 当前**推荐使用 UUPS**，因为它更轻量且灵活。
 
 ### 架构对比图
 
-![架构对比图](./../../assets/images/solidity_proxy_upgrade_series_part2_251230_4.png)
+![架构对比图](./../../assets/images/solidity_proxy_upgrade_series_part2_4.png)
 
 ## 其他代理模式简介
 
@@ -311,5 +311,5 @@ OpenZeppelin 当前**推荐使用 UUPS**，因为它更轻量且灵活。
 
 **系列导航**
 
-- 第一篇：[Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？](./solidity_proxy_upgrade_series_part1_251229.md)
+- 第一篇：[Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？](./solidity_proxy_upgrade_series_part1.md)
 - 第二篇：Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS（本篇）

@@ -1,6 +1,4 @@
 - 2026-01-01：[闪电贷：从原理到攻击演示](./web3/defi/flash_loan_attack_260101.md)
-- 2025-12-30：[Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS](./web3/dapp/solidity_proxy_upgrade_series_part2_251230.md)
-- 2025-12-29：[Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？](./web3/dapp/solidity_proxy_upgrade_series_part1_251229.md)
 - 2025-11-13:
     - [Gas 优化指南（一）：Gas 机制原理](./web3/dapp/gas_optimization_guide_part1_gas_mechanism.md)
     - [Gas 优化指南（二）：EIP-1559 交易解析](./web3/dapp/gas_optimization_guide_part2_eip1559_transaction_analysis.md)
@@ -8,6 +6,9 @@
     - [Gas 优化指南（四）：计算优化](./web3/dapp/gas_optimization_guide_part4_computation_optimization.md)
     - [Gas 优化指南（五）：Gas 评估与测量](./web3/dapp/gas_optimization_guide_part5_gas_measurement.md)
 - 2024-06-10：[Uniswap V2 价格精度解析](./web3/defi/uniswap_v2_price_precision_240610.md)
+- 2024-06-01：
+    - [Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？](./web3/dapp/solidity_proxy_upgrade_series_part1.md)
+    - [Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS](./web3/dapp/solidity_proxy_upgrade_series_part2.md)
 - 2024-05-27：[Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2](./web3/dapp/solidity_contract_call_part3_240527.md)
 - 2024-05-23：[Solidity 合约间调用（二）：底层调用与 calldata 详解](./web3/dapp/solidity_contract_call_part2_240523.md)
 - 2024-05-21：[Solidity 合约间调用（一）：四种方式调用已部署合约](./web3/dapp/solidity_contract_call_part1_240521.md)

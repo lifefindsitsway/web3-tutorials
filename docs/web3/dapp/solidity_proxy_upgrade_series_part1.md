@@ -17,7 +17,7 @@
 
 既然字节码不可变，那我们换个思路：**把数据和逻辑分开存储**。
 
-![数据与逻辑分离](./../../assets/images/solidity_proxy_upgrade_series_part1_251229_1.png)
+![数据与逻辑分离](./../../assets/images/solidity_proxy_upgrade_series_part1_1.png)
 
 用户始终与代理合约交互，代理合约负责：
 
@@ -158,23 +158,13 @@ contract Caller {
 | callSetValue(456) | **456** | 0 | Logic 合约 |
 | delegateSetValue(789) | 456（不变） | **789** | Caller 合约 |
 
-以下是某次实验的部署信息：
-
-- 部署者地址：0x1d477b7733Fe1347eE91e8D15f8c7f203E147AA0
-- Logic 合约地址：0x6e84C52c6fE239AB2288C07cA2E5b4bF09fBD894
-- Caller 合约地址：0xcCe7de7ae33b8C5721e5777f0237D273111F7F2a
-
 调用 callSetValue 后，Logic.value 变成 456，事件从 Logic 合约发出：
 
-![call 调用结果](./../../assets/images/solidity_proxy_upgrade_series_part1_251229_2.png)
-
-来源：https://sepolia.etherscan.io/address/0x6e84c52c6fe239ab2288c07ca2e5b4bf09fbd894#events
+![call 调用结果](./../../assets/images/solidity_proxy_upgrade_series_part1_2.png)
 
 调用 delegateSetValue 后，Logic.value 不变，但 Caller.value 变成 789，事件从 Caller 合约发出：
 
-![delegatecall 调用结果](./../../assets/images/solidity_proxy_upgrade_series_part1_251229_3.png)
-
-来源：https://sepolia.etherscan.io/address/0xcce7de7ae33b8c5721e5777f0237d273111f7f2a#events
+![delegatecall 调用结果](./../../assets/images/solidity_proxy_upgrade_series_part1_3.png)
 
 ## 存储槽冲突：一个灾难性的 bug
 
@@ -216,7 +206,7 @@ EVM 的存储是一个巨大的 key-value 映射：
 - key：0 到 2²⁵⁶-1 的整数（存储槽编号）
 - value：32 字节的数据
 
-![EVM 存储槽结构](./../../assets/images/solidity_proxy_upgrade_series_part1_251229_4.png)
+![EVM 存储槽结构](./../../assets/images/solidity_proxy_upgrade_series_part1_4.png)
 
 Solidity 编译器默认从 slot 0 开始分配变量，这就是冲突的根源。
 
@@ -360,4 +350,4 @@ contract User {
 **系列导航**
 
 - 第一篇：Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？（本篇）
-- 第二篇：[Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS](./solidity_proxy_upgrade_series_part2_251230.md)
+- 第二篇：[Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS](./solidity_proxy_upgrade_series_part2.md)
