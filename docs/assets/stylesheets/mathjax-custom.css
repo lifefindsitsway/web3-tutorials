@@ -1,0 +1,165 @@
+/**
+ * MathJax 公式样式优化 + 代码高亮颜色调整
+ * 让公式显示效果更接近 LaTeX / GitHub 风格
+ */
+
+/* ============================================================================
+   代码高亮颜色调整 - 数字常量
+   ============================================================================ */
+
+/* 
+ * Pygments 数字类名：
+ * .m  = Number (通用数字)
+ * .mi = Number.Integer
+ * .mf = Number.Float  
+ * .mh = Number.Hex
+ * .mo = Number.Oct
+ * .mb = Number.Bin
+ * .il = Number.Integer.Long
+ * .s  = String (有时数字被识别为字符串)
+ */
+
+/* 方法1: 直接选择器 */
+.highlight .m,
+.highlight .mi,
+.highlight .mf,
+.highlight .mh,
+.highlight .mo,
+.highlight .mb,
+.highlight .il {
+  color: #0997b3 !important;
+}
+
+/* 方法2: 代码块内的 span 选择器 */
+.md-typeset code .m,
+.md-typeset code .mi,
+.md-typeset code .mf,
+.md-typeset code .mh,
+.md-typeset code .mo,
+.md-typeset code .mb,
+.md-typeset code .il,
+.md-typeset pre .m,
+.md-typeset pre .mi,
+.md-typeset pre .mf,
+.md-typeset pre .mh,
+.md-typeset pre .mo,
+.md-typeset pre .mb,
+.md-typeset pre .il {
+  color: #0997b3 !important;
+}
+
+/* 方法3: 更通用的选择器 */
+pre code span.m,
+pre code span.mi,
+pre code span.mf,
+pre code span.mh,
+pre code span.mo,
+pre code span.mb,
+pre code span.il {
+  color: #0997b3 !important;
+}
+
+/* 方法4: 针对 Material 主题的 highlightjs */
+.hljs-number {
+  color: #0997b3 !important;
+}
+
+/* 方法5: 针对 codehilite 扩展 */
+.codehilite .m,
+.codehilite .mi,
+.codehilite .mf,
+.codehilite .mh,
+.codehilite .mo,
+.codehilite .mb,
+.codehilite .il {
+  color: #0997b3 !important;
+}
+
+/* 暗色模式 */
+[data-md-color-scheme="slate"] .highlight .m,
+[data-md-color-scheme="slate"] .highlight .mi,
+[data-md-color-scheme="slate"] .highlight .mf,
+[data-md-color-scheme="slate"] .highlight .mh,
+[data-md-color-scheme="slate"] .highlight .mo,
+[data-md-color-scheme="slate"] .highlight .mb,
+[data-md-color-scheme="slate"] .highlight .il,
+[data-md-color-scheme="slate"] .md-typeset code .mi,
+[data-md-color-scheme="slate"] .md-typeset code .mf,
+[data-md-color-scheme="slate"] .md-typeset pre .mi,
+[data-md-color-scheme="slate"] .md-typeset pre .mf,
+[data-md-color-scheme="slate"] .hljs-number,
+[data-md-color-scheme="slate"] .codehilite .mi,
+[data-md-color-scheme="slate"] .codehilite .mf {
+  color: #56d4dd !important;
+}
+
+/* ============================================================================
+   MathJax 公式样式
+   ============================================================================ */
+
+/* 块级公式居中显示，增加上下间距 */
+mjx-container[jax="CHTML"][display="true"] {
+  display: block !important;
+  text-align: center;
+  margin: 1.5em 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* 行内公式的垂直对齐 */
+mjx-container[jax="CHTML"]:not([display="true"]) {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* 公式字体大小微调，与正文协调 */
+/* ⚠️ 调整公式大小只需修改这里的百分比值 */
+/* 100% = 与正文相同，105% = 稍大，95% = 稍小 */
+mjx-container[jax="CHTML"] {
+  font-size: 110% !important;
+}
+
+/* 确保公式中的文本使用衬线字体 */
+mjx-container mjx-mtext {
+  font-family: "Latin Modern Roman", "Times New Roman", "STIX Two Text", serif !important;
+}
+
+/* 优化分数线的显示 */
+mjx-container mjx-frac mjx-frac-line {
+  border-top-width: 0.06em !important;
+}
+
+/* 上下标的字体大小 */
+mjx-container mjx-script {
+  font-size: 70% !important;
+}
+
+/* 根号样式优化 */
+mjx-container mjx-sqrt mjx-surd {
+  vertical-align: top;
+}
+
+/* 大括号、大括号的粗细 */
+mjx-container mjx-delim-v mjx-c,
+mjx-container mjx-delim-h mjx-c {
+  font-weight: normal;
+}
+
+/* 公式编号样式 */
+mjx-container[jax="CHTML"] mjx-mtd[style*="text-align: right"] {
+  font-size: 90%;
+  color: #666;
+}
+
+/* 暗色模式下的公式颜色 */
+[data-md-color-scheme="slate"] mjx-container {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* 响应式：小屏幕上允许公式滚动 */
+@media screen and (max-width: 768px) {
+  mjx-container[jax="CHTML"][display="true"] {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

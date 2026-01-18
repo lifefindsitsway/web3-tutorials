@@ -43,66 +43,81 @@ theme:
   icon:
     repo: fontawesome/brands/github
 
-  plugin: 
-    - search
-    - git-revision-date-localized:
-        type: datetime
-        timezone: Asia/Shanghai
-        locale: zh
-        enable_creation_date: true
-    - changelog
-    - statistics:
-        page_check_metadata: comment
-    - toc
-    - heti
-    - tikzautomata
-    - comments
+# ============================================================================
+# 以下配置应该在 theme 之外（顶级配置）
+# ============================================================================
 
-  extra: 
-    social: 
-      - icon: fontawesome/brands/github
-        link: https://github.com/lifefindsitsway/web3-tutorials/
-    analytics:
-      provider: google
-      property: G-KJB4RXSKZG
-  
-  markdown_extensions:
-    - toc:
+plugins:
+  - search
+  # 自动从 Git 提交历史中提取文章的最后修改时间和创建时间，并显示在页面上
+  - git-revision-date-localized:
+      type: datetime
+      timezone: Asia/Shanghai
+      locale: zh
+      enable_creation_date: true
+  # 用于生成和管理站点的更新日志（Changelog）页面
+  # - changelog
+  # 统计每篇文章的字数和预计阅读时间，并可以在页面上显示
+  - statistics:
+      # page_check_metadata: comment  # 注释掉这行，所有页面都会显示
+  # 优化中文排版
+  - heti
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/lifefindsitsway/web3-tutorials/
+  analytics:
+    provider: google
+    property: G-KJB4RXSKZG
+
+markdown_extensions:
+  - toc:
       permalink: true
       toc_depth: 4
-    - meta
-    - def_list
-    - attr_list
-    - md_in_html
-    - sane_lists
-    - admonition
-    - pymdownx.keys
-    - pymdownx.mark
-    - pymdownx.tilde
-    - pymdownx.critic
-    - pymdownx.details
-    - pymdownx.snippets
-    - pymdownx.magiclink
-    - pymdownx.superfences
-    - pymdownx.inlinehilite
-    - pymdownx.emoji:
-        emoji_index: !!python/name:material.extensions.emoji.twemoji
-        emoji_generator: !!python/name:material.extensions.emoji.to_svg
-    - pymdownx.tabbed:
-        alternate_style: true 
-    - pymdownx.tasklist:
-        custom_checkbox: true
-    - pymdownx.highlight:
-        anchor_linenums: true
-    - pymdownx.arithmatex:
-        generic: true
+  - meta
+  - def_list
+  - attr_list
+  - md_in_html
+  - sane_lists
+  - admonition
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.snippets
+  - pymdownx.magiclink
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.arithmatex:
+      generic: true
+
+# MathJax 配置
+# 注意顺序：配置文件必须在 MathJax 主文件之前加载
+extra_javascript:
+  - assets/javascripts/mathjax-config.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# 自定义 CSS（包含公式样式优化）
+extra_css:
+  - assets/stylesheets/mathjax-custom.css
 
 nav:
   - Welcome to My Blog: index.md
   - 更新日志: changelog.md
-  - 区块链基础: 
+  - 区块链基础:
     - 比特币的诞生历程: blockchain/the_evolution_of_bitcoin_240213.md
-  - DAPP开发: 
+  - DAPP开发:
     - 代理合约与可升级合约系列（一）：为什么需要可升级？: web3/dapp/solidity_proxy_upgrade_series_part1_251229.md
     - 代理合约与可升级合约系列（二）：透明代理 vs UUPS: web3/dapp/solidity_proxy_upgrade_series_part2_251230.md
     - Gas 优化指南（一）：Gas 机制原理: web3/dapp/gas_optimization_guide_part1_gas_mechanism.md
@@ -119,6 +134,6 @@ nav:
     - EVM 基础原理（三）：ABI 编码与底层调用: web3/dapp/evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413.md
     - Solidity 地址类型 & 常见用法全攻略: web3/dapp/address_240321.md
     - 为什么以太坊地址是 20 字节？从私钥到地址的全解析: web3/dapp/ethereum_address_size_240320.md
-  - DeFi: 
+  - DeFi:
     - Uniswap V2 价格精度解析: web3/defi/uniswap_v2_price_precision_240610.md
     - 闪电贷：从原理到攻击演示: web3/defi/flash_loan_attack_260101.md
