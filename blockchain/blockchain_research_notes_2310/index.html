@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://lifefindsitsway.wiki/blockchain/blockchain_research_notes_2310/" rel="canonical"/>
+<link href="../the_evolution_of_bitcoin_240213/" rel="prev"/>
+<link href="../blockchain_and_innovative_thinking_notes_2101/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.5.34" name="generator"/>
+<title>北京大学肖臻老师《区块链技术与应用》学习笔记 - Life's Web3 开发指南</title>
+<link href="../../assets/stylesheets/main.35f28582.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto Slab";--md-code-font:"Roboto Mono"}</style>
+<link href="../../css/heti.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/mathjax-custom.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-KJB4RXSKZG"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-KJB4RXSKZG",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-KJB4RXSKZG",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="deep-purple" data-md-color-primary="light-blue" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#_1">
+          跳转至
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="页眉" class="md-header__inner md-grid">
+<a aria-label="Life's Web3 开发指南" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Life's Web3 开发指南
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              北京大学肖臻老师《区块链技术与应用》学习笔记
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="light-blue" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="black" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="搜索" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="搜索" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="查找" class="md-search__options">
+<a aria-label="分享" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="分享">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="清空当前内容" class="md-search__icon md-icon" tabindex="-1" title="清空当前内容" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    web3-tutorials
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="导航栏" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Life's Web3 开发指南" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Life's Web3 开发指南
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    web3-tutorials
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    Welcome to My Blog
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../changelog/">
+<span class="md-ellipsis">
+    更新日志
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    区块链基础
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            区块链基础
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../the_evolution_of_bitcoin_240213/">
+<span class="md-ellipsis">
+    比特币的诞生历程
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    北京大学肖臻老师《区块链技术与应用》学习笔记
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    北京大学肖臻老师《区块链技术与应用》学习笔记
+  </span>
+</a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
+      课程简介
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc">
+<span class="md-ellipsis">
+      BTC
+    </span>
+</a>
+<nav aria-label="BTC" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-">
+<span class="md-ellipsis">
+      BTC - 密码学原理
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_1">
+<span class="md-ellipsis">
+      BTC - 数据结构
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_2">
+<span class="md-ellipsis">
+      BTC - 协议
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_3">
+<span class="md-ellipsis">
+      BTC - 实现
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_4">
+<span class="md-ellipsis">
+      BTC - 网络
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_5">
+<span class="md-ellipsis">
+      BTC - 挖矿难度
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_6">
+<span class="md-ellipsis">
+      BTC - 挖矿
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_7">
+<span class="md-ellipsis">
+      BTC - 比特币脚本
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_8">
+<span class="md-ellipsis">
+      BTC - 分叉
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_9">
+<span class="md-ellipsis">
+      BTC - 问答
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_10">
+<span class="md-ellipsis">
+      BTC - 匿名性
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_11">
+<span class="md-ellipsis">
+      BTC - 思考
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth">
+<span class="md-ellipsis">
+      ETH
+    </span>
+</a>
+<nav aria-label="ETH" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-">
+<span class="md-ellipsis">
+      ETH - 以太坊概述
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_1">
+<span class="md-ellipsis">
+      ETH - 账户
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_2">
+<span class="md-ellipsis">
+      ETH - 状态树【有点难】
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_3">
+<span class="md-ellipsis">
+      ETH - 交易树和收据树
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-ghost">
+<span class="md-ellipsis">
+      ETH - GHOST
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_4">
+<span class="md-ellipsis">
+      ETH - 挖矿算法
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_5">
+<span class="md-ellipsis">
+      ETH - 难度调整
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_6">
+<span class="md-ellipsis">
+      ETH - 权益证明
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_7">
+<span class="md-ellipsis">
+      ETH - 智能合约
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-thedao">
+<span class="md-ellipsis">
+      ETH - TheDAO
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_8">
+<span class="md-ellipsis">
+      ETH - 反思
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_9">
+<span class="md-ellipsis">
+      ETH - 美链
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
+      总结
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_3">
+<span class="md-ellipsis">
+      补充资料
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../blockchain_and_innovative_thinking_notes_2101/">
+<span class="md-ellipsis">
+    南京大学公开课《区块链与创新思维》学习笔记
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    DAPP开发
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            DAPP开发
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/gas_optimization_guide_part1_gas_mechanism/">
+<span class="md-ellipsis">
+    Gas 优化指南（一）：Gas 机制原理
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/gas_optimization_guide_part2_eip1559_transaction_analysis/">
+<span class="md-ellipsis">
+    Gas 优化指南（二）：EIP-1559 交易解析
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/gas_optimization_guide_part3_storage_optimization/">
+<span class="md-ellipsis">
+    Gas 优化指南（三）：存储优化
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/gas_optimization_guide_part4_computation_optimization/">
+<span class="md-ellipsis">
+    Gas 优化指南（四）：计算优化
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/gas_optimization_guide_part5_gas_measurement/">
+<span class="md-ellipsis">
+    Gas 优化指南（五）：Gas 评估与测量
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/solidity_proxy_upgrade_series_part1/">
+<span class="md-ellipsis">
+    代理合约与可升级合约系列（一）：为什么需要可升级？
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/solidity_proxy_upgrade_series_part2/">
+<span class="md-ellipsis">
+    代理合约与可升级合约系列（二）：透明代理 vs UUPS
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/solidity_contract_call_part1_240521/">
+<span class="md-ellipsis">
+    Solidity 合约间调用（一）：四种方式调用已部署合约
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/solidity_contract_call_part2_240523/">
+<span class="md-ellipsis">
+    Solidity 合约间调用（二）：底层调用与 calldata 详解
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/solidity_contract_call_part3_240527/">
+<span class="md-ellipsis">
+    Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/hardhat_tutorial_240415/">
+<span class="md-ellipsis">
+    Hardhat 入门指南（25年更新版）
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/evm_fundamentals_part1_from_transactions_to_bytecode_240410/">
+<span class="md-ellipsis">
+    EVM 基础原理（一）：从交易到字节码
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/evm_fundamentals_part2_data_regions_and_contract_execution_240411/">
+<span class="md-ellipsis">
+    EVM 基础原理（二）：数据区域与合约执行
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">
+<span class="md-ellipsis">
+    EVM 基础原理（三）：ABI 编码与底层调用
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/address_240321/">
+<span class="md-ellipsis">
+    Solidity 地址类型 &amp; 常见用法全攻略
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/ethereum_address_size_240320/">
+<span class="md-ellipsis">
+    为什么以太坊地址是 20 字节？从私钥到地址的全解析
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    DeFi
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            DeFi
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/defi/uniswap_v2_price_precision_240610/">
+<span class="md-ellipsis">
+    Uniswap V2 价格精度解析
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/defi/flash_loan_attack_260101/">
+<span class="md-ellipsis">
+    闪电贷：从原理到攻击演示
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
+      课程简介
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc">
+<span class="md-ellipsis">
+      BTC
+    </span>
+</a>
+<nav aria-label="BTC" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-">
+<span class="md-ellipsis">
+      BTC - 密码学原理
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_1">
+<span class="md-ellipsis">
+      BTC - 数据结构
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_2">
+<span class="md-ellipsis">
+      BTC - 协议
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_3">
+<span class="md-ellipsis">
+      BTC - 实现
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_4">
+<span class="md-ellipsis">
+      BTC - 网络
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_5">
+<span class="md-ellipsis">
+      BTC - 挖矿难度
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_6">
+<span class="md-ellipsis">
+      BTC - 挖矿
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_7">
+<span class="md-ellipsis">
+      BTC - 比特币脚本
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_8">
+<span class="md-ellipsis">
+      BTC - 分叉
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_9">
+<span class="md-ellipsis">
+      BTC - 问答
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_10">
+<span class="md-ellipsis">
+      BTC - 匿名性
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#btc-_11">
+<span class="md-ellipsis">
+      BTC - 思考
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth">
+<span class="md-ellipsis">
+      ETH
+    </span>
+</a>
+<nav aria-label="ETH" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-">
+<span class="md-ellipsis">
+      ETH - 以太坊概述
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_1">
+<span class="md-ellipsis">
+      ETH - 账户
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_2">
+<span class="md-ellipsis">
+      ETH - 状态树【有点难】
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_3">
+<span class="md-ellipsis">
+      ETH - 交易树和收据树
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-ghost">
+<span class="md-ellipsis">
+      ETH - GHOST
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_4">
+<span class="md-ellipsis">
+      ETH - 挖矿算法
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_5">
+<span class="md-ellipsis">
+      ETH - 难度调整
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_6">
+<span class="md-ellipsis">
+      ETH - 权益证明
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_7">
+<span class="md-ellipsis">
+      ETH - 智能合约
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-thedao">
+<span class="md-ellipsis">
+      ETH - TheDAO
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_8">
+<span class="md-ellipsis">
+      ETH - 反思
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#eth-_9">
+<span class="md-ellipsis">
+      ETH - 美链
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
+      总结
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_3">
+<span class="md-ellipsis">
+      补充资料
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1>北京大学肖臻老师《区块链技术与应用》学习笔记</h1>
+<div style="margin-top: -30px; font-size: 0.75em; opacity: 0.7;">
+<p><span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10h-2a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8zm6.78 1a.7.7 0 0 0-.48.2l-1.22 1.21 2.5 2.5L20.8 5.7c.26-.26.26-.7 0-.95L19.25 3.2c-.13-.13-.3-.2-.47-.2m-2.41 2.12L9 12.5V15h2.5l7.37-7.38z"></path></svg></span> 约<span class="heti-skip"><span class="heti-spacing"> </span>5064<span class="heti-spacing"> </span></span>个字 <span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 17H7V3h14m0-2H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2M3 5H1v16a2 2 0 0 0 2 2h16v-2H3m12.96-10.71-2.75 3.54-1.96-2.36L8.5 15h11z"></path></svg></span> <span>32<span class="heti-spacing"> </span></span>张图片 <span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 20c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8m0-18c5.5 0 10 4.5 10 10s-4.5 10-10 10C6.47 22 2 17.5 2 12S6.5 2 12 2m.5 11H11V7h1.5v4.26l3.7-2.13.75 1.3z"></path></svg></span> 预计阅读时间<span class="heti-skip"><span class="heti-spacing"> </span>17<span class="heti-spacing"> </span></span>分钟</p>
+</div>
+<p>课程：<a href="https://www.bilibili.com/video/BV1Vt411X7JF/?vd_source=140fe50830cce251dbd8e167c7210aaa">北京大学肖臻老师《区块链技术与应用》公开课</a></p>
+<p><span>B<span class="heti-spacing"> </span></span>站发布时间：2018-11-30</p>
+<p>肖臻老师<span><span class="heti-spacing"> </span>CV</span>：<a href="http://zhenxiao.com/cv.pdf">http://zhenxiao.com/cv.pdf</a></p>
+<p><img alt="来源：http://zhenxiao.com/cv.pdf" src="../../assets/images/blockchain_research/cv.png"/></p>
+<p>第一次观看<span class="heti-skip"><span class="heti-spacing"> </span>BTC<span class="heti-spacing"> </span></span>部分内容总结：</p>
+<p>（1）第一次观看时不必每个知识点都弄懂，也不一定非要做笔记，看感兴趣的部分就行；</p>
+<p>（2）该研究生课程适合有一定基础的人：具备一定数据结构基础，掌握一些<span><span class="heti-spacing"> </span>Blockchain/Cryptography</span>，本人科班出身，学习过南大《区块链与创新思维》课程，总体上来说，观感不错，可作为前者的进阶教程。</p>
+<h2 id="_1">课程简介<a class="headerlink" href="#_1" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p>北京大学公开课《区块链技术与应用》由肖臻老师讲授，主要讲解区块链的基本概念和实现原理，面向广大对区块链技术和应用感兴趣的同学。通过这门课的学习，能够掌握比特币、以太坊等区块链技术的设计思路并有效解决实际问题。了解更多北京大学区块链课程的信息，获取课程相关资料请访问肖臻老师的<span><span class="heti-spacing"> </span>homepage</span>：<a href="http://zhenxiao.com/">http://zhenxiao.com/</a>。</p>
+<p><img alt="课程基本信息" src="../../assets/images/blockchain_research/1.png"/></p>
+<p>注：肖老师<span class="heti-skip"><span class="heti-spacing"> </span>2018<span class="heti-spacing"> </span></span>年课上就说这本<span class="heti-skip"><span class="heti-spacing"> </span>2016<span class="heti-spacing"> </span></span>年出版的书，比较过时了。</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/2.png"/></p>
+<p><img alt="img" src="../../assets/images/blockchain_research/3.png"/></p>
+<h2 id="btc">BTC<a class="headerlink" href="#btc" title="Permanent link">¶</a></h2>
+<h3 id="btc-"><span>BTC -<span class="heti-spacing"> </span></span>密码学原理<a class="headerlink" href="#btc-" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><img alt="1" src="../../assets/images/blockchain_research/btc/1.png"/></p>
+<h3 id="btc-_1"><span>BTC -<span class="heti-spacing"> </span></span>数据结构<a class="headerlink" href="#btc-_1" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<h3 id="btc-_2"><span>BTC -<span class="heti-spacing"> </span></span>协议<a class="headerlink" href="#btc-_2" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>数字货币的发行</p>
+<p>怎么防范<span><span class="heti-spacing"> </span>double spending attack</span></p>
+<p>Bitcoin Script</p>
+<p>Sybil attack</p>
+<h3 id="btc-_3"><span>BTC -<span class="heti-spacing"> </span></span>实现<a class="headerlink" href="#btc-_3" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>比特币<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>区块链中用到了哪些数学知识？</p>
+<p>Bernoulli trial</p>
+<p>progress free（不成比例的优势）</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/btc/2.png"/></p>
+<p>比特币的稀缺性是人为造成的。</p>
+<p>Bitcoin is secured by mining.</p>
+<p>selfish mining</p>
+<p><a href="https://www.blockchain.com/explorer">https://www.blockchain.com/explorer</a></p>
+<h3 id="btc-_4"><span>BTC -<span class="heti-spacing"> </span></span>网络<a class="headerlink" href="#btc-_4" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<h3 id="btc-_5"><span>BTC -<span class="heti-spacing"> </span></span>挖矿难度<a class="headerlink" href="#btc-_5" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>出块时间不是越短越好，</p>
+<h3 id="btc-_6"><span>BTC -<span class="heti-spacing"> </span></span>挖矿<a class="headerlink" href="#btc-_6" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><img alt="img" src="../../assets/images/blockchain_research/btc/3.png"/></p>
+<p><img alt="img" src="../../assets/images/blockchain_research/btc/4.png"/></p>
+<p>CPU，GPU，<span>ASIC<span class="heti-spacing"> </span></span>芯片</p>
+<p>矿池</p>
+<h3 id="btc-_7"><span>BTC -<span class="heti-spacing"> </span></span>比特币脚本<a class="headerlink" href="#btc-_7" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>基于栈的语言</p>
+<p>注：这节课内容涉及较多脚本</p>
+<h3 id="btc-_8"><span>BTC -<span class="heti-spacing"> </span></span>分叉<a class="headerlink" href="#btc-_8" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>state fork：forking attack, deliberate fork</p>
+<p>protocol fork： 比特币协议不同造成的分叉。hard fork，soft fork</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/btc/5.png"/></p>
+<p><img alt="img" src="../../assets/images/blockchain_research/btc/6.png"/></p>
+<p>注： <span>soft fork<span class="heti-spacing"> </span></span>系统不会有永久性分叉。</p>
+<p>coinbase</p>
+<p>P2SH：Pay to Script Hash</p>
+<h3 id="btc-_9"><span>BTC -<span class="heti-spacing"> </span></span>问答<a class="headerlink" href="#btc-_9" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>Proof of Burn：OP_RETURN</p>
+<p>比特币的一些数据：</p>
+<p>Blockchain Size</p>
+<p>Number of Unspent Transaction Outputs</p>
+<p>矿池挖矿的情况：</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/btc/7.png"/></p>
+<p>Market Price（价格）</p>
+<p>Market Capitalization（市值）</p>
+<p>USD Exchange Trade Volume（比特币交易量）</p>
+<p>Confirmed Transactions Per Day</p>
+<p>Average Number Of Transactions Per Block</p>
+<h3 id="btc-_10"><span>BTC -<span class="heti-spacing"> </span></span>匿名性<a class="headerlink" href="#btc-_10" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>比特币交易的地址账户可能被关联起来；</p>
+<p>资金的转入转出（与实体世界发生联系<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>；</p>
+<p>用比特币支付，例如餐馆等（交易费用高，资金到账时间长<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，可能被社会工程学手段侦测出；</p>
+<p><span>Silk Road<span class="heti-spacing"> </span></span>创始人被抓</p>
+<p>hide your identify from whom?</p>
+<p>coin mixing（可能跑路<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，一些钱包可能自带<span class="heti-skip"><span class="heti-spacing"> </span>coin mixing<span class="heti-spacing"> </span></span>功能，交易所天然具有<span class="heti-skip"><span class="heti-spacing"> </span>coin mixing<span class="heti-spacing"> </span></span>性质，</p>
+<p>零知识证明：</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/btc/8.png"/></p>
+<p>性质一的逆否命题</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/btc/9.png"/></p>
+<p><img alt="img" src="../../assets/images/blockchain_research/btc/10.png"/></p>
+<p><img alt="img" src="../../assets/images/blockchain_research/btc/11.png"/></p>
+<p>在不知道具体内容的情况下签名</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/btc/12.png"/></p>
+<p>安全性与实用性之间达成平衡</p>
+<h3 id="btc-_11"><span>BTC -<span class="heti-spacing"> </span></span>思考<a class="headerlink" href="#btc-_11" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>哈希指针</strong>：指针保存的是本地内存的地址，只在本地有意义，发送到其他计算机上就没有意义了。发布区块的时候，哈希指针是如何通过网络进行传输的。没有指针，只有哈希。</p>
+<p>（key,value）levelDB</p>
+<p><strong>区块恋</strong>：截断私钥安全性降低，可以用多重签名。<span>UTXO<span class="heti-spacing"> </span></span>中的死钱增多。</p>
+<p><strong>分布式共识</strong>：</p>
+<p>为什么比特币系统能够绕过分布式共识中的那些不可能结论？</p>
+<blockquote>
+<p><strong><em>知识改变命运，但是对知识的一知半解，可能使命运变得更差。</em></strong></p>
+<p><strong><em>不要被学术界的思维限制了头脑，不要被程序员的思维限制了想象力。</em></strong></p>
+</blockquote>
+<p><strong>比特币的稀缺性</strong>：比特币这种总量固定的东西不适合拿来当作货币<heti-adjacent class="heti-adjacent-half">，</heti-adjacent>（一个好的货币要自带通货膨胀功能<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，为什么放弃金本位，新增黄金产量跟不上社会新增财富速度，黄金会变得越来越值钱。</p>
+<p><strong>量子计算</strong>：距离实用还差很远；传统金融业首先受到冲击，加密货币总市值在现代金融体系中占比很小；量子加密算法；比特币额外保密措施：保护公钥不泄露。</p>
+<h2 id="eth">ETH<a class="headerlink" href="#eth" title="Permanent link">¶</a></h2>
+<h3 id="eth-"><span>ETH -<span class="heti-spacing"> </span></span>以太坊概述<a class="headerlink" href="#eth-" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>很多人认为：用<span class="heti-skip"><span class="heti-spacing"> </span>ASIC<span class="heti-spacing"> </span></span>芯片的矿机去挖矿与当初区块链宣扬的去中心化的理念不符。</p>
+<p>如果货币可以去中心化，还有什么可以去中心化呢？</p>
+<p>Bitcoin: decentralized currency</p>
+<p>Ethereum: decentralized contract</p>
+<h3 id="eth-_1"><span>ETH -<span class="heti-spacing"> </span></span>账户<a class="headerlink" href="#eth-_1" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/1.png"/></p>
+<p>比特币系统中，没有显视地维护这种基于账户的交易的概念，每个交易是单独处理的。需要说明币的来源。</p>
+<p>以太坊：account-based ledger，可以防范<span><span class="heti-spacing"> </span>double spending attack</span></p>
+<p>重放攻击（replay attack<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：添加一个<span class="heti-skip"><span class="heti-spacing"> </span>nonce<span class="heti-spacing"> </span></span>值（发出的交易次数<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<p>externally owned account（外部账户<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：balance、nonce。</p>
+<p>smart contract account（合约账户<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>：code、storage；合约账户不能主动发起一个交易，所有交易只能由外部账户发起，但如果外部账户发起的一个交易调用了一个合约账户，这个合约账户可以发送一个<span class="heti-skip"><span class="heti-spacing"> </span>message<span class="heti-spacing"> </span></span>来调用另外一个合约。</p>
+<p><em>基于交易的账户模型在隐私保护方面做得比较好，每次交易可以换个新的账户，但是以太坊要支持的是智能合约，对于合约来说，要求参与者有比较稳定的身份。</em></p>
+<p>financial derivative（金融衍生品）</p>
+<h3 id="eth-_2"><span>ETH -<span class="heti-spacing"> </span></span>状态树【有点难】<a class="headerlink" href="#eth-_2" title="Permanent link">¶</a></h3>
+<p>从账户地址到账户状态的映射：addr -&gt; state<heti-adjacent class="heti-adjacent-half">。</heti-adjacent>【状态树用于存储以太坊区块链上所有账户的状态】</p>
+<p>以太坊中的地址是<span class="heti-skip"><span class="heti-spacing"> </span>160<span class="heti-spacing"> </span></span>位，即<span class="heti-skip"><span class="heti-spacing"> </span>20<span class="heti-spacing"> </span></span>字节，常表示成<span class="heti-skip"><span class="heti-spacing"> </span>40<span class="heti-spacing"> </span></span>个<span class="heti-skip"><span class="heti-spacing"> </span>16<span class="heti-spacing"> </span></span>进制的数。</p>
+<p>1）哈希表存储<span class="heti-skip"><span class="heti-spacing"> </span>addr -&gt; state<span class="heti-spacing"> </span></span>映射？</p>
+<p>如果跟一个人签合同，但是要对方证明一下自己账户余额，对方要怎么提供这个证明？</p>
+<p>把哈希表中的内容组成一个<span><span class="heti-spacing"> </span>Merkle Tree</span>，算出一个根哈希值，保存在<span class="heti-skip"><span class="heti-spacing"> </span>block header<span class="heti-spacing"> </span></span>中。如果发布一个新区块，新区块包含新的交易，执行这些新交易就会使得哈希表内容发生变化，发布下一个区块时，需要把哈希表中的内容重新组织成一个<span><span class="heti-spacing"> </span>Merkle Tree</span>，代价太大，因为大多数账户的状态是不发生变化的。</p>
+<p>2）用<span class="heti-skip"><span class="heti-spacing"> </span>Merkle Tree<span class="heti-spacing"> </span></span>来把所有账户都放进去，改的时候直接在<span class="heti-skip"><span class="heti-spacing"> </span>Merkle Tree<span class="heti-spacing"> </span></span>里改，每个区块更新的只是一小部分账户，所以改的只是<span class="heti-skip"><span class="heti-spacing"> </span>Merkle Tree<span class="heti-spacing"> </span></span>的一小部分。没有提供高效地查找和更新的方法【增删改查<heti-adjacent class="heti-adjacent-half">】</heti-adjacent>，同时因为<span class="heti-skip"><span class="heti-spacing"> </span>Merkle Tree<span class="heti-spacing"> </span></span>节点不排序，所以<span class="heti-skip"><span class="heti-spacing"> </span>Merkle Tree<span class="heti-spacing"> </span></span>数量不唯一。</p>
+<p>注：比特币中的<span class="heti-skip"><span class="heti-spacing"> </span>Merkle Tree<span class="heti-spacing"> </span></span>是不排序的，只有具备记账权的节点才能发布区块，这样组成的<span class="heti-skip"><span class="heti-spacing"> </span>Merkle Tree<span class="heti-spacing"> </span></span>数量才是唯一的。</p>
+<blockquote>
+<p>我希望同学们上完这个课之后，不光是知道比特币、以太坊是怎么工作的，还能设计出自己的加密货币，设计出更好的数据结构。</p>
+</blockquote>
+<p>3）trie（retrieval）</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/2.png"/></p>
+<p>（1）每个节点的分支数目取决于<span class="heti-skip"><span class="heti-spacing"> </span>key<span class="heti-spacing"> </span></span>值中每个元素的取值范围。分叉树有时候叫做<span><span class="heti-spacing"> </span>branching factor</span>；</p>
+<p>（2）<span>trie<span class="heti-spacing"> </span></span>的查找效率取决于<span class="heti-skip"><span class="heti-spacing"> </span>key<span class="heti-spacing"> </span></span>的长度；</p>
+<p>（3）哈希碰撞，哈希表可能出现两个不同地址映射到同一个位置，<span>trie<span class="heti-spacing"> </span></span>不会出现哈希碰撞；</p>
+<p>（4）<span>Merkle Tree<span class="heti-spacing"> </span></span>数目唯一；</p>
+<p>（5）更新操作的局部性，每次发布一个区块，系统中绝大多数账户的状态是不变的，只有个别受到影响的账户的状态才会变。</p>
+<p>上图中<span class="heti-skip"><span class="heti-spacing"> </span>trie<span class="heti-spacing"> </span></span>的存储效率低</p>
+<p>Patricia tree/trie：压缩前缀树；</p>
+<p>2^160 ：地址长度非常长，是去中心化的系统防止账户冲突的唯一办法，</p>
+<p>MPT：Merkle Patricia Tree</p>
+<p>Merkle tree VS binary tree</p>
+<p>区块链<span class="heti-skip"><span class="heti-spacing"> </span>VS<span class="heti-spacing"> </span></span>链表：把普通指针换成哈希指针。</p>
+<p>所有的账户组织成一个<span><span class="heti-spacing"> </span>Patricia Tree</span>，用路径压缩提高效率，然后把普通指针换成哈希指针，就可以计算出一个根哈希值了，这个根哈希值也是写在<span class="heti-skip"><span class="heti-spacing"> </span>block header<span class="heti-spacing"> </span></span>里。比特币的<span class="heti-skip"><span class="heti-spacing"> </span>block header<span class="heti-spacing"> </span></span>里只有一个根哈希值，就是区块里包含的交易组成的<span class="heti-skip"><span class="heti-spacing"> </span>Merkle Tree<span class="heti-spacing"> </span></span>的根哈希值，以太坊里有三个根哈希值：状态树、交易树</p>
+<p>根哈希值有什么用？</p>
+<p>（1）防止篡改，只要根哈希值不变，整个树的任何部分都没有办法篡改，这样就可以保证每个账户的状态没有被篡改；</p>
+<p>（2）Merkle Proof；</p>
+<p>Modified MPT：</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/3.png"/></p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/4.png"/></p>
+<p>以太坊中的结构是一个大的<span><span class="heti-spacing"> </span>MPT</span>，包含很多小的<span><span class="heti-spacing"> </span>MPT</span>，每个合约账户的存储都是小的<span><span class="heti-spacing"> </span>MPT</span>。</p>
+<p>为什么要维护这些历史记录：</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/5.png"/></p>
+<p>以太坊中的出块时间降到十几秒，临时性的分叉是一种常态。例如上图中，下面的区块分叉后需要回滚，取消该区块中的状态，退回到分叉前的区块的状态，然后沿着上面的链推进。</p>
+<p>以太坊支持智能合约，智能合约是图灵完备的，理论上可以实现很复杂的功能，跟比特币中简单的脚本还不一样，如果不保留以前的状态，智能合约执行完之后，不可能再推算出前面的状态。</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/6.png"/></p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/7.png"/></p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/8.png"/></p>
+<p>（key, value)：前面讲的都是<code>key</code>，也就是地址的管理方式，那<code>value</code>，即状态是怎么存储在状态树中的？用<span><span class="heti-spacing"> </span>RLP</span>（Recursive Length Prefix）做序列化，然后存储。</p>
+<p>protocol buffer （Protobuf）</p>
+<p><span>RLP<span class="heti-spacing"> </span></span>的理念就是越简单越好，只支持一种类型，nested array of bytes，说白了就是字节数组，以太坊中所有的其他类型，整数、哈希表等，最后都要变成这个<span><span class="heti-spacing"> </span>nested array of bytes</span>。</p>
+<h3 id="eth-_3"><span>ETH -<span class="heti-spacing"> </span></span>交易树和收据树<a class="headerlink" href="#eth-_3" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>交易树用于存储以太坊区块中的交易：</p>
+<ul>
+<li>每笔交易会被哈希化，然后这些哈希值组合成默克尔树的叶子节点；</li>
+<li>通过组合这些叶子节点的哈希值，最终生成一个根哈希；</li>
+<li>区块头中包含该交易树的根哈希，确保交易的完整性和不可篡改性；</li>
+</ul>
+<p>收据树：存储每个交易的执行结果（收据<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，包括交易是否成功、消耗的<span class="heti-skip"><span class="heti-spacing"> </span>gas<span class="heti-spacing"> </span></span>以及日志事件等。  </p>
+<ul>
+<li><strong>状态树</strong>：存储账户的当前状态（余额、存储、代码等<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</li>
+<li><strong>交易树</strong>：存储一个区块中的所有交易。</li>
+<li><strong>收据树</strong>：存储每个交易的执行结果（收据<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</li>
+</ul>
+<p>这三棵树的根哈希值都是包括在块头中。</p>
+<p>为什么需要收据树这个数据结构？以太坊智能合约执行过程较为复杂，通过收据树有利于快速查询执行结果。</p>
+<p>如何查找过去<span class="heti-skip"><span class="heti-spacing"> </span>10<span class="heti-spacing"> </span></span>天中，所有与某个智能合约有关的交易？搜索过去<span class="heti-skip"><span class="heti-spacing"> </span>10<span class="heti-spacing"> </span></span>天的所有交易，查找符合条件的交易，但是这么做复杂度很高；轻节点没有交易列表，只有块头信息，没有通过扫描交易列表来查找符合查询条件的交易。如果要查找过去<span class="heti-skip"><span class="heti-spacing"> </span>10<span class="heti-spacing"> </span></span>天的所有众筹事件，发币事件，又该如何操作呢？</p>
+<p>bloom filter：可以比较高效的查找某个元素是否在一个较大的集合里。</p>
+<p>可能出现<span><span class="heti-spacing"> </span>false positive</span>，但是不会出现<span><span class="heti-spacing"> </span>false negative</span>，也就是说可能出现误报，但不会出现漏报。</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/9.png"/></p>
+<p>每个交易执行完之后会形成一个收据，这个收据里面就包含了一个<span><span class="heti-spacing"> </span>bloom filter</span>，记录这个交易的类型、地址等信息，发布的区块在它的块头里有一个总的<span><span class="heti-spacing"> </span>bloom filter</span>，这个总的<span class="heti-skip"><span class="heti-spacing"> </span>bloom filter<span class="heti-spacing"> </span></span>是区块中所有交易的<span class="heti-skip"><span class="heti-spacing"> </span>bloom filter<span class="heti-spacing"> </span></span>的并集。要查找过去<span class="heti-skip"><span class="heti-spacing"> </span>10<span class="heti-spacing"> </span></span>天中，与某个智能合约有关的所有交易，先查下哪个区块的块头中的<span class="heti-skip"><span class="heti-spacing"> </span>bloom filter<span class="heti-spacing"> </span></span>有我们需要的交易类型，如果没有的话，那这个区块就不是我们需要的，如果有的话，再去查找区块中的交易对应的收据里的<span><span class="heti-spacing"> </span>bloom filter</span>，去确认，也可能都没有，因为<span><span class="heti-spacing"> </span>false positive</span>。通过这个结构可以快速过滤掉无关区块。</p>
+<p>以太坊的运行过程可以看作是一个交易驱动的状态机（transaction-driven state machine<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<p>问题一：有人在以太坊上发布一个交易，某个节点收到这个交易，这个交易说从<span class="heti-skip"><span class="heti-spacing"> </span>A<span class="heti-spacing"> </span></span>转账到<span><span class="heti-spacing"> </span>B</span>，有没有可能收款地址是节点之前从未听说过的？以太坊与比特币一样，创建账户时不需要通知其他人，只有该账户第一次收到钱时，其他节点才会知道该账户的存在，这个时候要在状态树中新插入一个节点。</p>
+<p>A -&gt; B (10 ETH)</p>
+<p>问题二：状态树和交易树、收据树的一个区别是：状态树要包含系统中所有账户的状态，无论账户是否参与了当前区块中的交易，能不能将状态树的设计改一下，改成每个区块的状态树也只包含这个区块中的交易相关的那些账户的状态<heti-adjacent class="heti-adjacent-half">？</heti-adjacent>（这样还能大幅削减每个区块对应的状态树的大小）</p>
+<p><span>A<span class="heti-spacing"> </span></span>给<span class="heti-skip"><span class="heti-spacing"> </span>B<span class="heti-spacing"> </span></span>转账时，需要知道<span class="heti-skip"><span class="heti-spacing"> </span>A<span class="heti-spacing"> </span></span>的状态才能知道<span class="heti-skip"><span class="heti-spacing"> </span>A<span class="heti-spacing"> </span></span>是否有足够<span class="heti-skip"><span class="heti-spacing"> </span>ETH<span class="heti-spacing"> </span></span>来给<span class="heti-skip"><span class="heti-spacing"> </span>B<span class="heti-spacing"> </span></span>转账，也需要知道<span class="heti-skip"><span class="heti-spacing"> </span>B<span class="heti-spacing"> </span></span>的账户状态，当前余额是多少，因为要往<span class="heti-skip"><span class="heti-spacing"> </span>B<span class="heti-spacing"> </span></span>账户上添加<span class="heti-skip"><span class="heti-spacing"> </span>10<span class="heti-spacing"> </span></span>个<span><span class="heti-spacing"> </span>ETH</span>，而<span class="heti-skip"><span class="heti-spacing"> </span>B<span class="heti-spacing"> </span></span>账户可能是个新建的账户，这个时候要找到哪去？要找到创世纪块去，才能发现<span class="heti-skip"><span class="heti-spacing"> </span>B<span class="heti-spacing"> </span></span>是个新建的账户。</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/10.png"/></p>
+<p><span>block.go<span class="heti-spacing"> </span></span>中，<span>NewBlock<span class="heti-spacing"> </span></span>函数里调用<span class="heti-skip"><span class="heti-spacing"> </span>DeriveSha<span class="heti-spacing"> </span></span>来得到交易树和收据树的根哈希值。</p>
+<p>创建收据树，计算根哈希值，创建<span><span class="heti-spacing"> </span>bloom filter</span>。</p>
+<p>计算叔父区块的哈希值，构建叔父数组<heti-adjacent class="heti-adjacent-half">。</heti-adjacent>（下节课讲<span class="heti-skip"><span class="heti-spacing"> </span>GHOST<span class="heti-spacing"> </span></span>协议会用到）</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/11.png"/></p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/12.png"/></p>
+<h3 id="eth-ghost">ETH - GHOST<a class="headerlink" href="#eth-ghost" title="Permanent link">¶</a></h3>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/13.png"/></p>
+<p>最多可以有两个<span><span class="heti-spacing"> </span>uncle block</span>。</p>
+<p><span>GHOST<span class="heti-spacing"> </span></span>协议的核心思想，是对那些挖到矿，但是最后没有得到认可的矿工一种安慰。虽然矿工挖的区块没有成为最长合法链上的区块，但是依然能获得大部分的出块奖励（八分之七<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/14.png"/></p>
+<p>解决系统中出现的临时性分叉。</p>
+<p>以太坊发布区块的奖励包括：block reward、Gas fee。<span>uncle block<span class="heti-spacing"> </span></span>不获得<span><span class="heti-spacing"> </span>Gas fee</span>。</p>
+<p>子链不检查<span class="heti-skip"><span class="heti-spacing"> </span>uncle block<span class="heti-spacing"> </span></span>交易的合法性，也不执行其中的交易（因为可能与主链交易冲突<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，只检查它是不是有效区块，即是否符合挖矿难度。</p>
+<p>某用户发布了一个交易，但是这个交易被打包在<span class="heti-skip"><span class="heti-spacing"> </span>uncle block<span class="heti-spacing"> </span></span>中，交易本身没有被执行，主链中的节点收到交易后会来执行。</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/15.png"/></p>
+<p>以太坊中规定：只有分叉后的第一个区块可以获得<span><span class="heti-spacing"> </span>uncle reward</span>。</p>
+<h3 id="eth-_4"><span>ETH -<span class="heti-spacing"> </span></span>挖矿算法<a class="headerlink" href="#eth-_4" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>Block chain is secured by mining.</p>
+<p>bug bounty</p>
+<p>比特币天然就是个<span><span class="heti-spacing"> </span>bug bounty</span>，挖矿算法比较安全，经受住了时间检验。</p>
+<p><span>one cpu, one vote.<span class="heti-spacing"> </span></span>现在的<span class="heti-skip"><span class="heti-spacing"> </span>ASIC<span class="heti-spacing"> </span></span>芯片挖矿不符合中本聪初衷。</p>
+<p>理想情况下是<span><span class="heti-spacing"> </span>ASIC resistance</span>，<span>ASIC<span class="heti-spacing"> </span></span>矿机相比普通<span class="heti-skip"><span class="heti-spacing"> </span>PC<span class="heti-spacing"> </span></span>算力强上千倍，但是内存访问效率远没有这么高。如果能设计对内存要求很高的<span><span class="heti-spacing"> </span>puzzle</span>，就能遏制<span class="heti-skip"><span class="heti-spacing"> </span>ASIC<span class="heti-spacing"> </span></span>芯片（memory hard mining puzzle<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。例如<span><span class="heti-spacing"> </span>Litecoin</span>（莱特币<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，曾经市值仅次于<span><span class="heti-spacing"> </span>Bitcoin</span>，采用<span class="heti-skip"><span class="heti-spacing"> </span>scrypt<span class="heti-spacing"> </span></span>哈希函数（对内存要求很高<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+<p>开设一个很大的数组，按顺序填充一些伪随机数，假设有个<span><span class="heti-spacing"> </span>seed</span>（种子值<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，将<span class="heti-skip"><span class="heti-spacing"> </span>seed<span class="heti-spacing"> </span></span>值通过一些运算得到一个数，填到第一个位置，后面每个位置都是前一个位置的值取哈希得到的，为什么说是伪随机数，因为取哈希得到的值是什么不知道，看起来像随机数，不可能真的用随机数，因为无法验证。</p>
+<p>数组填充时，取值是有前后依赖关系的，从第一个数依次算出来的，需要求解<span class="heti-skip"><span class="heti-spacing"> </span>puzzle<span class="heti-spacing"> </span></span>时，按伪随机的顺序，从数组中读取一些数，每次读取的位置，也是跟前一个数相关的。假设要解<span class="heti-skip"><span class="heti-spacing"> </span>puzzle<span class="heti-spacing"> </span></span>了，读取下图中<span class="heti-skip"><span class="heti-spacing"> </span>A<span class="heti-spacing"> </span></span>位置的数，根据这个数进行一些运算，算出下一次要读取的位置<span><span class="heti-spacing"> </span>B</span>，再将<span class="heti-skip"><span class="heti-spacing"> </span>B<span class="heti-spacing"> </span></span>位置的数经过一些运算，算出下一个要读取的位置<span><span class="heti-spacing"> </span>C</span>，这个过程也是一个伪随机的。这样做的好处是，如果数组开得足够大，对矿工来说就是<span><span class="heti-spacing"> </span>memory hard</span>，如果不保存数组，挖矿的计算复杂度会大幅度上升。例如求解<span class="heti-skip"><span class="heti-spacing"> </span>puzzle<span class="heti-spacing"> </span></span>时，一开始需要读取<span class="heti-skip"><span class="heti-spacing"> </span>A<span class="heti-spacing"> </span></span>位置，若没有这个数组，就得从第一个数依次算，算出位置<span class="heti-skip"><span class="heti-spacing"> </span>A<span class="heti-spacing"> </span></span>的值，要读取第二个位置的数，也是从头开始算，算出位置<span class="heti-skip"><span class="heti-spacing"> </span>B<span class="heti-spacing"> </span></span>的值，以此类推。有的矿工保存一部分数组内容，例如只保留奇数位置的元素，偶数位置的元素可以计算出来，这样数组可以少一半。time-memory trade off。</p>
+<p><img alt="img" src="../../assets/images/blockchain_research/eth/16.png"/></p>
+<p>要设计一个对<span class="heti-skip"><span class="heti-spacing"> </span>ASIC<span class="heti-spacing"> </span></span>不友好的，即使是普通计算机也能参与的，不能像比特币那样主要进行哈希运算（比特币进行两次哈希<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，而要增加运算过程中对内存访问的需求。设计的<span class="heti-skip"><span class="heti-spacing"> </span>puzzle<span class="heti-spacing"> </span></span>要像普通计算机干的事情，而不是像挖矿专用<span class="heti-skip"><span class="heti-spacing"> </span>ASIC<span class="heti-spacing"> </span></span>芯片干的事情。普通计算机对资源的配备比例，例如很大的内存，硬盘容量等。</p>
+<p>对矿工来说是<span><span class="heti-spacing"> </span>memory hard</span>，对轻节点来说也是，故而实际运行中设置为<span><span class="heti-spacing"> </span>128K</span>。</p>
+<p><span>mining puzzle<span class="heti-spacing"> </span></span>设计思想：difficult to solve, but easy to verify.（求解<span class="heti-skip"><span class="heti-spacing"> </span>puzzle<span class="heti-spacing"> </span></span>很难，验证很容易）</p>
+<p>莱特币挖矿最后还是出现了<span class="heti-skip"><span class="heti-spacing"> </span>ASIC<span class="heti-spacing"> </span></span>挖矿，<span>GPU<span class="heti-spacing"> </span></span>挖矿，设计目标没有实现，但是这个目标有助于解决冷启动问题。</p>
+<p>比特币的冷启动：早期比特币玩家少，系统不安全，中本聪的宣传，吸引一些玩家，参与者越多，系统就越安全，比特币价值就越高，就越能吸引更多玩家，形成良性循环。</p>
+<p>莱特币主张民主的设计理念，吸引了很大一部分人，而且出块时间大约是<span class="heti-skip"><span class="heti-spacing"> </span>2<span class="heti-spacing"> </span></span>分半，大约是比特币的四分之一，其他与比特币基本一致。</p>
+<p>以太坊也是<span><span class="heti-spacing"> </span>memory hard puzzle</span>，但与莱特币区别很大</p>
+<blockquote>
+<p>注：课程视频<span class="heti-skip"><span class="heti-spacing"> </span>20:30<span class="heti-spacing"> </span></span>后的内容未记录。</p>
+</blockquote>
+<h3 id="eth-_5"><span>ETH -<span class="heti-spacing"> </span></span>难度调整<a class="headerlink" href="#eth-_5" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>比特币每隔<span class="heti-skip"><span class="heti-spacing"> </span>2016<span class="heti-spacing"> </span></span>个区块会调整一下挖矿难度，目标是维持出块时间在<span class="heti-skip"><span class="heti-spacing"> </span>10<span class="heti-spacing"> </span></span>分钟左右，</p>
+<h3 id="eth-_6"><span>ETH -<span class="heti-spacing"> </span></span>权益证明<a class="headerlink" href="#eth-_6" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<h3 id="eth-_7"><span>ETH -<span class="heti-spacing"> </span></span>智能合约<a class="headerlink" href="#eth-_7" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<h3 id="eth-thedao">ETH - TheDAO<a class="headerlink" href="#eth-thedao" title="Permanent link">¶</a></h3>
+<h3 id="eth-_8"><span>ETH -<span class="heti-spacing"> </span></span>反思<a class="headerlink" href="#eth-_8" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<h3 id="eth-_9"><span>ETH -<span class="heti-spacing"> </span></span>美链<a class="headerlink" href="#eth-_9" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<h2 id="_2">总结<a class="headerlink" href="#_2" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<h2 id="_3">补充资料<a class="headerlink" href="#_3" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p>Blockchain Research：<a href="http://zhenxiao.com/blockchain_research/">http://zhenxiao.com/blockchain_research/</a></p>
+<p><span>2021<span class="heti-spacing"> </span></span>年<span class="heti-skip"><span class="heti-spacing"> </span>5<span class="heti-spacing"> </span></span>月<span class="heti-skip"><span class="heti-spacing"> </span>19<span class="heti-spacing"> </span></span>日，虚拟货币价格经历过山车，肖臻老师接受 <a href="https://finance.china.com.cn/news/20210526/5580833.shtml">中国财经专访</a>：</p>
+<p>肖臻谈到<heti-adjacent class="heti-adjacent-quarter">：</heti-adjacent>“这次暴跌之前很多加密货币的价格已经严重虚高，泡沫很大，出现暴跌其实并不奇怪。<span>DeFi<span class="heti-spacing"> </span></span>等衍生品设计上存在一些不完善的地方以及市场杠杆率过高也会导致暴跌时引发多米诺骨牌效应，导致崩盘<heti-adjacent class="heti-adjacent-quarter">。</heti-adjacent>”</p>
+<p>他还提示了炒币属于投机行为<heti-adjacent class="heti-adjacent-quarter">：</heti-adjacent>“目前购买加密货币的很多属于投机行为，今年以来动物币的疯狂暴涨更是加剧了这一现象。加密货币的交易所大多设在难于监管的地方，存在很多不合规的行为，比如刷交易量、插针、定点爆仓等都是被广为诟病的。这些如果发生在正规的股票、期货交易所是属于刑事犯罪的。这次暴跌的直接原因是政府加强了对加密货币的监管，从长远来看，这是大势所趋。未来的监管措施会从保护投资者利益、防范系统性金融风险的角度出发对市场乱象进行整治<heti-adjacent class="heti-adjacent-quarter">。</heti-adjacent>”</p>
+<aside class="md-source-file">
+<span class="md-source-file__fact">
+<span class="md-icon" title="最后更新">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">2026年1月29日 22:36:30</span>
+</span>
+</aside>
+<!-- Insert generated snippet here -->
+<script async="" crossorigin="anonymous" data-category="Comments" data-category-id="DIC_kwDOMt1b5c4CiWjc" data-emit-metadata="1" data-input-position="top" data-lang="zh-CN" data-loading="lazy" data-mapping="title" data-reactions-enabled="1" data-repo="lifefindsitsway/web3-tutorials" data-repo-id="R_kgDOMt1b5Q" data-strict="0" data-theme="light_protanopia" src="https://giscus.app/client.js">
+</script>
+<!-- Synchronize Giscus theme with palette -->
+<script>
+var giscus = document.querySelector("script[src*=giscus]")
+
+// Set palette on initial load
+var palette = __md_get("__palette")
+if (palette && typeof palette.color === "object") {
+    var theme = palette.color.scheme === "slate"
+    ? "dark_protanopia"
+    : "light_protanopia"
+
+    // Instruct Giscus to set theme
+    giscus.setAttribute("data-theme", theme) 
+}
+
+// Register event handlers after documented loaded
+document.addEventListener("DOMContentLoaded", function() {
+    var ref = document.querySelector("[data-md-component=palette]")
+    ref.addEventListener("change", function() {
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+        var theme = palette.color.scheme === "slate"
+        ? "dark_protanopia"
+        : "light_protanopia"
+
+        // Instruct Giscus to change theme
+        var frame = document.querySelector(".giscus-frame")
+        frame.contentWindow.postMessage(
+        { giscus: { setConfig: { theme } } },
+        "https://giscus.app"
+        )
+    }
+    })
+})
+</script>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  回到页面顶部
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2024 ~ present by <a href="https://github.com/lifefindsitsway" rel="noopener noreferrer" target="_blank">Lifefindsitsway</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/lifefindsitsway/web3-tutorials/" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.tracking", "navigation.top", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+<script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+<script src="../../assets/javascripts/mathjax-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>
