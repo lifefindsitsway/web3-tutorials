@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://lifefindsitsway.wiki/blockchain/blockchain_and_innovative_thinking_notes_2101/" rel="canonical"/>
+<link href="../the_evolution_of_bitcoin_240213/" rel="prev"/>
+<link href="../../web3/dapp/gas_optimization_guide_part1_gas_mechanism/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.5.34" name="generator"/>
+<title>南京大学公开课《区块链与创新思维》学习笔记 - Life's Web3 开发指南</title>
+<link href="../../assets/stylesheets/main.35f28582.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto Slab";--md-code-font:"Roboto Mono"}</style>
+<link href="../../css/heti.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/mathjax-custom.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-KJB4RXSKZG"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-KJB4RXSKZG",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-KJB4RXSKZG",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="deep-purple" data-md-color-primary="light-blue" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#_1">
+          跳转至
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="页眉" class="md-header__inner md-grid">
+<a aria-label="Life's Web3 开发指南" class="md-header__button md-logo" data-md-component="logo" href="../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Life's Web3 开发指南
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              南京大学公开课《区块链与创新思维》学习笔记
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="light-blue" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="black" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="搜索" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="搜索" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="查找" class="md-search__options">
+<a aria-label="分享" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="分享">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="清空当前内容" class="md-search__icon md-icon" tabindex="-1" title="清空当前内容" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    web3-tutorials
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="导航栏" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Life's Web3 开发指南" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Life's Web3 开发指南
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    web3-tutorials
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    Welcome to My Blog
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../changelog/">
+<span class="md-ellipsis">
+    更新日志
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    区块链基础
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            区块链基础
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../the_evolution_of_bitcoin_240213/">
+<span class="md-ellipsis">
+    比特币的诞生历程
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    南京大学公开课《区块链与创新思维》学习笔记
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    南京大学公开课《区块链与创新思维》学习笔记
+  </span>
+</a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
+      第一章：什么是区块链和区块链思维
+    </span>
+</a>
+<nav aria-label="第一章：什么是区块链和区块链思维" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#11">
+<span class="md-ellipsis">
+      1.1、区块链的小故事
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#12">
+<span class="md-ellipsis">
+      1.2、区块链的起源与现状
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#13">
+<span class="md-ellipsis">
+      1.3、信任的建立和区块链的形象解释
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#14">
+<span class="md-ellipsis">
+      1.4、从信息互联网到价值互联网
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#15">
+<span class="md-ellipsis">
+      1.5、区块链的神话与误解
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#16">
+<span class="md-ellipsis">
+      1.6、比特币：人类首次区块链大规模社会实验
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
+      第二章：比特币分布式账本初探
+    </span>
+</a>
+<nav aria-label="第二章：比特币分布式账本初探" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#21">
+<span class="md-ellipsis">
+      2.1 比特币的前世今生
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#22">
+<span class="md-ellipsis">
+      2.2 钱包、私钥、签名与交易
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#23">
+<span class="md-ellipsis">
+      2.3 非对称加密如何避免记假账
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#24">
+<span class="md-ellipsis">
+      2.4 哈希运算与神奇的难以篡改
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#25-utxo">
+<span class="md-ellipsis">
+      2.5 双花问题和UTXO
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#26">
+<span class="md-ellipsis">
+      2.6 共识算法和工作量证明机制
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#27-51">
+<span class="md-ellipsis">
+      2.7 区块高度，51%攻击，矿池与算力
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#28">
+<span class="md-ellipsis">
+      2.8 总结
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    DAPP开发
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            DAPP开发
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/gas_optimization_guide_part1_gas_mechanism/">
+<span class="md-ellipsis">
+    Gas 优化指南（一）：Gas 机制原理
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/gas_optimization_guide_part2_eip1559_transaction_analysis/">
+<span class="md-ellipsis">
+    Gas 优化指南（二）：EIP-1559 交易解析
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/gas_optimization_guide_part3_storage_optimization/">
+<span class="md-ellipsis">
+    Gas 优化指南（三）：存储优化
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/gas_optimization_guide_part4_computation_optimization/">
+<span class="md-ellipsis">
+    Gas 优化指南（四）：计算优化
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/gas_optimization_guide_part5_gas_measurement/">
+<span class="md-ellipsis">
+    Gas 优化指南（五）：Gas 评估与测量
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/solidity_proxy_upgrade_series_part1/">
+<span class="md-ellipsis">
+    代理合约与可升级合约系列（一）：为什么需要可升级？
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/solidity_proxy_upgrade_series_part2/">
+<span class="md-ellipsis">
+    代理合约与可升级合约系列（二）：透明代理 vs UUPS
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/solidity_contract_call_part1_240521/">
+<span class="md-ellipsis">
+    Solidity 合约间调用（一）：四种方式调用已部署合约
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/solidity_contract_call_part2_240523/">
+<span class="md-ellipsis">
+    Solidity 合约间调用（二）：底层调用与 calldata 详解
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/solidity_contract_call_part3_240527/">
+<span class="md-ellipsis">
+    Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/hardhat_tutorial_240415/">
+<span class="md-ellipsis">
+    Hardhat 入门指南（25年更新版）
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/evm_fundamentals_part1_from_transactions_to_bytecode_240410/">
+<span class="md-ellipsis">
+    EVM 基础原理（一）：从交易到字节码
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/evm_fundamentals_part2_data_regions_and_contract_execution_240411/">
+<span class="md-ellipsis">
+    EVM 基础原理（二）：数据区域与合约执行
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">
+<span class="md-ellipsis">
+    EVM 基础原理（三）：ABI 编码与底层调用
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/address_240321/">
+<span class="md-ellipsis">
+    Solidity 地址类型 &amp; 常见用法全攻略
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/dapp/ethereum_address_size_240320/">
+<span class="md-ellipsis">
+    为什么以太坊地址是 20 字节？从私钥到地址的全解析
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    DeFi
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            DeFi
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/defi/uniswap_v2_price_precision_240610/">
+<span class="md-ellipsis">
+    Uniswap V2 价格精度解析
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../web3/defi/flash_loan_attack_260101/">
+<span class="md-ellipsis">
+    闪电贷：从原理到攻击演示
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
+      第一章：什么是区块链和区块链思维
+    </span>
+</a>
+<nav aria-label="第一章：什么是区块链和区块链思维" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#11">
+<span class="md-ellipsis">
+      1.1、区块链的小故事
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#12">
+<span class="md-ellipsis">
+      1.2、区块链的起源与现状
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#13">
+<span class="md-ellipsis">
+      1.3、信任的建立和区块链的形象解释
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#14">
+<span class="md-ellipsis">
+      1.4、从信息互联网到价值互联网
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#15">
+<span class="md-ellipsis">
+      1.5、区块链的神话与误解
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#16">
+<span class="md-ellipsis">
+      1.6、比特币：人类首次区块链大规模社会实验
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
+      第二章：比特币分布式账本初探
+    </span>
+</a>
+<nav aria-label="第二章：比特币分布式账本初探" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#21">
+<span class="md-ellipsis">
+      2.1 比特币的前世今生
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#22">
+<span class="md-ellipsis">
+      2.2 钱包、私钥、签名与交易
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#23">
+<span class="md-ellipsis">
+      2.3 非对称加密如何避免记假账
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#24">
+<span class="md-ellipsis">
+      2.4 哈希运算与神奇的难以篡改
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#25-utxo">
+<span class="md-ellipsis">
+      2.5 双花问题和UTXO
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#26">
+<span class="md-ellipsis">
+      2.6 共识算法和工作量证明机制
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#27-51">
+<span class="md-ellipsis">
+      2.7 区块高度，51%攻击，矿池与算力
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#28">
+<span class="md-ellipsis">
+      2.8 总结
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1>南京大学公开课《区块链与创新思维》学习笔记</h1>
+<div style="margin-top: -30px; font-size: 0.75em; opacity: 0.7;">
+<p><span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10h-2a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8zm6.78 1a.7.7 0 0 0-.48.2l-1.22 1.21 2.5 2.5L20.8 5.7c.26-.26.26-.7 0-.95L19.25 3.2c-.13-.13-.3-.2-.47-.2m-2.41 2.12L9 12.5V15h2.5l7.37-7.38z"></path></svg></span> 约<span class="heti-skip"><span class="heti-spacing"> </span>11588<span class="heti-spacing"> </span></span>个字 <span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 17H7V3h14m0-2H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2M3 5H1v16a2 2 0 0 0 2 2h16v-2H3m12.96-10.71-2.75 3.54-1.96-2.36L8.5 15h11z"></path></svg></span> <span>15<span class="heti-spacing"> </span></span>张图片 <span class="twemoji"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 20c4.42 0 8-3.58 8-8s-3.58-8-8-8-8 3.58-8 8 3.58 8 8 8m0-18c5.5 0 10 4.5 10 10s-4.5 10-10 10C6.47 22 2 17.5 2 12S6.5 2 12 2m.5 11H11V7h1.5v4.26l3.7-2.13.75 1.3z"></path></svg></span> 预计阅读时间<span class="heti-skip"><span class="heti-spacing"> </span>39<span class="heti-spacing"> </span></span>分钟</p>
+</div>
+<blockquote>
+<p>这篇文档是<span class="heti-skip"><span class="heti-spacing"> </span>2021<span class="heti-spacing"> </span></span>年<span class="heti-skip"><span class="heti-spacing"> </span>1<span class="heti-spacing"> </span></span>月我学习南京大学公开课《区块链与创新思维》时整理的部分笔记，为完成毕业设计而学习的区块链基础理论，也是我踏入区块链领域的启蒙课程。</p>
+</blockquote>
+<p>公开课地址：<a href="https://www.icourse163.org/course/NJU-1449346161">https://www.icourse163.org/course/NJU-1449346161</a></p>
+<h2 id="_1">第一章：什么是区块链和区块链思维<a class="headerlink" href="#_1" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<h3 id="11">1.1、区块链的小故事<a class="headerlink" href="#11" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>去中心化思想</strong></p>
+<p>经过改革以后，玉石村的每一个村民手里都拥有一个账本。每个账本里头都记录着村民挖出玉石的信息，摒弃了以往只有村长手里唯一账本的“中心化”记账方式，采取了人手一个账本的 “去中心化”分布式记账方式。</p>
+<p><strong>防篡改思想</strong></p>
+<p>在每个村民的账本里，会给每块玉石都做上标记，记录玉石挖掘到的时间、地点和人物，以及上一块被挖到的玉石的信息。这样，每块玉都与上一块玉形成信息关联，串联成一个链条。这种方式使得谁都无法凭空捏造，也无法更改之前的记录，从而做到了 “防篡改”。</p>
+<p><strong>交易信息公开透明的思想</strong></p>
+<p>当有村民挖到玉石之后，他在自己的账本上记录的同时，会用村口的大喇叭向全村广播通知。听到通知后，所有村民都在各自的本子上写下同样的内容。因此，所有村民都拥有一份完整的、同步的玉石信息，他们可以随时翻阅自己的账本进行查询。</p>
+<p><strong>共识</strong></p>
+<p>最后是共识的思想。当某个村民发现有一笔玉石信息记录错误并需要更正时，必须得到至少<span class="heti-skip"><span class="heti-spacing"> </span>51%<span class="heti-spacing"> </span></span>的村民同意，才能修改这笔记录。换句话说，只有得到多数村民的认同，信息才能被正式记录在每个人的账本中。这就体现了区块链中 “共识” 的基本思想。</p>
+<h3 id="12">1.2、区块链的起源与现状<a class="headerlink" href="#12" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>（1）密码朋克</strong></p>
+<p><span>1992<span class="heti-spacing"> </span></span>年，英特尔高级科学家蒂姆<span class="heti-skip"><span class="heti-spacing"> </span>·<span class="heti-spacing"> </span></span>梅（Tim May）与朋友聚会时，讨论互联网应该如何更好地保护人们的隐私<heti-adjacent class="heti-adjacent-quarter">。</heti-adjacent>“<strong>怎样保护全世界民众的隐私在互联网上不被别有用心的人利用呢？</strong>”，他们成立了一个小组：密码朋克。</p>
+<p>在聚会结束一周后，小组成员埃里克<span class="heti-skip"><span class="heti-spacing"> </span>·<span class="heti-spacing"> </span></span>休斯写了个程序，可以接收加密邮件，擦除所有身份标记，并将它们发送回用户列表，当你签名后，你会得到休斯的回信。</p>
+<p><span>1993<span class="heti-spacing"> </span></span>年，埃里克<span class="heti-skip"><span class="heti-spacing"> </span>·<span class="heti-spacing"> </span></span>休斯与其他几个人，升级迭代了加密电子邮件系统，直接把系统改名叫“密码朋克”。密码朋克不再是一个小组，使用密码朋克邮件系统的用户约<span class="heti-skip"><span class="heti-spacing"> </span>1400<span class="heti-spacing"> </span></span>人，这些人逐渐形成一个非常私密的圈子。同时埃里克<span class="heti-skip"><span class="heti-spacing"> </span>·<span class="heti-spacing"> </span></span>休斯发布了《密码朋克宣言》向权力机构发起了挑战<heti-adjacent class="heti-adjacent-quarter">：</heti-adjacent>“在电子信息时代，个人隐私在一个开放的社会中是必需品。我们不指望政府、公司或者其他什么不要脸的组织来承诺我们的隐私权。我们必须保护我们的隐私。<strong>必需有人站出来做一个软件，用来保护个人隐私</strong>……我们计划做这样一个软件<heti-adjacent class="heti-adjacent-quarter">。</heti-adjacent>”</p>
+<p>补充：密码朋克早期成员非常多精英，比如“维基解密”创始人阿桑奇、<span>BT<span class="heti-spacing"> </span></span>下载作者布拉姆<span class="heti-skip"><span class="heti-spacing"> </span>·<span class="heti-spacing"> </span></span>科恩、万维网发明人<span class="heti-skip"><span class="heti-spacing"> </span>Tim-Berners Lee<span class="heti-spacing"> </span></span>爵士、提出来智能合约概念的尼克萨博、<span>Facebook<span class="heti-spacing"> </span></span>创始人之一肖恩<span class="heti-skip"><span class="heti-spacing"> </span>·<span class="heti-spacing"> </span></span>帕克、发明比特币的中本聪。</p>
+<p><strong>（2）Ecash</strong></p>
+<p>大卫<span class="heti-skip"><span class="heti-spacing"> </span>·<span class="heti-spacing"> </span></span>乔姆是密码朋克的领袖级人物，他在<span class="heti-skip"><span class="heti-spacing"> </span>1990<span class="heti-spacing"> </span></span>年发明了<strong>密码学匿名现金支付系统</strong>，即<span><span class="heti-spacing"> </span>Ecash</span>。乔姆认为分布式的、真正的数字现金系统应该为人们的隐私加密。因此他的电子支付系统里的加密使用了数学编码。还有一个小特点就是支付时<strong>付款方匿名的，收款方非匿名的</strong>。</p>
+<p><span>Ecash<span class="heti-spacing"> </span></span>离线工作，不占用电话系统，有点云存储的味道，后来因为太超前而失败了。</p>
+<p><strong>（3）哈希现金</strong></p>
+<p>英国密码学家亚当<span class="heti-skip"><span class="heti-spacing"> </span>·<span class="heti-spacing"> </span></span>贝克也是密码朋克的成员。<span>1997<span class="heti-spacing"> </span></span>年，他发明了哈希现金，用到了<strong>工作量证明系统（proof of work）</strong>。其实亚当<span class="heti-skip"><span class="heti-spacing"> </span>·<span class="heti-spacing"> </span></span>贝克最初发明这个系统是想<strong>解决垃圾邮件的问题</strong>，也就是为了避免其他人发送含有相同信息的邮件。它的工作量证明系统，解决了数字货币的一大难题：如何保证数字货币不被交易过很多次？ 这就要求计算机在获得信息之前，做一定的工作量计算来避免重复交易。</p>
+<p><strong>（4）时间戳概念</strong></p>
+<p><span>1997<span class="heti-spacing"> </span></span>年，密码朋克成员哈伯和斯托尼塔提出了时间戳概念（一种签名协议<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。后来这个保证了数字货币安全问题，即<em>用时间戳的方式来保证文件的先后顺序</em>。时间戳协议要求在文件创建后，不能改动。当一个虚拟货币被交易时，被盖上时间戳，它就<strong>无法篡改</strong>，在区块链系统中，每一个新区块生成时，都会被打上时间戳，最终依照区块生成时间的先后顺序相连成区块链。</p>
+<p><strong>（5）比特币诞生</strong></p>
+<p><span>2004<span class="heti-spacing"> </span></span>年，一位密码朋克成员哈尔芬妮提出了电子货币和加密现金的概念。他理想中的这种货币是可重复使用的，并参照了失败项目的优点。但是他的设想还是不够成为一种世界型的虚拟货币。</p>
+<p><span>2008<span class="heti-spacing"> </span></span>年，中本聪对大卫乔姆的<span class="heti-skip"><span class="heti-spacing"> </span>Ecash<span class="heti-spacing"> </span></span>进行了优化，综合了<strong>时间戳</strong>、<strong>工作量证明机制</strong>、<strong>非对称加密技术</strong>、<strong><span>UTXO<span class="heti-spacing"> </span></span>的结构</strong>，最终他发明了比特币。人们就把<strong>比特币的底层技术称为区块链</strong>。</p>
+<p><strong>区块链技术发展的三个阶段</strong></p>
+<ol>
+<li>区块链<span><span class="heti-spacing"> </span>1.0</span> —— 数字货币：以比特币为代表的去中心化数字支付系统，代表项目：比特币、莱特币、山寨币。</li>
+<li>区块链<span><span class="heti-spacing"> </span>2.0</span> —— 智能合约：以以太坊为代表，支持用户自行编写智能合约，构建去中心化应用（DAPP<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</li>
+<li>区块链<span><span class="heti-spacing"> </span>3.0</span> —— 行业应用延伸：将区块链技术拓展到金融、物流、医疗、政务等各个行业的具体场景中，实现技术与实体经济的深度融合。</li>
+</ol>
+<p><img alt="1" src="../../assets/images/blockchain_and_innovative_thinking/1.png"/></p>
+<h3 id="13">1.3、信任的建立和区块链的形象解释<a class="headerlink" href="#13" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>传统社会如何建立信任？</p>
+<p>血缘：后天难以获得</p>
+<p>道德：可执行性差</p>
+<p>宗教：太虚幻</p>
+<p>霸权：缺乏一定的公允性</p>
+<p>用权威手段引入第三方背书</p>
+<p>共识，就是共同制定规则；</p>
+<p>共治，就是共同管理系统；</p>
+<p>共享，就是共享数据等方式来建立可靠的信任关系。</p>
+<p>中心化的意思是中心决定节点，节点必须依赖中心，节点离开了中心就无法生存。</p>
+<p><em>区块链本质就是一个去中心化的分布式账本</em>，原来需要通过银行或第三方支付才能完成的交易，现在可以通过分布式节点组成的网络来完成。</p>
+<p>区块链技术之所以可信，就是因为有一个相对可信的“公开的公众账本”，在相互陌生的用户之间建立了稳固的信任关系，放心大胆的进行交易。</p>
+<p>区块链的定义：</p>
+<p><strong><em>狭义来说，区块链是一种按照时间顺序，将数据区块以顺序相连的方式组合成的一种链式数据结构，并以密码学方式保证的不可篡改和不可伪造的分布式账本。</em></strong></p>
+<p><strong><em>广义来说，区块链是利用块链式数据结构来验证与存储数据、利用共识算法来生成和更新数据、利用密码学的方式保证数据安全、利用智能合约来编程和操作数据的一种全新的分布式基础架构与计算范式。</em></strong></p>
+<p>区块链的形象解释：本质上是一个去中心化的分布式账本，如果说区块链就是账本，那么构成区块链的每一个区块就是账本的每一页，每增加一个区块，账本后面就会增加一页，区块链有多长，账本就有多厚。</p>
+<p>这个账本存在网络中各自节点的手里，而不是统一存储在一个中心节点，并且是任何人都可以看得到的公开账本。</p>
+<p>区块高度就相当于账本的页数；区块就相当于记账本的一页；链就相当于记账本。</p>
+<p>区块链是将交易数据打包成一个个“数据区块”，再按时间顺序连接起来，形成一种链式结构存储，这条链就是区块链，区块链也是数据的存储方式。</p>
+<p>公式：区块（Block） <span>+<span class="heti-spacing"> </span></span>链（Chain） <span>=<span class="heti-spacing"> </span></span>区块链（Blockchain）</p>
+<p><img alt="2" src="../../assets/images/blockchain_and_innovative_thinking/2.png"/></p>
+<p>区块链<span class="heti-skip"><span class="heti-spacing"> </span>=<span class="heti-spacing"> </span></span>区块<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>链</p>
+<p><strong>根据节点的加入或者退出是否需要批准</strong>，将区块链分为：公有链、私有链以及联盟链。</p>
+<p>节点就是网络的骨干，用来验证和记录交易。我们通常所说的节点是指区块链网络中的计算机，包括手机、矿机、台式机和服务器等。</p>
+<p>公开链：就是公开的区块链，所有人都可以作为网络中的一个节点自由加入或退出，节点之间基于共识机制开展工作。是真正意义上完全的去中心化。</p>
+<p>私有链：一般用在企业内部，系统的运作规则、节点的读取和修改权限根据企业的要求进行设定。</p>
+<p>联盟链：一种多中心化或者部分去中心化的区块链，共识机制受某些指定节点控制，一般是由若干机构联合发起，比如行业内部，它介于公有链和私有链之间，兼具部分去中心化的特性。</p>
+<h3 id="14">1.4、从信息互联网到价值互联网<a class="headerlink" href="#14" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>信息互联网的作用</strong></p>
+<ul>
+<li>提供不受地域限制的信息传递通道。</li>
+<li>依靠硬件与基础协议（如<span><span class="heti-spacing"> </span>TCP/IP</span>）实现全球信息传递。</li>
+<li>信息互联网存在的问题</li>
+</ul>
+<p>问题一：身份无法自证，无法向他人证明当前是“你”本人在进行交流。</p>
+<p>问题二：信息真实性无法保证，信息易复制、造假成本低，且造假者身份难以追溯，加剧了虚假信息传播。</p>
+<p><strong>区块链的解决方案</strong></p>
+<p>通过建立“区块链价值传输协议”，利用<strong>上链数据不可篡改</strong>的特性，确保网络中数据的真实性与可信性。</p>
+<p><strong>数据孤岛</strong></p>
+<p>有价值，但是没有使用价值是信息互联网的基本特征。</p>
+<p>价值互联网的作用在于：</p>
+<ul>
+<li>保护信息的真实性；</li>
+<li>使得数字化的价值也可以像信息一样在互联网上自由流通和传输。</li>
+</ul>
+<p>希望通过建立区块链价值传输协议，利用<strong>上链数据不可篡改（数据篡改难度过大、代价过高）</strong> 的特点，确保网络中数据的真实性。</p>
+<p><strong>案例分析：房屋买卖与智能合约</strong></p>
+<p>场景描述：你拥有一套房子要出售，再购买新房。你需要：</p>
+<ol>
+<li>找房产中介挂牌；</li>
+<li>签署买卖合同；</li>
+<li>通过中介完成交易并支付中介费；</li>
+<li>到房管所办理产权变更。
+   完成售出后，你作为买方再次经历相同流程。</li>
+</ol>
+<p>智能合约如何优化此过程？</p>
+<ul>
+<li><strong>买卖双方</strong>通过<strong>私钥签名</strong>确认身份与意愿。</li>
+<li><strong>公钥验证</strong>机制确保交易双方身份真实且信息不可伪造。</li>
+<li><strong>区块链技术</strong>保障整个交易流程透明、可信、无需第三方中介。</li>
+</ul>
+<h3 id="15">1.5、区块链的神话与误解<a class="headerlink" href="#15" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>❌ 对于区块链的常见错误看法</p>
+<ul>
+<li>区块链和比特币是一回事。</li>
+<li>区块链就是圈钱的！！！</li>
+<li>区块链的去中心化就是没有中心。</li>
+<li>区块链是万能的。</li>
+<li>区块链是企业、经济乃至整个人类的救星！</li>
+</ul>
+<p>区块链技术之所以能存在和发展，其<strong>本质上希望解决的是可靠交易的问题</strong>。</p>
+<p>核心目标：保证信息的真实准确，保障交易安全</p>
+<p><strong>区块链的“神话”辟谣</strong></p>
+<p><strong>观点一：区块链的价值是第一代互联网的很多倍？</strong></p>
+<p>区块链虽然常被称为“第二代互联网”或“价值互联网”，但其本质是在<strong>原有信息互联网的基础上，通过技术手段保障信息的可靠性</strong>，并非对互联网原有功能进行彻底变革。因此，所谓“价值是第一代互联网的多少倍”的说法，实属言过其实。</p>
+<p><strong>观点二：区块链已进入成熟应用的“<span>3.0<span class="heti-spacing"> </span></span>时代”？</strong></p>
+<p>目前虽已有“区块链<span><span class="heti-spacing"> </span>3.0</span>”的说法，且区块链技术已在多个行业实现落地应用，但我们仍需清醒认识到：<strong>区块链技术仍处于发展萌芽期</strong>，距离技术成熟还有很长的路，大规模商业应用仍需时间。</p>
+<p><strong>观点三：区块链适用于所有行业且毫无缺陷？</strong></p>
+<p>区块链作为一种具有<strong>去中心化、数据不可篡改</strong>特征的技术，与许多行业的真实需求相吻合，因此已在众多领域展开应用探索。<strong>但这并不代表区块链适用于任何行业</strong>，也不意味着该技术本身毫无缺陷。</p>
+<p>不可能三角问题<strong>：可扩展性</strong>、<strong>去中心化</strong>、<strong>安全性</strong>只能三选二。</p>
+<h3 id="16">1.6、比特币：人类首次区块链大规模社会实验<a class="headerlink" href="#16" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>中本聪的《一种点对点的电子现金支付系统<heti-adjacent class="heti-adjacent-half">》</heti-adjacent>：</p>
+<p>首先，在个人对个人的转账中，需要有一种能够不依附于第三方定价机构、就能判断其价值的电子货币。</p>
+<p>然后，我们需要有一份去中心化的数字账本，能够把交易记录及存储的交易信息分发给世界各地的计算机，当然，账本的运作方式与其他传统记账方式大致相同。</p>
+<p><img alt="3" src="../../assets/images/blockchain_and_innovative_thinking/3.png"/></p>
+<p>区块链技术就是点对点传输、分布式账本、共识机制、加密算法等的集成运用。</p>
+<p>金融时报某科技作者说<heti-adjacent class="heti-adjacent-quarter">：</heti-adjacent>“<em>对于比特币而言，区块链对于它的意义，就如同互联网对邮件的意义一样。</em>”</p>
+<p>为什么比特币的价格一度上升到<span class="heti-skip"><span class="heti-spacing"> </span>19000<span class="heti-spacing"> </span></span>美元，暴涨几千倍，即使在经历了<span class="heti-skip"><span class="heti-spacing"> </span>2018<span class="heti-spacing"> </span></span>年以来的持续下跌，目前仍然维持在<span class="heti-skip"><span class="heti-spacing"> </span>5000<span class="heti-spacing"> </span></span>美元左右的高位？</p>
+<p>1）比特币的不依靠指定的货币发行机构，而依据特定算法，通过大量的计算产生，也就是“挖矿”。</p>
+<p>比特币在诞生过程了附加了很多价值；在密码学的帮助下，比特币只能被真实的拥有者转移和支付，确保了货币的所有权和交易流通的匿名性。</p>
+<p>2）总数量有限，极强的稀缺性，比特币的总数量在最初设定时，就被系统永久限制在<span class="heti-skip"><span class="heti-spacing"> </span>2100<span class="heti-spacing"> </span></span>万个。</p>
+<p>3）由于对区块链技术的看好，它的第一个产品比特币也利好。欧盟把比特币看作是货币，按照货币监管；美国将比特币归为资产，等同于石油等大宗商品。</p>
+<h2 id="_2">第二章：比特币分布式账本初探<a class="headerlink" href="#_2" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<h3 id="21"><span>2.1<span class="heti-spacing"> </span></span>比特币的前世今生<a class="headerlink" href="#21" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>货币是一种共识的结果。</p>
+<p>货币的发展阶段：</p>
+<ul>
+<li>以物易物</li>
+<li>实物货币</li>
+<li>纸币</li>
+<li>中心化记账货币：银行</li>
+</ul>
+<p>中心化记账货币（第三方支付，比如微信钱包或者支付宝）</p>
+<p>用户把现金存放到微信或支付宝，每次对外支付都有微信或支付宝代理记账，记录每笔交易和余额变化。移动电子支付的实质为记账货币，是通过银行、第三方支付机构、央行负责记账的。</p>
+<p><strong>电子支付行业的两个基本问题：</strong></p>
+<ol>
+<li>如何不通过权威的第三方，就能够在有需求的双方之间进行在线转账呢？</li>
+<li>如何在进行电子转账的同时记录付款信息，避免重复支付并确保资金安全呢？</li>
+</ol>
+<p>这个可以在中本聪的《一种点对点的电子现金支付系统》有答案。</p>
+<h3 id="22"><span>2.2<span class="heti-spacing"> </span></span>钱包、私钥、签名与交易<a class="headerlink" href="#22" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>地址与私钥</strong></p>
+<p>比特币的所有权是通过私钥和地址来确定的。地址类似于一个银行账户的账号，要想给一个人转比特币，只要知道他的比特币地址就可以了。私钥的作用主要是给交易来签名，用来证明这笔交易是由你发起的，别人收到这笔交易，通过验证签名就可以确认交易中涉及的资金是合法的。</p>
+<p><strong>密码体制</strong></p>
+<p>对称密码体制</p>
+<ul>
+<li>一个密码体制中的加密密钥和解密密钥相同，或者由其中一个密钥很容易推算出另一个密钥。</li>
+</ul>
+<p>非对称密码体制</p>
+<ul>
+<li>加密密钥不能推出解密密钥，因此可以将加密密钥公开，这种加密密钥也被称为公钥密码。</li>
+</ul>
+<p>公钥加密发明于<span class="heti-skip"><span class="heti-spacing"> </span>20<span class="heti-spacing"> </span></span>世纪<span class="heti-skip"><span class="heti-spacing"> </span>70<span class="heti-spacing"> </span></span>年代，自从公钥加密被发明之后，一些不可逆的数学函数被提出，就是说只能向一个方向计算，但不可以向相反方向倒推。</p>
+<p>在比特币中，公钥用于接收比特币，私钥用于生成其对应地址上支付比特币所必需的签名，以唯一确定这些比特币的所有权。具体到比特币地址的生成，其实是先产生私钥，私钥通过椭圆曲线算法这种不可逆的函数来产生公钥，公钥经过一系列不可逆的运算再来产生地址。</p>
+<p>私钥本质上是一个随机数。私钥持有者才是比特币的拥有者，那私钥放哪里呢？</p>
+<p>钱包是私钥的容器，是密钥的管理工具，它只包含密钥而不是确切的某一个代币。一个比特币钱包中包含一系列的密钥对，每个密钥对包括一个私钥和一个公钥。</p>
+<p>钱包地址是公开的（类似于银行账号）</p>
+<p>私钥是隐秘的（类似于银行密码）</p>
+<p><strong>冷钱包与热钱包</strong></p>
+<p>冷钱包：又被称作离线钱包，从它的生成到使用都是在非联网状态下，这类钱包往往依靠不联网的电脑、手机以及其他的硬件设备运行。</p>
+<ul>
+<li>优点：因为不联网所以可以避开黑客攻击和木马病毒；</li>
+<li>缺点：使用起来比较麻烦，如果要发送交易，需要用中介来交换交易信息和签名数据，成本较高。</li>
+</ul>
+<p>热钱包：在联网的状态下使用的，以在线钱包和交易平台钱包等形式出现。</p>
+<ul>
+<li>优点：使用方便，成本低；</li>
+<li>缺点：因为联网，所以外界可以通过互联网访问到你存储私钥的位置，存在被黑客攻击的可能性。</li>
+</ul>
+<p><strong>比特币交易</strong></p>
+<p>从一个比特币钱包向另一个中转账，每笔交易都有数字签名来保证安全。一个交易一旦发生那么就是对所有人都公开的，每个交易的历史可以最终追溯到相应的比特币最初被挖出来的那个点。用户用钱包中的私钥来签名交易，从而证明他们拥有交易的输出，也就是其中的比特币。</p>
+<p><em>比特币是以交易输出的形式储存在区块链中的</em>，比特币并不存在于任何地方，即使是硬盘上。持有比特币其实是拥有特定比特币的地址，但是其实所谓的币并不是直接就存在于这个地址中的，地址就相当于你的银行账户。世界上没有一个可以摸得着的实物，或者是一个数据文件，可以被叫做“比特币”的。</p>
+<p>有的只是各个地址之间的转账记录，余额时增时减。所有的交易都存放在一个非常大的账本文件中，这个文件就在“区块链”。如果想知道一个比特币地址中的余额，那么这个不是直接存放在比特币地址中的，我们需要到区块链中去计算出来。</p>
+<p><strong>交易</strong></p>
+<p>如果<span class="heti-skip"><span class="heti-spacing"> </span>Alice<span class="heti-spacing"> </span></span>给<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>发送一些比特币，那么这个交易就有三项信息：</p>
+<p>1、输入。这里面记录了最初<span class="heti-skip"><span class="heti-spacing"> </span>Alice<span class="heti-spacing"> </span></span>拥有的这些币是从哪个地址转给她的，我们假设她是从她的朋友<span class="heti-skip"><span class="heti-spacing"> </span>Jack<span class="heti-spacing"> </span></span>那里得到的币。</p>
+<p>2、数目。这个就是<span class="heti-skip"><span class="heti-spacing"> </span>Alice<span class="heti-spacing"> </span></span>到底给<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>转了多少个比特币。</p>
+<p>3、输出。<span>Bob<span class="heti-spacing"> </span></span>的比特币地址。</p>
+<p>除了第一笔交易是矿工的挖矿所得外，每一笔交易都拥有一个或多个输入，以及一个或多个输出。</p>
+<p>第一笔矿工挖矿的收入交易通常被称为<strong>Coinbase</strong>，它没有输入，所以交易输入的哈希总是被标记为<span><span class="heti-spacing"> </span>00000000...0000</span>；其他的交易，任何一个交易输入都会唯一追溯到区块链上在本区块之前的某个交易哈希，以及索引。</p>
+<p>通过交易哈希和索引，即可唯一确定一个未花费的交易输出<span><span class="heti-spacing"> </span>---UTXO</span>。这样，每一个交易输入都和之前的某个交易输出关联了起来。</p>
+<p><img alt="4" src="../../assets/images/blockchain_and_innovative_thinking/4.png"/></p>
+<p>比特币的交易本质是一个包含输入值与输出值的数据结构。</p>
+<p><img alt="5" src="../../assets/images/blockchain_and_innovative_thinking/5.png"/></p>
+<p>既然输入是对之前输出的引用，那其他人为什么不能引用<span class="heti-skip"><span class="heti-spacing"> </span>Alice<span class="heti-spacing"> </span></span>打给<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>的这两笔交易输出呢？因为<span class="heti-skip"><span class="heti-spacing"> </span>Alice<span class="heti-spacing"> </span></span>在给<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>转账时，加了一个条件，这个条件在比特币交易中叫做<strong>公钥脚本</strong>，本例子中，公钥脚本的内容是交易输出的账号地址必须是<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>的地址。</p>
+<p><strong>签名与验签：</strong></p>
+<p><strong>签名必须使用私钥，而只有私钥对应的公钥才能验证签名通过</strong>。因为只有<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>本人持有这个账户地址对应的私钥，所以<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>签名后，其他人可以用<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>提供的公钥去验签，而其他人不知道<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>的私钥，即使冒充<span><span class="heti-spacing"> </span>Bob</span>，填上<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>的公钥，别人也不会验证通过，也就作不了弊了。</p>
+<p>注：地址是公钥的哈希</p>
+<h3 id="23"><span>2.3<span class="heti-spacing"> </span></span>非对称加密如何避免记假账<a class="headerlink" href="#23" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><span>Alice<span class="heti-spacing"> </span></span>要从北京给广州的<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>发送一个快递，途中需要经过上海快递站，这时上海快递中心出现了一个黑客，他偷偷打开了<span class="heti-skip"><span class="heti-spacing"> </span>Alice<span class="heti-spacing"> </span></span>给<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>的快递，并修改了快递包里的东西，再按原样包装好发往广州。我们可以看到，对于这样简单包装的传输在中途是很容易被修改的。</p>
+<p><img alt="6" src="../../assets/images/blockchain_and_innovative_thinking/6.png"/></p>
+<p>上图中，<span>Alice<span class="heti-spacing"> </span></span>如何将加密的密码给<span class="heti-skip"><span class="heti-spacing"> </span>Bob<span class="heti-spacing"> </span></span>呢？</p>
+<p><img alt="7" src="../../assets/images/blockchain_and_innovative_thinking/7.png"/></p>
+<p><strong>为什么要使用非对称加密</strong></p>
+<p>非对称加密的解决方案</p>
+<p><span>Bob<span class="heti-spacing"> </span></span>有两把钥匙，一把叫<strong>公钥</strong>，一把叫<strong>私钥</strong>。
+公钥是公开的让全社会都知道，Bob告诉Alice，你给我发送密码的时候用我的公钥加密以后再传，不用担心这个公钥加密的内容被破解，因为只有我的私钥才能解密。
+有了<strong>非对称加密</strong>，分布式电子货币才有了基础，才能解决<strong>电子货币所有权的问题</strong>。</p>
+<p>非对称加密的定义：结合着对称加解密算法来理解，一个是对称，一个是非对称。</p>
+<p>对称指的是加密和解密使用同一个密钥，称为对称密钥；非对称加解密算法在加密和解密时，用的就是不同的密钥，分别称为公钥和私钥。</p>
+<p><img alt="8" src="../../assets/images/blockchain_and_innovative_thinking/8.png"/></p>
+<p>非对称加密算法中公钥与私钥是一对；</p>
+<ul>
+<li>若用公钥对数据进行加密，只有用对应的私钥才能解密；</li>
+<li>若用私钥对数据进行加密，只有用对应的公钥才能解密。</li>
+</ul>
+<p><strong><em>公钥加密、私钥解密。</em></strong></p>
+<p><strong><em>私钥签名，公钥验签。</em></strong></p>
+<p><strong><em>说某人对某个比特币拥有所有权，是指他拥有这个比特币地址对应的私钥。</em></strong></p>
+<p>私钥、公钥、地址三者间的关系：<strong>私钥生成公钥，公钥生成地址</strong>。</p>
+<p>当使用一个<span class="heti-skip"><span class="heti-spacing"> </span>UTXO<span class="heti-spacing"> </span></span>时，用户要提供这个<span class="heti-skip"><span class="heti-spacing"> </span>UTXO<span class="heti-spacing"> </span></span>中描述的地址对应的公钥，同时用这个公钥对应的私钥对这个交易进行签名，这样比特币的接受者才能去验证这笔交易是否有效。</p>
+<p><strong>交易验证环节：</strong></p>
+<p>把公钥做哈希看这个值是否与<span class="heti-skip"><span class="heti-spacing"> </span>UTXO<span class="heti-spacing"> </span></span>中描述的地址一致，然后再用提供的公钥对交易中提供的签名信息进行验签，以确定交易是<span class="heti-skip"><span class="heti-spacing"> </span>UTXO<span class="heti-spacing"> </span></span>的所有者发出的交易。在交易的验证环节，我们主要用了“非对称加密”中关于<strong>签名</strong>、<strong>验签</strong>的功能。其中比特币中的公、私钥生成以及签名算法<span class="heti-skip"><span class="heti-spacing"> </span>ECDSA<span class="heti-spacing"> </span></span>都是基于椭圆曲线算法的。</p>
+<p><strong>椭圆曲线算法</strong></p>
+<ul>
+<li>椭圆曲线密码学简称<span><span class="heti-spacing"> </span>ECC</span>，是一种建立公开密钥加密的算法（非对称加密<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。类似的还有<span><span class="heti-spacing"> </span>RSA</span>、<span>ElGamal<span class="heti-spacing"> </span></span>算法等。<span>ECC<span class="heti-spacing"> </span></span>被公认为在给定密钥长度下最安全的加密算法。</li>
+<li>椭圆曲线实际上是一个总称，是一种<strong>数学基础算法</strong>，不是真正用在密码学上的密码算法。许多非对称加密算法，例如<span><span class="heti-spacing"> </span>RSA</span>、椭圆曲线，能够被大家认可使用，是因为每种加密算法在数学上都有一个运算，而这个运算的逆过程被证明是数学难题。</li>
+</ul>
+<p><strong>在比特币交易中有三个保障来避免计假账：</strong></p>
+<p>1）用私钥对交易信息签名，必须用配对的公钥验证签名，私钥的使用者必须是付款人；<strong>（私钥签名）</strong></p>
+<p>2）被签名的交易信息在网络上进行广播，所有参与到比特币网络的人都可以接收到这笔交易信息，并且可以对交易信息进行验签，确保交易是合法的；<strong>（公钥验签）</strong></p>
+<p>3）接收到交易信息后，大家会按照约定的规则生成区块，就是一个数据块，这个数据块中包括所有的交易明细信息，按照<span class="heti-skip"><span class="heti-spacing"> </span>merkle<span class="heti-spacing"> </span></span>树的方式组装起来。</p>
+<p>注：前两个保障都是使用了非对称加密算法来完成的</p>
+<h3 id="24"><span>2.4<span class="heti-spacing"> </span></span>哈希运算与神奇的难以篡改<a class="headerlink" href="#24" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>哈希函数的特性：</p>
+<p>1）可以用于“任意”长度的消息；</p>
+<p>2）产生的<span class="heti-skip"><span class="heti-spacing"> </span>Hash<span class="heti-spacing"> </span></span>值是固定长度的；</p>
+<p>3）对于任意给定的消息，容易计算消息对应的哈希值；</p>
+<p>4）不能通过给定的哈希值反向推算出输入的数据或者消息。</p>
+<p><strong>区块链中的哈希指针</strong>：普通的指针只是保存结构体在内存中的位置，而哈希指针是不仅要保存结构体在内存中的位置，还要保存<strong>结构体的哈希值</strong>。</p>
+<p><img alt="9" src="../../assets/images/blockchain_and_innovative_thinking/9.png"/></p>
+<p><strong>区块链和普通链表的区别</strong>：比特币背后的技术主要是区块链，而区块链是由一个个区块连接而成，区块链和普通链表的主要区别就在于用哈希指针代替了普通的指针。普通链表如果内容发生了改变，指针不会发生改变，而区块链一旦内容发生了变化，后面区块的哈希指针都会发生变化，类似于多米若骨牌效应。</p>
+<p>哈希运算能帮助识别区块数据是否被篡改，区块链的哈希值能唯一而精准地标识一个区块，区块链中任意节点通过简单的哈希计算都可以获得这个区块的哈希值，计算出的哈希值没有变化也就意味着区块链中的信息没有被篡改。另外，哈希运算还能帮助把各个区块串连成区块链。每个区块都包含上一个区块的哈希值和下一个区块的值，就相当于通过上一个区块的哈希值挂钩到这一个区块，通过这一个区块的哈希值挂钩到下一个区块，就自然而然形成一个链式结构的区块链。</p>
+<p>注：哈希运算还能加密交易地址</p>
+<p><strong><span>Merkle<span class="heti-spacing"> </span></span>树的作用</strong></p>
+<p>第一，可以快速定位每笔交易，由于交易在存储上是线性存储，定位到某笔交易会需要遍历，效率低时间慢，通过这样的二叉树可以快速定位到想要找的交易。</p>
+<p>第二，在不需要存储整个数据的情况下，就可以简明地核实交易是否被篡改，从交易到每个二叉树的哈希值，有任何一个数字的变化都会导致根哈希的变化。同时，如果有错误，可以快速定位到错误的地方。</p>
+<ul>
+<li><span>merkle tree<span class="heti-spacing"> </span></span>是一种树状结构，它具有树结构的所有特点；</li>
+<li><span>merkle tree<span class="heti-spacing"> </span></span>的叶子节点的值是数据集合的单元数据或者是单元数据的哈希值；</li>
+<li>非叶子节点的值是根据它下面所有叶子节点的值，按照<span class="heti-skip"><span class="heti-spacing"> </span>hash<span class="heti-spacing"> </span></span>算法计算而得出的。</li>
+</ul>
+<p><img alt="10" src="../../assets/images/blockchain_and_innovative_thinking/10.png"/></p>
+<p><strong>挖矿</strong><span>:<span class="heti-spacing"> </span></span>区块头中有个参数叫随机数<span><span class="heti-spacing"> </span>Nonce</span>，寻找这个随机数的过程就叫做“挖矿”；</p>
+<p>注：网络上任何一台机器只要找到合适的数字填到自己的<span class="heti-skip"><span class="heti-spacing"> </span>Nonce<span class="heti-spacing"> </span></span>位置，使得区块头这<span class="heti-skip"><span class="heti-spacing"> </span>6<span class="heti-spacing"> </span></span>个字段（<span>80<span class="heti-spacing"> </span></span>个字节）的数据的哈希值符合目标哈希值。</p>
+<p>Nonce：<span>Number Only Used Once<span class="heti-spacing"> </span></span>的缩写，即“只用一次的数字”。</p>
+<h3 id="25-utxo"><span>2.5<span class="heti-spacing"> </span></span>双花问题和<span><span class="heti-spacing"> </span>UTXO</span><a class="headerlink" href="#25-utxo" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>双花，即一笔钱被花费了两次甚至更多次。</p>
+<p><strong>数字货币中的双花问题：</strong></p>
+<p>在数字货币系统中，数字资产本质上是以互联网为基础的虚拟数字，简单来说所谓的数字资产其实就是一串字符，因此它很容易被复制或者多次发送使用，在这种情况下，如果没有中心机构的存在，人们并不能确定一笔资产是否已经被花掉，这就导致系统可能存在同一笔数字资产因不当操作被重复使用的情况。</p>
+<p>为了解决双花问题，我们日常的数字资产使用依赖于第三方信任机构进行。这类机构对数据进行中心化管理，由它保管交易总账，并通过实时修改账户余额的方法来防止双重支付的出现。但是验证费用极高。</p>
+<p><strong>在比特币系统中是如何避免双花问题的呢？</strong></p>
+<p>矿工在生成区块的时候，会从网络上收集交易信息，交易信息中包含了付款人的私钥签名。矿工首先会验证签名是不是正确的，只有正确的签名才会被认为是付款人认可的支付。然后矿工会从以前的区块链中追溯，看看付款人这次消费的比特币是不是以前没有被消费过。然后记录下付款人可用的比特币余额。这个过程也被称为<span class="heti-skip"><span class="heti-spacing"> </span>UTXO<span class="heti-spacing"> </span></span>机制。</p>
+<p><span>UTXO<span class="heti-spacing"> </span></span>是<span class="heti-skip"><span class="heti-spacing"> </span>Unspent Transaction Outputs<span class="heti-spacing"> </span></span>的缩写，全称叫做“<em>尚未使用的交易输出</em>”。</p>
+<p><span>U<span class="heti-spacing"> </span></span>代表<span><span class="heti-spacing"> </span>Unspent</span>，表示未支付的或尚未使用的<heti-adjacent class="heti-adjacent-quarter">，</heti-adjacent>“尚未支付”指的是这个交易输出还没有出现在其它交易的输入端；</p>
+<p><span>TX<span class="heti-spacing"> </span></span>是<span class="heti-skip"><span class="heti-spacing"> </span>transaction<span class="heti-spacing"> </span></span>的缩写，<em>交易是从一个比特币钱包向另一个钱包转账</em>，是唯一可以改变比特币所有权的方式，包含了输入、数目和输出这些基本内容；</p>
+<p><span>O<span class="heti-spacing"> </span></span>是<span><span class="heti-spacing"> </span>Output</span>，是输出的意思，<span>TXO<span class="heti-spacing"> </span></span>连起来就是指交易输出。</p>
+<p>注：比特币里并没有用户账户的概念。比特币是以交易输出，也就是<span class="heti-skip"><span class="heti-spacing"> </span>TXO<span class="heti-spacing"> </span></span>的形式存在的。我们说自己有多少比特币实际上是指我们拥有所有权的那些<span class="heti-skip"><span class="heti-spacing"> </span>UTXO<span class="heti-spacing"> </span></span>中所指明的比特币的数量。<strong>没有比特币，只有<span><span class="heti-spacing"> </span>UTXO</span></strong>。</p>
+<p><span>Alice<span class="heti-spacing"> </span></span>有<span class="heti-skip"><span class="heti-spacing"> </span>10<span class="heti-spacing"> </span></span>个比特币，本质上是当前区块链账本中，有若干笔交易的<span class="heti-skip"><span class="heti-spacing"> </span>UTXO<span class="heti-spacing"> </span></span>项收款人写的是<span class="heti-skip"><span class="heti-spacing"> </span>Alice<span class="heti-spacing"> </span></span>的地址，而这些<span class="heti-skip"><span class="heti-spacing"> </span>UTXO<span class="heti-spacing"> </span></span>项的数额总和是<span><span class="heti-spacing"> </span>10</span>。</p>
+<p><strong>比特币的分布式区块链账本</strong></p>
+<p>比特币的分布式区块链账本，由一笔一笔的交易形成的，每一笔交易都要花费一笔输入产生一笔输出，而其所产生的输出，就是未花费过的交易输出”，也就是<span><span class="heti-spacing"> </span>UTXO</span>。这些交易构成了一组链式结构，所有合法的比特币交易都可以追溯到前一个或多个交易的输出，链条的源头就是挖矿奖励，末尾则是当前未花费的交易输出。</p>
+<p>比特币交易规则：</p>
+<p>1）除了<span class="heti-skip"><span class="heti-spacing"> </span>coinbase<span class="heti-spacing"> </span></span>交易外，所有的资金来源都必须来自前面某一个或者几个交易的<span><span class="heti-spacing"> </span>UTXO</span>；</p>
+<p>2）任何一笔交易的交易输入总量必须等于交易输出总量，等式两边必须配平。</p>
+<p><span>UTXO<span class="heti-spacing"> </span></span>举例：</p>
+<p><img alt="11" src="../../assets/images/blockchain_and_innovative_thinking/11.png"/></p>
+<p>注：<span>UTXO<span class="heti-spacing"> </span></span>技术也并非<span class="heti-skip"><span class="heti-spacing"> </span>100%<span class="heti-spacing"> </span></span>保证基于区块链的交易中杜绝双花问题，<span>51%<span class="heti-spacing"> </span></span>攻击，又被称为<span><span class="heti-spacing"> </span>Majority attack</span>，这种攻击是通过控制网络算力实现双花。</p>
+<h3 id="26"><span>2.6<span class="heti-spacing"> </span></span>共识算法和工作量证明机制<a class="headerlink" href="#26" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>什么叫“共识”</strong></p>
+<p>从语文的角度进行理解，可以解释为，许多不同的人对同一件事情达成一样的或者至少说方向一致的看法。这个解释同样适用于比特币网络当中。</p>
+<p><strong>共识机制</strong></p>
+<p>达成共识的主体：它是当前这个区块链中的一些节点，到底哪些节点需要达成一致，也是一个需要考虑的问题。</p>
+<p>这些节点需要对什么东西达成一致？共识机制涉及了区块该如何生成以及生成之后如何选择的问题。</p>
+<p>在比特币网络中每个矿工都有权利生成新的区块，那么我们到底该选择谁的区块作为整个网络的新区块呢？这个新区块生成之后，在这条链上进行的交易能不能通过呢？</p>
+<p>在日常生活中，我们可以有一个老大或者一个领导来拍板决定这些问题。在区块链中，每个节点都是平等的，没有一个中心机构的存在，这时候就需要通过共识机制来达成节点间的一致。</p>
+<p><strong>共识算法</strong></p>
+<p>共识算法是为了达成共识所依据的一种规则，是筛选出具有代表性的节点的方法。为此，区块链设计了一定的底层算法，通过这个特定的算法来选出哪个可以生成新区块的节点，同时对于每一笔在这条区块链上进行的交易是否准许完成进行了约束和规定，也就是共识算法。</p>
+<p>共识算法有很多种，主要有工作量证明、权益证明、委托工作量证明、委托权益证明、实用拜占庭容错算法等，他们最终的目的是一致的，但在具体的实现过程中各具特色。</p>
+<p><strong>比特币的共识机制<span class="heti-skip"><span class="heti-spacing"> </span>--<span class="heti-spacing"> </span></span>工作量证明机制</strong></p>
+<p>工作量证明，英文全称叫<span><span class="heti-spacing"> </span>proof of work</span>，通常我们叫它<span><span class="heti-spacing"> </span>POW</span>。<em>工作量证明就是一份证明，用来确认你做过一定量的工作。怎么证明呢？通过工作结果<span class="heti-skip"><span class="heti-spacing"> </span>--<span class="heti-spacing"> </span></span>当用户做一定难度的工作得出一个结果时，通过展现出这个结果证明你完成了一定的工作量</em> <span>--<span class="heti-spacing"> </span></span>也就是说<span class="heti-skip"><span class="heti-spacing"> </span>POW<span class="heti-spacing"> </span></span>作为一种共识机制，它是结果导向而非过程导向的。</p>
+<p><strong>工作量证明机制</strong></p>
+<p>原因：实际应用中，如果我们通过监测工作的整个过程来证明工作量，这是极为低效的，为了保证一定的效率，就设计了通过验证结果的方式证明工作量的方法。</p>
+<p>关键特征：不对称性</p>
+<p>进行实际工作的用户需要付出很多的工作量才能得到一个符合已定条件的结果，但是作为验证方却可以根据用户提供的材料很容易重算这个结果，同时验证这个结果是否满足提前规定好的条件。</p>
+<p><strong>示例</strong>：<span>"Hello,world!"<span class="heti-spacing"> </span></span>后面添加一个<span class="heti-skip"><span class="heti-spacing"> </span>nonce<span class="heti-spacing"> </span></span>的整数值，对变更后的字符串进行哈希运算。得到的哈希结果以<span class="heti-skip"><span class="heti-spacing"> </span>"0000"<span class="heti-spacing"> </span></span>开头，则说明验证通过，为了达到这个工作量证明的目标，我们需要不停的递增<span class="heti-skip"><span class="heti-spacing"> </span>nonce<span class="heti-spacing"> </span></span>值，对得到的新字符串进行哈希运算。按照这个规则，我们需要经过<span class="heti-skip"><span class="heti-spacing"> </span>4251<span class="heti-spacing"> </span></span>次计算才能找到恰好前<span class="heti-skip"><span class="heti-spacing"> </span>4<span class="heti-spacing"> </span></span>位为<span class="heti-skip"><span class="heti-spacing"> </span>0<span class="heti-spacing"> </span></span>的哈希散列。</p>
+<p>实际证明我们不可能连续一直有这样好运气。绝大多数情况下是不得不通过对<span class="heti-skip"><span class="heti-spacing"> </span>nonce<span class="heti-spacing"> </span></span>的值进行逐个递增的方式来改变字符串的内容，多次尝试后最终得到满足条件的值。</p>
+<p>首先，生成要加入到区块链中的一笔新的交易信息，也就是新区块时必须满足的要求。然后在基于工作量证明机制构建的区块链网络中，所有节点开始不断尝试和计算，直到第一个节点找到了那个随机哈希散列的数值解，于是它就得到了生成新区块的权力。</p>
+<p>工作量证明机制的缺点：造成了大量的资源浪费，达成共识所需要的周期较长。</p>
+<h3 id="27-51"><span>2.7<span class="heti-spacing"> </span></span>区块高度，<span>51%<span class="heti-spacing"> </span></span>攻击，矿池与算力<a class="headerlink" href="#27-51" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>区块是一种被包含在公开账簿里的聚合了交易信息的容器数据结构，这个公开账簿就是区块链。它是构成区块链的基本单元，由包含元数据的区块头和包含交易数据的区块主体构成。</p>
+<p>在整个区块链系统中，大约每十几分钟就会创建一个区块。这个区块里面包含了这段时间内全网范围发生的所有交易信息，也就是区块主体部分。那么这个区块生成之后要怎么跟原来的区块链接起来呢？</p>
+<p>区块头中包含了三组元数据，其中第一组就是上一个区块的哈希值。也就是说，第二个区块的父哈希为第一个区块的哈希，第三个区块的父哈希为第二个区块的哈希，通过这种方式，就把一个个区块链接起来了，形成了一个前向的链表。</p>
+<p><img alt="12" src="../../assets/images/blockchain_and_innovative_thinking/12.png"/></p>
+<p>区块标识符：每个区块都有唯一的区块哈希值表示它的身份，就像我们的身份证号码一样，知道一个区块的哈希，就一定能找到唯一匹配的那个区块，这就是区块标识符。</p>
+<p>还有一种识别区块的方式是通过该区块在区块链中的位置，即“区块高度”。区块高度是用来标识一个区块在区块链中位置的一个概念。</p>
+<p><img alt="13" src="../../assets/images/blockchain_and_innovative_thinking/13.png"/></p>
+<p>原因：在同一时间，有可能存在两个或两个以上的区块，他们相对于整条区块链来说，处于平等的位置，所以他们有着相同的区块高度。</p>
+<p>就比如一座楼里面，有<span class="heti-skip"><span class="heti-spacing"> </span>201<span class="heti-spacing"> </span></span>房间，<span>203<span class="heti-spacing"> </span></span>房间，房间号表示区块哈希，二楼类似区块高度。</p>
+<p><strong>算力</strong></p>
+<p>也叫哈希率，是用来衡量进行哈希运算的能力的指标，或者说进行一次哈希计算所需要使用的时间。如果说网络达到了<span class="heti-skip"><span class="heti-spacing"> </span>10T<span class="heti-spacing"> </span></span>哈希每秒的哈希率时，就意味着它可以每秒进行<span class="heti-skip"><span class="heti-spacing"> </span>10<span class="heti-spacing"> </span></span>万亿次哈希运算。</p>
+<p>区块链网络中每个矿工都有资格生成区块，因此为了决定下一个区块由谁生成，需要通过一定的方法来决定。在<span class="heti-skip"><span class="heti-spacing"> </span>POW<span class="heti-spacing"> </span></span>机制中，所有节点通过随机的尝试和计算，直到有一个节点找到了那个随机哈希散列的数值解，成为有资格生成新区块的主体。</p>
+<p>哈希碰撞：解出随机哈希值不断尝试的过程。一个挖矿机每秒钟能做这种碰撞的次数，代表其算力。矿工进行挖矿所使用的机器越先进，算力就会越高。</p>
+<p><strong>区块链转账的基本原理：</strong></p>
+<p>整个区块链网络之所以能运行，靠的就是整个网络的“矿工”，因为他们通过算力解答加密难题，从而挖出新的区块。挖出区块后，他们就有权力将转账信息放入到区块中，然后完成这笔转账，这就是区块链转账的基本原理。</p>
+<p>中本聪一开始就定义了比特币总量为<span class="heti-skip"><span class="heti-spacing"> </span>2100<span class="heti-spacing"> </span></span>万个，并且加密数学题的难度也越来越大。正所谓众人拾柴火焰高，越来越多的人把自己的矿机拿出来，组成了“挖矿小分队”，这类组织就被称为“矿池”。</p>
+<p><span>51%<span class="heti-spacing"> </span></span>攻击出现的根本原因：<em>在整个网络中，有人的算力超过了全网的<span><span class="heti-spacing"> </span>50%</span>，那么在他的控制算力的这段时间，可以将区块逆转，进行反向交易，实现双花。</em></p>
+<p>尽管<span class="heti-skip"><span class="heti-spacing"> </span>51%<span class="heti-spacing"> </span></span>的攻击不会产生新币或者直接导致区块链崩溃，但对参与者对加密货币的信心会产生严重影响。</p>
+<p><img alt="14" src="../../assets/images/blockchain_and_innovative_thinking/14.png"/></p>
+<p><strong><span>51%<span class="heti-spacing"> </span></span>攻击论</strong></p>
+<p>虽然看起来<span class="heti-skip"><span class="heti-spacing"> </span>51%<span class="heti-spacing"> </span></span>攻击非常恐怖，不过这通常仅存在于理论情况下。因为如果你想做到，首先需要足够的钱去掌控全网<span class="heti-skip"><span class="heti-spacing"> </span>51%<span class="heti-spacing"> </span></span>的算力，这将是非常大的一笔投资。其次在攻击后，币种价格会受到影响，你要卖出非常多的币才能达到收支平衡。这就是<span class="heti-skip"><span class="heti-spacing"> </span>51%<span class="heti-spacing"> </span></span>攻击论。</p>
+<h3 id="28"><span>2.8<span class="heti-spacing"> </span></span>总结<a class="headerlink" href="#28" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>矿工</strong>：矿工就是指参与比特币挖矿的个体，也就是说，每一个致力于生产新区块的比特币节点的主人，就是一个矿工，是一切行为的操作者，也就是比特币网络参与的主体。</p>
+<p><strong>矿池</strong>：矿池的概念是在矿工的基础上延伸出来的。随着参与挖矿的矿工越来越多，一个个体矿工要想挖到矿，得到生成新区块的权力的可能性越来越低，所以一些矿工集合起来，集合各自的算力，提高挖到矿的可能性。这种矿工的集合体就是矿池。</p>
+<p><strong>公钥、私钥</strong>：公钥、私钥是一组配合使用的概念，他们之间有着紧密的联系。简单来说，私钥是系统随机生成的，公钥是由私钥计算得出的；公钥负责加密，私钥负责解密；私钥负责签名，公钥负责验证。在两者的配合使用之下，矿工才能完成比特币的交易。</p>
+<p><strong>钱包</strong>：比特币钱包就是用来装密钥的容器，它只包含密钥而不包含具体的多少个比特币。具体来说，钱包里面存放了一系列的密钥，每一密钥对应着一个私钥和由这个私钥生成的公钥，用于完成这个钱包主人可能要进行的比特币交易。钱包还有一个地址，这个地址就相当于你支付宝的账号一样，你要提供自己的账号，才能向外转账或者给自己充值。</p>
+<p><strong>交易</strong>：利用矿工掌握的私钥，把比特币从一个地址转到另一个地址的行为。我们所说的比特币，其实就是一系列交易输出的集合，我们说自己有多少比特币实际上是指我们拥有所有权的那些<span class="heti-skip"><span class="heti-spacing"> </span>UTXO<span class="heti-spacing"> </span></span>中所指明的比特币的数量。</p>
+<p><strong>区块</strong>：是构成区块链的基本单元，在区块链中，每隔一段时间就会形成一个新的区块，矿工们就是在通过挖矿争夺生成新区块的权力。每一个区块由区块头和区块主体构成。在区块头中包含了前一个区块的哈希信息，可以帮助新区块和之前的区块联系起来；而区块主体则包含了这一段时间内所有的交易信息。</p>
+<p><img alt="15" src="../../assets/images/blockchain_and_innovative_thinking/15.png"/></p>
+<p><strong>算力</strong>：是用来衡量进行哈希运算的能力的指标，它可以用每秒完成哈希碰撞次数来衡量。算力越强，挖到下一个新区块的可能性也相应的越大。</p>
+<aside class="md-source-file">
+<span class="md-source-file__fact">
+<span class="md-icon" title="最后更新">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">2026年1月29日 21:37:14</span>
+</span>
+</aside>
+<!-- Insert generated snippet here -->
+<script async="" crossorigin="anonymous" data-category="Comments" data-category-id="DIC_kwDOMt1b5c4CiWjc" data-emit-metadata="1" data-input-position="top" data-lang="zh-CN" data-loading="lazy" data-mapping="title" data-reactions-enabled="1" data-repo="lifefindsitsway/web3-tutorials" data-repo-id="R_kgDOMt1b5Q" data-strict="0" data-theme="light_protanopia" src="https://giscus.app/client.js">
+</script>
+<!-- Synchronize Giscus theme with palette -->
+<script>
+var giscus = document.querySelector("script[src*=giscus]")
+
+// Set palette on initial load
+var palette = __md_get("__palette")
+if (palette && typeof palette.color === "object") {
+    var theme = palette.color.scheme === "slate"
+    ? "dark_protanopia"
+    : "light_protanopia"
+
+    // Instruct Giscus to set theme
+    giscus.setAttribute("data-theme", theme) 
+}
+
+// Register event handlers after documented loaded
+document.addEventListener("DOMContentLoaded", function() {
+    var ref = document.querySelector("[data-md-component=palette]")
+    ref.addEventListener("change", function() {
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+        var theme = palette.color.scheme === "slate"
+        ? "dark_protanopia"
+        : "light_protanopia"
+
+        // Instruct Giscus to change theme
+        var frame = document.querySelector(".giscus-frame")
+        frame.contentWindow.postMessage(
+        { giscus: { setConfig: { theme } } },
+        "https://giscus.app"
+        )
+    }
+    })
+})
+</script>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  回到页面顶部
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2024 ~ present by <a href="https://github.com/lifefindsitsway" rel="noopener noreferrer" target="_blank">Lifefindsitsway</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/lifefindsitsway/web3-tutorials/" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../..", "features": ["header.autohide", "navigation.tracking", "navigation.top", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+<script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+<script src="../../assets/javascripts/mathjax-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>
