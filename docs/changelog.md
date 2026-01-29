@@ -19,4 +19,5 @@
 - 2024-03-21：[Solidity 地址类型 & 常见用法全攻略](./web3/dapp/address_240321.md)
 - 2024-03-20：[为什么以太坊地址是 20 字节？从私钥到地址的全解析](./web3/dapp/ethereum_address_size_240320.md)
 - 2024-02-13：[比特币的诞生历程](./blockchain/the_evolution_of_bitcoin_240213.md)
+- 2023-10：[北京大学肖臻老师《区块链技术与应用》学习笔记](./blockchain/blockchain_research_notes_2310.md)
 - 2021-01：[南京大学公开课《区块链与创新思维》学习笔记](./blockchain/blockchain_and_innovative_thinking_notes_2101.md)
