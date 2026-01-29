@@ -115,8 +115,9 @@ nav:
   - 更新日志: changelog.md
   - 区块链基础:
     - 比特币的诞生历程: blockchain/the_evolution_of_bitcoin_240213.md
-    - 北京大学肖臻老师《区块链技术与应用》学习笔记: blockchain/blockchain_research_notes_2310.md
-    - 南京大学公开课《区块链与创新思维》学习笔记: blockchain/blockchain_and_innovative_thinking_notes_2101.md
+    - 北京大学肖臻老师《区块链技术与应用》: blockchain/blockchain_research_notes_2310.md
+    - 从区块链出发的元宇宙与Web3: blockchain/from_blockchain_to_the_metaverse_and_web3_220528.md
+    - 南京大学公开课《区块链与创新思维》: blockchain/blockchain_and_innovative_thinking_notes_2101.md
   - DAPP开发:
     - Gas 优化指南（一）：Gas 机制原理: web3/dapp/gas_optimization_guide_part1_gas_mechanism.md
     - Gas 优化指南（二）：EIP-1559 交易解析: web3/dapp/gas_optimization_guide_part2_eip1559_transaction_analysis.md
