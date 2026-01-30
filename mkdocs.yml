@@ -137,4 +137,5 @@ nav:
     - 为什么以太坊地址是 20 字节？从私钥到地址的全解析: web3/dapp/ethereum_address_size_240320.md
   - DeFi:
     - Uniswap V2 价格精度解析: web3/defi/uniswap_v2_price_precision_240610.md
+    - Uniswap V2 TWAP 预言机（数学推导 & 源码解读）: web3/defi/uniswap_v2_twap_oracle_240614.md
     - 闪电贷：从原理到攻击演示: web3/defi/flash_loan_attack_260101.md
