@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://lifefindsitsway.wiki/web3/dapp/HybridRandomDiceGame/" rel="canonical"/>
+<link href="../../defi/flash_loan_attack_260101/" rel="prev"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.5.34" name="generator"/>
+<title>生产级骰子游戏（HybridRandomDiceGame） - Life's Web3 开发指南</title>
+<link href="../../../assets/stylesheets/main.35f28582.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.06af60db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto Slab";--md-code-font:"Roboto Mono"}</style>
+<link href="../../../css/heti.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/mathjax-custom.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-KJB4RXSKZG"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-KJB4RXSKZG",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-KJB4RXSKZG",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+<script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+</head>
+<body data-md-color-accent="deep-purple" data-md-color-primary="light-blue" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#tldr">
+          跳转至
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="页眉" class="md-header__inner md-grid">
+<a aria-label="Life's Web3 开发指南" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            Life's Web3 开发指南
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              生产级骰子游戏（HybridRandomDiceGame）
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="light-blue" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="deep-purple" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="black" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="搜索" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="搜索" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="查找" class="md-search__options">
+<a aria-label="分享" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="分享">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="清空当前内容" class="md-search__icon md-icon" tabindex="-1" title="清空当前内容" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    web3-tutorials
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="导航栏" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="Life's Web3 开发指南" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="Life's Web3 开发指南">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    Life's Web3 开发指南
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/lifefindsitsway/web3-tutorials" title="前往仓库">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</div>
+<div class="md-source__repository">
+    web3-tutorials
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../..">
+<span class="md-ellipsis">
+    Welcome to My Blog
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../changelog/">
+<span class="md-ellipsis">
+    更新日志
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    区块链基础
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            区块链基础
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../blockchain/the_evolution_of_bitcoin_240213/">
+<span class="md-ellipsis">
+    比特币的诞生历程
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../blockchain/blockchain_research_notes_2310/">
+<span class="md-ellipsis">
+    北京大学肖臻老师《区块链技术与应用》
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../blockchain/from_blockchain_to_the_metaverse_and_web3_220528/">
+<span class="md-ellipsis">
+    从区块链出发的元宇宙与Web3
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../blockchain/blockchain_and_innovative_thinking_notes_2101/">
+<span class="md-ellipsis">
+    南京大学公开课《区块链与创新思维》
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    Web3开发
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            Web3开发
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part1_gas_mechanism/">
+<span class="md-ellipsis">
+    Gas 优化指南（一）：Gas 机制原理
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part2_eip1559_transaction_analysis/">
+<span class="md-ellipsis">
+    Gas 优化指南（二）：EIP-1559 交易解析
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part3_storage_optimization/">
+<span class="md-ellipsis">
+    Gas 优化指南（三）：存储优化
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part4_computation_optimization/">
+<span class="md-ellipsis">
+    Gas 优化指南（四）：计算优化
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../gas_optimization_guide_part5_gas_measurement/">
+<span class="md-ellipsis">
+    Gas 优化指南（五）：Gas 评估与测量
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_proxy_upgrade_series_part1/">
+<span class="md-ellipsis">
+    代理合约与可升级合约系列（一）：为什么需要可升级？
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_proxy_upgrade_series_part2/">
+<span class="md-ellipsis">
+    代理合约与可升级合约系列（二）：透明代理 vs UUPS
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part1_240521/">
+<span class="md-ellipsis">
+    Solidity 合约间调用（一）：四种方式调用已部署合约
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part2_240523/">
+<span class="md-ellipsis">
+    Solidity 合约间调用（二）：底层调用与 calldata 详解
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../solidity_contract_call_part3_240527/">
+<span class="md-ellipsis">
+    Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../hardhat_tutorial_240415/">
+<span class="md-ellipsis">
+    Hardhat 入门指南（25年更新版）
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../evm_fundamentals_part1_from_transactions_to_bytecode_240410/">
+<span class="md-ellipsis">
+    EVM 基础原理（一）：从交易到字节码
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../evm_fundamentals_part2_data_regions_and_contract_execution_240411/">
+<span class="md-ellipsis">
+    EVM 基础原理（二）：数据区域与合约执行
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/">
+<span class="md-ellipsis">
+    EVM 基础原理（三）：ABI 编码与底层调用
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../address_240321/">
+<span class="md-ellipsis">
+    Solidity 地址类型 &amp; 常见用法全攻略
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ethereum_address_size_240320/">
+<span class="md-ellipsis">
+    为什么以太坊地址是 20 字节？从私钥到地址的全解析
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    DeFi
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            DeFi
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../defi/uniswap_v2_price_precision_240610/">
+<span class="md-ellipsis">
+    Uniswap V2 价格精度解析
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../defi/uniswap_v2_twap_oracle_240614/">
+<span class="md-ellipsis">
+    Uniswap V2 TWAP 预言机（数学推导 &amp; 源码解读）
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../defi/flash_loan_attack_260101/">
+<span class="md-ellipsis">
+    闪电贷：从原理到攻击演示
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    Projects
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            Projects
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    生产级骰子游戏（HybridRandomDiceGame）
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    生产级骰子游戏（HybridRandomDiceGame）
+  </span>
+</a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tldr">
+<span class="md-ellipsis">
+      TL;DR
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
+      （一）项目简介
+    </span>
+</a>
+<nav aria-label="（一）项目简介" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#11">
+<span class="md-ellipsis">
+      1.1 玩家指南：如何开始游戏🎲
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#12">
+<span class="md-ellipsis">
+      1.2 核心安全痛点与对应机制
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#13">
+<span class="md-ellipsis">
+      1.3 与其他方案对比
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
+      （二）项目结构说明与继承链
+    </span>
+</a>
+<nav aria-label="（二）项目结构说明与继承链" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#21">
+<span class="md-ellipsis">
+      2.1 总览图
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#22">
+<span class="md-ellipsis">
+      2.2 目录结构
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#23">
+<span class="md-ellipsis">
+      2.3 继承链
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#24">
+<span class="md-ellipsis">
+      2.4 关键参数
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mermaid">
+<span class="md-ellipsis">
+      （三）Mermaid 框架图（状态机 / 时序 / 资金流）
+    </span>
+</a>
+<nav aria-label="（三）Mermaid 框架图（状态机 / 时序 / 资金流）" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#31">
+<span class="md-ellipsis">
+      3.1 状态机图
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#32-commitreveal-vrf">
+<span class="md-ellipsis">
+      3.2 时序图：异步回调触发结算（Commit–Reveal + VRF）
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#33">
+<span class="md-ellipsis">
+      3.3 资金流图
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_3">
+<span class="md-ellipsis">
+      （四）安全模型
+    </span>
+</a>
+<nav aria-label="（四）安全模型" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#threat-model">
+<span class="md-ellipsis">
+      威胁模型（Threat Model）
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#invariants">
+<span class="md-ellipsis">
+      关键不变式（Invariants）
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_4">
+<span class="md-ellipsis">
+      安全机制清单
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_5">
+<span class="md-ellipsis">
+      （五）部署与测试
+    </span>
+</a>
+<nav aria-label="（五）部署与测试" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#51">
+<span class="md-ellipsis">
+      5.1 环境准备
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#52">
+<span class="md-ellipsis">
+      5.2 项目配置
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#53">
+<span class="md-ellipsis">
+      5.3 编译与测试
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#54">
+<span class="md-ellipsis">
+      5.4 测试架构
+    </span>
+</a>
+<nav aria-label="5.4 测试架构" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_6">
+<span class="md-ellipsis">
+      单元测试覆盖矩阵
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_7">
+<span class="md-ellipsis">
+      集成测试覆盖矩阵
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mock">
+<span class="md-ellipsis">
+      Mock 基础设施
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#55">
+<span class="md-ellipsis">
+      5.5 部署
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_8">
+<span class="md-ellipsis">
+      参考资料
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#tldr">
+<span class="md-ellipsis">
+      TL;DR
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+<span class="md-ellipsis">
+      （一）项目简介
+    </span>
+</a>
+<nav aria-label="（一）项目简介" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#11">
+<span class="md-ellipsis">
+      1.1 玩家指南：如何开始游戏🎲
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#12">
+<span class="md-ellipsis">
+      1.2 核心安全痛点与对应机制
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#13">
+<span class="md-ellipsis">
+      1.3 与其他方案对比
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+<span class="md-ellipsis">
+      （二）项目结构说明与继承链
+    </span>
+</a>
+<nav aria-label="（二）项目结构说明与继承链" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#21">
+<span class="md-ellipsis">
+      2.1 总览图
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#22">
+<span class="md-ellipsis">
+      2.2 目录结构
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#23">
+<span class="md-ellipsis">
+      2.3 继承链
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#24">
+<span class="md-ellipsis">
+      2.4 关键参数
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mermaid">
+<span class="md-ellipsis">
+      （三）Mermaid 框架图（状态机 / 时序 / 资金流）
+    </span>
+</a>
+<nav aria-label="（三）Mermaid 框架图（状态机 / 时序 / 资金流）" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#31">
+<span class="md-ellipsis">
+      3.1 状态机图
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#32-commitreveal-vrf">
+<span class="md-ellipsis">
+      3.2 时序图：异步回调触发结算（Commit–Reveal + VRF）
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#33">
+<span class="md-ellipsis">
+      3.3 资金流图
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_3">
+<span class="md-ellipsis">
+      （四）安全模型
+    </span>
+</a>
+<nav aria-label="（四）安全模型" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#threat-model">
+<span class="md-ellipsis">
+      威胁模型（Threat Model）
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#invariants">
+<span class="md-ellipsis">
+      关键不变式（Invariants）
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_4">
+<span class="md-ellipsis">
+      安全机制清单
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_5">
+<span class="md-ellipsis">
+      （五）部署与测试
+    </span>
+</a>
+<nav aria-label="（五）部署与测试" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#51">
+<span class="md-ellipsis">
+      5.1 环境准备
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#52">
+<span class="md-ellipsis">
+      5.2 项目配置
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#53">
+<span class="md-ellipsis">
+      5.3 编译与测试
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#54">
+<span class="md-ellipsis">
+      5.4 测试架构
+    </span>
+</a>
+<nav aria-label="5.4 测试架构" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_6">
+<span class="md-ellipsis">
+      单元测试覆盖矩阵
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_7">
+<span class="md-ellipsis">
+      集成测试覆盖矩阵
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#mock">
+<span class="md-ellipsis">
+      Mock 基础设施
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#55">
+<span class="md-ellipsis">
+      5.5 部署
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_8">
+<span class="md-ellipsis">
+      参考资料
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1>生产级骰子游戏（HybridRandomDiceGame）</h1>
+<blockquote>
+<p>一个生产级的链上骰子游戏合约，采用 <strong><span>Commit-Reveal + Chainlink VRF<span class="heti-spacing"> </span></span>混合随机</strong> 方案，解决链上游戏的随机数可预测、资金卡死、并发结算透支等核心安全问题。</p>
+</blockquote>
+<p>Author：Lifefindsitsway</p>
+<p>Date：2026-01-24</p>
+<p>Github Repo：<a href="https://github.com/lifefindsitsway/HybridRandomDiceGame">https://github.com/lifefindsitsway/HybridRandomDiceGame</a></p>
+<h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">¶</a></h2>
+<ul>
+<li>🎲 <strong>双熵源混合随机</strong>：<span>Commit-Reveal<span class="heti-spacing"> </span></span>绑定玩家输入<span class="heti-skip"><span class="heti-spacing"> </span>+ Chainlink VRF<span class="heti-spacing"> </span></span>提供可验证随机，任一方无法单独操控结果</li>
+<li>🔓 <strong>完整逃生机制</strong>：<span>reveal<span class="heti-spacing"> </span></span>超时可取消、<span>VRF<span class="heti-spacing"> </span></span>超时可重试、<span>VRF<span class="heti-spacing"> </span></span>卡死可强制退出，资金永不被锁死</li>
+<li>💰 <strong>并发安全</strong>：<span>in-flight reserve<span class="heti-spacing"> </span></span>机制防止多玩家同时结算导致奖池透支</li>
+<li>🔍 <strong>前端友好</strong>：<span>GameLens<span class="heti-spacing"> </span></span>聚合层，一次<span class="heti-skip"><span class="heti-spacing"> </span>RPC<span class="heti-spacing"> </span></span>调用返回完整<span class="heti-skip"><span class="heti-spacing"> </span>UI<span class="heti-spacing"> </span></span>数据</li>
+</ul>
+<h2 id="_1">（一）项目简介<a class="headerlink" href="#_1" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p><strong>Hybrid Random Dice Game</strong> 是一个基于以太坊（EVM）构建的、具有<strong>双重随机性保障</strong>的去中心化骰子游戏参考实现。</p>
+<p>传统的链上随机数往往面临两大难题：要么依赖区块哈希容易被矿工操纵，要么单纯依赖预言机容易被抢跑（Front-running<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。本项目采用 <strong>Commit-Reveal（承诺<span class="heti-skip"><span class="heti-spacing"> </span>-<span class="heti-spacing"> </span></span>揭示）</strong> 模式结合 <strong>Chainlink VRF（可验证随机函数）</strong>，构建了一套无法被预测、无法被操控的混合随机数机制。</p>
+<p>此外，项目引入了独特的 <strong><code>GameLens</code> 架构</strong>，将复杂的链上状态聚合为前端友好的数据结构，极大地降低了前端集成的复杂度与<span class="heti-skip"><span class="heti-spacing"> </span>RPC<span class="heti-spacing"> </span></span>请求量，是<span class="heti-skip"><span class="heti-spacing"> </span>Web3<span class="heti-spacing"> </span></span>全栈游戏开发的最佳实践范例。</p>
+<h3 id="11"><span>1.1<span class="heti-spacing"> </span></span>玩家指南：如何开始游戏🎲<a class="headerlink" href="#11" title="Permanent link">¶</a></h3>
+<p>本游戏采用 <strong>Commit-Reveal</strong> 机制来保证公平性，因此与普通的“点击即开奖”游戏流程略有不同，请按照以下步骤操作：</p>
+<ol>
+<li><strong>💰 下注<span><span class="heti-spacing"> </span>(Commit)</span></strong></li>
+</ol>
+<ul>
+<li>选择一个你觉得幸运的骰子点数（1-6<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</li>
+<li>点击 <strong>Commit</strong> 按钮并支付 <strong>0.001 ETH</strong>。</li>
+<li><em>幕后机制：此时你的猜测和本地生成的密钥会被加密哈希后提交上链，任何人无法提前知晓你的选择。</em></li>
+</ul>
+<ol start="2">
+<li><strong>⏳ 等待锁定<span><span class="heti-spacing"> </span>(Wait)</span></strong></li>
+</ol>
+<ul>
+<li>提交成功后，进入 <strong><span>60<span class="heti-spacing"> </span></span>秒</strong> 的锁定冷静期。</li>
+<li>这是为了防止区块重组攻击，请耐心等待倒计时结束。</li>
+</ul>
+<ol start="3">
+<li><strong>🔓 揭示<span><span class="heti-spacing"> </span>(Reveal)</span></strong></li>
+</ol>
+<ul>
+<li>
+<p>倒计时结束后，<strong>Reveal</strong> 按钮变亮。</p>
+</li>
+<li>
+<p><strong>重要：</strong> 你有 <strong><span>120<span class="heti-spacing"> </span></span>秒</strong> 的时间窗口点击此按钮。</p>
+</li>
+<li>
+<p>点击后，前端会将你最初的猜测和密钥提交给合约进行验证，并触发<span class="heti-skip"><span class="heti-spacing"> </span>Chainlink VRF<span class="heti-spacing"> </span></span>获取真随机数。</p>
+<p><em>⚠️ 注意：如果你超时未揭示，将被视为放弃，资金会因过期仅允许退回部分。</em></p>
+</li>
+</ul>
+<ol start="4">
+<li><strong>🎰 开奖<span><span class="heti-spacing"> </span>(Settlement)</span></strong></li>
+</ol>
+<ul>
+<li>等待几秒钟（取决于<span class="heti-skip"><span class="heti-spacing"> </span>Chainlink VRF<span class="heti-spacing"> </span></span>的回调速度<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，随机数生成完毕。</li>
+<li>如果骰子点数与你的猜测一致，你将获得 <strong><span>5<span class="heti-spacing"> </span></span>倍<span><span class="heti-spacing"> </span>(0.005 ETH)</span></strong> 的奖金！</li>
+</ul>
+<ol start="5">
+<li><strong>💸 提现<span><span class="heti-spacing"> </span>(Withdraw)</span></strong></li>
+</ol>
+<ul>
+<li>奖金会自动累积在合约的“待提现余额”中。</li>
+<li>你可以随时点击 <strong>Withdraw</strong> 将所有奖金提取到你的钱包。</li>
+</ul>
+<blockquote>
+<p><strong><span>Q:<span class="heti-spacing"> </span></span>为什么要等两步（Commit + Reveal）这么麻烦？</strong> </p>
+<p><strong>A:</strong> 如果允许直接下注开奖，恶意攻击者可以监视内存池（Mempool<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，一旦发现随机数对自己不利就回滚交易。通过先“下注并锁定”，再“揭示并开奖”，我们彻底杜绝了这种作弊可能，确保每一局游戏都是绝对公平的。</p>
+</blockquote>
+<h3 id="12"><span>1.2<span class="heti-spacing"> </span></span>核心安全痛点与对应机制<a class="headerlink" href="#12" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<ul>
+<li><strong>随机数安全（Anti-predict / Anti-bias）</strong></li>
+<li><strong>Commit-Reveal</strong>：玩家先提交 <code>commitHash = keccak256(player, guess, secret, contract, chainId, nonce)</code>，揭示时验证，降低<span class="heti-skip"><span class="heti-spacing"> </span>mempool<span class="heti-spacing"> </span></span>预测与复制输入风险；</li>
+<li><strong><span>VRF<span class="heti-spacing"> </span></span>可验证随机</strong>：<span>Reveal<span class="heti-spacing"> </span></span>后发起<span class="heti-skip"><span class="heti-spacing"> </span>Chainlink VRF<span class="heti-spacing"> </span></span>请求，随机性由链下网络提供并可在链上验证；</li>
+<li>
+<p><strong>Hybrid Mix（双熵源混合）</strong>：结算时将<span class="heti-skip"><span class="heti-spacing"> </span>VRF<span class="heti-spacing"> </span></span>随机与玩家<span class="heti-skip"><span class="heti-spacing"> </span>secret<span class="heti-spacing"> </span></span>混合，降低“单一熵源失效<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>被操控”的单点风险。</p>
+</li>
+<li>
+<p><strong>资金不被“卡死”（Escape Hatches）</strong></p>
+</li>
+<li><strong><span>Reveal<span class="heti-spacing"> </span></span>窗口</strong>：<span>Commit<span class="heti-spacing"> </span></span>后必须在指定时间窗口内<span><span class="heti-spacing"> </span>Reveal</span>；错过时间窗口可 <code>cancelExpiredCommitment()</code>（惩罚性退款，退回净下注的一半<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>；</li>
+<li><strong><span>VRF<span class="heti-spacing"> </span></span>超时重试</strong>：<span>VRF<span class="heti-spacing"> </span></span>超过 <code>VRF_TIMEOUT = 10 minutes</code> 未回调，允许 <code>retryVrfRequest()</code>（最多重试次数 <code>MAX_RETRIES = 3</code><heti-adjacent class="heti-adjacent-half">）</heti-adjacent>；</li>
+<li>
+<p><strong><span>VRF<span class="heti-spacing"> </span></span>长时间无响应强制退出</strong>：超过 <code>VRF_STUCK_TIMEOUT = 24 hours</code> 可 <code>cancelStuckGame()</code> 全额退回净下注（不计手续费<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。</p>
+</li>
+<li>
+<p><strong>并发资金安全（No prize overdraft）</strong></p>
+</li>
+<li>
+<p><strong>In-flight Reserve（在途局预留金）</strong>：当玩家进入等待<span class="heti-skip"><span class="heti-spacing"> </span>VRF<span class="heti-spacing"> </span></span>状态时，立即把本局潜在奖金计入 <code>reservedForInFlightGames</code>，避免多玩家并发<span class="heti-skip"><span class="heti-spacing"> </span>reveal<span class="heti-spacing"> </span></span>导致“奖池只够一局却通过多局检查”的资金透支问题。</p>
+</li>
+<li>
+<p><strong>可观测性（Observability-first）</strong></p>
+</li>
+<li>关键状态变更与结算结果以 <strong>Events</strong> 记录，便于<span class="heti-skip"><span class="heti-spacing"> </span>subgraph/<span class="heti-spacing"> </span></span>数据平台追踪与回放；</li>
+<li>
+<p>链上保留必要状态（例如 <code>LastResult</code><heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，历史靠事件索引，减少链上存储膨胀。</p>
+</li>
+<li>
+<p><strong>前端<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>集成友好（<span>Lens<span class="heti-spacing"> </span></span>聚合查询）</strong></p>
+</li>
+<li><code>GameLens</code> 是只读聚合器：一次 <code>eth_call</code> 返回 <code>PlayerDashboard</code>（按钮可用性、倒计时、<span>nextAction<span class="heti-spacing"> </span></span>等）与 <code>GlobalInfo</code>（余额<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>预留<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>手续费等<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，降低前端多次<span class="heti-skip"><span class="heti-spacing"> </span>RPC<span class="heti-spacing"> </span></span>拼装复杂度。</li>
+</ul>
+<h3 id="13"><span>1.3<span class="heti-spacing"> </span></span>与其他方案对比<a class="headerlink" href="#13" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>随机数安全</th>
+<th><span>VRF<span class="heti-spacing"> </span></span>故障处理</th>
+<th>并发安全</th>
+<th>资金逃生</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>纯<span><span class="heti-spacing"> </span>Blockhash</span></td>
+<td>❌ 矿工可操控</td>
+<td>N/A</td>
+<td>❌ 无</td>
+<td>❌ 无</td>
+</tr>
+<tr>
+<td>纯<span><span class="heti-spacing"> </span>VRF</span></td>
+<td>⚠️ 单熵源</td>
+<td>❌ 永久卡死</td>
+<td>⚠️ 部分</td>
+<td>❌ 无</td>
+</tr>
+<tr>
+<td>纯<span><span class="heti-spacing"> </span>Commit-Reveal</span></td>
+<td>⚠️ 玩家可放弃</td>
+<td>N/A</td>
+<td>❌ 无</td>
+<td>⚠️ 部分</td>
+</tr>
+<tr>
+<td><strong>本项目</strong></td>
+<td>✅ 双熵源混合</td>
+<td>✅ retry + cancel</td>
+<td>✅ in-flight reserve</td>
+<td>✅ 完整</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">（二）项目结构说明与继承链<a class="headerlink" href="#_2" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<h3 id="21"><span>2.1<span class="heti-spacing"> </span></span>总览图<a class="headerlink" href="#21" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>系统交互总览</strong>：一张图同时展示外部角色（玩家<span class="heti-skip"><span class="heti-spacing"> </span>/ VRF /<span class="heti-spacing"> </span></span>管理员<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>手续费接收者<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>注资者<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>、单玩家单局状态机、以及<span class="heti-skip"><span class="heti-spacing"> </span>Pull Payment<span class="heti-spacing"> </span></span>结算路径，帮助快速理解“怎么玩<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>怎么结算<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>怎么运维”。</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>flowchart LR
+<a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>  %% ========== Actors ==========
+<a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a>  Player["Player&lt;br/&gt;玩家"]
+<a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>  Owner["Owner&lt;br/&gt;管理员"]
+<a href="#__codelineno-0-5" id="__codelineno-0-5" name="__codelineno-0-5"></a>  Funder["Funder&lt;br/&gt;奖池注资者"]
+<a href="#__codelineno-0-6" id="__codelineno-0-6" name="__codelineno-0-6"></a>  VRF["Chainlink VRF&lt;br/&gt;Coordinator"]
+<a href="#__codelineno-0-7" id="__codelineno-0-7" name="__codelineno-0-7"></a>  FeeRecipient["FeeRecipient&lt;br/&gt;手续费接收者"]
+<a href="#__codelineno-0-8" id="__codelineno-0-8" name="__codelineno-0-8"></a>
+<a href="#__codelineno-0-9" id="__codelineno-0-9" name="__codelineno-0-9"></a>  %% ========== Core Contract ==========
+<a href="#__codelineno-0-10" id="__codelineno-0-10" name="__codelineno-0-10"></a>  Game["HybridRandomDiceGame&lt;br/&gt;主合约"]
+<a href="#__codelineno-0-11" id="__codelineno-0-11" name="__codelineno-0-11"></a>
+<a href="#__codelineno-0-12" id="__codelineno-0-12" name="__codelineno-0-12"></a>  %% ========== Accounting (keep light) ==========
+<a href="#__codelineno-0-13" id="__codelineno-0-13" name="__codelineno-0-13"></a>  subgraph Book["Accounting（核心记账项）"]
+<a href="#__codelineno-0-14" id="__codelineno-0-14" name="__codelineno-0-14"></a>    direction TB
+<a href="#__codelineno-0-15" id="__codelineno-0-15" name="__codelineno-0-15"></a>    PW["pendingWithdrawals(player)&lt;br/&gt;玩家待提现（奖池派奖/退款）"]
+<a href="#__codelineno-0-16" id="__codelineno-0-16" name="__codelineno-0-16"></a>    Fees["protocolFeesAccrued&lt;br/&gt;累计手续费（可提取）"]
+<a href="#__codelineno-0-17" id="__codelineno-0-17" name="__codelineno-0-17"></a>  end
+<a href="#__codelineno-0-18" id="__codelineno-0-18" name="__codelineno-0-18"></a>
+<a href="#__codelineno-0-19" id="__codelineno-0-19" name="__codelineno-0-19"></a>  %% ========== Per-Player State (final code) ==========
+<a href="#__codelineno-0-20" id="__codelineno-0-20" name="__codelineno-0-20"></a>  subgraph SM["Player Game State（单玩家单局）"]
+<a href="#__codelineno-0-21" id="__codelineno-0-21" name="__codelineno-0-21"></a>    direction LR
+<a href="#__codelineno-0-22" id="__codelineno-0-22" name="__codelineno-0-22"></a>    S0["None&lt;br/&gt;空闲 / 可开新局"]
+<a href="#__codelineno-0-23" id="__codelineno-0-23" name="__codelineno-0-23"></a>    S1["Committed&lt;br/&gt;已提交承诺"]
+<a href="#__codelineno-0-24" id="__codelineno-0-24" name="__codelineno-0-24"></a>    S2["RandomRequested&lt;br/&gt;已请求 VRF"]
+<a href="#__codelineno-0-25" id="__codelineno-0-25" name="__codelineno-0-25"></a>
+<a href="#__codelineno-0-26" id="__codelineno-0-26" name="__codelineno-0-26"></a>    S0 --&gt;|"commit 成功"| S1
+<a href="#__codelineno-0-27" id="__codelineno-0-27" name="__codelineno-0-27"></a>    S1 --&gt;|"revealAndRequestRandom 成功"| S2
+<a href="#__codelineno-0-28" id="__codelineno-0-28" name="__codelineno-0-28"></a>    S2 --&gt;|"VRF 回调有效：settle 后清理"| S0
+<a href="#__codelineno-0-29" id="__codelineno-0-29" name="__codelineno-0-29"></a>
+<a href="#__codelineno-0-30" id="__codelineno-0-30" name="__codelineno-0-30"></a>    S1 --&gt;|"cancelExpiredCommitment"| S0
+<a href="#__codelineno-0-31" id="__codelineno-0-31" name="__codelineno-0-31"></a>    S2 --&gt;|"retryVrfRequest"| S2
+<a href="#__codelineno-0-32" id="__codelineno-0-32" name="__codelineno-0-32"></a>    S2 --&gt;|"cancelStuckGame"| S0
+<a href="#__codelineno-0-33" id="__codelineno-0-33" name="__codelineno-0-33"></a>  end
+<a href="#__codelineno-0-34" id="__codelineno-0-34" name="__codelineno-0-34"></a>
+<a href="#__codelineno-0-35" id="__codelineno-0-35" name="__codelineno-0-35"></a>  %% ========== Funding / Admin ==========
+<a href="#__codelineno-0-36" id="__codelineno-0-36" name="__codelineno-0-36"></a>  Funder --&gt;|"receive() / fund"| Game
+<a href="#__codelineno-0-37" id="__codelineno-0-37" name="__codelineno-0-37"></a>  Owner --&gt;|"pause / unpause"| Game
+<a href="#__codelineno-0-38" id="__codelineno-0-38" name="__codelineno-0-38"></a>  Owner --&gt;|"setConfigs (fee + vrf)"| Game
+<a href="#__codelineno-0-39" id="__codelineno-0-39" name="__codelineno-0-39"></a>
+<a href="#__codelineno-0-40" id="__codelineno-0-40" name="__codelineno-0-40"></a>  %% ========== Fee Flow ==========
+<a href="#__codelineno-0-41" id="__codelineno-0-41" name="__codelineno-0-41"></a>  FeeRecipient --&gt;|"withdrawProtocolFees"| Game
+<a href="#__codelineno-0-42" id="__codelineno-0-42" name="__codelineno-0-42"></a>  Game --&gt;|"FeeCharged&lt;br/&gt;protocolFeesAccrued += fee"| Fees
+<a href="#__codelineno-0-43" id="__codelineno-0-43" name="__codelineno-0-43"></a>  Game --&gt;|"ProtocolFeesWithdrawn"| FeeRecipient
+<a href="#__codelineno-0-44" id="__codelineno-0-44" name="__codelineno-0-44"></a>
+<a href="#__codelineno-0-45" id="__codelineno-0-45" name="__codelineno-0-45"></a>  %% ========== Player ↔ Game (merged to 6 edges) ==========
+<a href="#__codelineno-0-46" id="__codelineno-0-46" name="__codelineno-0-46"></a>  Player --&gt;|"commit"| Game
+<a href="#__codelineno-0-47" id="__codelineno-0-47" name="__codelineno-0-47"></a>  Player --&gt;|"revealAndRequestRandom"| Game
+<a href="#__codelineno-0-48" id="__codelineno-0-48" name="__codelineno-0-48"></a>  Player --&gt;|"retryVrfRequest"| Game
+<a href="#__codelineno-0-49" id="__codelineno-0-49" name="__codelineno-0-49"></a>  Player --&gt;|"cancelExpiredCommitment"| Game
+<a href="#__codelineno-0-50" id="__codelineno-0-50" name="__codelineno-0-50"></a>  Player --&gt;|"cancelStuckGame"| Game
+<a href="#__codelineno-0-51" id="__codelineno-0-51" name="__codelineno-0-51"></a>  Player --&gt;|"withdraw"| Game
+<a href="#__codelineno-0-52" id="__codelineno-0-52" name="__codelineno-0-52"></a>
+<a href="#__codelineno-0-53" id="__codelineno-0-53" name="__codelineno-0-53"></a>  %% ========== Game ↔ State machine (keep emit/event) ==========
+<a href="#__codelineno-0-54" id="__codelineno-0-54" name="__codelineno-0-54"></a>  Game --&gt;|"emit Committed + state=Committed"| S1
+<a href="#__codelineno-0-55" id="__codelineno-0-55" name="__codelineno-0-55"></a>  Game --&gt;|"emit RandomnessRequested + state=RandomRequested"| S2
+<a href="#__codelineno-0-56" id="__codelineno-0-56" name="__codelineno-0-56"></a>  Game --&gt;|"emit Settled + clear state"| S0
+<a href="#__codelineno-0-57" id="__codelineno-0-57" name="__codelineno-0-57"></a>
+<a href="#__codelineno-0-58" id="__codelineno-0-58" name="__codelineno-0-58"></a>  %% ========== VRF callback ==========
+<a href="#__codelineno-0-59" id="__codelineno-0-59" name="__codelineno-0-59"></a>  Game --&gt;|"requestRandomWords"| VRF
+<a href="#__codelineno-0-60" id="__codelineno-0-60" name="__codelineno-0-60"></a>  VRF --&gt;|"fulfillRandomWords"| Game
+<a href="#__codelineno-0-61" id="__codelineno-0-61" name="__codelineno-0-61"></a>
+<a href="#__codelineno-0-62" id="__codelineno-0-62" name="__codelineno-0-62"></a>  %% ========== CallbackIgnored (keep as a note, no branching) ==========
+<a href="#__codelineno-0-63" id="__codelineno-0-63" name="__codelineno-0-63"></a>  NoteCI["CallbackIgnored（不 revert）&lt;br/&gt;策略：emit CallbackIgnored + return"]
+<a href="#__codelineno-0-64" id="__codelineno-0-64" name="__codelineno-0-64"></a>  VRF -.-&gt; NoteCI
+<a href="#__codelineno-0-65" id="__codelineno-0-65" name="__codelineno-0-65"></a>
+<a href="#__codelineno-0-66" id="__codelineno-0-66" name="__codelineno-0-66"></a>  %% ========== Accounting updates (keep minimal) ==========
+<a href="#__codelineno-0-67" id="__codelineno-0-67" name="__codelineno-0-67"></a>  Game --&gt;|"win / refund: credit"| PW
+<a href="#__codelineno-0-68" id="__codelineno-0-68" name="__codelineno-0-68"></a>  Game --&gt;|"Withdrawn: transfer payout"| Player
+</code></pre></div>
+<p><strong>主流程</strong>：<code>commit → revealAndRequestRandom → VRF 回调 settle → state 回到 None（可开新局）</code>。</p>
+<p><strong>容灾分支</strong>：</p>
+<ul>
+<li><code>cancelExpiredCommitment</code>：<span>reveal<span class="heti-spacing"> </span></span>超时，惩罚性退款 <code>netBet/2</code>；</li>
+<li><code>retryVrfRequest</code>：超过 <code>VRF_TIMEOUT</code>，重发<span class="heti-skip"><span class="heti-spacing"> </span>VRF<span class="heti-spacing"> </span></span>并更新 <code>requestId</code>；</li>
+<li><code>cancelStuckGame</code>：超过 <code>VRF_STUCK_TIMEOUT</code>，全额退回 <code>netBet</code>。</li>
+</ul>
+<p><strong>资金闭环</strong>：注资<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>下注进入合约余额；<code>commit</code> 按 <code>feeBps</code> 记账到 <code>protocolFeesAccrued</code>；奖金<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>退款统一记账到 <code>pendingWithdrawals</code>，玩家 <code>withdraw</code> 提现；手续费由 <code>FeeRecipient</code> 调用 <code>withdrawProtocolFees</code> 提取。</p>
+<p><strong>异步鲁棒性</strong>：<span>VRF<span class="heti-spacing"> </span></span>旧回调<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>异常回调不 <code>revert</code>，采用 <code>CallbackIgnored(emit + return)</code>，避免状态<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>资金卡死。</p>
+<h3 id="22"><span>2.2<span class="heti-spacing"> </span></span>目录结构<a class="headerlink" href="#22" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>contracts/
+<a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>├── core/                           # 游戏核心逻辑入口
+<a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>│   └── HybridRandomDiceGame.sol    # 唯一部署的核心合约（状态机 + 资金闭环 + VRF 回调）
+<a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a>│
+<a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a>├── base/                           # 抽象模块（被 core 继承）
+<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>│   ├── CommitRevealBase.sol        # 状态机 + commit/reveal + 回调结算 + 退出逻辑
+<a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a>│   ├── VrfBase.sol                 # VRF 请求封装 + 配置
+<a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a>│   └── FundsBase.sol               # 资金模型：bet/prize/fee/pull payment/reserve
+<a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a>│
+<a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a>├── shared/                         # 共享定义（非 library）
+<a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a>│   ├── Types.sol                   # enum + struct（GameState/NextAction/Dashboard 等）
+<a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a>│   ├── Errors.sol                  # 自定义错误（revert 更省 gas、语义更清晰）
+<a href="#__codelineno-1-13" id="__codelineno-1-13" name="__codelineno-1-13"></a>│   └── Events.sol                  # 事件全集（历史靠事件追踪）
+<a href="#__codelineno-1-14" id="__codelineno-1-14" name="__codelineno-1-14"></a>│
+<a href="#__codelineno-1-15" id="__codelineno-1-15" name="__codelineno-1-15"></a>├── libraries/                      # 哈希计算与工具库（pure/view）
+<a href="#__codelineno-1-16" id="__codelineno-1-16" name="__codelineno-1-16"></a>│   └── HashLib.sol                 # computeCommitHash + mixRandomness
+<a href="#__codelineno-1-17" id="__codelineno-1-17" name="__codelineno-1-17"></a>│
+<a href="#__codelineno-1-18" id="__codelineno-1-18" name="__codelineno-1-18"></a>├── interfaces/
+<a href="#__codelineno-1-19" id="__codelineno-1-19" name="__codelineno-1-19"></a>│   └── IHybridRandomDiceGame.sol   # 对外接口（前端/集成用）
+<a href="#__codelineno-1-20" id="__codelineno-1-20" name="__codelineno-1-20"></a>│
+<a href="#__codelineno-1-21" id="__codelineno-1-21" name="__codelineno-1-21"></a>├── lens/                           # 前端数据聚合层（可选部署）
+<a href="#__codelineno-1-22" id="__codelineno-1-22" name="__codelineno-1-22"></a>│   └── GameLens.sol                # 聚合玩家仪表盘/全局信息
+</code></pre></div>
+<h3 id="23"><span>2.3<span class="heti-spacing"> </span></span>继承链<a class="headerlink" href="#23" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>flowchart TB
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>  VRF[VRFConsumerBaseV2Plus] --&gt; Vrf[VrfBase]
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>  Vrf --&gt; Funds[FundsBase]
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>  Funds --&gt; CR[CommitRevealBase]
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a>  CR --&gt; Core[HybridRandomDiceGame]
+<a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a>
+<a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a>  OZ1[Pausable] --&gt; Core
+<a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a>  OZ2[ReentrancyGuard] --&gt; Core
+<a href="#__codelineno-2-9" id="__codelineno-2-9" name="__codelineno-2-9"></a>  IF[IHybridRandomDiceGame] -. implements .-&gt; Core
+</code></pre></div>
+<p>核心合约 <code>HybridRandomDiceGame</code> 在 <code>CommitRevealBase</code>（状态机与<span><span class="heti-spacing"> </span>commit-reveal</span>）与 <code>FundsBase</code>（资金闭环）基础上叠加 <code>VrfBase</code>（<span>VRF<span class="heti-spacing"> </span></span>请求<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>回调封装<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，并通过 <code>Pausable + ReentrancyGuard</code> 强化可用性与安全性，对外暴露 <code>IHybridRandomDiceGame</code> 作为集成接口。</p>
+<h3 id="24"><span>2.4<span class="heti-spacing"> </span></span>关键参数<a class="headerlink" href="#24" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BET_AMOUNT</code></td>
+<td><code>0.001 ether</code></td>
+<td>每局下注金额</td>
+</tr>
+<tr>
+<td><code>PRIZE_AMOUNT</code></td>
+<td><code>0.005 ether</code></td>
+<td>中奖奖金</td>
+</tr>
+<tr>
+<td><code>MAX_FEE_BPS</code></td>
+<td><code>500</code></td>
+<td>手续费上限（5%）</td>
+</tr>
+<tr>
+<td><code>COMMIT_DURATION</code></td>
+<td><code>60 秒</code></td>
+<td><span>commit<span class="heti-spacing"> </span></span>后等待多久进入<span class="heti-skip"><span class="heti-spacing"> </span>reveal<span class="heti-spacing"> </span></span>窗口</td>
+</tr>
+<tr>
+<td><code>REVEAL_DURATION</code></td>
+<td><code>120 秒</code></td>
+<td><span>reveal<span class="heti-spacing"> </span></span>窗口长度</td>
+</tr>
+<tr>
+<td><code>VRF_TIMEOUT</code></td>
+<td><code>10 minutes</code></td>
+<td><span>VRF<span class="heti-spacing"> </span></span>超时可<span><span class="heti-spacing"> </span>retry</span></td>
+</tr>
+<tr>
+<td><code>VRF_STUCK_TIMEOUT</code></td>
+<td><code>24 hours</code></td>
+<td><span>VRF<span class="heti-spacing"> </span></span>长时间无响应可<span><span class="heti-spacing"> </span>emergency cancel</span></td>
+</tr>
+<tr>
+<td><code>MAX_RETRIES</code></td>
+<td><code>3</code></td>
+<td><span>VRF<span class="heti-spacing"> </span></span>最大重试次数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mermaid">（三）<span>Mermaid<span class="heti-spacing"> </span></span>框架图（状态机<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>时序<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>资金流）<a class="headerlink" href="#mermaid" title="Permanent link">¶</a></h2>
+<h3 id="31"><span>3.1<span class="heti-spacing"> </span></span>状态机图<a class="headerlink" href="#31" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>stateDiagram-v2
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>  [*] --&gt; None: 初始 / 上一局结束
+<a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>
+<a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>  None --&gt; Committed: commit(commitHash)&lt;br/&gt;支付 BET
+<a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a>  Committed --&gt; RandomRequested: revealAndRequestRandom(guess, secret)&lt;br/&gt;验证承诺 + 发起 VRF
+<a href="#__codelineno-3-6" id="__codelineno-3-6" name="__codelineno-3-6"></a>
+<a href="#__codelineno-3-7" id="__codelineno-3-7" name="__codelineno-3-7"></a>  RandomRequested --&gt; None: fulfillRandomWords(requestId)&lt;br/&gt;回调到达 -&gt; settle&lt;br/&gt;记录结果+Pull Payment记账
+<a href="#__codelineno-3-8" id="__codelineno-3-8" name="__codelineno-3-8"></a>
+<a href="#__codelineno-3-9" id="__codelineno-3-9" name="__codelineno-3-9"></a>  %% ----------------------------
+<a href="#__codelineno-3-10" id="__codelineno-3-10" name="__codelineno-3-10"></a>  %% 异常/容灾分支
+<a href="#__codelineno-3-11" id="__codelineno-3-11" name="__codelineno-3-11"></a>  %% ----------------------------
+<a href="#__codelineno-3-12" id="__codelineno-3-12" name="__codelineno-3-12"></a>  Committed --&gt; None: cancelExpiredCommitment()&lt;br/&gt;超过 revealDeadline&lt;br/&gt;退部分净下注 / 解锁
+<a href="#__codelineno-3-13" id="__codelineno-3-13" name="__codelineno-3-13"></a>
+<a href="#__codelineno-3-14" id="__codelineno-3-14" name="__codelineno-3-14"></a>  RandomRequested --&gt; RandomRequested: retryVrfRequest()&lt;br/&gt;超过 VRF_TIMEOUT&lt;br/&gt;重发 VRF（更新 requestId）
+<a href="#__codelineno-3-15" id="__codelineno-3-15" name="__codelineno-3-15"></a>
+<a href="#__codelineno-3-16" id="__codelineno-3-16" name="__codelineno-3-16"></a>  RandomRequested --&gt; None: cancelStuckGame()&lt;br/&gt;超过 VRF_STUCK_TIMEOUT&lt;br/&gt;全额退回净下注 / 解锁
+<a href="#__codelineno-3-17" id="__codelineno-3-17" name="__codelineno-3-17"></a>
+<a href="#__codelineno-3-18" id="__codelineno-3-18" name="__codelineno-3-18"></a>  %% ----------------------------
+<a href="#__codelineno-3-19" id="__codelineno-3-19" name="__codelineno-3-19"></a>  %% CallbackIgnored 不是状态跳转：
+<a href="#__codelineno-3-20" id="__codelineno-3-20" name="__codelineno-3-20"></a>  %% - UnknownRequestId / InvalidGameState / RequestIdMismatch / EmptyRandomWords
+<a href="#__codelineno-3-21" id="__codelineno-3-21" name="__codelineno-3-21"></a>  %% - 策略：emit CallbackIgnored + return（不 revert）
+<a href="#__codelineno-3-22" id="__codelineno-3-22" name="__codelineno-3-22"></a>  %% - 玩家仍停留在 RandomRequested，可 retry
+<a href="#__codelineno-3-23" id="__codelineno-3-23" name="__codelineno-3-23"></a>  %% ----------------------------
+</code></pre></div>
+<p>游戏状态从 <code>None → Committed → RandomRequested → None</code> 完成一局结算，同时提供 <code>cancelExpiredCommitment / retryVrfRequest / cancelStuckGame</code> 三条容灾路径，且对“旧回调<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>异常回调”采用 <code>CallbackIgnored(emit + return)</code> 的非<span class="heti-skip"><span class="heti-spacing"> </span>revert<span class="heti-spacing"> </span></span>策略保证异步回调鲁棒性。</p>
+<h3 id="32-commitreveal-vrf"><span>3.2<span class="heti-spacing"> </span></span>时序图：异步回调触发结算（Commit–Reveal + VRF）<a class="headerlink" href="#32-commitreveal-vrf" title="Permanent link">¶</a></h3>
+<p>该流程用 <code>commit-reveal</code> 绑定玩家输入、用 <code>requestId</code> 锚定<span class="heti-skip"><span class="heti-spacing"> </span>VRF<span class="heti-spacing"> </span></span>异步回调并支持超时重试<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>旧回调忽略，最终通过 <code>pendingWithdrawals + withdraw()</code> 的<span class="heti-skip"><span class="heti-spacing"> </span>Pull Payment<span class="heti-spacing"> </span></span>完成资金结算，避免回调内直接转账带来的重入与可用性风险。</p>
+<p>简易版：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>sequenceDiagram
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>  autonumber
+<a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a>  participant P as Player
+<a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a>  participant G as HybridRandomDiceGame
+<a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a>  participant C as VRFCoordinator
+<a href="#__codelineno-4-6" id="__codelineno-4-6" name="__codelineno-4-6"></a>
+<a href="#__codelineno-4-7" id="__codelineno-4-7" name="__codelineno-4-7"></a>  P-&gt;&gt;G: commit(commitHash) + 下注金额
+<a href="#__codelineno-4-8" id="__codelineno-4-8" name="__codelineno-4-8"></a>  Note over P,G: 等待 COMMIT_DURATION 秒，进入 reveal 窗口
+<a href="#__codelineno-4-9" id="__codelineno-4-9" name="__codelineno-4-9"></a>  P-&gt;&gt;G: revealAndRequestRandom(guess, secret)
+<a href="#__codelineno-4-10" id="__codelineno-4-10" name="__codelineno-4-10"></a>  G-&gt;&gt;C: requestRandomWords(...) -&gt; requestId
+<a href="#__codelineno-4-11" id="__codelineno-4-11" name="__codelineno-4-11"></a>  C--&gt;&gt;G: fulfillRandomWords(requestId, randomWords)
+<a href="#__codelineno-4-12" id="__codelineno-4-12" name="__codelineno-4-12"></a>  Note over G: mixRandomness(VRF, secret) -&gt; roll&lt;br/&gt;完成结算并记录事件（Events）
+<a href="#__codelineno-4-13" id="__codelineno-4-13" name="__codelineno-4-13"></a>  Note over G: 若胜利：pendingWithdrawals[player] += PRIZE
+<a href="#__codelineno-4-14" id="__codelineno-4-14" name="__codelineno-4-14"></a>  P-&gt;&gt;G: withdraw()
+</code></pre></div>
+<p>详细版：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>sequenceDiagram
+<a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>  autonumber
+<a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a>  participant P as Player
+<a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a>  participant G as HybridRandomDiceGame
+<a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a>  participant C as VRFCoordinator
+<a href="#__codelineno-5-6" id="__codelineno-5-6" name="__codelineno-5-6"></a>  participant N as VRF Network
+<a href="#__codelineno-5-7" id="__codelineno-5-7" name="__codelineno-5-7"></a>
+<a href="#__codelineno-5-8" id="__codelineno-5-8" name="__codelineno-5-8"></a>  Note over P,G: Tx #1 — Commit：提交 commitHash 并支付下注（进入 Committed）
+<a href="#__codelineno-5-9" id="__codelineno-5-9" name="__codelineno-5-9"></a>  P-&gt;&gt;G: commit(commitHash) + 下注金额
+<a href="#__codelineno-5-10" id="__codelineno-5-10" name="__codelineno-5-10"></a>  G--&gt;&gt;P: emit Committed(player, commitHash, revealWindow, nonce)
+<a href="#__codelineno-5-11" id="__codelineno-5-11" name="__codelineno-5-11"></a>
+<a href="#__codelineno-5-12" id="__codelineno-5-12" name="__codelineno-5-12"></a>  Note over P,G: Tx #2 — Reveal：验证承诺 + 发起 VRF（进入 RandomRequested）
+<a href="#__codelineno-5-13" id="__codelineno-5-13" name="__codelineno-5-13"></a>  P-&gt;&gt;G: revealAndRequestRandom(guess, secret)
+<a href="#__codelineno-5-14" id="__codelineno-5-14" name="__codelineno-5-14"></a>  G-&gt;&gt;G: verify commitHash == keccak(...)
+<a href="#__codelineno-5-15" id="__codelineno-5-15" name="__codelineno-5-15"></a>  Note over G: 关键点：requestId 是后续回调匹配与容灾（retry）的锚点
+<a href="#__codelineno-5-16" id="__codelineno-5-16" name="__codelineno-5-16"></a>  G-&gt;&gt;C: requestRandomWords(...) -&gt; requestId
+<a href="#__codelineno-5-17" id="__codelineno-5-17" name="__codelineno-5-17"></a>  G--&gt;&gt;P: emit RandomnessRequested(player, requestId)
+<a href="#__codelineno-5-18" id="__codelineno-5-18" name="__codelineno-5-18"></a>
+<a href="#__codelineno-5-19" id="__codelineno-5-19" name="__codelineno-5-19"></a>  Note over C,N: Off-chain：VRF 节点生成 randomWords + proof&lt;br/&gt;（链下异步阶段）
+<a href="#__codelineno-5-20" id="__codelineno-5-20" name="__codelineno-5-20"></a>  C-&gt;&gt;N: distribute requestId to VRF nodes
+<a href="#__codelineno-5-21" id="__codelineno-5-21" name="__codelineno-5-21"></a>  N--&gt;&gt;C: proof + randomWords
+<a href="#__codelineno-5-22" id="__codelineno-5-22" name="__codelineno-5-22"></a>
+<a href="#__codelineno-5-23" id="__codelineno-5-23" name="__codelineno-5-23"></a>  Note over C,G: Tx #3 — Callback：Coordinator 回调（可能延迟/可能是旧 requestId）
+<a href="#__codelineno-5-24" id="__codelineno-5-24" name="__codelineno-5-24"></a>  C-&gt;&gt;G: fulfillRandomWords(cbRequestId, randomWords)
+<a href="#__codelineno-5-25" id="__codelineno-5-25" name="__codelineno-5-25"></a>
+<a href="#__codelineno-5-26" id="__codelineno-5-26" name="__codelineno-5-26"></a>  alt 回调被忽略（不 revert）
+<a href="#__codelineno-5-27" id="__codelineno-5-27" name="__codelineno-5-27"></a>    Note over G: CallbackIgnored 场景：UnknownRequestId / InvalidGameState / RequestIdMismatch / EmptyRandomWords
+<a href="#__codelineno-5-28" id="__codelineno-5-28" name="__codelineno-5-28"></a>    G--&gt;&gt;P: emit CallbackIgnored(cbRequestId, reason)
+<a href="#__codelineno-5-29" id="__codelineno-5-29" name="__codelineno-5-29"></a>    Note over P,G: 玩家仍停留在 RandomRequested，可继续等待或 retry
+<a href="#__codelineno-5-30" id="__codelineno-5-30" name="__codelineno-5-30"></a>  else 有效回调 -&gt; 结算
+<a href="#__codelineno-5-31" id="__codelineno-5-31" name="__codelineno-5-31"></a>    G-&gt;&gt;G: mixed = keccak(VRF, secret, player, requestId, ...)
+<a href="#__codelineno-5-32" id="__codelineno-5-32" name="__codelineno-5-32"></a>    G-&gt;&gt;G: roll = mixed % 6 + 1
+<a href="#__codelineno-5-33" id="__codelineno-5-33" name="__codelineno-5-33"></a>    alt win
+<a href="#__codelineno-5-34" id="__codelineno-5-34" name="__codelineno-5-34"></a>      G-&gt;&gt;G: pendingWithdrawals[player] += PRIZE
+<a href="#__codelineno-5-35" id="__codelineno-5-35" name="__codelineno-5-35"></a>      G--&gt;&gt;P: emit Settled(player, requestId, roll, won=true)
+<a href="#__codelineno-5-36" id="__codelineno-5-36" name="__codelineno-5-36"></a>    else lose
+<a href="#__codelineno-5-37" id="__codelineno-5-37" name="__codelineno-5-37"></a>      G--&gt;&gt;P: emit Settled(player, requestId, roll, won=false)
+<a href="#__codelineno-5-38" id="__codelineno-5-38" name="__codelineno-5-38"></a>    end
+<a href="#__codelineno-5-39" id="__codelineno-5-39" name="__codelineno-5-39"></a>    Note over G: 清理本局状态（回到 None，玩家可开新局）
+<a href="#__codelineno-5-40" id="__codelineno-5-40" name="__codelineno-5-40"></a>    G-&gt;&gt;G: clear game state
+<a href="#__codelineno-5-41" id="__codelineno-5-41" name="__codelineno-5-41"></a>  end
+<a href="#__codelineno-5-42" id="__codelineno-5-42" name="__codelineno-5-42"></a>
+<a href="#__codelineno-5-43" id="__codelineno-5-43" name="__codelineno-5-43"></a>  opt VRF 超时容灾（after VRF_TIMEOUT）
+<a href="#__codelineno-5-44" id="__codelineno-5-44" name="__codelineno-5-44"></a>    Note over P,G: 超时仍未回调 -&gt; 玩家可重试，产生 newRequestId
+<a href="#__codelineno-5-45" id="__codelineno-5-45" name="__codelineno-5-45"></a>    P-&gt;&gt;G: retryVrfRequest()
+<a href="#__codelineno-5-46" id="__codelineno-5-46" name="__codelineno-5-46"></a>    G-&gt;&gt;C: requestRandomWords(...) -&gt; newRequestId
+<a href="#__codelineno-5-47" id="__codelineno-5-47" name="__codelineno-5-47"></a>    G--&gt;&gt;P: emit VrfRequestRetried(oldRequestId, newRequestId)
+<a href="#__codelineno-5-48" id="__codelineno-5-48" name="__codelineno-5-48"></a>    G--&gt;&gt;P: emit RandomnessRequested(player, newRequestId)
+<a href="#__codelineno-5-49" id="__codelineno-5-49" name="__codelineno-5-49"></a>  end
+<a href="#__codelineno-5-50" id="__codelineno-5-50" name="__codelineno-5-50"></a>
+<a href="#__codelineno-5-51" id="__codelineno-5-51" name="__codelineno-5-51"></a>  opt VRF 长时间无响应（after VRF_STUCK_TIMEOUT）
+<a href="#__codelineno-5-52" id="__codelineno-5-52" name="__codelineno-5-52"></a>    Note over P,G: 最终逃生口：强制取消并退款，避免资金卡死
+<a href="#__codelineno-5-53" id="__codelineno-5-53" name="__codelineno-5-53"></a>    P-&gt;&gt;G: cancelStuckGame()
+<a href="#__codelineno-5-54" id="__codelineno-5-54" name="__codelineno-5-54"></a>    G--&gt;&gt;P: emit StuckGameCancelled(player, refund)
+<a href="#__codelineno-5-55" id="__codelineno-5-55" name="__codelineno-5-55"></a>  end
+<a href="#__codelineno-5-56" id="__codelineno-5-56" name="__codelineno-5-56"></a>
+<a href="#__codelineno-5-57" id="__codelineno-5-57" name="__codelineno-5-57"></a>  Note over P,G: Tx #4 — Pull Payment：玩家主动提现（避免回调里直接转账）
+<a href="#__codelineno-5-58" id="__codelineno-5-58" name="__codelineno-5-58"></a>  P-&gt;&gt;G: withdraw()
+<a href="#__codelineno-5-59" id="__codelineno-5-59" name="__codelineno-5-59"></a>  G--&gt;&gt;P: transfer payout
+<a href="#__codelineno-5-60" id="__codelineno-5-60" name="__codelineno-5-60"></a>  G--&gt;&gt;P: emit Withdrawn(player, amount)
+</code></pre></div>
+<h3 id="33"><span>3.3<span class="heti-spacing"> </span></span>资金流图<a class="headerlink" href="#33" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>flowchart LR
+<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>  P["Player&lt;br/&gt;玩家"] --&gt;|"commit: pay BET"| G["Game Contract&lt;br/&gt;合约"]
+<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>  D["Funder&lt;br/&gt;注资者"] --&gt;|"fund prize pool&lt;br/&gt;(receive)"| G
+<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>
+<a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a>  G --&gt;|"accrue fee"| F["protocolFeesAccrued&lt;br/&gt;累计手续费"]
+<a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a>  G --&gt;|"keep net bet in balance"| B["contract balance&lt;br/&gt;合约余额"]
+<a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a>
+<a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a>  G --&gt;|"on reveal: reserve PRIZE"| R["reservedForInFlightGames&lt;br/&gt;在途奖金预留"]
+<a href="#__codelineno-6-9" id="__codelineno-6-9" name="__codelineno-6-9"></a>  R --&gt;|"release on settle / cancelStuck"| B
+<a href="#__codelineno-6-10" id="__codelineno-6-10" name="__codelineno-6-10"></a>
+<a href="#__codelineno-6-11" id="__codelineno-6-11" name="__codelineno-6-11"></a>  G --&gt;|"if win / refund: credit"| W["pendingWithdrawals(player)&lt;br/&gt;玩家待提现"]
+<a href="#__codelineno-6-12" id="__codelineno-6-12" name="__codelineno-6-12"></a>  P --&gt;|"withdraw()"| G
+<a href="#__codelineno-6-13" id="__codelineno-6-13" name="__codelineno-6-13"></a>  G --&gt;|"transfer payout"| P
+<a href="#__codelineno-6-14" id="__codelineno-6-14" name="__codelineno-6-14"></a>
+<a href="#__codelineno-6-15" id="__codelineno-6-15" name="__codelineno-6-15"></a>  FR["FeeRecipient&lt;br/&gt;手续费地址"] --&gt;|"withdrawProtocolFees()"| G
+<a href="#__codelineno-6-16" id="__codelineno-6-16" name="__codelineno-6-16"></a>  G --&gt;|"transfer fees"| FR
+</code></pre></div>
+<p>玩家 <code>commit</code> 支付的下注进入合约余额（并按 <code>feeBps</code> 记账到 <code>protocolFeesAccrued</code><heti-adjacent class="heti-adjacent-half">）</heti-adjacent>，<code>reveal</code> 时为本局奖金计入 <code>reservedForInFlightGames</code> 防止并发透支，结算胜利或取消退款只做 <code>pendingWithdrawals</code> 记账，最后由玩家<code>withdraw()</code><span class="heti-skip"><span class="heti-spacing"> </span>Pull Payment<span class="heti-spacing"> </span></span>提现；手续费则由 <code>FeeRecipient</code> 调用 <code>withdrawProtocolFees()</code> 从合约余额提走。</p>
+<h2 id="_3">（四）安全模型<a class="headerlink" href="#_3" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<h3 id="threat-model">威胁模型（Threat Model）<a class="headerlink" href="#threat-model" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>攻击者</th>
+<th>能力假设</th>
+<th>防护措施</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>普通用户</strong></td>
+<td>监听<span><span class="heti-spacing"> </span>mempool</span>、选择性提交</td>
+<td><code>commitHash</code> 绑定 <code>player/guess/secret/nonce</code>，无法复制他人<span><span class="heti-spacing"> </span>commit</span></td>
+</tr>
+<tr>
+<td><strong>MEV Bot</strong></td>
+<td>抢跑<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>复制交易</td>
+<td><span>commit<span class="heti-spacing"> </span></span>阶段只看到<span><span class="heti-spacing"> </span>hash</span>，无法获知 <code>guess</code>；<span>reveal<span class="heti-spacing"> </span></span>阶段复制无意义（<span>secret<span class="heti-spacing"> </span></span>不同）</td>
+</tr>
+<tr>
+<td><strong><span>VRF<span class="heti-spacing"> </span></span>节点</strong></td>
+<td>选择性响应、延迟回调</td>
+<td><code>secret</code> 在<span class="heti-skip"><span class="heti-spacing"> </span>commit<span class="heti-spacing"> </span></span>时隐藏，节点无法预知最终结果；超时可<span><span class="heti-spacing"> </span>retry/cancel</span></td>
+</tr>
+<tr>
+<td><strong>矿工<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>验证者</strong></td>
+<td>操控区块时间戳、交易排序</td>
+<td>时间窗口设计宽松（60s+120s<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>；结果由<span class="heti-skip"><span class="heti-spacing"> </span>VRF+secret<span class="heti-spacing"> </span></span>混合决定，非单一熵源</td>
+</tr>
+<tr>
+<td><strong>合约<span><span class="heti-spacing"> </span>Owner</span></strong></td>
+<td>暂停合约、修改配置</td>
+<td><code>pause</code> 只阻止新游戏，不影响已开始的游戏结算；配置修改有上限约束</td>
+</tr>
+</tbody>
+</table>
+<h3 id="invariants">关键不变式（Invariants）<a class="headerlink" href="#invariants" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>不变式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>INV-1</strong></td>
+<td><code>available &gt;= 0</code></td>
+<td>可用余额始终非负，不会出现<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>负债<span class="heti-skip"><span class="heti-spacing"> </span>"<span class="heti-spacing"> </span></span>状态</td>
+</tr>
+<tr>
+<td><strong>INV-2</strong></td>
+<td>每局游戏最多结算一次</td>
+<td><code>requestId</code> 一一映射，回调后立即清理 <code>requestToPlayer</code></td>
+</tr>
+<tr>
+<td><strong>INV-3</strong></td>
+<td>玩家资金永不锁死</td>
+<td>任何状态下都有退出路径：<code>cancelExpired</code> / <code>retry</code> / <code>cancelStuck</code> / <code>withdraw</code></td>
+</tr>
+<tr>
+<td><strong>INV-4</strong></td>
+<td>并发<span class="heti-skip"><span class="heti-spacing"> </span>reveal<span class="heti-spacing"> </span></span>不会透支奖池</td>
+<td><code>reservedForInFlightGames</code> 在<span class="heti-skip"><span class="heti-spacing"> </span>reveal<span class="heti-spacing"> </span></span>时预留，结算时释放</td>
+</tr>
+<tr>
+<td><strong>INV-5</strong></td>
+<td>旧回调不会干扰新游戏</td>
+<td><code>requestId</code> 不匹配时触发 <code>CallbackIgnored</code>，不<span><span class="heti-spacing"> </span>revert</span>、不修改状态</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">安全机制清单<a class="headerlink" href="#_4" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<ul>
+<li><strong>重入防护</strong>：所有外部调用使用 <code>ReentrancyGuard</code></li>
+<li><strong>溢出保护</strong>：<span>Solidity 0.8.28<span class="heti-spacing"> </span></span>内置溢出检查</li>
+<li><strong>访问控制</strong>：管理函数使用 <code>onlyOwner</code>，手续费提取限制为 <code>feeRecipient</code></li>
+<li><strong>Pull Payment</strong>：奖金<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>退款先记账到 <code>pendingWithdrawals</code>，玩家主动提取</li>
+<li><strong>紧急暂停</strong>：<code>Pausable</code> 机制，但不影响已开始游戏的正常结算</li>
+</ul>
+<h2 id="_5">（五）部署与测试<a class="headerlink" href="#_5" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<h3 id="51"><span>5.1<span class="heti-spacing"> </span></span>环境准备<a class="headerlink" href="#51" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>前置条件</strong></p>
+<ul>
+<li><a href="https://book.getfoundry.sh/getting-started/installation">Foundry</a>（包含 <code>forge</code>、<code>cast</code><heti-adjacent class="heti-adjacent-half">、</heti-adjacent><code>anvil</code>）</li>
+<li><a href="https://nodejs.org/">Node.js</a> &gt;= 20.9.0（用于安装<span class="heti-skip"><span class="heti-spacing"> </span>Chainlink<span class="heti-spacing"> </span></span>合约库）</li>
+<li>Git</li>
+</ul>
+<p><strong>初始化项目</strong></p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>mkdir<span class="w"> </span>HybridRandomDiceGame<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>HybridRandomDiceGame
+<a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a>forge<span class="w"> </span>init
+<a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a>
+<a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="c1"># 安装 OpenZeppelin</span>
+<a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a>&lt;div<span class="w"> </span><span class="nv">markdown</span><span class="o">=</span><span class="s2">"1"</span><span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">"margin-top: -30px; font-size: 0.75em; opacity: 0.7;"</span>&gt;
+<a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a>:material-circle-edit-outline:<span class="w"> </span>约<span class="w"> </span><span class="m">3637</span><span class="w"> </span>个字<span class="w"> </span>:fontawesome-solid-code:<span class="w"> </span><span class="m">94</span><span class="w"> </span>行代码<span class="w"> </span>:material-clock-time-two-outline:<span class="w"> </span>预计阅读时间<span class="w"> </span><span class="m">13</span><span class="w"> </span>分钟
+<a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a>&lt;/div&gt;
+<a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a>forge<span class="w"> </span>install<span class="w"> </span>OpenZeppelin/openzeppelin-contracts
+<a href="#__codelineno-7-9" id="__codelineno-7-9" name="__codelineno-7-9"></a>
+<a href="#__codelineno-7-10" id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="c1"># 安装 Chainlink 合约库（二选一）</span>
+<a href="#__codelineno-7-11" id="__codelineno-7-11" name="__codelineno-7-11"></a>npm<span class="w"> </span>install<span class="w"> </span>@chainlink/contracts<span class="w"> </span>--save
+<a href="#__codelineno-7-12" id="__codelineno-7-12" name="__codelineno-7-12"></a><span class="c1"># 或</span>
+<a href="#__codelineno-7-13" id="__codelineno-7-13" name="__codelineno-7-13"></a>pnpm<span class="w"> </span>add<span class="w"> </span>@chainlink/contracts
+</code></pre></div>
+<blockquote>
+<p><strong>备用方案</strong>：如果以上指令无法正常安装<span class="heti-skip"><span class="heti-spacing"> </span>OpenZeppelin<span class="heti-spacing"> </span></span>或<span class="heti-skip"><span class="heti-spacing"> </span>Chainlink<span class="heti-spacing"> </span></span>合约库，可以直接从<span class="heti-skip"><span class="heti-spacing"> </span>GitHub<span class="heti-spacing"> </span></span>仓库下载并放到 <code>lib/</code> 目录下：</p>
+<ul>
+<li>Chainlink：<a href="https://github.com/smartcontractkit/chainlink-evm">smartcontractkit/chainlink-evm</a></li>
+<li>OpenZeppelin：<a href="https://github.com/OpenZeppelin/openzeppelin-contracts">OpenZeppelin/openzeppelin-contracts</a></li>
+</ul>
+</blockquote>
+<h3 id="52"><span>5.2<span class="heti-spacing"> </span></span>项目配置<a class="headerlink" href="#52" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p><strong>foundry.toml</strong></p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="k">[profile.default]</span>
+<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="n">src</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"contracts"</span>
+<a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="n">test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"test"</span>
+<a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"out"</span>
+<a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="n">libs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"lib"</span><span class="p">]</span>
+<a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="n">solc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"0.8.28"</span>
+<a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="n">optimizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<a href="#__codelineno-8-8" id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="n">optimizer_runs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">200</span>
+<a href="#__codelineno-8-9" id="__codelineno-8-9" name="__codelineno-8-9"></a>
+<a href="#__codelineno-8-10" id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="n">remappings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a href="#__codelineno-8-11" id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="w">  </span><span class="s2">"forge-std/=lib/forge-std/src/"</span><span class="p">,</span>
+<a href="#__codelineno-8-12" id="__codelineno-8-12" name="__codelineno-8-12"></a><span class="w">  </span><span class="s2">"@chainlink/contracts/=lib/chainlink-evm/contracts/"</span><span class="p">,</span>
+<a href="#__codelineno-8-13" id="__codelineno-8-13" name="__codelineno-8-13"></a><span class="w">  </span><span class="s2">"@openzeppelin/=lib/openzeppelin-contracts/"</span>
+<a href="#__codelineno-8-14" id="__codelineno-8-14" name="__codelineno-8-14"></a><span class="p">]</span>
+<a href="#__codelineno-8-15" id="__codelineno-8-15" name="__codelineno-8-15"></a>
+<a href="#__codelineno-8-16" id="__codelineno-8-16" name="__codelineno-8-16"></a><span class="k">[rpc_endpoints]</span>
+<a href="#__codelineno-8-17" id="__codelineno-8-17" name="__codelineno-8-17"></a><span class="n">mainnet</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"${MAINNET_RPC_URL}"</span>
+<a href="#__codelineno-8-18" id="__codelineno-8-18" name="__codelineno-8-18"></a><span class="n">sepolia</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"${SEPOLIA_RPC_URL}"</span>
+<a href="#__codelineno-8-19" id="__codelineno-8-19" name="__codelineno-8-19"></a>
+<a href="#__codelineno-8-20" id="__codelineno-8-20" name="__codelineno-8-20"></a><span class="k">[etherscan]</span>
+<a href="#__codelineno-8-21" id="__codelineno-8-21" name="__codelineno-8-21"></a><span class="n">mainnet</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"${ETHERSCAN_API_KEY}"</span><span class="w"> </span><span class="p">}</span>
+<a href="#__codelineno-8-22" id="__codelineno-8-22" name="__codelineno-8-22"></a><span class="n">sepolia</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"${ETHERSCAN_API_KEY}"</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><strong><span>.env<span class="heti-spacing"> </span></span>配置</strong></p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a># ========== Deployer / RPC ==========
+<a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a>PRIVATE_KEY=0x...
+<a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a>SEPOLIA_RPC_URL=https://...
+<a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a>MAINNET_RPC_URL=https://...
+<a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a>
+<a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a># Etherscan key（可选，用于 --verify）
+<a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a>ETHERSCAN_API_KEY=...
+<a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a>
+<a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a># ========== VRF v2.5 (V2Plus) ==========
+<a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a># Ethereum Mainnet
+<a href="#__codelineno-9-11" id="__codelineno-9-11" name="__codelineno-9-11"></a>MAINNET_VRF_COORDINATOR=0x...
+<a href="#__codelineno-9-12" id="__codelineno-9-12" name="__codelineno-9-12"></a>MAINNET_VRF_KEY_HASH=0x...
+<a href="#__codelineno-9-13" id="__codelineno-9-13" name="__codelineno-9-13"></a>MAINNET_VRF_SUB_ID=...
+<a href="#__codelineno-9-14" id="__codelineno-9-14" name="__codelineno-9-14"></a>
+<a href="#__codelineno-9-15" id="__codelineno-9-15" name="__codelineno-9-15"></a># Sepolia
+<a href="#__codelineno-9-16" id="__codelineno-9-16" name="__codelineno-9-16"></a>SEPOLIA_VRF_COORDINATOR=0x...
+<a href="#__codelineno-9-17" id="__codelineno-9-17" name="__codelineno-9-17"></a>SEPOLIA_VRF_KEY_HASH=0x...
+<a href="#__codelineno-9-18" id="__codelineno-9-18" name="__codelineno-9-18"></a>SEPOLIA_VRF_SUB_ID=...
+<a href="#__codelineno-9-19" id="__codelineno-9-19" name="__codelineno-9-19"></a>
+<a href="#__codelineno-9-20" id="__codelineno-9-20" name="__codelineno-9-20"></a># ========== Game Config ==========
+<a href="#__codelineno-9-21" id="__codelineno-9-21" name="__codelineno-9-21"></a># 协议手续费接收地址（建议填部署者地址）
+<a href="#__codelineno-9-22" id="__codelineno-9-22" name="__codelineno-9-22"></a>FEE_RECIPIENT=0x...
+<a href="#__codelineno-9-23" id="__codelineno-9-23" name="__codelineno-9-23"></a>
+<a href="#__codelineno-9-24" id="__codelineno-9-24" name="__codelineno-9-24"></a># 手续费（基点），合约上限 MAX_FEE_BPS = 500（即 5%）
+<a href="#__codelineno-9-25" id="__codelineno-9-25" name="__codelineno-9-25"></a>FEE_BPS=300
+<a href="#__codelineno-9-26" id="__codelineno-9-26" name="__codelineno-9-26"></a>
+<a href="#__codelineno-9-27" id="__codelineno-9-27" name="__codelineno-9-27"></a># 可选：部署后给奖池注资（wei），不需要填 0
+<a href="#__codelineno-9-28" id="__codelineno-9-28" name="__codelineno-9-28"></a>PRIZE_POOL_SEED_WEI=0
+<a href="#__codelineno-9-29" id="__codelineno-9-29" name="__codelineno-9-29"></a>
+<a href="#__codelineno-9-30" id="__codelineno-9-30" name="__codelineno-9-30"></a># 可选：是否额外部署 GameLens（1=部署，0=不部署）
+<a href="#__codelineno-9-31" id="__codelineno-9-31" name="__codelineno-9-31"></a>DEPLOY_LENS=0
+</code></pre></div>
+<h3 id="53"><span>5.3<span class="heti-spacing"> </span></span>编译与测试<a class="headerlink" href="#53" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="c1"># 编译</span>
+<a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a>forge<span class="w"> </span>build<span class="w"> </span>-vvv
+<a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a>
+<a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="c1"># 运行全部测试</span>
+<a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a>forge<span class="w"> </span><span class="nb">test</span>
+<a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a>
+<a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="c1"># 运行指定测试文件</span>
+<a href="#__codelineno-10-8" id="__codelineno-10-8" name="__codelineno-10-8"></a>forge<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--match-path<span class="w"> </span>test/unit/HashLib.t.sol<span class="w"> </span>-vvv
+<a href="#__codelineno-10-9" id="__codelineno-10-9" name="__codelineno-10-9"></a>
+<a href="#__codelineno-10-10" id="__codelineno-10-10" name="__codelineno-10-10"></a><span class="c1"># 运行指定测试函数</span>
+<a href="#__codelineno-10-11" id="__codelineno-10-11" name="__codelineno-10-11"></a>forge<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--match-test<span class="w"> </span>testCommitSuccessful<span class="w"> </span>-vvv
+<a href="#__codelineno-10-12" id="__codelineno-10-12" name="__codelineno-10-12"></a>
+<a href="#__codelineno-10-13" id="__codelineno-10-13" name="__codelineno-10-13"></a><span class="c1"># 查看 gas 报告</span>
+<a href="#__codelineno-10-14" id="__codelineno-10-14" name="__codelineno-10-14"></a>forge<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--gas-report
+</code></pre></div>
+<h3 id="54"><span>5.4<span class="heti-spacing"> </span></span>测试架构<a class="headerlink" href="#54" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a>test/
+<a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a>├── unit/                                 # 单元测试
+<a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a>│   ├── HashLib.t.sol                     # 库函数测试（纯函数）
+<a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a>│   ├── GameLens.t.sol                    # View 逻辑测试
+<a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a>│   └── HybridRandomDiceGame.t.sol        # 核心合约测试（间接覆盖 base 模块）
+<a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a>│
+<a href="#__codelineno-11-7" id="__codelineno-11-7" name="__codelineno-11-7"></a>├── integration/                          # 集成测试
+<a href="#__codelineno-11-8" id="__codelineno-11-8" name="__codelineno-11-8"></a>│   └── FullGameFlow.t.sol                # 完整流程 + 边缘场景
+<a href="#__codelineno-11-9" id="__codelineno-11-9" name="__codelineno-11-9"></a>│
+<a href="#__codelineno-11-10" id="__codelineno-11-10" name="__codelineno-11-10"></a>├── utils/                                # 测试工具
+<a href="#__codelineno-11-11" id="__codelineno-11-11" name="__codelineno-11-11"></a>│   ├── CommitRevealHarness.sol           # 暴露 internal 函数的测试壳
+<a href="#__codelineno-11-12" id="__codelineno-11-12" name="__codelineno-11-12"></a>│   └── VrfHarness.sol                    # VRF 模块测试壳
+<a href="#__codelineno-11-13" id="__codelineno-11-13" name="__codelineno-11-13"></a>│
+<a href="#__codelineno-11-14" id="__codelineno-11-14" name="__codelineno-11-14"></a>└── mocks/                                # Mock 合约
+<a href="#__codelineno-11-15" id="__codelineno-11-15" name="__codelineno-11-15"></a>    └── MockVRFCoordinatorV2Plus.sol      # VRF Coordinator 模拟器
+</code></pre></div>
+<h4 id="_6">单元测试覆盖矩阵<a class="headerlink" href="#_6" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h4>
+<p><strong>HashLib.t.sol</strong> — 纯函数库测试</p>
+<table>
+<thead>
+<tr>
+<th>测试维度</th>
+<th>computeCommitHash</th>
+<th>mixRandomness</th>
+<th>交叉验证</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>确定性</td>
+<td>✅</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>已知向量</td>
+<td>✅×2</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>参数敏感性（逐因子）</td>
+<td>✅×6</td>
+<td>✅×6</td>
+<td>—</td>
+</tr>
+<tr>
+<td>边界值<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>零值</td>
+<td>✅×3</td>
+<td>✅×2</td>
+<td>—</td>
+</tr>
+<tr>
+<td>编码方式验证</td>
+<td>✅</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>雪崩效应</td>
+<td>—</td>
+<td>✅×2</td>
+<td>—</td>
+</tr>
+<tr>
+<td><span>Fuzz<span class="heti-spacing"> </span></span>测试</td>
+<td>✅×2</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>函数空间隔离</td>
+<td>—</td>
+<td>—</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>HybridRandomDiceGame.t.sol</strong> — 核心合约<span class="heti-skip"><span class="heti-spacing"> </span>53<span class="heti-spacing"> </span></span>个<span><span class="heti-spacing"> </span>test case</span></p>
+<table>
+<thead>
+<tr>
+<th>测试区域</th>
+<th>数量</th>
+<th>关注点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span>A.<span class="heti-spacing"> </span></span>部署与初始化</td>
+<td>3</td>
+<td>常量、手续费、<span>VRF<span class="heti-spacing"> </span></span>配置</td>
+</tr>
+<tr>
+<td>B. receive()</td>
+<td>2</td>
+<td><span>ETH<span class="heti-spacing"> </span></span>接收、事件发射</td>
+</tr>
+<tr>
+<td>C. commit()</td>
+<td>8</td>
+<td>成功路径<span class="heti-skip"><span class="heti-spacing"> </span>+ 5<span class="heti-spacing"> </span></span>种<span class="heti-skip"><span class="heti-spacing"> </span>revert<span class="heti-spacing"> </span></span>条件</td>
+</tr>
+<tr>
+<td>D. revealAndRequestRandom()</td>
+<td>10</td>
+<td>成功路径<span class="heti-skip"><span class="heti-spacing"> </span>+ 8<span class="heti-spacing"> </span></span>种<span class="heti-skip"><span class="heti-spacing"> </span>revert +<span class="heti-spacing"> </span></span>暂停下放行</td>
+</tr>
+<tr>
+<td>E. cancelExpiredCommitment()</td>
+<td>4</td>
+<td>退款计算、时间校验、暂停下放行</td>
+</tr>
+<tr>
+<td>F. cancelStuckGame()</td>
+<td>4</td>
+<td>全额退款、超时校验、暂停下放行</td>
+</tr>
+<tr>
+<td>G. retryVrfRequest()</td>
+<td>4</td>
+<td>新<span><span class="heti-spacing"> </span>requestId</span>、超时校验、MAX_RETRIES</td>
+</tr>
+<tr>
+<td>H. withdraw()</td>
+<td>3</td>
+<td>余额转账、零余额<span><span class="heti-spacing"> </span>revert</span>、暂停下放行</td>
+</tr>
+<tr>
+<td><span>I-L. Admin<span class="heti-spacing"> </span></span>函数</td>
+<td>10</td>
+<td>pause/unpause/setFeeConfig/setVrfConfig/withdrawProtocolFees</td>
+</tr>
+<tr>
+<td><span>M. View<span class="heti-spacing"> </span></span>函数</td>
+<td>6</td>
+<td>默认值、计算一致性、资金分布</td>
+</tr>
+<tr>
+<td><span>N. VRF<span class="heti-spacing"> </span></span>结算</td>
+<td>3</td>
+<td>获胜<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>失败结算、<span>_toDice<span class="heti-spacing"> </span></span>覆盖所有<span class="heti-skip"><span class="heti-spacing"> </span>6<span class="heti-spacing"> </span></span>面</td>
+</tr>
+<tr>
+<td><span>O-P.<span class="heti-spacing"> </span></span>综合场景</td>
+<td>2</td>
+<td>暂停下完整流程、多玩家并发</td>
+</tr>
+<tr>
+<td>Q. reservedForInFlightGames</td>
+<td>8</td>
+<td>在途预留资金安全</td>
+</tr>
+<tr>
+<td>R. CallbackIgnored</td>
+<td>9</td>
+<td><span>VRF<span class="heti-spacing"> </span></span>回调健壮性</td>
+</tr>
+</tbody>
+</table>
+<p><strong>GameLens.t.sol</strong> — 只读聚合器测试</p>
+<table>
+<thead>
+<tr>
+<th>测试节</th>
+<th>测试目标</th>
+<th>数量</th>
+<th>核心验证点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>初始状态</td>
+<td>2</td>
+<td>新玩家<span class="heti-skip"><span class="heti-spacing"> </span>dashboard<span class="heti-spacing"> </span></span>默认值<span class="heti-skip"><span class="heti-spacing"> </span>+ GlobalInfo<span class="heti-spacing"> </span></span>初始资金</td>
+</tr>
+<tr>
+<td>B</td>
+<td><span>Committed<span class="heti-spacing"> </span></span>阶段</td>
+<td>3</td>
+<td>WaitRevealWindow → Reveal → <span>CancelExpired<span class="heti-spacing"> </span></span>的<span class="heti-skip"><span class="heti-spacing"> </span>NextAction<span class="heti-spacing"> </span></span>切换</td>
+</tr>
+<tr>
+<td>C</td>
+<td><span>RandomRequested<span class="heti-spacing"> </span></span>阶段</td>
+<td>3</td>
+<td>WaitVrf → Retry → <span>CancelStuck<span class="heti-spacing"> </span></span>的<span class="heti-skip"><span class="heti-spacing"> </span>NextAction<span class="heti-spacing"> </span></span>切换</td>
+</tr>
+<tr>
+<td>D</td>
+<td>结算后</td>
+<td>3</td>
+<td>Win→Withdraw / Lose→<span>StartGame / LastResult<span class="heti-spacing"> </span></span>覆盖</td>
+</tr>
+<tr>
+<td>E</td>
+<td>暂停状态</td>
+<td>2</td>
+<td>空闲玩家→<span>Paused /<span class="heti-spacing"> </span></span>活跃玩家→状态机操作优先</td>
+</tr>
+<tr>
+<td>F</td>
+<td><span>NextAction<span class="heti-spacing"> </span></span>优先级</td>
+<td>3</td>
+<td>Committed &gt; Withdraw / Withdraw &gt; StartGame / Withdraw &gt; Paused</td>
+</tr>
+<tr>
+<td>G</td>
+<td><span>GlobalInfo<span class="heti-spacing"> </span></span>动态</td>
+<td>3</td>
+<td><span>inFlight<span class="heti-spacing"> </span></span>增减<span class="heti-skip"><span class="heti-spacing"> </span>/ pending+fees<span class="heti-spacing"> </span></span>变化<span class="heti-skip"><span class="heti-spacing"> </span>/ paused<span class="heti-spacing"> </span></span>反映</td>
+</tr>
+<tr>
+<td>H</td>
+<td>倒计时精度</td>
+<td>2</td>
+<td><span>Committed<span class="heti-spacing"> </span></span>和<span class="heti-skip"><span class="heti-spacing"> </span>RandomRequested<span class="heti-spacing"> </span></span>两阶段的秒级精确验证</td>
+</tr>
+<tr>
+<td>I</td>
+<td>边缘情况</td>
+<td>3</td>
+<td>零地址<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>多玩家独立性<span class="heti-skip"><span class="heti-spacing"> </span>/ game<span class="heti-spacing"> </span></span>地址不可变</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_7">集成测试覆盖矩阵<a class="headerlink" href="#_7" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h4>
+<p><strong>FullGameFlow.t.sol</strong> — 端到端流程验证</p>
+<table>
+<thead>
+<tr>
+<th>测试节</th>
+<th>测试数</th>
+<th>核心价值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span>A.<span class="heti-spacing"> </span></span>完整获胜</td>
+<td>1</td>
+<td><span>5<span class="heti-spacing"> </span></span>步全链路<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>玩家<span class="heti-skip"><span class="heti-spacing"> </span>ETH<span class="heti-spacing"> </span></span>余额精确验算</td>
+</tr>
+<tr>
+<td><span>B.<span class="heti-spacing"> </span></span>完整失败</td>
+<td>1</td>
+<td>失败后无<span><span class="heti-spacing"> </span>pending</span>、<span>nonce<span class="heti-spacing"> </span></span>递增、可立即重开</td>
+</tr>
+<tr>
+<td><span>C.<span class="heti-spacing"> </span></span>过期取消</td>
+<td>1</td>
+<td>惩罚退款（50%）精确计算<span><span class="heti-spacing"> </span>+ withdraw</span></td>
+</tr>
+<tr>
+<td><span>D. VRF<span class="heti-spacing"> </span></span>重试</td>
+<td>2</td>
+<td>单次重试<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>双重重试，旧回调安全忽略</td>
+</tr>
+<tr>
+<td><span>E. Stuck<span class="heti-spacing"> </span></span>取消</td>
+<td>1</td>
+<td>全额退款（非玩家过错）精确计算</td>
+</tr>
+<tr>
+<td><span>F.<span class="heti-spacing"> </span></span>连续多局</td>
+<td>2</td>
+<td>三局交替结果<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>批量提现</td>
+</tr>
+<tr>
+<td><span>G.<span class="heti-spacing"> </span></span>多玩家并发</td>
+<td>3</td>
+<td>一赢一输<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>双赢<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>回调乱序到达</td>
+</tr>
+<tr>
+<td><span>H.<span class="heti-spacing"> </span></span>资金守恒</td>
+<td>4</td>
+<td>赢<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>输<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>取消<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>并发 四种场景的<strong>每步快照</strong></td>
+</tr>
+<tr>
+<td><span>I.<span class="heti-spacing"> </span></span>暂停恢复</td>
+<td>2</td>
+<td>完整生命周期<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>所有退出通道验证</td>
+</tr>
+<tr>
+<td><span>J.<span class="heti-spacing"> </span></span>边界场景</td>
+<td>3</td>
+<td>最小奖池<span class="heti-skip"><span class="heti-spacing"> </span>/<span class="heti-spacing"> </span></span>零手续费<span class="heti-skip"><span class="heti-spacing"> </span>/ LastResult<span class="heti-spacing"> </span></span>覆盖</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong><span>H<span class="heti-spacing"> </span></span>节（资金守恒）</strong> 是集成测试的核心——不仅验证最终结果，而是在流程的<strong>每个中间状态</strong>都调用 <code>_assertSolvency</code>，等价于一个确定性执行的轻量<span><span class="heti-spacing"> </span>invariant test</span>。如果任何一步的 <code>reservedForInFlightGames</code> 增减错误、<code>totalPendingWithdrawals</code> 漏记、或 <code>protocolFeesAccrued</code> 计算偏差，都会在精确的位置暴露。</p>
+</blockquote>
+<h4 id="mock"><span>Mock<span class="heti-spacing"> </span></span>基础设施<a class="headerlink" href="#mock" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h4>
+<p><strong>MockVRFCoordinatorV2Plus.sol</strong> — <span>VRF<span class="heti-spacing"> </span></span>模拟器</p>
+<p>提供三种回调模式，覆盖从简单测试到批量<span class="heti-skip"><span class="heti-spacing"> </span>invariant<span class="heti-spacing"> </span></span>测试的全场景需求：</p>
+<table>
+<thead>
+<tr>
+<th>回调模式</th>
+<th>函数</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>手动指定<span><span class="heti-spacing"> </span>consumer</span>（向后兼容）</td>
+<td><code>fulfillRandomWords()</code> / <code>fulfillWithSingleWord()</code></td>
+<td>现有测试零改动迁移</td>
+</tr>
+<tr>
+<td>自动查找<span><span class="heti-spacing"> </span>consumer</span>（增强版）</td>
+<td><code>fulfill()</code> / <code>fulfillSingle()</code></td>
+<td>新测试推荐，含请求校验</td>
+</tr>
+<tr>
+<td>批量操作</td>
+<td><code>fulfillAll()</code> / <code>fulfillBatch()</code></td>
+<td><span>invariant<span class="heti-spacing"> </span></span>测试快速推进状态</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>内联版本（<span>74<span class="heti-spacing"> </span></span>行）</th>
+<th>独立版本（<span>401<span class="heti-spacing"> </span></span>行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>请求记录</td>
+<td>❌ 只递增计数器</td>
+<td>✅ 完整记录<span><span class="heti-spacing"> </span>consumer / params / timestamp</span></td>
+</tr>
+<tr>
+<td>回调模式</td>
+<td>手动指定<span><span class="heti-spacing"> </span>consumer</span></td>
+<td>手动<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>自动查找<span class="heti-skip"><span class="heti-spacing"> </span>+<span class="heti-spacing"> </span></span>批量三种模式</td>
+</tr>
+<tr>
+<td>测试可观测性</td>
+<td>❌</td>
+<td>✅ <span>8<span class="heti-spacing"> </span></span>个查询函数<span class="heti-skip"><span class="heti-spacing"> </span>+ 2<span class="heti-spacing"> </span></span>个事件</td>
+</tr>
+<tr>
+<td>重复<span class="heti-skip"><span class="heti-spacing"> </span>fulfill<span class="heti-spacing"> </span></span>防护</td>
+<td>❌</td>
+<td>✅ <code>AlreadyFulfilled</code> 错误</td>
+</tr>
+<tr>
+<td>批量操作</td>
+<td>❌</td>
+<td>✅ <code>fulfillAll</code> + <code>fulfillBatch</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="55"><span>5.5<span class="heti-spacing"> </span></span>部署<a class="headerlink" href="#55" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h3>
+<p>通过 <code>script/DeployHybridRandomDiceGame.s.sol</code> 部署合约：</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="c1"># 加载环境变量</span>
+<a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="nb">set</span><span class="w"> </span>-a
+<a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="nb">source</span><span class="w"> </span>.env
+<a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="nb">set</span><span class="w"> </span>+a
+<a href="#__codelineno-12-5" id="__codelineno-12-5" name="__codelineno-12-5"></a>
+<a href="#__codelineno-12-6" id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="c1"># 部署到 Sepolia 测试网（同时验证合约）</span>
+<a href="#__codelineno-12-7" id="__codelineno-12-7" name="__codelineno-12-7"></a>forge<span class="w"> </span>script<span class="w"> </span>script/DeployHybridRandomDiceGame.s.sol:DeployHybridRandomDiceGame<span class="w"> </span><span class="se">\</span>
+<a href="#__codelineno-12-8" id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="w">  </span>--rpc-url<span class="w"> </span>sepolia<span class="w"> </span><span class="se">\</span>
+<a href="#__codelineno-12-9" id="__codelineno-12-9" name="__codelineno-12-9"></a><span class="w">  </span>--broadcast<span class="w"> </span><span class="se">\</span>
+<a href="#__codelineno-12-10" id="__codelineno-12-10" name="__codelineno-12-10"></a><span class="w">  </span>--verify<span class="w"> </span><span class="se">\</span>
+<a href="#__codelineno-12-11" id="__codelineno-12-11" name="__codelineno-12-11"></a><span class="w">  </span>-vvvv
+<a href="#__codelineno-12-12" id="__codelineno-12-12" name="__codelineno-12-12"></a>
+<a href="#__codelineno-12-13" id="__codelineno-12-13" name="__codelineno-12-13"></a><span class="c1"># 如果不需要 Etherscan 验证，去掉 --verify</span>
+<a href="#__codelineno-12-14" id="__codelineno-12-14" name="__codelineno-12-14"></a>forge<span class="w"> </span>script<span class="w"> </span>script/DeployHybridRandomDiceGame.s.sol:DeployHybridRandomDiceGame<span class="w"> </span><span class="se">\</span>
+<a href="#__codelineno-12-15" id="__codelineno-12-15" name="__codelineno-12-15"></a><span class="w">  </span>--rpc-url<span class="w"> </span>sepolia<span class="w"> </span><span class="se">\</span>
+<a href="#__codelineno-12-16" id="__codelineno-12-16" name="__codelineno-12-16"></a><span class="w">  </span>--broadcast<span class="w"> </span><span class="se">\</span>
+<a href="#__codelineno-12-17" id="__codelineno-12-17" name="__codelineno-12-17"></a><span class="w">  </span>-vvvv
+</code></pre></div>
+<blockquote>
+<p><code>--verify</code> 会在广播成功后自动将脚本中所有 <code>CREATE</code> 出的合约提交到<span class="heti-skip"><span class="heti-spacing"> </span>Etherscan<span class="heti-spacing"> </span></span>验证，便于在区块浏览器上查看已验证的源码。</p>
+</blockquote>
+<h2 id="_8">参考资料<a class="headerlink" href="#_8" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
+<p>[Commit-Reveal Scheme in Solidity](<a href="https://speedrunethereum.com/guides/commit-reveal-scheme">https://speedrunethereum.com/guides/commit-reveal-scheme</a></p>
+<aside class="md-source-file">
+<span class="md-source-file__fact">
+<span class="md-icon" title="最后更新">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">2026年2月2日 22:54:23</span>
+</span>
+</aside>
+<!-- Insert generated snippet here -->
+<script async="" crossorigin="anonymous" data-category="Comments" data-category-id="DIC_kwDOMt1b5c4CiWjc" data-emit-metadata="1" data-input-position="top" data-lang="zh-CN" data-loading="lazy" data-mapping="title" data-reactions-enabled="1" data-repo="lifefindsitsway/web3-tutorials" data-repo-id="R_kgDOMt1b5Q" data-strict="0" data-theme="light_protanopia" src="https://giscus.app/client.js">
+</script>
+<!-- Synchronize Giscus theme with palette -->
+<script>
+var giscus = document.querySelector("script[src*=giscus]")
+
+// Set palette on initial load
+var palette = __md_get("__palette")
+if (palette && typeof palette.color === "object") {
+    var theme = palette.color.scheme === "slate"
+    ? "dark_protanopia"
+    : "light_protanopia"
+
+    // Instruct Giscus to set theme
+    giscus.setAttribute("data-theme", theme) 
+}
+
+// Register event handlers after documented loaded
+document.addEventListener("DOMContentLoaded", function() {
+    var ref = document.querySelector("[data-md-component=palette]")
+    ref.addEventListener("change", function() {
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+        var theme = palette.color.scheme === "slate"
+        ? "dark_protanopia"
+        : "light_protanopia"
+
+        // Instruct Giscus to change theme
+        var frame = document.querySelector(".giscus-frame")
+        frame.contentWindow.postMessage(
+        { giscus: { setConfig: { theme } } },
+        "https://giscus.app"
+        )
+    }
+    })
+})
+</script>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  回到页面顶部
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © 2024 ~ present by <a href="https://github.com/lifefindsitsway" rel="noopener noreferrer" target="_blank">Lifefindsitsway</a>
+</div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+<div class="md-social">
+<a class="md-social__link" href="https://github.com/lifefindsitsway/web3-tutorials/" rel="noopener" target="_blank" title="github.com">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../../..", "features": ["header.autohide", "navigation.tracking", "navigation.top", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+<script src="../../../assets/javascripts/bundle.56dfad97.min.js"></script>
+<script src="../../../assets/javascripts/mathjax-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>
