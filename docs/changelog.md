@@ -1,5 +1,5 @@
 ### 2026
-
+- 2026-01-24：[生产级骰子游戏（HybridRandomDiceGame）](./web3/dapp/HybridRandomDiceGame.md)
 - 2026-01-01：[闪电贷：从原理到攻击演示](./web3/defi/flash_loan_attack_260101.md)
 
 ### 2025

@@ -118,7 +118,7 @@ nav:
     - 北京大学肖臻老师《区块链技术与应用》: blockchain/blockchain_research_notes_2310.md
     - 从区块链出发的元宇宙与Web3: blockchain/from_blockchain_to_the_metaverse_and_web3_220528.md
     - 南京大学公开课《区块链与创新思维》: blockchain/blockchain_and_innovative_thinking_notes_2101.md
-  - DAPP开发:
+  - Web3开发:
     - Gas 优化指南（一）：Gas 机制原理: web3/dapp/gas_optimization_guide_part1_gas_mechanism.md
     - Gas 优化指南（二）：EIP-1559 交易解析: web3/dapp/gas_optimization_guide_part2_eip1559_transaction_analysis.md
     - Gas 优化指南（三）：存储优化: web3/dapp/gas_optimization_guide_part3_storage_optimization.md
@@ -139,3 +139,5 @@ nav:
     - Uniswap V2 价格精度解析: web3/defi/uniswap_v2_price_precision_240610.md
     - Uniswap V2 TWAP 预言机（数学推导 & 源码解读）: web3/defi/uniswap_v2_twap_oracle_240614.md
     - 闪电贷：从原理到攻击演示: web3/defi/flash_loan_attack_260101.md
+  - Projects: 
+    - 生产级骰子游戏（HybridRandomDiceGame）: web3/dapp/HybridRandomDiceGame.md  
