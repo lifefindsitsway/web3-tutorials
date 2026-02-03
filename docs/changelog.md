@@ -14,37 +14,24 @@
 ### 2024
 
 - 2024-06-14：[Uniswap V2 TWAP 预言机（数学推导 & 源码解读）](./web3/defi/uniswap_v2_twap_oracle_240614.md)
-
 - 2024-06-10：[Uniswap V2 价格精度解析](./web3/defi/uniswap_v2_price_precision_240610.md)
-
 - 2024-06-01：
     - [Solidity 代理合约与可升级合约系列（一）：为什么需要可升级？](./web3/dapp/solidity_proxy_upgrade_series_part1.md)
     - [Solidity 代理合约与可升级合约系列（二）：透明代理 vs UUPS](./web3/dapp/solidity_proxy_upgrade_series_part2.md)
-
 - 2024-05-27：[Solidity 合约间调用（三）：创建合约的两种方式：create 与 create2](./web3/dapp/solidity_contract_call_part3_240527.md)
-
 - 2024-05-23：[Solidity 合约间调用（二）：底层调用与 calldata 详解](./web3/dapp/solidity_contract_call_part2_240523.md)
-
 - 2024-05-21：[Solidity 合约间调用（一）：四种方式调用已部署合约](./web3/dapp/solidity_contract_call_part1_240521.md)
-
+- 2024-04-24：[ERC-721 NFT 实战：合约编写、部署、Mint 全流程](./web3/dapp/nft_development.md)
 - 2024-04-15：[Hardhat 入门指南（25年更新版）](./web3/dapp/hardhat_tutorial_240415.md)
-
 - 2024-04-13：[EVM 基础原理（三）：ABI 编码与底层调用](./web3/dapp/evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413.md)
-
 - 2024-04-11：[EVM 基础原理（二）：数据区域与合约执行](./web3/dapp/evm_fundamentals_part2_data_regions_and_contract_execution_240411.md)
-
 - 2024-04-10：[EVM 基础原理（一）：从交易到字节码](./web3/dapp/evm_fundamentals_part1_from_transactions_to_bytecode_240410.md)
-
 - 2024-03-21：[Solidity 地址类型 & 常见用法全攻略](./web3/dapp/address_240321.md)
-
 - 2024-03-20：[为什么以太坊地址是 20 字节？从私钥到地址的全解析](./web3/dapp/ethereum_address_size_240320.md)
-
 - 2024-02-13：[比特币的诞生历程](./blockchain/the_evolution_of_bitcoin_240213.md)
 
 ### 2023 & Before
 
 - 2023-10：[北京大学肖臻老师《区块链技术与应用》](./blockchain/blockchain_research_notes_2310.md)
-
 - 2022-05-28：[从区块链出发的元宇宙与Web3](./blockchain/from_blockchain_to_the_metaverse_and_web3_220528.md)
-
 - 2021-01：[南京大学公开课《区块链与创新思维》](./blockchain/blockchain_and_innovative_thinking_notes_2101.md)
