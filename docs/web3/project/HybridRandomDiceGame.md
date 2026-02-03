@@ -184,28 +184,58 @@ flowchart LR
 ### 2.2 目录结构
 
 ```
-contracts/
-├── core/							# 游戏核心逻辑入口
-│   └── HybridRandomDiceGame.sol	# 唯一部署的核心合约（状态机 + 资金闭环 + VRF 回调）
+HybridRandomDiceGame/
+├── .github/
+│   └── workflows/                        # CI/CD 配置
 │
-├── base/							# 抽象模块（被 core 继承）
-│   ├── CommitRevealBase.sol		# 状态机 + commit/reveal + 回调结算 + 退出逻辑
-│   ├── VrfBase.sol					# VRF 请求封装 + 配置
-│   └── FundsBase.sol				# 资金模型：bet/prize/fee/pull payment/reserve
+├── contracts/                            # 合约源码
+│   ├── core/                             # 游戏核心逻辑入口
+│   │   └── HybridRandomDiceGame.sol      # 唯一部署的核心合约（状态机 + 资金闭环 + VRF 回调）
+│   │
+│   ├── base/                             # 抽象模块（被 core 继承）
+│   │   ├── CommitRevealBase.sol          # 状态机 + commit/reveal + 回调结算 + 退出逻辑
+│   │   ├── VrfBase.sol                   # VRF 请求封装 + 配置
+│   │   └── FundsBase.sol                 # 资金模型：bet/prize/fee/pull payment/reserve
+│   │
+│   ├── shared/                           # 共享定义（非 library）
+│   │   ├── Types.sol                     # enum + struct（GameState/NextAction/Dashboard 等）
+│   │   ├── Errors.sol                    # 自定义错误（revert 更省 gas、语义更清晰）
+│   │   └── Events.sol                    # 事件全集（历史靠事件追踪）
+│   │
+│   ├── libraries/                        # 哈希计算与工具库（pure/view）
+│   │   └── HashLib.sol                   # computeCommitHash + mixRandomness
+│   │
+│   ├── interfaces/
+│   │   └── IHybridRandomDiceGame.sol     # 对外接口（前端/集成用）
+│   │
+│   └── lens/                             # 前端数据聚合层（可选部署）
+│       └── GameLens.sol                  # 聚合玩家仪表盘/全局信息
 │
-├── shared/							# 共享定义（非 library）
-│   ├── Types.sol					# enum + struct（GameState/NextAction/Dashboard 等）
-│   ├── Errors.sol					# 自定义错误（revert 更省 gas、语义更清晰）
-│   └── Events.sol					# 事件全集（历史靠事件追踪）
+├── test/                                 # 测试套件
+│   ├── unit/                             # 单元测试
+│   │   ├── HashLib.t.sol                 # 库函数测试（纯函数）
+│   │   ├── GameLens.t.sol                # View 逻辑测试
+│   │   └── HybridRandomDiceGame.t.sol    # 核心合约测试（间接覆盖 base 模块）
+│   │
+│   ├── integration/                      # 集成测试
+│   │   └── FullGameFlow.t.sol            # 完整流程 + 边缘场景
+│   │
+│   ├── utils/                            # 测试工具
+│   │   ├── CommitRevealHarness.sol       # 暴露 internal 函数的测试壳
+│   │   └── VrfHarness.sol                # VRF 模块测试壳
+│   │
+│   └── mocks/                            # Mock 合约
+│       └── MockVRFCoordinatorV2Plus.sol  # VRF Coordinator 模拟器
 │
-├── libraries/						# 哈希计算与工具库（pure/view）
-│   └── HashLib.sol					# computeCommitHash + mixRandomness
+├── script/                               # 部署脚本
 │
-├── interfaces/
-│   └── IHybridRandomDiceGame.sol	# 对外接口（前端/集成用）
+├── lib/                                  # 依赖库（forge-std / OpenZeppelin / Chainlink）
 │
-├── lens/							# 前端数据聚合层（可选部署）
-│   └── GameLens.sol				# 聚合玩家仪表盘/全局信息
+├── .env.example                          # 环境变量模板
+├── .gitignore
+├── .gitmodules                           # Git 子模块配置
+├── foundry.toml                          # Foundry 配置文件
+└── README.md                             # 项目文档
 ```
 
 ### 2.3 继承链
@@ -422,8 +452,8 @@ flowchart LR
 
 **前置条件**
 
-- [Foundry](https://book.getfoundry.sh/getting-started/installation)（包含 `forge`、`cast`、`anvil`）
-- [Node.js](https://nodejs.org/) >= 20.9.0（用于安装 Chainlink 合约库）
+- Foundry（包含 `forge`、`cast`、`anvil`）
+- Node.js >= 20.9.0（用于安装 Chainlink 合约库）
 - Git
 
 **初始化项目**
@@ -665,4 +695,4 @@ forge script script/DeployHybridRandomDiceGame.s.sol:DeployHybridRandomDiceGame 
 
 ## 参考资料
 
-[Commit-Reveal Scheme in Solidity](https://speedrunethereum.com/guides/commit-reveal-scheme
+[Commit-Reveal Scheme in Solidity](https://speedrunethereum.com/guides/commit-reveal-scheme)
