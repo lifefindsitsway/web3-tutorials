@@ -883,9 +883,9 @@
 <li>🔍 <strong>前端友好</strong>：<span>GameLens<span class="heti-spacing"> </span></span>聚合层，一次<span class="heti-skip"><span class="heti-spacing"> </span>RPC<span class="heti-spacing"> </span></span>调用返回完整<span class="heti-skip"><span class="heti-spacing"> </span>UI<span class="heti-spacing"> </span></span>数据</li>
 </ul>
 <h2 id="_1">（一）项目简介<a class="headerlink" href="#_1" title="Permanent link"><span><span class="heti-spacing"> </span>¶</span></a></h2>
-<p><strong>Hybrid Random Dice Game</strong> 是一个基于以太坊（EVM）构建的、具有<strong>双重随机性保障</strong>的去中心化骰子游戏参考实现。</p>
+<p><span>HybridRandomDiceGame<span class="heti-spacing"> </span></span>是一个基于以太坊（EVM）构建的、具有<strong>双重随机性保障</strong>的去中心化骰子游戏参考实现。</p>
 <p>传统的链上随机数往往面临两大难题：要么依赖区块哈希容易被矿工操纵，要么单纯依赖预言机容易被抢跑（Front-running<heti-adjacent class="heti-adjacent-half">）</heti-adjacent>。本项目采用 <strong>Commit-Reveal（承诺<span class="heti-skip"><span class="heti-spacing"> </span>-<span class="heti-spacing"> </span></span>揭示）</strong> 模式结合 <strong>Chainlink VRF（可验证随机函数）</strong>，构建了一套无法被预测、无法被操控的混合随机数机制。</p>
-<p>此外，项目引入了独特的 <strong><code>GameLens</code> 架构</strong>，将复杂的链上状态聚合为前端友好的数据结构，极大地降低了前端集成的复杂度与<span class="heti-skip"><span class="heti-spacing"> </span>RPC<span class="heti-spacing"> </span></span>请求量，是<span class="heti-skip"><span class="heti-spacing"> </span>Web3<span class="heti-spacing"> </span></span>全栈游戏开发的最佳实践范例。</p>
+<p>此外，项目引入了独特的 <strong><span>GameLens<span class="heti-spacing"> </span></span>架构</strong>，将复杂的链上状态聚合为前端友好的数据结构，极大地降低了前端集成的复杂度与<span class="heti-skip"><span class="heti-spacing"> </span>RPC<span class="heti-spacing"> </span></span>请求量，是<span class="heti-skip"><span class="heti-spacing"> </span>Web3<span class="heti-spacing"> </span></span>全栈游戏开发的实践范例。</p>
 <h3 id="11"><span>1.1<span class="heti-spacing"> </span></span>玩家指南：如何开始游戏🎲<a class="headerlink" href="#11" title="Permanent link">¶</a></h3>
 <p>本游戏采用 <strong>Commit-Reveal</strong> 机制来保证公平性，因此与普通的“点击即开奖”游戏流程略有不同，请按照以下步骤操作：</p>
 <ol>
@@ -1435,7 +1435,7 @@
 <a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>
 <a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c1"># 安装 OpenZeppelin</span>
 <a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a>&lt;div<span class="w"> </span><span class="nv">markdown</span><span class="o">=</span><span class="s2">"1"</span><span class="w"> </span><span class="nv">style</span><span class="o">=</span><span class="s2">"margin-top: -30px; font-size: 0.75em; opacity: 0.7;"</span>&gt;
-<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>:material-circle-edit-outline:<span class="w"> </span>约<span class="w"> </span><span class="m">3769</span><span class="w"> </span>个字<span class="w"> </span>:fontawesome-solid-code:<span class="w"> </span><span class="m">94</span><span class="w"> </span>行代码<span class="w"> </span>:material-clock-time-two-outline:<span class="w"> </span>预计阅读时间<span class="w"> </span><span class="m">14</span><span class="w"> </span>分钟
+<a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a>:material-circle-edit-outline:<span class="w"> </span>约<span class="w"> </span><span class="m">3764</span><span class="w"> </span>个字<span class="w"> </span>:fontawesome-solid-code:<span class="w"> </span><span class="m">94</span><span class="w"> </span>行代码<span class="w"> </span>:material-clock-time-two-outline:<span class="w"> </span>预计阅读时间<span class="w"> </span><span class="m">14</span><span class="w"> </span>分钟
 <a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a>&lt;/div&gt;
 <a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a>forge<span class="w"> </span>install<span class="w"> </span>OpenZeppelin/openzeppelin-contracts
 <a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a>
@@ -1914,7 +1914,7 @@
 <span class="md-icon" title="最后更新">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
 </span>
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">2026年2月3日 17:11:59</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">2026年2月3日 21:23:20</span>
 </span>
 </aside>
 <!-- Insert generated snippet here -->
