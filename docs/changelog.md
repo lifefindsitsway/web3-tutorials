@@ -4,7 +4,7 @@
 
 ### 2025
 
-- 2025-11-13:
+- 2025-11-13：
     - [Gas 优化指南（一）：Gas 机制原理](./web3/dapp/gas_optimization_guide_part1_gas_mechanism.md)
     - [Gas 优化指南（二）：EIP-1559 交易解析](./web3/dapp/gas_optimization_guide_part2_eip1559_transaction_analysis.md)
     - [Gas 优化指南（三）：存储优化](./web3/dapp/gas_optimization_guide_part3_storage_optimization.md)
@@ -12,7 +12,7 @@
     - [Gas 优化指南（五）：Gas 评估与测量](./web3/dapp/gas_optimization_guide_part5_gas_measurement.md)
 
 ### 2024
-
+- 2024-08-10：[《DeFi 课程（2024 版）》学习记录](./web3/defi/defi_course_2024_edition_notes.md)
 - 2024-06-14：[Uniswap V2 TWAP 预言机（数学推导 & 源码解读）](./web3/defi/uniswap_v2_twap_oracle_240614.md)
 - 2024-06-10：[Uniswap V2 价格精度解析](./web3/defi/uniswap_v2_price_precision_240610.md)
 - 2024-06-01：
