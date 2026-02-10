@@ -2,6 +2,7 @@ Hi! Nice to see you! I'm a Web3 developer.
 
 - Github：[Lifefindsitsway](https://github.com/lifefindsitsway)
 - Notion Page：[Web3 Tutorials](https://lifefindsitsway.notion.site/Web3-Tutorials-7dac26cb80484f66929c1276cbbf413c)
+- 旧博客：https://flyingfox092.github.io
 
 | File Name                         | Description                              |
 | :-------------------------------- | ---------------------------------------- |
