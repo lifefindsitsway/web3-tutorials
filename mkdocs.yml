@@ -113,6 +113,11 @@ extra_javascript:
 # 自定义 CSS（包含公式样式优化）
 extra_css:
   - assets/stylesheets/mathjax-custom.css
+  - assets/stylesheets/extra.css
+
+validation:
+  nav:
+    omitted_files: ignore  # 关键：这会忽略“文件存在但未包含在 nav 中”的 INFO 警告
 
 nav:
   - Welcome to My Blog: index.md
