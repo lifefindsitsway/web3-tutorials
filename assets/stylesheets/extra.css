@@ -1,0 +1,18 @@
+/* 1. 进一步加宽侧边栏基准 */
+:root {
+  --md-sidebar-width: 19rem; 
+}
+
+/* 2. 核心调整：收窄整体容器并增加外边距 */
+@media screen and (min-width: 76.25em) {
+  .md-grid {
+    max-width: 70rem; 
+  }
+
+  /* 3. 针对正文区域的宽度微调（可选） */
+  /* 如果你觉得文字还是太长，可以给内容区增加额外的内边距 */
+  .md-content {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+}
