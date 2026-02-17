@@ -1,4 +1,5 @@
 ### 2026
+- 2026-02-17：[Claude Code + Heimdall-rs 深度逆向 EVM 智能合约](./web3/audit/Heimdall-rs.md)
 - 2026-01-24：[生产级骰子游戏（HybridRandomDiceGame）](./web3/project/HybridRandomDiceGame.md)
 - 2026-01-01：[闪电贷：从原理到攻击演示](./web3/defi/flash_loan_attack_260101.md)
 

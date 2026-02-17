@@ -145,5 +145,7 @@ nav:
     - Uniswap V2 价格精度解析: web3/defi/uniswap_v2_price_precision_240610.md
     - Uniswap V2 TWAP 预言机（数学推导 & 源码解读）: web3/defi/uniswap_v2_twap_oracle_240614.md
     - 闪电贷：从原理到攻击演示: web3/defi/flash_loan_attack_260101.md
+  - 合约审计:
+    - Claude Code + Heimdall-rs 深度逆向 EVM 智能合约: web3/audit/Heimdall-rs.md
   - Projects: 
     - 生产级骰子游戏（HybridRandomDiceGame）: web3/project/HybridRandomDiceGame.md
