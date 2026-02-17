@@ -2,114 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://lifefindsitsway.wiki/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/changelog/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
+    </url>
+    <url>
+         <loc>https://lifefindsitsway.wiki/assets/codes/0x411885324afd60404252213106c006e6fff84c79/reverse-engineering-report/</loc>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/blockchain/blockchain_and_innovative_thinking_notes_2101/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/blockchain/blockchain_research_notes_2310/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/blockchain/from_blockchain_to_the_metaverse_and_web3_220528/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/blockchain/the_evolution_of_bitcoin_240213/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
+    </url>
+    <url>
+         <loc>https://lifefindsitsway.wiki/web3/audit/Heimdall-rs/</loc>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/address_240321/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/ethereum_address_size_240320/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/evm_fundamentals_part1_from_transactions_to_bytecode_240410/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/evm_fundamentals_part2_data_regions_and_contract_execution_240411/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/evm_fundamentals_part3_abi_encoding_and_low-level_calls_240413/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/gas_optimization_guide_part1_gas_mechanism/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/gas_optimization_guide_part2_eip1559_transaction_analysis/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/gas_optimization_guide_part3_storage_optimization/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/gas_optimization_guide_part4_computation_optimization/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/gas_optimization_guide_part5_gas_measurement/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/hardhat_tutorial_240415/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/nft_development/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/solidity_contract_call_part1_240521/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/solidity_contract_call_part2_240523/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/solidity_contract_call_part3_240527/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/solidity_proxy_upgrade_series_part1/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/dapp/solidity_proxy_upgrade_series_part2/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/defi/defi_course_2024_edition_notes/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/defi/flash_loan_attack_260101/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/defi/uniswap_v2_price_precision_240610/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/defi/uniswap_v2_twap_oracle_240614/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
     <url>
          <loc>https://lifefindsitsway.wiki/web3/project/HybridRandomDiceGame/</loc>
-         <lastmod>2026-02-10</lastmod>
+         <lastmod>2026-02-17</lastmod>
     </url>
 </urlset>
