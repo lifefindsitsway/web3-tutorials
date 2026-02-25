@@ -238,9 +238,9 @@ contract SimpleVault {
     // ============================================================
 
     address public owner;           // 合约所有者地址（slot 0）
-    bool public isActive;           // 金库是否处于激活状态（slot 1）
-    uint256 public totalDeposits;   // 累计存款总额（slot 2）
-    mapping(address => uint256) public balances;    // 每个地址的存款余额（slot 3 起，mapping 使用 keccak256 计算实际存储位置）
+    bool public isActive;           // 金库是否处于激活状态（slot 0）
+    uint256 public totalDeposits;   // 累计存款总额（slot 1）
+    mapping(address => uint256) public balances;    // 每个地址的存款余额（slot 2 起，mapping 使用 keccak256 计算实际存储位置）
 
     // ============================================================
     //                         事件
@@ -278,8 +278,8 @@ contract SimpleVault {
 
     constructor() {
         owner = msg.sender;     // slot 0: 部署者地址
-        isActive = true;        // slot 1: 默认激活
-        totalDeposits = 0;      // slot 2: 初始为 0（显式赋值便于教学理解）
+        isActive = true;        // slot 0: 默认激活
+        totalDeposits = 0;      // slot 1: 初始为 0（显式赋值便于教学理解）
     }
 
     /**
@@ -391,7 +391,7 @@ contract SimpleVault {
      *
      * 演示重点：
      *   - CFG:       简单的状态翻转逻辑，在 CFG 中是一个清晰的线性路径
-     *   - Dump:      调用后 isActive (slot 1) 的值会从 true 变为 false 或反之
+     *   - Dump:      调用后 isActive (slot 0) 的值会从 true 变为 false 或反之
      *   - Decompile: onlyOwner 修饰符的 require 检查会被还原
      */
     function toggleActive() external onlyOwner {
